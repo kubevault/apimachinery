@@ -1,5 +1,5 @@
 /*
-Copyright The KubeVault Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,10 +22,10 @@ import (
 	"context"
 	time "time"
 
-	policyv1alpha1 "kubevault.dev/operator/apis/policy/v1alpha1"
-	versioned "kubevault.dev/operator/client/clientset/versioned"
-	internalinterfaces "kubevault.dev/operator/client/informers/externalversions/internalinterfaces"
-	v1alpha1 "kubevault.dev/operator/client/listers/policy/v1alpha1"
+	policyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
+	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
+	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
+	v1alpha1 "kubevault.dev/apimachinery/client/listers/policy/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"

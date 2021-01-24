@@ -1,5 +1,5 @@
 /*
-Copyright The KubeVault Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ package install
 import (
 	"testing"
 
-	"kubevault.dev/operator/apis/policy/fuzzer"
-	"kubevault.dev/operator/apis/policy/v1alpha1"
+	"kubevault.dev/apimachinery/apis/policy/fuzzer"
+	"kubevault.dev/apimachinery/apis/policy/v1alpha1"
 
 	clientsetscheme "k8s.io/client-go/kubernetes/scheme"
 	crdfuzz "kmodules.xyz/crd-schema-fuzz"

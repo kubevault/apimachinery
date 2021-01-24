@@ -1,5 +1,5 @@
 /*
-Copyright The KubeVault Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,10 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 // Package v1alpha1 is the v1alpha1 version of the API.
 
 // +k8s:deepcopy-gen=package,register
-// +k8s:conversion-gen=kubevault.dev/operator/apis/engine
+// +k8s:conversion-gen=kubevault.dev/apimachinery/apis/engine
 // +k8s:openapi-gen=true
 // +k8s:defaulter-gen=TypeMeta
 

@@ -1,5 +1,5 @@
 /*
-Copyright The KubeVault Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/operator/apis/config/v1alpha1"
-	"kubevault.dev/operator/client/clientset/versioned/scheme"
+	v1alpha1 "kubevault.dev/apimachinery/apis/config/v1alpha1"
+	"kubevault.dev/apimachinery/client/clientset/versioned/scheme"
 
 	rest "k8s.io/client-go/rest"
 )

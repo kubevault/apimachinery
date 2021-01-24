@@ -186,7 +186,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersionList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionList"
             }
           }
         },
@@ -220,7 +220,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersion"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersion"
             }
           },
           {
@@ -242,19 +242,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersion"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersion"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersion"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersion"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersion"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersion"
             }
           }
         },
@@ -422,7 +422,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersion"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersion"
             }
           }
         },
@@ -456,7 +456,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersion"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersion"
             }
           },
           {
@@ -478,13 +478,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersion"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersion"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersion"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersion"
             }
           }
         },
@@ -625,7 +625,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersion"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersion"
             }
           }
         },
@@ -948,7 +948,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequestList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequestList"
             }
           }
         },
@@ -1049,7 +1049,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRoleList"
             }
           }
         },
@@ -1150,7 +1150,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequestList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequestList"
             }
           }
         },
@@ -1251,7 +1251,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRoleList"
             }
           }
         },
@@ -1352,7 +1352,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequestList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequestList"
             }
           }
         },
@@ -1453,7 +1453,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequestList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequestList"
             }
           }
         },
@@ -1554,7 +1554,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRoleList"
             }
           }
         },
@@ -1655,7 +1655,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRoleList"
             }
           }
         },
@@ -1756,7 +1756,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRoleList"
             }
           }
         },
@@ -1915,7 +1915,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequestList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequestList"
             }
           }
         },
@@ -1949,7 +1949,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequest"
             }
           },
           {
@@ -1971,19 +1971,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequest"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequest"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequest"
             }
           }
         },
@@ -2159,7 +2159,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequest"
             }
           }
         },
@@ -2193,7 +2193,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequest"
             }
           },
           {
@@ -2215,13 +2215,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequest"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequest"
             }
           }
         },
@@ -2362,7 +2362,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequest"
             }
           }
         },
@@ -2481,7 +2481,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRoleList"
             }
           }
         },
@@ -2515,7 +2515,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRole"
             }
           },
           {
@@ -2537,19 +2537,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRole"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRole"
             }
           }
         },
@@ -2725,7 +2725,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRole"
             }
           }
         },
@@ -2759,7 +2759,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRole"
             }
           },
           {
@@ -2781,13 +2781,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRole"
             }
           }
         },
@@ -2928,7 +2928,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRole"
             }
           }
         },
@@ -3047,7 +3047,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequestList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequestList"
             }
           }
         },
@@ -3081,7 +3081,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequest"
             }
           },
           {
@@ -3103,19 +3103,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequest"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequest"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequest"
             }
           }
         },
@@ -3291,7 +3291,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequest"
             }
           }
         },
@@ -3325,7 +3325,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequest"
             }
           },
           {
@@ -3347,13 +3347,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequest"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequest"
             }
           }
         },
@@ -3494,7 +3494,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequest"
             }
           }
         },
@@ -3613,7 +3613,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRoleList"
             }
           }
         },
@@ -3647,7 +3647,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRole"
             }
           },
           {
@@ -3669,19 +3669,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRole"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRole"
             }
           }
         },
@@ -3857,7 +3857,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRole"
             }
           }
         },
@@ -3891,7 +3891,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRole"
             }
           },
           {
@@ -3913,13 +3913,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRole"
             }
           }
         },
@@ -4060,7 +4060,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRole"
             }
           }
         },
@@ -4179,7 +4179,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequestList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequestList"
             }
           }
         },
@@ -4213,7 +4213,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequest"
             }
           },
           {
@@ -4235,19 +4235,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequest"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequest"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequest"
             }
           }
         },
@@ -4423,7 +4423,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequest"
             }
           }
         },
@@ -4457,7 +4457,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequest"
             }
           },
           {
@@ -4479,13 +4479,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequest"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequest"
             }
           }
         },
@@ -4626,7 +4626,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequest"
             }
           }
         },
@@ -4745,7 +4745,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequestList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequestList"
             }
           }
         },
@@ -4779,7 +4779,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest"
             }
           },
           {
@@ -4801,19 +4801,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest"
             }
           }
         },
@@ -4989,7 +4989,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest"
             }
           }
         },
@@ -5023,7 +5023,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest"
             }
           },
           {
@@ -5045,13 +5045,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest"
             }
           }
         },
@@ -5192,7 +5192,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequest"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest"
             }
           }
         },
@@ -5311,7 +5311,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRoleList"
             }
           }
         },
@@ -5345,7 +5345,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRole"
             }
           },
           {
@@ -5367,19 +5367,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRole"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRole"
             }
           }
         },
@@ -5555,7 +5555,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRole"
             }
           }
         },
@@ -5589,7 +5589,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRole"
             }
           },
           {
@@ -5611,13 +5611,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRole"
             }
           }
         },
@@ -5758,7 +5758,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRole"
             }
           }
         },
@@ -5877,7 +5877,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRoleList"
             }
           }
         },
@@ -5911,7 +5911,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRole"
             }
           },
           {
@@ -5933,19 +5933,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRole"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRole"
             }
           }
         },
@@ -6121,7 +6121,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRole"
             }
           }
         },
@@ -6155,7 +6155,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRole"
             }
           },
           {
@@ -6177,13 +6177,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRole"
             }
           }
         },
@@ -6324,7 +6324,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRole"
             }
           }
         },
@@ -6443,7 +6443,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRoleList"
             }
           }
         },
@@ -6477,7 +6477,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRole"
             }
           },
           {
@@ -6499,19 +6499,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRole"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRole"
             }
           }
         },
@@ -6687,7 +6687,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRole"
             }
           }
         },
@@ -6721,7 +6721,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRole"
             }
           },
           {
@@ -6743,13 +6743,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRole"
             }
           }
         },
@@ -6890,7 +6890,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRole"
             }
           }
         },
@@ -7009,7 +7009,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRoleList"
             }
           }
         },
@@ -7043,7 +7043,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRole"
             }
           },
           {
@@ -7065,19 +7065,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRole"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRole"
             }
           }
         },
@@ -7253,7 +7253,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRole"
             }
           }
         },
@@ -7287,7 +7287,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRole"
             }
           },
           {
@@ -7309,13 +7309,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRole"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRole"
             }
           }
         },
@@ -7456,7 +7456,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRole"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRole"
             }
           }
         },
@@ -7575,7 +7575,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngineList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngineList"
             }
           }
         },
@@ -7609,7 +7609,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngine"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngine"
             }
           },
           {
@@ -7631,19 +7631,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngine"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngine"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngine"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngine"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngine"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngine"
             }
           }
         },
@@ -7819,7 +7819,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngine"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngine"
             }
           }
         },
@@ -7853,7 +7853,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngine"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngine"
             }
           },
           {
@@ -7875,13 +7875,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngine"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngine"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngine"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngine"
             }
           }
         },
@@ -8022,7 +8022,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngine"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngine"
             }
           }
         },
@@ -8083,7 +8083,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRoleList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRoleList"
             }
           }
         },
@@ -8184,7 +8184,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngineList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngineList"
             }
           }
         },
@@ -12000,7 +12000,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServerList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServerList"
             }
           }
         },
@@ -12034,7 +12034,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServer"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServer"
             }
           },
           {
@@ -12056,19 +12056,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServer"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServer"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServer"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServer"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServer"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServer"
             }
           }
         },
@@ -12244,7 +12244,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServer"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServer"
             }
           }
         },
@@ -12278,7 +12278,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServer"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServer"
             }
           },
           {
@@ -12300,13 +12300,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServer"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServer"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServer"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServer"
             }
           }
         },
@@ -12447,7 +12447,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServer"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServer"
             }
           }
         },
@@ -12508,7 +12508,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServerList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServerList"
             }
           }
         },
@@ -13054,7 +13054,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyList"
             }
           }
         },
@@ -13088,7 +13088,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicy"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicy"
             }
           },
           {
@@ -13110,19 +13110,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicy"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicy"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicy"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicy"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicy"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicy"
             }
           }
         },
@@ -13298,7 +13298,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicy"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicy"
             }
           }
         },
@@ -13332,7 +13332,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicy"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicy"
             }
           },
           {
@@ -13354,13 +13354,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicy"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicy"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicy"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicy"
             }
           }
         },
@@ -13501,7 +13501,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicy"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicy"
             }
           }
         },
@@ -13620,7 +13620,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBindingList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBindingList"
             }
           }
         },
@@ -13654,7 +13654,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBinding"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBinding"
             }
           },
           {
@@ -13676,19 +13676,19 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBinding"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBinding"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBinding"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBinding"
             }
           },
           "202": {
             "description": "Accepted",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBinding"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBinding"
             }
           }
         },
@@ -13864,7 +13864,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBinding"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBinding"
             }
           }
         },
@@ -13898,7 +13898,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBinding"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBinding"
             }
           },
           {
@@ -13920,13 +13920,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBinding"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBinding"
             }
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBinding"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBinding"
             }
           }
         },
@@ -14067,7 +14067,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBinding"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBinding"
             }
           }
         },
@@ -14128,7 +14128,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyList"
             }
           }
         },
@@ -14229,7 +14229,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBindingList"
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBindingList"
             }
           }
         },
@@ -14962,7 +14962,7 @@
     }
   },
   "definitions": {
-    "dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersion": {
+    "dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersion": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -14977,7 +14977,7 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersionSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionSpec"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -14988,7 +14988,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersionExporter": {
+    "dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionExporter": {
       "description": "VaultServerVersionExporter is the image for the vault exporter",
       "type": "object",
       "required": [
@@ -15005,7 +15005,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersionList": {
+    "dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionList": {
       "description": "VaultServerVersionList is a list of VaultserverVersions",
       "type": "object",
       "properties": {
@@ -15017,7 +15017,7 @@
           "description": "Items is a list of VaultServerVersion CRD objects",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersion"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersion"
           }
         },
         "kind": {
@@ -15036,7 +15036,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersionSpec": {
+    "dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionSpec": {
       "description": "VaultServerVersionSpec is the spec for postgres version",
       "type": "object",
       "required": [
@@ -15052,15 +15052,15 @@
         },
         "exporter": {
           "description": "Exporter Image",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersionExporter"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionExporter"
         },
         "unsealer": {
           "description": "Unsealer Image",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersionUnsealer"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionUnsealer"
         },
         "vault": {
           "description": "Vault Image",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersionVault"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionVault"
         },
         "version": {
           "description": "Version",
@@ -15068,7 +15068,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersionUnsealer": {
+    "dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionUnsealer": {
       "description": "VaultServerVersionUnsealer is the image for the vault unsealer",
       "type": "object",
       "required": [
@@ -15085,7 +15085,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.catalog.v1alpha1.VaultServerVersionVault": {
+    "dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionVault": {
       "description": "VaultServerVersionVault is the vault image",
       "type": "object",
       "required": [
@@ -15102,7 +15102,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequest": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequest": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15117,10 +15117,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequestSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequestSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequestStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequestStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -15131,7 +15131,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequestList": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequestList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15142,7 +15142,7 @@
           "description": "Items is a list of AWSAccessKeyRequest objects",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequest"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequest"
           }
         },
         "kind": {
@@ -15161,7 +15161,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequestSpec": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequestSpec": {
       "description": "https://www.vaultproject.io/api/secret/aws/index.html#parameters-6 AWSAccessKeyRequestSpec contains information to request for vault aws credential",
       "type": "object",
       "required": [
@@ -15175,7 +15175,7 @@
         },
         "roleRef": {
           "description": "Contains vault aws role info",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.RoleRef"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.RoleRef"
         },
         "subjects": {
           "type": "array",
@@ -15193,7 +15193,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AWSAccessKeyRequestStatus": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSAccessKeyRequestStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -15205,7 +15205,7 @@
         },
         "lease": {
           "description": "Contains lease info",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.Lease"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.Lease"
         },
         "observedGeneration": {
           "description": "observedGeneration is the most recent generation observed for this resource. It corresponds to the resource's generation, which is updated on mutation by the API Server.",
@@ -15222,7 +15222,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AWSConfiguration": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSConfiguration": {
       "description": "https://www.vaultproject.io/api/secret/aws/index.html#configure-root-iam-credentials AWSConfiguration contains information to communicate with AWS",
       "type": "object",
       "required": [
@@ -15239,7 +15239,7 @@
           "type": "string"
         },
         "leaseConfig": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.LeaseConfig"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.LeaseConfig"
         },
         "maxRetries": {
           "description": "Number of max retries the client should use for recoverable errors. The default (-1) falls back to the AWS SDK's default behavior",
@@ -15256,7 +15256,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AWSRole": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRole": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15271,10 +15271,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRoleSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRoleSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRoleStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRoleStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -15285,7 +15285,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AWSRoleList": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRoleList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15296,7 +15296,7 @@
           "description": "Items is a list of AWSRole objects",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSRole"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRole"
           }
         },
         "kind": {
@@ -15315,7 +15315,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AWSRoleSpec": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRoleSpec": {
       "description": "AWSRoleSpec contains connection information, AWS role info, etc More info: https://www.vaultproject.io/api/secret/aws/index.html#parameters-3",
       "type": "object",
       "required": [
@@ -15367,7 +15367,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AWSRoleStatus": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSRoleStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -15387,7 +15387,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequest": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequest": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15402,10 +15402,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequestSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequestSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequestStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequestStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -15416,7 +15416,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequestList": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequestList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15427,7 +15427,7 @@
           "description": "Items is a list of AzureAccessKeyRequest objects",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequest"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequest"
           }
         },
         "kind": {
@@ -15446,7 +15446,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequestSpec": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequestSpec": {
       "type": "object",
       "required": [
         "roleRef",
@@ -15455,7 +15455,7 @@
       "properties": {
         "roleRef": {
           "description": "Contains vault azure role info",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.RoleRef"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.RoleRef"
         },
         "subjects": {
           "description": "Contains a reference to the object or user identities the role binding is applied to",
@@ -15466,7 +15466,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AzureAccessKeyRequestStatus": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureAccessKeyRequestStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -15478,7 +15478,7 @@
         },
         "lease": {
           "description": "Contains lease info",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.Lease"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.Lease"
         },
         "observedGeneration": {
           "description": "observedGeneration is the most recent generation observed for this resource. It corresponds to the resource's generation, which is updated on mutation by the API Server.",
@@ -15495,7 +15495,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AzureConfiguration": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureConfiguration": {
       "description": "AzureConfiguration contains information to communicate with Azure",
       "type": "object",
       "required": [
@@ -15512,7 +15512,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AzureRole": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRole": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15527,10 +15527,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRoleSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRoleSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRoleStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRoleStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -15541,7 +15541,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AzureRoleList": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRoleList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15552,7 +15552,7 @@
           "description": "Items is a list of AzureRole objects",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureRole"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRole"
           }
         },
         "kind": {
@@ -15571,7 +15571,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AzureRoleSpec": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRoleSpec": {
       "description": "AzureRoleSpec contains connection information, Azure role info, etc More info: https://www.vaultproject.io/api/secret/azure/index.html#create-update-role",
       "type": "object",
       "required": [
@@ -15604,7 +15604,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.AzureRoleStatus": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureRoleStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -15624,7 +15624,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequest": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequest": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15639,10 +15639,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequestSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequestSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequestStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequestStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -15653,7 +15653,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequestList": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequestList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15664,7 +15664,7 @@
           "description": "Items is a list of DatabaseAccessRequest objects",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequest"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequest"
           }
         },
         "kind": {
@@ -15683,7 +15683,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequestSpec": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequestSpec": {
       "description": "DatabaseAccessRequestSpec contains information to request for database credential",
       "type": "object",
       "required": [
@@ -15693,7 +15693,7 @@
       "properties": {
         "roleRef": {
           "description": "Contains vault database role info",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.RoleRef"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.RoleRef"
         },
         "subjects": {
           "type": "array",
@@ -15707,7 +15707,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.DatabaseAccessRequestStatus": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.DatabaseAccessRequestStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -15719,7 +15719,7 @@
         },
         "lease": {
           "description": "Contains lease info",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.Lease"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.Lease"
         },
         "observedGeneration": {
           "description": "observedGeneration is the most recent generation observed for this resource. It corresponds to the resource's generation, which is updated on mutation by the API Server.",
@@ -15736,7 +15736,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequest": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15751,10 +15751,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequestSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequestSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequestStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequestStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -15765,7 +15765,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequestList": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequestList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15776,7 +15776,7 @@
           "description": "Items is a list of GCPAccessKeyRequest objects",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequest"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest"
           }
         },
         "kind": {
@@ -15795,7 +15795,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequestSpec": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequestSpec": {
       "description": "GCPAccessKeyRequestSpec contains information to request for vault gcp credentials",
       "type": "object",
       "required": [
@@ -15813,7 +15813,7 @@
         },
         "roleRef": {
           "description": "Contains vault gcp role info",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.RoleRef"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.RoleRef"
         },
         "subjects": {
           "description": "Contains a reference to the object or user identities the role binding is applied to",
@@ -15824,7 +15824,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.GCPAccessKeyRequestStatus": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequestStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -15836,7 +15836,7 @@
         },
         "lease": {
           "description": "Contains lease info",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.Lease"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.Lease"
         },
         "observedGeneration": {
           "description": "observedGeneration is the most recent generation observed for this resource. It corresponds to the resource's generation, which is updated on mutation by the API Server.",
@@ -15853,7 +15853,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.GCPConfiguration": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPConfiguration": {
       "description": "https://www.vaultproject.io/api/secret/gcp/index.html#write-config GCPConfiguration contains information to communicate with GCP",
       "type": "object",
       "required": [
@@ -15874,7 +15874,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.GCPRole": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRole": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15889,10 +15889,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRoleSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRoleSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRoleStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRoleStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -15903,7 +15903,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.GCPRoleList": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRoleList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -15914,7 +15914,7 @@
           "description": "Items is a list of GCPRole objects",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPRole"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRole"
           }
         },
         "kind": {
@@ -15933,7 +15933,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.GCPRoleSpec": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRoleSpec": {
       "description": "GCPRoleSpec contains connection information, GCP role info, etc More info: https://www.vaultproject.io/api/secret/gcp/index.html#parameters",
       "type": "object",
       "required": [
@@ -15972,7 +15972,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.GCPRoleStatus": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPRoleStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -15992,7 +15992,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.KVConfiguration": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.KVConfiguration": {
       "description": "KVConfiguration defines a Key-Value engine configuration",
       "type": "object",
       "properties": {
@@ -16016,7 +16016,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.Lease": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.Lease": {
       "description": "Lease contains lease info",
       "type": "object",
       "properties": {
@@ -16034,7 +16034,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.LeaseConfig": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.LeaseConfig": {
       "description": "https://www.vaultproject.io/api/secret/aws/index.html#configure-lease LeaseConfig contains lease configuration",
       "type": "object",
       "required": [
@@ -16052,7 +16052,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.MongoDBConfiguration": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBConfiguration": {
       "description": "MongoDBConfiguration defines a MongoDB app configuration. https://www.vaultproject.io/api/secret/databases/index.html https://www.vaultproject.io/api/secret/databases/mongodb.html#configure-connection",
       "type": "object",
       "required": [
@@ -16080,7 +16080,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRole": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRole": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -16095,10 +16095,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRoleSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRoleSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRoleStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRoleStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -16109,7 +16109,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRoleList": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRoleList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -16120,7 +16120,7 @@
           "description": "Items is a list of MongoDBRole objects",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRole"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRole"
           }
         },
         "kind": {
@@ -16139,7 +16139,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRoleSpec": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRoleSpec": {
       "description": "MongoDBRoleSpec contains connection information, Mongodb role info etc",
       "type": "object",
       "required": [
@@ -16187,7 +16187,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.MongoDBRoleStatus": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBRoleStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -16207,7 +16207,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.MySQLConfiguration": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLConfiguration": {
       "description": "MySQLConfiguration defines a MySQL app configuration. https://www.vaultproject.io/api/secret/databases/index.html https://www.vaultproject.io/api/secret/databases/mysql-maria.html#configure-connection",
       "type": "object",
       "required": [
@@ -16245,7 +16245,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.MySQLRole": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRole": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -16260,10 +16260,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRoleSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRoleSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRoleStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRoleStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -16274,7 +16274,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.MySQLRoleList": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRoleList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -16285,7 +16285,7 @@
           "description": "Items is a list of MySQLRole objects",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLRole"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRole"
           }
         },
         "kind": {
@@ -16304,7 +16304,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.MySQLRoleSpec": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRoleSpec": {
       "description": "MySQLRoleSpec contains connection information, mysql role info etc",
       "type": "object",
       "required": [
@@ -16352,7 +16352,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.MySQLRoleStatus": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLRoleStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -16372,7 +16372,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.PostgresConfiguration": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresConfiguration": {
       "description": "PostgresConfiguration defines a PostgreSQL app configuration. https://www.vaultproject.io/api/secret/databases/index.html https://www.vaultproject.io/api/secret/databases/postgresql.html#configure-connection",
       "type": "object",
       "required": [
@@ -16410,7 +16410,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.PostgresRole": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRole": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -16425,10 +16425,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRoleSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRoleSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRoleStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRoleStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -16439,7 +16439,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.PostgresRoleList": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRoleList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -16450,7 +16450,7 @@
           "description": "Items is a list of PostgresRole objects",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresRole"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRole"
           }
         },
         "kind": {
@@ -16469,7 +16469,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.PostgresRoleSpec": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRoleSpec": {
       "description": "PostgresRoleSpec contains connection information, postgres role info etc",
       "type": "object",
       "required": [
@@ -16531,7 +16531,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.PostgresRoleStatus": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresRoleStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -16552,7 +16552,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.RoleRef": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.RoleRef": {
       "description": "RoleRef contains information that points to the role being used",
       "type": "object",
       "required": [
@@ -16578,7 +16578,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.SecretEngine": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngine": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -16593,10 +16593,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngineSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngineSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngineStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngineStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -16607,7 +16607,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.SecretEngineList": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngineList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -16617,7 +16617,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.SecretEngine"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngine"
           }
         },
         "kind": {
@@ -16636,43 +16636,43 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.SecretEngineSpec": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngineSpec": {
       "type": "object",
       "required": [
         "vaultRef"
       ],
       "properties": {
         "aws": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AWSConfiguration"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AWSConfiguration"
         },
         "azure": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.AzureConfiguration"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureConfiguration"
         },
         "gcp": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.GCPConfiguration"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPConfiguration"
         },
         "kv": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.KVConfiguration"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.KVConfiguration"
         },
         "mongodb": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MongoDBConfiguration"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBConfiguration"
         },
         "mysql": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.MySQLConfiguration"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLConfiguration"
         },
         "path": {
           "description": "Path defines the path used to enable this secret engine",
           "type": "string"
         },
         "postgres": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.engine.v1alpha1.PostgresConfiguration"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresConfiguration"
         },
         "vaultRef": {
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         }
       }
     },
-    "dev.kubevault.operator.apis.engine.v1alpha1.SecretEngineStatus": {
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.SecretEngineStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -16690,7 +16690,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.AuthConfig": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AuthConfig": {
       "type": "object",
       "properties": {
         "auditNonHMACRequestKeys": {
@@ -16732,7 +16732,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.AuthMethod": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AuthMethod": {
       "description": "AuthMethod contains the information to enable vault auth method links: https://www.vaultproject.io/api/system/auth.html",
       "type": "object",
       "required": [
@@ -16742,7 +16742,7 @@
       "properties": {
         "config": {
           "description": "Specifies configuration options for this auth method.",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.AuthConfig"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AuthConfig"
         },
         "description": {
           "description": "Specifies a human-friendly description of the auth method.",
@@ -16766,7 +16766,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.AuthMethodStatus": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AuthMethodStatus": {
       "description": "AuthMethodStatus specifies the status of the auth method maintained by the auth method controller",
       "type": "object",
       "required": [
@@ -16793,7 +16793,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.AwsKmsSsmSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AwsKmsSsmSpec": {
       "description": "AwsKmsSsmSpec contain the fields that required to unseal vault using aws kms ssm",
       "type": "object",
       "required": [
@@ -16821,7 +16821,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.AzureKeyVault": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AzureKeyVault": {
       "description": "AzureKeyVault contain the fields that required to unseal vault using azure key vault",
       "type": "object",
       "required": [
@@ -16855,7 +16855,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.AzureSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AzureSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/azure.html\n\nAzureSpec defines configuration to set up Google Cloud Storage as backend storage in vault",
       "type": "object",
       "required": [
@@ -16883,50 +16883,50 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.BackendStorageSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.BackendStorageSpec": {
       "description": "BackendStorageSpec defines storage backend configuration of vault",
       "type": "object",
       "properties": {
         "azure": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.AzureSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AzureSpec"
         },
         "consul": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.ConsulSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.ConsulSpec"
         },
         "dynamodb": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.DynamoDBSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.DynamoDBSpec"
         },
         "etcd": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.EtcdSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.EtcdSpec"
         },
         "file": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.FileSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.FileSpec"
         },
         "gcs": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.GcsSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.GcsSpec"
         },
         "inmem": {
           "description": "ref: https://www.vaultproject.io/docs/configuration/storage/in-memory.html",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.InmemSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.InmemSpec"
         },
         "mysql": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.MySQLSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.MySQLSpec"
         },
         "postgresql": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.PostgreSQLSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.PostgreSQLSpec"
         },
         "raft": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.RaftSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.RaftSpec"
         },
         "s3": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.S3Spec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.S3Spec"
         },
         "swift": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.SwiftSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.SwiftSpec"
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.ConsulSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.ConsulSpec": {
       "description": "ref: https://www.vaultproject.io/docs/configuration/storage/consul.html\n\nConsulSpec defines the configuration to set up consul as backend storage in vault",
       "type": "object",
       "properties": {
@@ -16996,7 +16996,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.DynamoDBSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.DynamoDBSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/dynamodb.html\n\nDynamoDBSpec defines configuration to set up DynamoDB Storage as backend storage in vault",
       "type": "object",
       "properties": {
@@ -17041,7 +17041,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.EtcdSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.EtcdSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/etcd.html\n\nEtcdSpec defines configuration to set up etcd as backend storage in vault",
       "type": "object",
       "required": [
@@ -17082,7 +17082,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.FileSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.FileSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/filesystem.html\n\nFileSpec defines configuration to set up File system Storage as backend storage in vault",
       "type": "object",
       "required": [
@@ -17100,7 +17100,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.GcsSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.GcsSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage.html\n\nGcsSpec defines configuration to set up Google Cloud Storage as backend storage in vault",
       "type": "object",
       "required": [
@@ -17130,7 +17130,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.GoogleKmsGcsSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.GoogleKmsGcsSpec": {
       "description": "GoogleKmsGcsSpec contain the fields that required to unseal vault using google kms",
       "type": "object",
       "required": [
@@ -17167,11 +17167,11 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.InmemSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.InmemSpec": {
       "description": "ref: https://www.vaultproject.io/docs/configuration/storage/in-memory.html",
       "type": "object"
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.KubernetesSecretSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.KubernetesSecretSpec": {
       "description": "KubernetesSecretSpec contain the fields that required to unseal using kubernetes secret",
       "type": "object",
       "required": [
@@ -17183,25 +17183,25 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.ModeSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.ModeSpec": {
       "description": "ModeSpec contain unseal mechanism",
       "type": "object",
       "properties": {
         "awsKmsSsm": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.AwsKmsSsmSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AwsKmsSsmSpec"
         },
         "azureKeyVault": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.AzureKeyVault"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AzureKeyVault"
         },
         "googleKmsGcs": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.GoogleKmsGcsSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.GoogleKmsGcsSpec"
         },
         "kubernetesSecret": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.KubernetesSecretSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.KubernetesSecretSpec"
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.MySQLSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.MySQLSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/mysql.html\n\nMySQLSpec defines configuration to set up MySQL Storage as backend storage in vault",
       "type": "object",
       "required": [
@@ -17235,7 +17235,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.PostgreSQLSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.PostgreSQLSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/postgresql.html\n\nPostgreSQLSpec defines configuration to set up PostgreSQL storage as backend storage in vault",
       "type": "object",
       "required": [
@@ -17257,7 +17257,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.RaftSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.RaftSpec": {
       "description": "RaftSpec defines the configuration for the Raft integrated storage.\n\nhttps://www.vaultproject.io/docs/configuration/storage/raft",
       "type": "object",
       "required": [
@@ -17270,7 +17270,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.S3Spec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.S3Spec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/s3.html\n\nS3Spec defines configuration to set up Amazon S3 Storage as backend storage in vault",
       "type": "object",
       "required": [
@@ -17312,7 +17312,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.SwiftSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.SwiftSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/swift.html\n\nSwiftSpec defines configuration to set up Swift Storage as backend storage in vault",
       "type": "object",
       "required": [
@@ -17372,7 +17372,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.TLSPolicy": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.TLSPolicy": {
       "description": "TLSPolicy defines the TLS policy of the vault nodes If this is not set, operator will auto-gen TLS assets and secrets.",
       "type": "object",
       "required": [
@@ -17390,13 +17390,13 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.UnsealerSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.UnsealerSpec": {
       "description": "UnsealerSpec contain the configuration for auto vault initialize/unseal",
       "type": "object",
       "properties": {
         "mode": {
           "description": "mode contains unseal mechanism",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.ModeSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.ModeSpec"
         },
         "overwriteExisting": {
           "description": "overwrite existing unseal keys and root tokens, possibly dangerous!",
@@ -17423,7 +17423,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServer": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServer": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -17438,10 +17438,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServerSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServerSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServerStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServerStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -17452,7 +17452,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServerList": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServerList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -17462,7 +17462,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServer"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServer"
           }
         },
         "kind": {
@@ -17481,7 +17481,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServerSpec": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServerSpec": {
       "type": "object",
       "required": [
         "version",
@@ -17492,12 +17492,12 @@
           "description": "Specifies the list of auth methods to enable",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.AuthMethod"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AuthMethod"
           }
         },
         "backend": {
           "description": "backend storage configuration for vault",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.BackendStorageSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.BackendStorageSpec"
         },
         "configSource": {
           "description": "Name of the ConfigMap for Vault's configuration In this configMap contain extra config for vault ConfigSource is an optional field to provide extra configuration for vault. File name should be 'vault.hcl'. If specified, this file will be appended to the controller configuration file.",
@@ -17529,11 +17529,11 @@
         },
         "tls": {
           "description": "TLS policy of vault nodes",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.TLSPolicy"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.TLSPolicy"
         },
         "unsealer": {
           "description": "Unsealer configuration for vault",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.UnsealerSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.UnsealerSpec"
         },
         "version": {
           "description": "Version of Vault server to be deployed.",
@@ -17541,14 +17541,14 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.VaultServerStatus": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServerStatus": {
       "type": "object",
       "properties": {
         "authMethodStatus": {
           "description": "Status of the vault auth methods",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.AuthMethodStatus"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AuthMethodStatus"
           }
         },
         "clientPort": {
@@ -17589,11 +17589,11 @@
         },
         "vaultStatus": {
           "description": "VaultStatus is the set of Vault node specific statuses: Active, Standby, and Sealed",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.kubevault.v1alpha1.VaultStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultStatus"
         }
       }
     },
-    "dev.kubevault.operator.apis.kubevault.v1alpha1.VaultStatus": {
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultStatus": {
       "type": "object",
       "properties": {
         "active": {
@@ -17623,7 +17623,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.AppRoleSubjectRef": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.AppRoleSubjectRef": {
       "description": "More info: https://www.vaultproject.io/api-docs/auth/approle#create-update-approle",
       "type": "object",
       "required": [
@@ -17711,7 +17711,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.JWTSubjectRef": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.JWTSubjectRef": {
       "description": "More info: https://www.vaultproject.io/api-docs/auth/jwt#create-role",
       "type": "object",
       "required": [
@@ -17834,7 +17834,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.KubernetesSubjectRef": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.KubernetesSubjectRef": {
       "description": "More info: https://www.vaultproject.io/api/auth/kubernetes/index.html#create-role",
       "type": "object",
       "required": [
@@ -17878,7 +17878,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.LdapGroupSubjectRef": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.LdapGroupSubjectRef": {
       "description": "More info: https://www.vaultproject.io/api-docs/auth/ldap#create-update-ldap-group",
       "type": "object",
       "required": [
@@ -17902,7 +17902,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.LdapUserSubjectRef": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.LdapUserSubjectRef": {
       "description": "More info: https://www.vaultproject.io/api-docs/auth/ldap#create-update-ldap-user",
       "type": "object",
       "required": [
@@ -17933,7 +17933,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.PolicyIdentifier": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.PolicyIdentifier": {
       "type": "object",
       "properties": {
         "name": {
@@ -17946,31 +17946,31 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.SubjectRef": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.SubjectRef": {
       "type": "object",
       "properties": {
         "appRole": {
           "description": "More info: https://www.vaultproject.io/docs/auth/approle#configuration",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.AppRoleSubjectRef"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.AppRoleSubjectRef"
         },
         "jwt": {
           "description": "More info: https://www.vaultproject.io/api-docs/auth/jwt#configure",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.JWTSubjectRef"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.JWTSubjectRef"
         },
         "kubernetes": {
           "description": "Kubernetes refers to Vault users who are authenticated via Kubernetes auth method More info: https://www.vaultproject.io/docs/auth/kubernetes.html#configuration",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.KubernetesSubjectRef"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.KubernetesSubjectRef"
         },
         "ldapGroup": {
           "description": "More info: https://www.vaultproject.io/api-docs/auth/ldap#configure-ldap",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.LdapGroupSubjectRef"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.LdapGroupSubjectRef"
         },
         "ldapUser": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.LdapUserSubjectRef"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.LdapUserSubjectRef"
         }
       }
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicy": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicy": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -17985,10 +17985,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicySpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicySpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -17999,7 +17999,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBinding": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBinding": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -18014,10 +18014,10 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
         "spec": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBindingSpec"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBindingSpec"
         },
         "status": {
-          "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBindingStatus"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBindingStatus"
         }
       },
       "x-kubernetes-group-version-kind": [
@@ -18028,7 +18028,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBindingList": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBindingList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -18038,7 +18038,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBinding"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBinding"
           }
         },
         "kind": {
@@ -18057,7 +18057,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBindingSpec": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBindingSpec": {
       "description": "links: https://www.vaultproject.io/api/auth/kubernetes/index.html#parameters-1",
       "type": "object",
       "required": [
@@ -18070,12 +18070,12 @@
           "description": "Policies is a list of Vault policy identifiers.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.PolicyIdentifier"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.PolicyIdentifier"
           }
         },
         "subjectRef": {
           "description": "SubjectRef refers to Vault users who will be granted policies.",
-          "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.SubjectRef"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.SubjectRef"
         },
         "vaultRef": {
           "description": "VaultRef is the name of a AppBinding referencing to a Vault Server",
@@ -18087,7 +18087,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyBindingStatus": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyBindingStatus": {
       "type": "object",
       "properties": {
         "conditions": {
@@ -18108,7 +18108,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyList": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyList": {
       "type": "object",
       "properties": {
         "apiVersion": {
@@ -18118,7 +18118,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicy"
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicy"
           }
         },
         "kind": {
@@ -18137,7 +18137,7 @@
         }
       ]
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicySpec": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicySpec": {
       "description": "More info: https://www.vaultproject.io/docs/concepts/policies.html",
       "type": "object",
       "required": [
@@ -18162,7 +18162,7 @@
         }
       }
     },
-    "dev.kubevault.operator.apis.policy.v1alpha1.VaultPolicyStatus": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.VaultPolicyStatus": {
       "type": "object",
       "properties": {
         "conditions": {

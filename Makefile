@@ -1,5 +1,4 @@
-# Copyright 2019 AppsCode Inc.
-# Copyright 2016 The Kubernetes Authors.
+# Copyright AppsCode Inc. and Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,12 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 SHELL=/bin/bash -o pipefail
 
 GO_PKG   := kubevault.dev
 REPO     := $(notdir $(shell pwd))
-BIN      := vault-operator
+BIN      := apimachinery
 COMPRESS ?= no
 
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
@@ -52,8 +50,8 @@ endif
 ### These variables should not need tweaking.
 ###
 
-SRC_PKGS := api apis client cmd pkg # directories which hold app source excluding tests (not vendored)
-SRC_DIRS := $(SRC_PKGS) test hack/gencrd hack/gendocs # directories which hold app source (not vendored)
+SRC_PKGS := apis client crds # directories which hold app source excluding tests (not vendored)
+SRC_DIRS := $(SRC_PKGS) hack/gencrd
 
 DOCKER_PLATFORMS := linux/amd64 linux/arm linux/arm64
 BIN_PLATFORMS    := $(DOCKER_PLATFORMS)
@@ -156,7 +154,7 @@ clientset:
 # Generate openapi schema
 .PHONY: openapi
 openapi: $(addprefix openapi-, $(subst :,_, $(API_GROUPS)))
-	@echo "Generating api/openapi-spec/swagger.json"
+	@echo "Generating openapi/swagger.json"
 	@docker run --rm                                     \
 		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
@@ -171,7 +169,7 @@ openapi: $(addprefix openapi-, $(subst :,_, $(API_GROUPS)))
 
 openapi-%:
 	@echo "Generating openapi schema for $(subst _,/,$*)"
-	@mkdir -p api/api-rules
+	@mkdir -p .config/api-rules
 	@docker run --rm                                     \
 		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
@@ -185,7 +183,7 @@ openapi-%:
 			--go-header-file "./hack/license/go.txt" \
 			--input-dirs "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*),k8s.io/apimachinery/pkg/apis/meta/v1,k8s.io/apimachinery/pkg/api/resource,k8s.io/apimachinery/pkg/runtime,k8s.io/apimachinery/pkg/util/intstr,k8s.io/apimachinery/pkg/version,k8s.io/api/core/v1,k8s.io/api/apps/v1,kmodules.xyz/offshoot-api/api/v1,kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1,kmodules.xyz/monitoring-agent-api/api/v1,k8s.io/api/rbac/v1,kmodules.xyz/client-go/api/v1" \
 			--output-package "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*)" \
-			--report-filename api/api-rules/violation_exceptions.list
+			--report-filename .config/api-rules/violation_exceptions.list
 
 # Generate CRD manifests
 .PHONY: gen-crds
@@ -202,7 +200,7 @@ gen-crds:
 		controller-gen                      \
 			$(CRD_OPTIONS)                  \
 			paths="./apis/..."              \
-			output:crd:artifacts:config=api/crds
+			output:crd:artifacts:config=crds
 
 crds_to_patch := kubevault.com_vaultservers.yaml
 
@@ -210,12 +208,12 @@ crds_to_patch := kubevault.com_vaultservers.yaml
 patch-crds: $(addprefix patch-crd-, $(crds_to_patch))
 patch-crd-%: $(BUILD_DIRS)
 	@echo "patching $*"
-	@kubectl patch -f api/crds/$* -p "$$(cat hack/crd-patch.json)" --type=json --local=true -o yaml > bin/$*
-	@mv bin/$* api/crds/$*
+	@kubectl patch -f crds/$* -p "$$(cat hack/crd-patch.json)" --type=json --local=true -o yaml > bin/$*
+	@mv bin/$* crds/$*
 
 .PHONY: label-crds
 label-crds: $(BUILD_DIRS)
-	@for f in api/crds/*.yaml; do \
+	@for f in crds/*.yaml; do \
 		echo "applying app.kubernetes.io/name=kubevault label to $$f"; \
 		kubectl label --overwrite -f $$f --local=true -o yaml app.kubernetes.io/name=kubevault > bin/crd.yaml; \
 		mv bin/crd.yaml $$f; \
@@ -239,7 +237,7 @@ gen-crd-protos-%:
 			--proto-import=$(DOCKER_REPO_ROOT)/vendor    \
 			--proto-import=$(DOCKER_REPO_ROOT)/third_party/protobuf \
 			--apimachinery-packages=-k8s.io/apimachinery/pkg/api/resource,-k8s.io/apimachinery/pkg/apis/meta/v1,-k8s.io/apimachinery/pkg/apis/meta/v1beta1,-k8s.io/apimachinery/pkg/runtime,-k8s.io/apimachinery/pkg/runtime/schema,-k8s.io/apimachinery/pkg/util/intstr \
-			--packages=-k8s.io/api/core/v1,-k8s.io/api/apps/v1,-k8s.io/api/rbac/v1,-kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1,-kmodules.xyz/monitoring-agent-api/api/v1,-kmodules.xyz/offshoot-api/api/v1,-kmodules.xyz/client-go/api/v1,kubevault.dev/operator/apis/$(subst _,/,$*)
+			--packages=-k8s.io/api/core/v1,-k8s.io/api/apps/v1,-k8s.io/api/rbac/v1,-kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1,-kmodules.xyz/monitoring-agent-api/api/v1,-kmodules.xyz/offshoot-api/api/v1,-kmodules.xyz/client-go/api/v1,kubevault.dev/apimachinery/apis/$(subst _,/,$*)
 
 .PHONY: gen-bindata
 gen-bindata:
@@ -248,7 +246,7 @@ gen-bindata:
 	    --rm                                                    \
 	    -u $$(id -u):$$(id -g)                                  \
 	    -v $$(pwd):/src                                         \
-	    -w /src/api/crds                                        \
+	    -w /src/crds                                        \
 		-v /tmp:/.cache                                         \
 	    --env HTTP_PROXY=$(HTTP_PROXY)                          \
 	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
@@ -470,20 +468,20 @@ endif
 .PHONY: install
 install:
 	@cd ../installer; \
-	helm install vault-operator charts/vault-operator \
+	helm install apimachinery charts/apimachinery \
 		--namespace=kube-system \
 		--set operator.registry=$(REGISTRY) \
 		--set operator.tag=$(TAG) \
 		--set imagePullPolicy=Always \
 		$(IMAGE_PULL_SECRETS); \
-	kubectl wait --for=condition=Ready pods -n kube-system -l 'app.kubernetes.io/name=vault-operator,app.kubernetes.io/instance=vault-operator' --timeout=5m; \
-	kubectl wait --for=condition=Available apiservice -l 'app.kubernetes.io/name=vault-operator,app.kubernetes.io/instance=vault-operator' --timeout=5m; \
+	kubectl wait --for=condition=Ready pods -n kube-system -l 'app.kubernetes.io/name=apimachinery,app.kubernetes.io/instance=apimachinery' --timeout=5m; \
+	kubectl wait --for=condition=Available apiservice -l 'app.kubernetes.io/name=apimachinery,app.kubernetes.io/instance=apimachinery' --timeout=5m; \
 	helm install vault-catalog charts/vault-catalog --namespace=kube-system
 
 .PHONY: uninstall
 uninstall:
 	@cd ../installer; \
-	helm uninstall vault-operator --namespace=kube-system || true; \
+	helm uninstall apimachinery --namespace=kube-system || true; \
 	helm uninstall vault-catalog --namespace=kube-system || true
 
 .PHONY: purge
@@ -569,7 +567,7 @@ clean:
 
 .PHONY: run
 run:
-	GO111MODULE=on go run -mod=vendor ./cmd/vault-operator run \
+	GO111MODULE=on go run -mod=vendor ./cmd/apimachinery run \
 		--v=3 \
 		--secure-port=8443 \
 		--kubeconfig=$(KUBECONFIG) \

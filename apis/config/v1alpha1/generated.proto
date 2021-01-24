@@ -1,5 +1,5 @@
 /*
-Copyright The KubeVault Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ limitations under the License.
 
 syntax = 'proto2';
 
-package kubevault.dev.operator.apis.config.v1alpha1;
+package kubevault.dev.apimachinery.apis.config.v1alpha1;
 
 import "k8s.io/apimachinery/pkg/apis/meta/v1/generated.proto";
 import "k8s.io/apimachinery/pkg/runtime/generated.proto";

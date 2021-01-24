@@ -1,5 +1,5 @@
 /*
-Copyright The KubeVault Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,10 +21,10 @@ package externalversions
 import (
 	"fmt"
 
-	v1alpha1 "kubevault.dev/operator/apis/catalog/v1alpha1"
-	enginev1alpha1 "kubevault.dev/operator/apis/engine/v1alpha1"
-	kubevaultv1alpha1 "kubevault.dev/operator/apis/kubevault/v1alpha1"
-	policyv1alpha1 "kubevault.dev/operator/apis/policy/v1alpha1"
+	v1alpha1 "kubevault.dev/apimachinery/apis/catalog/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	kubevaultv1alpha1 "kubevault.dev/apimachinery/apis/kubevault/v1alpha1"
+	policyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
 
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	cache "k8s.io/client-go/tools/cache"

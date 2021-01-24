@@ -1,5 +1,5 @@
 /*
-Copyright The KubeVault Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,17 +19,17 @@ limitations under the License.
 package fake
 
 import (
-	clientset "kubevault.dev/operator/client/clientset/versioned"
-	catalogv1alpha1 "kubevault.dev/operator/client/clientset/versioned/typed/catalog/v1alpha1"
-	fakecatalogv1alpha1 "kubevault.dev/operator/client/clientset/versioned/typed/catalog/v1alpha1/fake"
-	configv1alpha1 "kubevault.dev/operator/client/clientset/versioned/typed/config/v1alpha1"
-	fakeconfigv1alpha1 "kubevault.dev/operator/client/clientset/versioned/typed/config/v1alpha1/fake"
-	enginev1alpha1 "kubevault.dev/operator/client/clientset/versioned/typed/engine/v1alpha1"
-	fakeenginev1alpha1 "kubevault.dev/operator/client/clientset/versioned/typed/engine/v1alpha1/fake"
-	kubevaultv1alpha1 "kubevault.dev/operator/client/clientset/versioned/typed/kubevault/v1alpha1"
-	fakekubevaultv1alpha1 "kubevault.dev/operator/client/clientset/versioned/typed/kubevault/v1alpha1/fake"
-	policyv1alpha1 "kubevault.dev/operator/client/clientset/versioned/typed/policy/v1alpha1"
-	fakepolicyv1alpha1 "kubevault.dev/operator/client/clientset/versioned/typed/policy/v1alpha1/fake"
+	clientset "kubevault.dev/apimachinery/client/clientset/versioned"
+	catalogv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/catalog/v1alpha1"
+	fakecatalogv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/catalog/v1alpha1/fake"
+	configv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/config/v1alpha1"
+	fakeconfigv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/config/v1alpha1/fake"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
+	fakeenginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1/fake"
+	kubevaultv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha1"
+	fakekubevaultv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha1/fake"
+	policyv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/policy/v1alpha1"
+	fakepolicyv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/policy/v1alpha1/fake"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"

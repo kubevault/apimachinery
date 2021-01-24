@@ -1,5 +1,5 @@
 /*
-Copyright The KubeVault Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	api "kubevault.dev/operator/apis/engine/v1alpha1"
-	cs "kubevault.dev/operator/client/clientset/versioned/typed/engine/v1alpha1"
+	api "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	cs "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
 	jsonpatch "github.com/evanphx/json-patch"
 	"github.com/golang/glog"

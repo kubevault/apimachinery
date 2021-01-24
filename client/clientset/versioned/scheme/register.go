@@ -1,5 +1,5 @@
 /*
-Copyright The KubeVault Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@ limitations under the License.
 package scheme
 
 import (
-	catalogv1alpha1 "kubevault.dev/operator/apis/catalog/v1alpha1"
-	configv1alpha1 "kubevault.dev/operator/apis/config/v1alpha1"
-	enginev1alpha1 "kubevault.dev/operator/apis/engine/v1alpha1"
-	kubevaultv1alpha1 "kubevault.dev/operator/apis/kubevault/v1alpha1"
-	policyv1alpha1 "kubevault.dev/operator/apis/policy/v1alpha1"
+	catalogv1alpha1 "kubevault.dev/apimachinery/apis/catalog/v1alpha1"
+	configv1alpha1 "kubevault.dev/apimachinery/apis/config/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	kubevaultv1alpha1 "kubevault.dev/apimachinery/apis/kubevault/v1alpha1"
+	policyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"

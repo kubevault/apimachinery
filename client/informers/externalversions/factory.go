@@ -1,5 +1,5 @@
 /*
-Copyright The KubeVault Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,12 +23,12 @@ import (
 	sync "sync"
 	time "time"
 
-	versioned "kubevault.dev/operator/client/clientset/versioned"
-	catalog "kubevault.dev/operator/client/informers/externalversions/catalog"
-	engine "kubevault.dev/operator/client/informers/externalversions/engine"
-	internalinterfaces "kubevault.dev/operator/client/informers/externalversions/internalinterfaces"
-	kubevault "kubevault.dev/operator/client/informers/externalversions/kubevault"
-	policy "kubevault.dev/operator/client/informers/externalversions/policy"
+	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
+	catalog "kubevault.dev/apimachinery/client/informers/externalversions/catalog"
+	engine "kubevault.dev/apimachinery/client/informers/externalversions/engine"
+	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
+	kubevault "kubevault.dev/apimachinery/client/informers/externalversions/kubevault"
+	policy "kubevault.dev/apimachinery/client/informers/externalversions/policy"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"

@@ -1,5 +1,5 @@
 /*
-Copyright The KubeVault Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ limitations under the License.
 package engine
 
 import (
-	v1alpha1 "kubevault.dev/operator/client/informers/externalversions/engine/v1alpha1"
-	internalinterfaces "kubevault.dev/operator/client/informers/externalversions/internalinterfaces"
+	v1alpha1 "kubevault.dev/apimachinery/client/informers/externalversions/engine/v1alpha1"
+	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to each of this group's versions.

@@ -1,51 +1,27 @@
-module kubevault.dev/operator
+module kubevault.dev/apimachinery
 
 go 1.12
 
 require (
-	github.com/aws/aws-sdk-go v1.31.13
-	github.com/codeskyblue/go-sh v0.0.0-20200712050446-30169cf553fe
 	github.com/evanphx/json-patch v4.9.0+incompatible
 	github.com/go-openapi/spec v0.19.8
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/google/gofuzz v1.1.0
-	github.com/gorilla/mux v1.7.3
-	github.com/hashicorp/go-cleanhttp v0.5.1
-	github.com/hashicorp/vault/api v1.0.5-0.20200317185738-82f498082f02
-	github.com/hashicorp/vault/sdk v0.1.14-0.20200702114606-96dd7d6e10db
-	github.com/lib/pq v1.2.0
-	github.com/ncw/swift v1.0.49
-	github.com/onsi/ginkgo v1.11.0
-	github.com/onsi/gomega v1.8.1
 	github.com/pkg/errors v0.9.1
-	github.com/prometheus-operator/prometheus-operator v0.42.0
-	github.com/spf13/cobra v1.1.1
-	github.com/spf13/pflag v1.0.5
-	github.com/stretchr/testify v1.5.1
 	golang.org/x/net v0.0.0-20200625001655-4c5254603344 // indirect
-	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
-	gomodules.xyz/blobfs v0.1.5
-	gomodules.xyz/cert v1.2.0
-	gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
+	gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209 // indirect
 	gomodules.xyz/runtime v0.0.0-20201104200926-d838b09dda8b
 	gomodules.xyz/x v0.0.0-20201105065653-91c568df6331
-	google.golang.org/api v0.26.0
 	k8s.io/api v0.18.9
-	k8s.io/apiextensions-apiserver v0.18.9
 	k8s.io/apimachinery v0.18.9
-	k8s.io/apiserver v0.18.9
-	k8s.io/client-go v12.0.0+incompatible
-	k8s.io/kube-aggregator v0.18.9
+	k8s.io/client-go v0.18.9
 	k8s.io/kube-openapi v0.0.0-20200410145947-61e04a5be9a6
-	k8s.io/kubernetes v1.18.9
 	kmodules.xyz/client-go v0.0.0-20210118094617-273ba20ad7ca
-	kmodules.xyz/constants v0.0.0-20200923054614-6b87dbbae4d6
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20200922204806-c1426cd7fcf4
 	kmodules.xyz/custom-resources v0.0.0-20201124062543-bd8d35c21b0c
 	kmodules.xyz/monitoring-agent-api v0.0.0-20201105074044-be7a1044891a
 	kmodules.xyz/offshoot-api v0.0.0-20201105074700-8675f5f686f2
-	kmodules.xyz/webhook-runtime v0.0.0-20201105073856-2dc7382b88c6
 	sigs.k8s.io/yaml v1.2.0
 )
 

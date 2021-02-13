@@ -382,6 +382,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha1.KubernetesSecretSpec":     schema_apimachinery_apis_kubevault_v1alpha1_KubernetesSecretSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha1.ModeSpec":                 schema_apimachinery_apis_kubevault_v1alpha1_ModeSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha1.MySQLSpec":                schema_apimachinery_apis_kubevault_v1alpha1_MySQLSpec(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha1.NamedServiceTemplateSpec": schema_apimachinery_apis_kubevault_v1alpha1_NamedServiceTemplateSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha1.PostgreSQLSpec":           schema_apimachinery_apis_kubevault_v1alpha1_PostgreSQLSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha1.RaftSpec":                 schema_apimachinery_apis_kubevault_v1alpha1_RaftSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha1.S3Spec":                   schema_apimachinery_apis_kubevault_v1alpha1_S3Spec(ref),
@@ -18277,6 +18278,40 @@ func schema_apimachinery_apis_kubevault_v1alpha1_MySQLSpec(ref common.ReferenceC
 	}
 }
 
+func schema_apimachinery_apis_kubevault_v1alpha1_NamedServiceTemplateSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"alias": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Alias represents the identifier of the service.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata",
+							Ref:         ref("kmodules.xyz/offshoot-api/api/v1.ObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specification of the desired behavior of the service. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#spec-and-status",
+							Ref:         ref("kmodules.xyz/offshoot-api/api/v1.ServiceSpec"),
+						},
+					},
+				},
+				Required: []string{"alias"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/offshoot-api/api/v1.ObjectMeta", "kmodules.xyz/offshoot-api/api/v1.ServiceSpec"},
+	}
+}
+
 func schema_apimachinery_apis_kubevault_v1alpha1_PostgreSQLSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -18679,24 +18714,24 @@ func schema_apimachinery_apis_kubevault_v1alpha1_VaultServerSpec(ref common.Refe
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"replicas": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Number of replicas to deploy for a Vault deployment. If unspecified, defaults to 1.",
-							Type:        []string{"integer"},
-							Format:      "int32",
-						},
-					},
 					"version": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Version of Vault server to be deployed.",
+							Description: "Version of MongoDB to be deployed.",
 							Type:        []string{"string"},
 							Format:      "",
 						},
 					},
-					"configSource": {
+					"replicas": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Name of the ConfigMap for Vault's configuration In this configMap contain extra config for vault ConfigSource is an optional field to provide extra configuration for vault. File name should be 'vault.hcl'. If specified, this file will be appended to the controller configuration file.",
-							Ref:         ref("k8s.io/api/core/v1.VolumeSource"),
+							Description: "Number of instances to deploy for a MongoDB database.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"configSecret": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ConfigSecret is an optional field to provide extra configuration for vault. This secret contain extra config for vault File name should be 'vault.hcl'. If specified, this file will be appended to the controller configuration file.",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 					"dataSources": {
@@ -18715,7 +18750,7 @@ func schema_apimachinery_apis_kubevault_v1alpha1_VaultServerSpec(ref common.Refe
 					"tls": {
 						SchemaProps: spec.SchemaProps{
 							Description: "TLS policy of vault nodes",
-							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha1.TLSPolicy"),
+							Ref:         ref("kmodules.xyz/client-go/api/v1.TLSConfig"),
 						},
 					},
 					"backend": {
@@ -18755,10 +18790,37 @@ func schema_apimachinery_apis_kubevault_v1alpha1_VaultServerSpec(ref common.Refe
 							Ref:         ref("kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec"),
 						},
 					},
+					"serviceTemplates": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ServiceTemplates is an optional configuration for services used to expose database",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha1.NamedServiceTemplateSpec"),
+									},
+								},
+							},
+						},
+					},
 					"serviceTemplate": {
 						SchemaProps: spec.SchemaProps{
 							Description: "ServiceTemplate is an optional configuration for service used to expose vault",
 							Ref:         ref("kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec"),
+						},
+					},
+					"halted": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Indicates that the database is halted and all offshoot Kubernetes resources except PVCs are deleted.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"terminationPolicy": {
+						SchemaProps: spec.SchemaProps{
+							Description: "TerminationPolicy controls the delete operation for database",
+							Type:        []string{"string"},
+							Format:      "",
 						},
 					},
 				},
@@ -18766,7 +18828,7 @@ func schema_apimachinery_apis_kubevault_v1alpha1_VaultServerSpec(ref common.Refe
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.VolumeSource", "kmodules.xyz/monitoring-agent-api/api/v1.AgentSpec", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha1.AuthMethod", "kubevault.dev/apimachinery/apis/kubevault/v1alpha1.BackendStorageSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha1.TLSPolicy", "kubevault.dev/apimachinery/apis/kubevault/v1alpha1.UnsealerSpec"},
+			"k8s.io/api/core/v1.LocalObjectReference", "k8s.io/api/core/v1.VolumeSource", "kmodules.xyz/client-go/api/v1.TLSConfig", "kmodules.xyz/monitoring-agent-api/api/v1.AgentSpec", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha1.AuthMethod", "kubevault.dev/apimachinery/apis/kubevault/v1alpha1.BackendStorageSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha1.NamedServiceTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha1.UnsealerSpec"},
 	}
 }
 

@@ -12,16 +12,15 @@ require (
 	golang.org/x/net v0.0.0-20200625001655-4c5254603344 // indirect
 	gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209 // indirect
 	gomodules.xyz/runtime v0.0.0-20201104200926-d838b09dda8b
-	gomodules.xyz/x v0.0.0-20201105065653-91c568df6331
 	k8s.io/api v0.18.9
 	k8s.io/apimachinery v0.18.9
 	k8s.io/client-go v0.18.9
 	k8s.io/kube-openapi v0.0.0-20200410145947-61e04a5be9a6
-	kmodules.xyz/client-go v0.0.0-20210118094617-273ba20ad7ca
+	kmodules.xyz/client-go v0.0.0-20210315112949-a05d2cc96f28
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20200922204806-c1426cd7fcf4
-	kmodules.xyz/custom-resources v0.0.0-20201124062543-bd8d35c21b0c
+	kmodules.xyz/custom-resources v0.0.0-20210222235834-b3f8dc56b6a3
 	kmodules.xyz/monitoring-agent-api v0.0.0-20201105074044-be7a1044891a
-	kmodules.xyz/offshoot-api v0.0.0-20201105074700-8675f5f686f2
+	kmodules.xyz/offshoot-api v0.0.0-20210309181939-c52e06bbfb3a
 	sigs.k8s.io/yaml v1.2.0
 )
 

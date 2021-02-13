@@ -212,16 +212,10 @@ golang.org/x/xerrors
 golang.org/x/xerrors/internal
 # gomodules.xyz/jsonpatch/v2 v2.1.0
 gomodules.xyz/jsonpatch/v2
-# gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
-gomodules.xyz/pointer
 # gomodules.xyz/runtime v0.0.0-20201104200926-d838b09dda8b
 gomodules.xyz/runtime
-# gomodules.xyz/sets v0.0.0-20200930152147-4f4543544799
-gomodules.xyz/sets
 # gomodules.xyz/version v0.1.0
 gomodules.xyz/version
-# gomodules.xyz/x v0.0.0-20201105065653-91c568df6331
-gomodules.xyz/x/encoding/json/types
 # google.golang.org/appengine v1.6.6
 google.golang.org/appengine/internal
 google.golang.org/appengine/internal/base
@@ -722,7 +716,7 @@ k8s.io/utils/net
 k8s.io/utils/path
 k8s.io/utils/pointer
 k8s.io/utils/trace
-# kmodules.xyz/client-go v0.0.0-20210118094617-273ba20ad7ca
+# kmodules.xyz/client-go v0.0.0-20210315112949-a05d2cc96f28
 kmodules.xyz/client-go
 kmodules.xyz/client-go/api/v1
 kmodules.xyz/client-go/apiextensions
@@ -734,13 +728,13 @@ kmodules.xyz/client-go/openapi
 kmodules.xyz/client-go/tools/clusterid
 # kmodules.xyz/crd-schema-fuzz v0.0.0-20200922204806-c1426cd7fcf4
 kmodules.xyz/crd-schema-fuzz
-# kmodules.xyz/custom-resources v0.0.0-20201124062543-bd8d35c21b0c
+# kmodules.xyz/custom-resources v0.0.0-20210222235834-b3f8dc56b6a3
 kmodules.xyz/custom-resources/apis/appcatalog
 kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1
 kmodules.xyz/custom-resources/crds
 # kmodules.xyz/monitoring-agent-api v0.0.0-20201105074044-be7a1044891a
 kmodules.xyz/monitoring-agent-api/api/v1
-# kmodules.xyz/offshoot-api v0.0.0-20201105074700-8675f5f686f2
+# kmodules.xyz/offshoot-api v0.0.0-20210309181939-c52e06bbfb3a
 kmodules.xyz/offshoot-api/api/v1
 # sigs.k8s.io/apiserver-network-proxy/konnectivity-client v0.0.7
 sigs.k8s.io/apiserver-network-proxy/konnectivity-client/pkg/client

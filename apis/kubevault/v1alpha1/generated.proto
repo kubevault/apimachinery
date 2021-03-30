@@ -535,7 +535,7 @@ message NamedServiceTemplateSpec {
   // Alias represents the identifier of the service.
   optional string alias = 1;
 
-  // ServiceTemplate is an optional configuration for a service used to expose database
+  // ServiceTemplate is an optional configuration for a service used to expose VaultServer
   // +optional
   optional kmodules.xyz.offshoot_api.api.v1.ServiceTemplateSpec serviceTemplateSpec = 2;
 }

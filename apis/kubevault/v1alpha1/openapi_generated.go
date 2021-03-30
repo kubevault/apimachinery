@@ -18902,14 +18902,14 @@ func schema_apimachinery_apis_kubevault_v1alpha1_VaultServerSpec(ref common.Refe
 				Properties: map[string]spec.Schema{
 					"version": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Version of MongoDB to be deployed.",
+							Description: "Version of VaultServer to be deployed.",
 							Type:        []string{"string"},
 							Format:      "",
 						},
 					},
 					"replicas": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Number of instances to deploy for a MongoDB database.",
+							Description: "Number of instances to deploy for a VaultServer.",
 							Type:        []string{"integer"},
 							Format:      "int32",
 						},

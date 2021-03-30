@@ -51,10 +51,10 @@ type VaultServer struct {
 }
 
 type VaultServerSpec struct {
-	// Version of MongoDB to be deployed.
+	// Version of VaultServer to be deployed.
 	Version string `json:"version" protobuf:"bytes,1,opt,name=version"`
 
-	// Number of instances to deploy for a MongoDB database.
+	// Number of instances to deploy for a VaultServer.
 	Replicas *int32 `json:"replicas,omitempty" protobuf:"varint,2,opt,name=replicas"`
 
 	// ConfigSecret is an optional field to provide extra configuration for vault.

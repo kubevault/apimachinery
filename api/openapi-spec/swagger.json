@@ -17525,7 +17525,7 @@
           "$ref": "#/definitions/xyz.kmodules.offshoot-api.api.v1.PodTemplateSpec"
         },
         "replicas": {
-          "description": "Number of instances to deploy for a MongoDB database.",
+          "description": "Number of instances to deploy for a VaultServer.",
           "type": "integer",
           "format": "int32"
         },
@@ -17549,7 +17549,7 @@
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.UnsealerSpec"
         },
         "version": {
-          "description": "Version of MongoDB to be deployed.",
+          "description": "Version of VaultServer to be deployed.",
           "type": "string"
         }
       }

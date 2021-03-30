@@ -5134,7 +5134,7 @@ spec:
                   type: object
               type: object
             replicas:
-              description: Number of instances to deploy for a MongoDB database.
+              description: Number of instances to deploy for a VaultServer.
               format: int32
               type: integer
             serviceTemplates:
@@ -5146,7 +5146,7 @@ spec:
                     description: Alias represents the identifier of the service.
                     enum:
                     - primary
-                    - standby
+                    - vault
                     - stats
                     type: string
                   metadata:
@@ -5578,7 +5578,7 @@ spec:
                   type: boolean
               type: object
             version:
-              description: Version of MongoDB to be deployed.
+              description: Version of VaultServer to be deployed.
               type: string
           required:
           - backend

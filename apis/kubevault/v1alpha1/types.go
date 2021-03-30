@@ -20,52 +20,61 @@ import (
 	ofst "kmodules.xyz/offshoot-api/api/v1"
 )
 
-// +kubebuilder:validation:Enum=Provisioning;DataRestoring;Ready;Critical;NotReady;Halted
-type DatabasePhase string
+// +kubebuilder:validation:Enum=Provisioning;DataRestoring;Ready;Critical;NotReady;Halted;Sealed;Unsealed;Initializing;Initialized
+type VaultServerPhase string
 
 const (
-	// used for Databases that are currently provisioning
-	DatabasePhaseProvisioning DatabasePhase = "Provisioning"
-	// used for Databases for which data is currently restoring
-	DatabasePhaseDataRestoring DatabasePhase = "DataRestoring"
-	// used for Databases that are currently ReplicaReady, AcceptingConnection and Ready
-	DatabasePhaseReady DatabasePhase = "Ready"
-	// used for Databases that can connect, ReplicaReady == false || Ready == false (eg, ES yellow)
-	DatabasePhaseCritical DatabasePhase = "Critical"
-	// used for Databases that can't connect
-	DatabasePhaseNotReady DatabasePhase = "NotReady"
-	// used for Databases that are halted
-	DatabasePhaseHalted DatabasePhase = "Halted"
+	// used for VaultServer that are currently provisioning
+	VaultServerPhaseProvisioning VaultServerPhase = "Provisioning"
+	// used for VaultServer for which data is currently restoring
+	VaultServerPhaseDataRestoring VaultServerPhase = "DataRestoring"
+	// used for VaultServer that are currently ReplicaReady, AcceptingConnection and Ready
+	VaultServerPhaseReady VaultServerPhase = "Ready"
+	// used for VaultServer that can connect, ReplicaReady == false || Ready == false (eg, ES yellow)
+	VaultServerPhaseCritical VaultServerPhase = "Critical"
+	// used for VaultServer that can't connect
+	VaultServerPhaseNotReady VaultServerPhase = "NotReady"
+	// used for VaultServer that are halted
+	VaultServerPhaseHalted VaultServerPhase = "Halted"
+
+	// used for VaultServer that are sealed
+	VaultServerPhaseSealed VaultServerPhase = "Sealed"
+	// used for VaultServer that are unsealed
+	VaultServerPhaseUnsealed VaultServerPhase = "Unsealed"
+	// used for VaultServer that are initializing
+	VaultServerPhaseInitializing VaultServerPhase = "Initializing"
+	// used for VaultServer that are initialized
+	VaultServerPhaseInitialized VaultServerPhase = "Initialized"
 )
 
 // +kubebuilder:validation:Enum=Halt;Delete;WipeOut;DoNotTerminate
 type TerminationPolicy string
 
 const (
-	// Deletes database pods, service but leave the PVCs and stash backup data intact.
+	// Deletes VaultServer pods, service but leave the PVCs and stash backup data intact.
 	TerminationPolicyHalt TerminationPolicy = "Halt"
-	// Deletes database pods, service, pvcs but leave the stash backup data intact.
+	// Deletes VaultServer pods, service, pvcs but leave the stash backup data intact.
 	TerminationPolicyDelete TerminationPolicy = "Delete"
-	// Deletes database pods, service, pvcs and stash backup data.
+	// Deletes VaultServer pods, service, pvcs and stash backup data.
 	TerminationPolicyWipeOut TerminationPolicy = "WipeOut"
-	// Rejects attempt to delete database using ValidationWebhook.
+	// Rejects attempt to delete VaultServer using ValidationWebhook.
 	TerminationPolicyDoNotTerminate TerminationPolicy = "DoNotTerminate"
 )
 
-// +kubebuilder:validation:Enum=primary;standby;stats
+// +kubebuilder:validation:Enum=primary;vault;stats
 type ServiceAlias string
 
 const (
-	PrimaryServiceAlias ServiceAlias = "primary"
-	StandbyServiceAlias ServiceAlias = "standby"
-	StatsServiceAlias   ServiceAlias = "stats"
+	PrimaryVaultServerService ServiceAlias = "primary"
+	StandbyVaultServerService ServiceAlias = "vault"
+	StatsVaultServerService   ServiceAlias = "stats"
 )
 
 type NamedServiceTemplateSpec struct {
 	// Alias represents the identifier of the service.
 	Alias ServiceAlias `json:"alias" protobuf:"bytes,1,opt,name=alias"`
 
-	// ServiceTemplate is an optional configuration for a service used to expose database
+	// ServiceTemplate is an optional configuration for a service used to expose VaultServer
 	// +optional
 	ofst.ServiceTemplateSpec `json:",inline,omitempty" protobuf:"bytes,2,opt,name=serviceTemplateSpec"`
 }

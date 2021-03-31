@@ -17,6 +17,10 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"fmt"
+
+	kmapi "kmodules.xyz/client-go/api/v1"
+	"kmodules.xyz/client-go/meta"
 	ofst "kmodules.xyz/offshoot-api/api/v1"
 )
 
@@ -77,4 +81,22 @@ type NamedServiceTemplateSpec struct {
 	// ServiceTemplate is an optional configuration for a service used to expose VaultServer
 	// +optional
 	ofst.ServiceTemplateSpec `json:",inline,omitempty" protobuf:"bytes,2,opt,name=serviceTemplateSpec"`
+}
+
+// Returns the default certificate secret name for given alias.
+func (vs *VaultServer) DefaultCertSecretName(alias string) string {
+	return meta.NameWithSuffix(fmt.Sprintf("%s-%s", vs.Name, alias), "certs")
+}
+
+// Returns certificate secret name for given alias if exists,
+// otherwise returns the default certificate secret name.
+func (vs *VaultServer) GetCertSecretName(alias string) string {
+	if vs.Spec.TLS != nil {
+		sName, valid := kmapi.GetCertificateSecretName(vs.Spec.TLS.Certificates, alias)
+		if valid {
+			return sName
+		}
+	}
+
+	return vs.DefaultCertSecretName(alias)
 }

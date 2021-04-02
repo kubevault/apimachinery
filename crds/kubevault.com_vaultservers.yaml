@@ -5145,7 +5145,7 @@ spec:
                   alias:
                     description: Alias represents the identifier of the service.
                     enum:
-                    - primary
+                    - internal
                     - vault
                     - stats
                     type: string

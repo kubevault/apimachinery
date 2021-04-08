@@ -122,5 +122,5 @@ func (v VaultPolicyBinding) GeneratePayload(i interface{}) (map[string]interface
 }
 
 func (v VaultPolicyBinding) GeneratePath(name, path string) string {
-	return fmt.Sprintf("auth/%s/%s/%s", path, name)
+	return fmt.Sprintf("auth/%s/%s", path, name)
 }

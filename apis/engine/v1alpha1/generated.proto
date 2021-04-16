@@ -381,6 +381,54 @@ message DatabaseAccessRequestStatus {
   optional int64 observedGeneration = 5;
 }
 
+// ElasticsearchConfiguration defines a Elasticsearch app configuration.
+// https://www.vaultproject.io/api-docs/secret/databases/elasticdb
+// TODO: Fill in the fields
+message ElasticsearchConfiguration {
+  // Specifies the Elasticsearch database appbinding reference
+  optional kmodules.xyz.custom_resources.apis.appcatalog.v1alpha1.AppReference databaseRef = 1;
+
+  // Specifies the name of the plugin to use for this connection.
+  // Default plugin:
+  //  - for elasticsearch: elasticsearch-database-plugin
+  optional string pluginName = 2;
+
+  // List of the roles allowed to use this connection.
+  // Defaults to empty (no roles), if contains a "*" any role can use this connection.
+  repeated string allowedRoles = 3;
+
+  // The URL for Elasticsearch's API ("http://localhost:9200").
+  // +kubebuilder:validation:Required
+  optional string url = 4;
+
+  // The username to be used in the connection URL ("vault").
+  // +kubebuilder:validation:Required
+  optional string username = 5;
+
+  // The password to be used in the connection URL ("pa55w0rd").
+  // +kubebuilder:validation:Required
+  optional string password = 6;
+
+  // The path to a PEM-encoded CA cert file to use to verify the Elasticsearch server's identity.
+  optional string caCert = 7;
+
+  // The path to a directory of PEM-encoded CA cert files to use to verify the Elasticsearch server's identity.
+  optional string caPath = 8;
+
+  // The path to the certificate for the Elasticsearch client to present for communication.
+  optional string clientCert = 9;
+
+  // The path to the key for the Elasticsearch client to use for communication.
+  optional string clientKey = 10;
+
+  // This, if set, is used to set the SNI host when connecting via 1TLS.
+  optional string tlsServerName = 11;
+
+  // Not recommended. Default to false. Can be set to true to disable SSL verification.
+  // +kubebuilder:default:=false
+  optional bool insecure = 12;
+}
+
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:path=gcpaccesskeyrequests,singular=gcpaccesskeyrequest,categories={vault,appscode,all}
 // +kubebuilder:subresource:status
@@ -888,6 +936,8 @@ message SecretEngineConfiguration {
   optional MySQLConfiguration mysql = 6;
 
   optional KVConfiguration kv = 7;
+
+  optional ElasticsearchConfiguration elasticsearch = 8;
 }
 
 message SecretEngineList {

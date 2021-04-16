@@ -392,6 +392,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DatabaseAccessRequestList":   schema_apimachinery_apis_engine_v1alpha1_DatabaseAccessRequestList(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DatabaseAccessRequestSpec":   schema_apimachinery_apis_engine_v1alpha1_DatabaseAccessRequestSpec(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DatabaseAccessRequestStatus": schema_apimachinery_apis_engine_v1alpha1_DatabaseAccessRequestStatus(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration":  schema_apimachinery_apis_engine_v1alpha1_ElasticsearchConfiguration(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPAccessKeyRequest":         schema_apimachinery_apis_engine_v1alpha1_GCPAccessKeyRequest(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPAccessKeyRequestList":     schema_apimachinery_apis_engine_v1alpha1_GCPAccessKeyRequestList(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPAccessKeyRequestSpec":     schema_apimachinery_apis_engine_v1alpha1_GCPAccessKeyRequestSpec(ref),
@@ -18605,6 +18606,112 @@ func schema_apimachinery_apis_engine_v1alpha1_DatabaseAccessRequestStatus(ref co
 	}
 }
 
+func schema_apimachinery_apis_engine_v1alpha1_ElasticsearchConfiguration(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ElasticsearchConfiguration defines a Elasticsearch app configuration. https://www.vaultproject.io/api-docs/secret/databases/elasticdb",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the Elasticsearch database appbinding reference",
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
+					"pluginName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the name of the plugin to use for this connection. Default plugin:\n - for elasticsearch: elasticsearch-database-plugin",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"allowedRoles": {
+						SchemaProps: spec.SchemaProps{
+							Description: "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type:   []string{"string"},
+										Format: "",
+									},
+								},
+							},
+						},
+					},
+					"url": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The URL for Elasticsearch's API (\"http://localhost:9200\").",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"username": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The username to be used in the connection URL (\"vault\").",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"password": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The password to be used in the connection URL (\"pa55w0rd\").",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"caCert": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The path to a PEM-encoded CA cert file to use to verify the Elasticsearch server's identity.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"caPath": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The path to a directory of PEM-encoded CA cert files to use to verify the Elasticsearch server's identity.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"clientCert": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The path to the certificate for the Elasticsearch client to present for communication.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"clientKey": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The path to the key for the Elasticsearch client to use for communication.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"tlsServerName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "This, if set, is used to set the SNI host when connecting via 1TLS.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"insecure": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Not recommended. Default to false. Can be set to true to disable SSL verification.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"databaseRef"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
+	}
+}
+
 func schema_apimachinery_apis_engine_v1alpha1_GCPAccessKeyRequest(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -20100,11 +20207,16 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineConfiguration(ref comm
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration"),
 						},
 					},
+					"elasticsearch": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration"},
+			"kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration"},
 	}
 }
 
@@ -20206,12 +20318,17 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineSpec(ref common.Refere
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration"),
 						},
 					},
+					"elasticsearch": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration"),
+						},
+					},
 				},
 				Required: []string{"vaultRef"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration"},
 	}
 }
 

@@ -393,6 +393,10 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DatabaseAccessRequestSpec":   schema_apimachinery_apis_engine_v1alpha1_DatabaseAccessRequestSpec(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DatabaseAccessRequestStatus": schema_apimachinery_apis_engine_v1alpha1_DatabaseAccessRequestStatus(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration":  schema_apimachinery_apis_engine_v1alpha1_ElasticsearchConfiguration(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRole":           schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRole(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRoleList":       schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRoleList(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRoleSpec":       schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRoleSpec(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRoleStatus":     schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRoleStatus(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPAccessKeyRequest":         schema_apimachinery_apis_engine_v1alpha1_GCPAccessKeyRequest(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPAccessKeyRequestList":     schema_apimachinery_apis_engine_v1alpha1_GCPAccessKeyRequestList(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPAccessKeyRequestSpec":     schema_apimachinery_apis_engine_v1alpha1_GCPAccessKeyRequestSpec(ref),
@@ -18709,6 +18713,219 @@ func schema_apimachinery_apis_engine_v1alpha1_ElasticsearchConfiguration(ref com
 		},
 		Dependencies: []string{
 			"kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
+	}
+}
+
+func schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRole(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRoleSpec"),
+						},
+					},
+					"status": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRoleStatus"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRoleSpec", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRoleStatus"},
+	}
+}
+
+func schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRoleList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Items is a list of ElasticsearchRole objects",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRole"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRole"},
+	}
+}
+
+func schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRoleSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ElasticsearchRoleSpec contains connection information, Elasticsearch role info etc",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"vaultRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "VaultRef is the name of a AppBinding referencing to a Vault Server",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DatabaseRef specifies the database appbinding reference in any namespace",
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
+					"databaseName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the database name under which the role will be created",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"path": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the path where secret engine is enabled",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"defaultTTL": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"maxTTL": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the maximum TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"creationStatements": {
+						SchemaProps: spec.SchemaProps{
+							Description: "https://www.vaultproject.io/api/secret/databases/elasticdb.html#creation_statements Specifies the database statements executed to create and configure a user.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type:   []string{"string"},
+										Format: "",
+									},
+								},
+							},
+						},
+					},
+					"revocationStatements": {
+						SchemaProps: spec.SchemaProps{
+							Description: "https://www.vaultproject.io/api/secret/databases/elasticdb.html#revocation_statements Specifies the database statements to be executed to revoke a user.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type:   []string{"string"},
+										Format: "",
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"vaultRef", "creationStatements"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
+	}
+}
+
+func schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRoleStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"phase": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"observedGeneration": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ObservedGeneration is the most recent generation observed for this ElasticsearchRole. It corresponds to the ElasticsearchRole's generation, which is updated on mutation by the API Server.",
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+					"conditions": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Represents the latest available observations of a ElasticsearchRole current state.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/client-go/api/v1.Condition"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/client-go/api/v1.Condition"},
 	}
 }
 

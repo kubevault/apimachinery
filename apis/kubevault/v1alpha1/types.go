@@ -65,3 +65,12 @@ type NamedServiceTemplateSpec struct {
 	// +optional
 	ofst.ServiceTemplateSpec `json:",inline,omitempty" protobuf:"bytes,2,opt,name=serviceTemplateSpec"`
 }
+
+// +kubebuilder:validation:Enum=ca;server;client;
+type VaultCertificateAlias string
+
+const (
+	VaultCACert     VaultCertificateAlias = "ca"
+	VaultServerCert VaultCertificateAlias = "server"
+	VaultClientCert VaultCertificateAlias = "client"
+)

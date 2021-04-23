@@ -2270,7 +2270,11 @@ spec:
                 type: object
               type: array
             halted:
+<<<<<<< HEAD
               description: Indicates that the vault server is halted and all offshoot
+=======
+              description: Indicates that the database is halted and all offshoot
+>>>>>>> Add support for ES secret engine
                 Kubernetes resources except PVCs are deleted.
               type: boolean
             monitor:
@@ -5950,8 +5954,12 @@ spec:
                 type: object
               type: array
             terminationPolicy:
+<<<<<<< HEAD
               description: TerminationPolicy controls the delete operation for vault
                 server
+=======
+              description: TerminationPolicy controls the delete operation for database
+>>>>>>> Add support for ES secret engine
               enum:
               - Halt
               - Delete

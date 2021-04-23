@@ -20033,14 +20033,22 @@ func schema_apimachinery_apis_kubevault_v1alpha1_VaultServerSpec(ref common.Refe
 					},
 					"halted": {
 						SchemaProps: spec.SchemaProps{
+<<<<<<< HEAD
 							Description: "Indicates that the vault server is halted and all offshoot Kubernetes resources except PVCs are deleted.",
+=======
+							Description: "Indicates that the database is halted and all offshoot Kubernetes resources except PVCs are deleted.",
+>>>>>>> Add support for ES secret engine
 							Type:        []string{"boolean"},
 							Format:      "",
 						},
 					},
 					"terminationPolicy": {
 						SchemaProps: spec.SchemaProps{
+<<<<<<< HEAD
 							Description: "TerminationPolicy controls the delete operation for vault server",
+=======
+							Description: "TerminationPolicy controls the delete operation for database",
+>>>>>>> Add support for ES secret engine
 							Type:        []string{"string"},
 							Format:      "",
 						},

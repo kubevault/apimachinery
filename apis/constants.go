@@ -59,7 +59,6 @@ const (
 	// moved from operator/pkg/controller/vault.go
 	TLSCACertKey = "ca.crt"
 )
-<<<<<<< HEAD
 
 const (
 	VaultAuthK8sRole    = "role"
@@ -68,5 +67,3 @@ const (
 	VaultAuthLDAPUsers  = "users"
 	VaultAuthJWTRole    = "role"
 )
-=======
->>>>>>> Add support for ES secret engine

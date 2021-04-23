@@ -18148,11 +18148,7 @@
           }
         },
         "halted": {
-<<<<<<< HEAD
           "description": "Indicates that the vault server is halted and all offshoot Kubernetes resources except PVCs are deleted.",
-=======
-          "description": "Indicates that the database is halted and all offshoot Kubernetes resources except PVCs are deleted.",
->>>>>>> Add support for ES secret engine
           "type": "boolean"
         },
         "monitor": {
@@ -18178,11 +18174,7 @@
           }
         },
         "terminationPolicy": {
-<<<<<<< HEAD
           "description": "TerminationPolicy controls the delete operation for vault server",
-=======
-          "description": "TerminationPolicy controls the delete operation for database",
->>>>>>> Add support for ES secret engine
           "type": "string"
         },
         "tls": {

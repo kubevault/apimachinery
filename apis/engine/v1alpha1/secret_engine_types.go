@@ -268,6 +268,11 @@ type ElasticsearchConfiguration struct {
 	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
 	AllowedRoles []string `json:"allowedRoles,omitempty" protobuf:"bytes,3,rep,name=allowedRoles"`
 
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for elasticsearch: elasticsearch-database-plugin
+	PluginName string `json:"pluginName,omitempty" protobuf:"bytes,2,opt,name=pluginName"`
+
 	// The URL for Elasticsearch's API ("http://localhost:9200").
 	// +kubebuilder:validation:Required
 	Url string `json:"url,omitempty" protobuf:"bytes,4,opt,name=url"`

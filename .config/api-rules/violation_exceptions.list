@@ -181,6 +181,10 @@ API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1a
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,AzureRoleStatus,Conditions
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,DatabaseAccessRequestSpec,Subjects
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,DatabaseAccessRequestStatus,Conditions
+API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,ElasticsearchConfiguration,AllowedRoles
+API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,ElasticsearchRoleSpec,CreationStatements
+API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,ElasticsearchRoleSpec,RevocationStatements
+API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,ElasticsearchRoleStatus,Conditions
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,GCPAccessKeyRequestSpec,Subjects
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,GCPAccessKeyRequestStatus,Conditions
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,GCPRoleSpec,TokenScopes

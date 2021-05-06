@@ -16208,7 +16208,8 @@
           "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "string",
+            "default": ""
           }
         },
         "caCert": {
@@ -16229,6 +16230,7 @@
         },
         "databaseRef": {
           "description": "Specifies the Elasticsearch database appbinding reference",
+          "default": {},
           "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
         },
         "insecure": {

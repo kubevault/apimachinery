@@ -16197,6 +16197,68 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.ElasticsearchConfiguration": {
+      "description": "ElasticsearchConfiguration defines a Elasticsearch app configuration. https://www.vaultproject.io/api-docs/secret/databases/elasticdb",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "caCert": {
+          "description": "The path to a PEM-encoded CA cert file to use to verify the Elasticsearch server's identity.",
+          "type": "string"
+        },
+        "caPath": {
+          "description": "The path to a directory of PEM-encoded CA cert files to use to verify the Elasticsearch server's identity.",
+          "type": "string"
+        },
+        "clientCert": {
+          "description": "The path to the certificate for the Elasticsearch client to present for communication.",
+          "type": "string"
+        },
+        "clientKey": {
+          "description": "The path to the key for the Elasticsearch client to use for communication.",
+          "type": "string"
+        },
+        "databaseRef": {
+          "description": "Specifies the Elasticsearch database appbinding reference",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Not recommended. Default to false. Can be set to true to disable SSL verification.",
+          "type": "boolean"
+        },
+        "password": {
+          "description": "The password to be used in the connection URL (\"pa55w0rd\").",
+          "type": "string"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for elasticsearch: elasticsearch-database-plugin",
+          "type": "string"
+        },
+        "tlsServerName": {
+          "description": "This, if set, is used to set the SNI host when connecting via 1TLS.",
+          "type": "string"
+        },
+        "url": {
+          "description": "The URL for Elasticsearch's API (\"http://localhost:9200\").",
+          "type": "string"
+        },
+        "username": {
+          "description": "The username to be used in the connection URL (\"vault\").",
+          "type": "string"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessKeyRequest": {
       "type": "object",
       "properties": {
@@ -17173,6 +17235,9 @@
         },
         "azure": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureConfiguration"
+        },
+        "elasticsearch": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.ElasticsearchConfiguration"
         },
         "gcp": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPConfiguration"

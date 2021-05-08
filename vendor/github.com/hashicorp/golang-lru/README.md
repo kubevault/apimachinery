@@ -10,7 +10,7 @@ Documentation
 Full docs are available on [Godoc](http://godoc.org/github.com/hashicorp/golang-lru)
 
 Example
-
+=======
 
 Using the LRU is very simple:
 

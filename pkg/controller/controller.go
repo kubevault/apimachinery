@@ -66,7 +66,7 @@ type Controller struct {
 type Config struct {
 	// Informer factory
 	KubeInformerFactory        informers.SharedInformerFactory
-	KubevaultInformerFactory      kubevaultinformers.SharedInformerFactory
+	KubevaultInformerFactory   kubevaultinformers.SharedInformerFactory
 	AppCatInformerFactory      appcat_in.SharedInformerFactory
 	ExternalInformerFactory    externalInformers.SharedInformerFactory
 	CertManagerInformerFactory cmInformers.SharedInformerFactory

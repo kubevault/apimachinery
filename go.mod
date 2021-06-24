@@ -6,10 +6,14 @@ require (
 	github.com/evanphx/json-patch v4.11.0+incompatible
 	github.com/go-openapi/spec v0.19.5
 	github.com/gogo/protobuf v1.3.2
-	github.com/google/gofuzz v1.1.0
+	github.com/golang/glog v0.0.0-20210429001901-424d2337a529 // indirect
+	github.com/google/gofuzz v1.2.0
+	github.com/jetstack/cert-manager v1.4.0
 	github.com/pkg/errors v0.9.1
+	golang.org/x/crypto v0.0.0-20210314154223-e6e6c4f2bb5b // indirect
 	gomodules.xyz/runtime v0.2.0
 	k8s.io/api v0.21.1
+	k8s.io/apiextensions-apiserver v0.21.1
 	k8s.io/apimachinery v0.21.1
 	k8s.io/client-go v0.21.1
 	k8s.io/klog/v2 v2.8.0
@@ -20,6 +24,7 @@ require (
 	kmodules.xyz/monitoring-agent-api v0.0.0-20210618110729-9cd872c66513
 	kmodules.xyz/offshoot-api v0.0.0-20210618005544-5217a24765da
 	sigs.k8s.io/yaml v1.2.0
+	stash.appscode.dev/apimachinery v0.14.1
 )
 
 replace bitbucket.org/ww/goautoneg => gomodules.xyz/goautoneg v0.0.0-20120707110453-a547fc61f48d

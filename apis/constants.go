@@ -57,9 +57,7 @@ const (
 
 const (
 	// moved from operator/pkg/controller/vault.go
-	TLSCACertKey  = "ca.crt"
-	TLSClientCert = "tls.crt"
-	TLSClientKey  = "tls.key"
+	TLSCACertKey = "ca.crt"
 )
 
 const (

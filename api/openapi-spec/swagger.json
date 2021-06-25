@@ -17913,10 +17913,6 @@
           "type": "integer",
           "format": "int64"
         },
-        "nodeID": {
-          "description": "The identifier for the node in the Raft cluster. This value can be overridden by setting the VAULT_RAFT_NODE_ID environment variable. default: \"\"",
-          "type": "string"
-        },
         "path": {
           "description": "Path (string: \"\") specifies the filesystem path where the vault data gets stored. This value can be overridden by setting the VAULT_RAFT_PATH environment variable. default: \"\"",
           "type": "string"
@@ -17925,14 +17921,6 @@
           "description": "An integer multiplier used by servers to scale key Raft timing parameters. Tuning this affects the time it takes Vault to detect leader failures and to perform leader elections, at the expense of requiring more network and CPU resources for better performance. default: 0",
           "type": "integer",
           "format": "int64"
-        },
-        "retryJoin": {
-          "description": "RetryJoin - It can have multiple stanzas, do it later!",
-          "type": "array",
-          "items": {
-            "default": {},
-            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.RetryJoinSpec"
-          }
         },
         "snapshotThreshold": {
           "description": "This controls the minimum number of raft commit entries between snapshots that are saved to disk. default: 8192",
@@ -17947,25 +17935,6 @@
           "description": "This controls how many log entries are left in the log store on disk after a snapshot is made. default: 10000",
           "type": "integer",
           "format": "int64"
-        }
-      }
-    },
-    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.RetryJoinSpec": {
-      "description": "RetryJoinSpec defines the configuration for the RetryJoin. https://www.vaultproject.io/docs/configuration/storage/raft",
-      "type": "object",
-      "properties": {
-        "autoJoin": {
-          "description": "Cloud auto-join configuration.",
-          "type": "string"
-        },
-        "autoJoinPort": {
-          "description": "The optional port used for addressed discovered via auto-join.",
-          "type": "integer",
-          "format": "int64"
-        },
-        "autoJoinScheme": {
-          "description": "The optional URI protocol scheme for addresses discovered via auto-join.",
-          "type": "string"
         }
       }
     },

@@ -201,14 +201,10 @@ func (vsb *BackendStorageSpec) GetBackendType() (VaultServerBackend, error) {
 	case vsb.Raft != nil:
 		return VaultServerRaft, nil
 	default:
-		return "unknown-backend", errors.New("backend type is not known")
+		return "", errors.New("unknown backened type")
 	}
 }
 
-func (v *VaultServer) GetBackendCertsName(cert string) (string, error) {
-	// Todo: Add conditions for other storage backends.
-	if v.Spec.Backend.Raft != nil {
-		return filepath.Join("/etc/vault/tls/storage/", cert), nil
-	}
-	return "", nil
+func (v *VaultServer) CertificateMountPath(certificatePath, alias string) string {
+	return filepath.Join(certificatePath, alias)
 }

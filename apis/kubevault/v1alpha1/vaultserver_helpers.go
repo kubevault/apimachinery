@@ -201,6 +201,6 @@ func (vsb *BackendStorageSpec) GetBackendType() (VaultServerBackend, error) {
 	}
 }
 
-func (v *VaultServer) CertificateMountPath(alias string) string {
-	return filepath.Join(apis.CertificatePath, alias)
+func (v *VaultServer) CertificateMountPath(alias VaultCertificateAlias) string {
+	return filepath.Join(apis.CertificatePath, string(alias))
 }

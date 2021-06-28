@@ -17901,16 +17901,40 @@
       }
     },
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.RaftSpec": {
-      "description": "RaftSpec defines the configuration for the Raft integrated storage.\n\nhttps://www.vaultproject.io/docs/configuration/storage/raft",
+      "description": "RaftSpec defines the configuration for the Raft integrated storage. https://www.vaultproject.io/docs/configuration/storage/raft",
       "type": "object",
-      "required": [
-        "path"
-      ],
       "properties": {
+        "autopilotReconcileInterval": {
+          "description": "This is the interval after which autopilot will pick up any state changes. default: \"\"",
+          "type": "string"
+        },
+        "maxEntrySize": {
+          "description": "This configures the maximum number of bytes for a raft entry. It applies to both Put operations and transactions. default: 1048576",
+          "type": "integer",
+          "format": "int64"
+        },
         "path": {
-          "description": "Path specifies the filesystem path where the vault data gets stored.\n\nThis value can be overriden by setting the VAULT_RAFT_PATH environment variable.",
-          "type": "string",
-          "default": ""
+          "description": "Path (string: \"\") specifies the filesystem path where the vault data gets stored. This value can be overridden by setting the VAULT_RAFT_PATH environment variable. default: \"\"",
+          "type": "string"
+        },
+        "performanceMultiplier": {
+          "description": "An integer multiplier used by servers to scale key Raft timing parameters. Tuning this affects the time it takes Vault to detect leader failures and to perform leader elections, at the expense of requiring more network and CPU resources for better performance. default: 0",
+          "type": "integer",
+          "format": "int64"
+        },
+        "snapshotThreshold": {
+          "description": "This controls the minimum number of raft commit entries between snapshots that are saved to disk. default: 8192",
+          "type": "integer",
+          "format": "int64"
+        },
+        "storage": {
+          "description": "Storage to specify how storage shall be used.",
+          "$ref": "#/definitions/io.k8s.api.core.v1.PersistentVolumeClaimSpec"
+        },
+        "trailingLogs": {
+          "description": "This controls how many log entries are left in the log store on disk after a snapshot is made. default: 10000",
+          "type": "integer",
+          "format": "int64"
         }
       }
     },

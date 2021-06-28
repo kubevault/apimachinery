@@ -159,11 +159,6 @@ func (e vaultServerStatsService) Scheme() string {
 	return ""
 }
 
-// Returns the Backend certificate secret name for given backend name.
-func (vs *VaultServer) BackendCertSecretName(backendName string) string {
-	return meta.NameWithSuffix(fmt.Sprintf("%s-%s", vs.Name, backendName), "certs")
-}
-
 func (vs *VaultServer) GetCertificateCN(alias VaultCertificateAlias) string {
 	return fmt.Sprintf("%s-%s", vs.Name, string(alias))
 }

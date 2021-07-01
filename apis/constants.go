@@ -71,3 +71,8 @@ const (
 const (
 	CertificatePath = "/etc/vault/tls"
 )
+
+// Resource kind related constants
+const (
+	ResourceKindStatefulSet = "StatefulSet"
+)

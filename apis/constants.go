@@ -76,3 +76,13 @@ const (
 const (
 	ResourceKindStatefulSet = "StatefulSet"
 )
+
+// List of possible condition types for a KubeVault object
+const (
+	// used for Vaultserver whose pods are ready
+	VaultserverReplicaReady = "ReplicaReady"
+
+	// Condition reasons
+	AllReplicasAreReady     = "AllReplicasReady"
+	SomeReplicasAreNotReady = "SomeReplicasNotReady"
+)

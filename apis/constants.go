@@ -75,6 +75,7 @@ const (
 // Resource kind related constants
 const (
 	ResourceKindStatefulSet = "StatefulSet"
+	ResourceKindVaultServer = "VaultServer"
 )
 
 // List of possible condition types for a KubeVault object

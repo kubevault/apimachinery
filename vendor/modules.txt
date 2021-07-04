@@ -196,6 +196,7 @@ golang.org/x/time/rate
 # gomodules.xyz/jsonpatch/v2 v2.2.0
 gomodules.xyz/jsonpatch/v2
 # gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
+## explicit
 gomodules.xyz/pointer
 # gomodules.xyz/runtime v0.2.0
 ## explicit

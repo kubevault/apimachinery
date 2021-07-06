@@ -213,10 +213,6 @@ func (v *VaultServer) ReplicasAreReady(lister appslister.StatefulSetLister) (boo
 	klog.Infoln("====================== ReplicasAreReady ========================")
 	// Desire number of statefulSets
 	expectedItems := 1
-	//if v.Spec.Replicas != nil {
-	//	// klog.Infoln("================ v.Spec.Replicas ==================", int(pointer.Int32(v.Spec.Replicas)))
-	//	expectedItems = 1
-	//}
 	return checkReplicas(lister.StatefulSets(v.Namespace), labels.SelectorFromSet(v.OffshootLabels()), expectedItems)
 }
 
@@ -224,12 +220,6 @@ func checkReplicas(lister appslister.StatefulSetNamespaceLister, selector labels
 	items, err := lister.List(selector)
 	if err != nil {
 		return false, "", err
-	}
-
-	klog.Infoln("================ checkReplicas ==============", len(items))
-
-	for item := range items {
-		klog.Infoln("================= Item =============", item)
 	}
 
 	if len(items) < expectedItems {

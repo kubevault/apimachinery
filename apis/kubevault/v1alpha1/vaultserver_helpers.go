@@ -222,6 +222,7 @@ func checkReplicas(lister appslister.StatefulSetNamespaceLister, selector labels
 		return false, "", err
 	}
 
+	klog.Infof("====================== expected, actual ======================== ", expectedItems, len(items))
 	if len(items) < expectedItems {
 		return false, fmt.Sprintf("All StatefulSets are not available. Desire number of StatefulSet: %d, Available: %d", expectedItems, len(items)), nil
 	}

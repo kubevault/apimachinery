@@ -26,22 +26,18 @@ const (
 	VaultExporterContainerName = "exporter"
 )
 
-// +kubebuilder:validation:Enum=Initializing;Unsealing;Sealed;Ready;NotReady;Critical
+// +kubebuilder:validation:Enum=Sealed;Unsealed;Initializing;Initialized
 type VaultServerPhase string
 
 const (
-	// used for VaultServer that are Initializing
-	VaultServerPhaseInitializing VaultServerPhase = "Initializing"
-	// used for VaultServer that are Unsealing
-	VaultServerPhaseUnsealing VaultServerPhase = "Unsealing"
 	// used for VaultServer that are sealed
 	VaultServerPhaseSealed VaultServerPhase = "Sealed"
-	// used for VaultServer that are Ready
-	VaultServerPhaseReady VaultServerPhase = "Ready"
-	// used for VaultServer that are NotReady
-	VaultServerPhaseNotReady VaultServerPhase = "NotReady"
-	// used for VaultServer that are Critical
-	VaultServerPhaseCritical VaultServerPhase = "Critical"
+	// used for VaultServer that are unsealed
+	VaultServerPhaseUnsealed VaultServerPhase = "Unsealed"
+	// used for VaultServer that are initializing
+	VaultServerPhaseInitializing VaultServerPhase = "Initializing"
+	// used for VaultServer that are initialized
+	VaultServerPhaseInitialized VaultServerPhase = "Initialized"
 )
 
 // +kubebuilder:validation:Enum=Halt;Delete;WipeOut;DoNotTerminate

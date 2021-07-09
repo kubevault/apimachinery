@@ -18252,7 +18252,7 @@
           "format": "int64"
         },
         "phase": {
-          "description": "Phase indicates the state this Vault cluster jumps in.",
+          "description": "Phase indicates the state this Vault server jumps in.",
           "type": "string"
         },
         "serviceName": {

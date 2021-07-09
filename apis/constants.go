@@ -85,5 +85,9 @@ const (
 )
 
 const (
+	ResourceKindStatefulSet = "StatefulSet"
+)
+
+const (
 	VaultAPIPort = 8200
 )

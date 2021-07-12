@@ -27,6 +27,7 @@ import (
 
 	"k8s.io/apimachinery/pkg/labels"
 	appslister "k8s.io/client-go/listers/apps/v1"
+	"k8s.io/klog/v2"
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/client-go/apiextensions"
 	apps_util "kmodules.xyz/client-go/apps/v1"
@@ -235,6 +236,7 @@ func GetServiceTemplate(templates []NamedServiceTemplateSpec, alias ServiceAlias
 	for i := range templates {
 		c := templates[i]
 		if c.Alias == alias {
+			klog.Infoln("================ stats alias found ===================")
 			return c.ServiceTemplateSpec
 		}
 	}

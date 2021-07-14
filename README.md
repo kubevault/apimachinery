@@ -1,7 +1,6 @@
 [![Go Report Card](https://goreportcard.com/badge/kubevault.dev/apimachinery)](https://goreportcard.com/report/kubevault.dev/apimachinery)
 [![Build Status](https://github.com/kubevault/apimachinery/workflows/CI/badge.svg)](https://github.com/kubevault/apimachinery/actions?workflow=CI)
-[![codecov](https://codecov.io/gh/kubevault/apimachinery/branch/master/graph/badge.svg)](https://codecov.io/gh/kubevault/apimachinery)
-[![Slack](https://slack.appscode.com/badge.svg)](https://slack.appscode.com)
+[![Slack](https://shields.io/badge/Join_Slack-salck?color=4A154B&logo=slack)](https://slack.appscode.com)
 [![Twitter](https://img.shields.io/twitter/follow/kubevault.svg?style=social&logo=twitter&label=Follow)](https://twitter.com/intent/follow?screen_name=KubeVault)
 
 # KubeVault API
@@ -16,12 +15,6 @@ Want to learn how to use KubeVault? Please start [here](https://kubevault.com/do
 
 ## Contribution guidelines
 Want to help improve KubeVault? Please start [here](https://kubevault.com/docs/latest/setup/developer-guide/overview/).
-
----
-
-**KubeVault binaries collects anonymous usage statistics to help us learn how the software is being used and how we can improve it. To disable stats collection, run the operator with the flag** `--enable-analytics=false`.
-
----
 
 ## Acknowledgement
 This project started as a fork of [digitalocean/csi-digitalocean](https://github.com/digitalocean/csi-digitalocean).

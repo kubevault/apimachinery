@@ -71,6 +71,7 @@ const (
 const (
 	CertificatePath            = "/etc/vault/tls"
 	VaultServerCertsVolumeName = "vault-server-certs"
+	VaultClientCertsVolumeName = "vault-client-certs"
 )
 
 // List of possible condition types for a KubeVault object

@@ -7,6 +7,7 @@ require (
 	github.com/go-openapi/spec v0.19.5
 	github.com/gogo/protobuf v1.3.2
 	github.com/google/gofuzz v1.1.0
+	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/pkg/errors v0.9.1
 	gomodules.xyz/runtime v0.2.0
 	k8s.io/api v0.21.1
@@ -14,11 +15,11 @@ require (
 	k8s.io/client-go v0.21.1
 	k8s.io/klog/v2 v2.8.0
 	k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
-	kmodules.xyz/client-go v0.0.0-20210719120358-dd0503cf99cf
+	kmodules.xyz/client-go v0.0.0-20210816185215-dc29246d1e2b
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20210618002152-fae23aef5fb4
-	kmodules.xyz/custom-resources v0.0.0-20210727045435-83db827677cf
+	kmodules.xyz/custom-resources v0.0.0-20210812193424-1631fae03a1a
 	kmodules.xyz/monitoring-agent-api v0.0.0-20210618110729-9cd872c66513
-	kmodules.xyz/offshoot-api v0.0.0-20210618005544-5217a24765da
+	kmodules.xyz/offshoot-api v0.0.0-20210804100837-d0388be3e60d
 	sigs.k8s.io/yaml v1.2.0
 )
 

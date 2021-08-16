@@ -77,7 +77,8 @@ github.com/hashicorp/golang-lru
 github.com/hashicorp/golang-lru/simplelru
 # github.com/imdario/mergo v0.3.12 => github.com/imdario/mergo v0.3.5
 github.com/imdario/mergo
-# github.com/json-iterator/go v1.1.10
+# github.com/json-iterator/go v1.1.11
+## explicit
 github.com/json-iterator/go
 # github.com/mailru/easyjson v0.7.0
 github.com/mailru/easyjson/buffer
@@ -197,7 +198,7 @@ golang.org/x/time/rate
 gomodules.xyz/jsonpatch/v2
 # gomodules.xyz/mergo v0.3.13-0.20210702100041-9d62ff8ece4d
 gomodules.xyz/mergo
-# gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
+# gomodules.xyz/pointer v0.1.0
 gomodules.xyz/pointer
 # gomodules.xyz/runtime v0.2.0
 ## explicit
@@ -775,7 +776,7 @@ k8s.io/utils/net
 k8s.io/utils/path
 k8s.io/utils/pointer
 k8s.io/utils/trace
-# kmodules.xyz/client-go v0.0.0-20210719120358-dd0503cf99cf
+# kmodules.xyz/client-go v0.0.0-20210816185215-dc29246d1e2b
 ## explicit
 kmodules.xyz/client-go
 kmodules.xyz/client-go/api/v1
@@ -791,7 +792,7 @@ kmodules.xyz/client-go/tools/clusterid
 # kmodules.xyz/crd-schema-fuzz v0.0.0-20210618002152-fae23aef5fb4
 ## explicit
 kmodules.xyz/crd-schema-fuzz
-# kmodules.xyz/custom-resources v0.0.0-20210727045435-83db827677cf
+# kmodules.xyz/custom-resources v0.0.0-20210812193424-1631fae03a1a
 ## explicit
 kmodules.xyz/custom-resources/apis/appcatalog
 kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1
@@ -799,7 +800,7 @@ kmodules.xyz/custom-resources/crds
 # kmodules.xyz/monitoring-agent-api v0.0.0-20210618110729-9cd872c66513
 ## explicit
 kmodules.xyz/monitoring-agent-api/api/v1
-# kmodules.xyz/offshoot-api v0.0.0-20210618005544-5217a24765da
+# kmodules.xyz/offshoot-api v0.0.0-20210804100837-d0388be3e60d
 ## explicit
 kmodules.xyz/offshoot-api/api/v1
 # sigs.k8s.io/apiserver-network-proxy/konnectivity-client v0.0.15

@@ -33,25 +33,19 @@ func TestPruneTypes(t *testing.T) {
 	if crd := (v1alpha1.SecretEngine{}).CustomResourceDefinition(); crd.V1 != nil {
 		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
 	}
-	if crd := (v1alpha1.AWSRole{}).CustomResourceDefinition(); crd.V1 != nil {
+	if crd := (v1alpha1.SecretRoleBinding{}).CustomResourceDefinition(); crd.V1 != nil {
 		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
 	}
-	if crd := (v1alpha1.AWSAccessKeyRequest{}).CustomResourceDefinition(); crd.V1 != nil {
+	if crd := (v1alpha1.SecretAccessRequest{}).CustomResourceDefinition(); crd.V1 != nil {
+		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
+	}
+	if crd := (v1alpha1.AWSRole{}).CustomResourceDefinition(); crd.V1 != nil {
 		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
 	}
 	if crd := (v1alpha1.AzureRole{}).CustomResourceDefinition(); crd.V1 != nil {
 		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
 	}
-	if crd := (v1alpha1.AzureAccessKeyRequest{}).CustomResourceDefinition(); crd.V1 != nil {
-		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
-	}
 	if crd := (v1alpha1.GCPRole{}).CustomResourceDefinition(); crd.V1 != nil {
-		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.GCPAccessKeyRequest{}).CustomResourceDefinition(); crd.V1 != nil {
-		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.DatabaseAccessRequest{}).CustomResourceDefinition(); crd.V1 != nil {
 		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
 	}
 	if crd := (v1alpha1.MongoDBRole{}).CustomResourceDefinition(); crd.V1 != nil {
@@ -62,40 +56,5 @@ func TestPruneTypes(t *testing.T) {
 	}
 	if crd := (v1alpha1.PostgresRole{}).CustomResourceDefinition(); crd.V1 != nil {
 		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
-	}
-
-	// CRD v1beta1
-	if crd := (v1alpha1.SecretEngine{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.AWSRole{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.AWSAccessKeyRequest{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.AzureRole{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.AzureAccessKeyRequest{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.GCPRole{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.GCPAccessKeyRequest{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.DatabaseAccessRequest{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.MongoDBRole{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.MySQLRole{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
-	}
-	if crd := (v1alpha1.PostgresRole{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
 	}
 }

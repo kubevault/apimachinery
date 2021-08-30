@@ -33,59 +33,59 @@ import (
 	cache "k8s.io/client-go/tools/cache"
 )
 
-// AWSAccessKeyRequestInformer provides access to a shared informer and lister for
-// AWSAccessKeyRequests.
-type AWSAccessKeyRequestInformer interface {
+// SecretRoleBindingInformer provides access to a shared informer and lister for
+// SecretRoleBindings.
+type SecretRoleBindingInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.AWSAccessKeyRequestLister
+	Lister() v1alpha1.SecretRoleBindingLister
 }
 
-type aWSAccessKeyRequestInformer struct {
+type secretRoleBindingInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 	namespace        string
 }
 
-// NewAWSAccessKeyRequestInformer constructs a new informer for AWSAccessKeyRequest type.
+// NewSecretRoleBindingInformer constructs a new informer for SecretRoleBinding type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewAWSAccessKeyRequestInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredAWSAccessKeyRequestInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewSecretRoleBindingInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredSecretRoleBindingInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredAWSAccessKeyRequestInformer constructs a new informer for AWSAccessKeyRequest type.
+// NewFilteredSecretRoleBindingInformer constructs a new informer for SecretRoleBinding type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredAWSAccessKeyRequestInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredSecretRoleBindingInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().AWSAccessKeyRequests(namespace).List(context.TODO(), options)
+				return client.EngineV1alpha1().SecretRoleBindings(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().AWSAccessKeyRequests(namespace).Watch(context.TODO(), options)
+				return client.EngineV1alpha1().SecretRoleBindings(namespace).Watch(context.TODO(), options)
 			},
 		},
-		&enginev1alpha1.AWSAccessKeyRequest{},
+		&enginev1alpha1.SecretRoleBinding{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *aWSAccessKeyRequestInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredAWSAccessKeyRequestInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *secretRoleBindingInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredSecretRoleBindingInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *aWSAccessKeyRequestInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&enginev1alpha1.AWSAccessKeyRequest{}, f.defaultInformer)
+func (f *secretRoleBindingInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&enginev1alpha1.SecretRoleBinding{}, f.defaultInformer)
 }
 
-func (f *aWSAccessKeyRequestInformer) Lister() v1alpha1.AWSAccessKeyRequestLister {
-	return v1alpha1.NewAWSAccessKeyRequestLister(f.Informer().GetIndexer())
+func (f *secretRoleBindingInformer) Lister() v1alpha1.SecretRoleBindingLister {
+	return v1alpha1.NewSecretRoleBindingLister(f.Informer().GetIndexer())
 }

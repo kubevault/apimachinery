@@ -24,9 +24,9 @@ import (
 )
 
 const (
-	ResourceKindGCPAccessKeyRequest = "GCPAccessKeyRequest"
-	ResourceGCPAccessKeyRequest     = "gcpaccesskeyrequest"
-	ResourceGCPAccessKeyRequests    = "gcpaccesskeyrequests"
+	ResourceKindSecretAccessRequest = "SecretAccessRequest"
+	ResourceSecretAccessRequest     = "secretaccessrequest"
+	ResourceSecretAccessRequests    = "secretaccessrequests"
 )
 
 // +genclient
@@ -34,29 +34,61 @@ const (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // +kubebuilder:object:root=true
-// +kubebuilder:resource:path=gcpaccesskeyrequests,singular=gcpaccesskeyrequest,categories={vault,appscode,all}
+// +kubebuilder:resource:path=secretaccessrequests,singular=secretaccessrequest,categories={vault,appscode,all}
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"
 // +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
-type GCPAccessKeyRequest struct {
+type SecretAccessRequest struct {
 	metav1.TypeMeta   `json:",inline,omitempty"`
 	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
-	Spec              GCPAccessKeyRequestSpec   `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status            GCPAccessKeyRequestStatus `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	Spec              SecretAccessRequestSpec   `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Status            SecretAccessRequestStatus `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+}
+
+// SecretAccessRequestSpec contains information to request for database credential
+type SecretAccessRequestSpec struct {
+	// Contains vault database role info
+	RoleRef core.TypedLocalObjectReference `json:"roleRef" protobuf:"bytes,1,opt,name=roleRef"`
+
+	Subjects []rbac.Subject `json:"subjects" protobuf:"bytes,2,rep,name=subjects"`
+
+	// Name of the secret containing secret engine role credentials
+	Secret *kmapi.ObjectReference `json:"secret,omitempty" protobuf:"bytes,3,opt,name=secret"`
+
+	// Specifies the TTL for the leases associated with this role.
+	// Accepts time suffixed strings ("1h") or an integer number of seconds.
+	// Defaults to roles default TTL time
+	TTL string `json:"ttl,omitempty" protobuf:"bytes,4,opt,name=ttl"`
+
+	SecretAccessRequestConfiguration `json:",inline" protobuf:"bytes,5,opt,name=secretAccessRequestConfiguration"`
+}
+
+// SecretAccessRequestConfiguration contains information to request for database credential
+type SecretAccessRequestConfiguration struct {
+	// +optional
+	AWS *AWSAccessRequestConfiguration `json:"aws,omitempty" protobuf:"bytes,1,opt,name=aws"`
+	GCP *GCPAccessRequestConfiguration `json:"gcp,omitempty" protobuf:"bytes,2,opt,name=gcp"`
+}
+
+// https://www.vaultproject.io/api/secret/aws/index.html#parameters-6
+// AWSAccessKeyRequestSpec contains information to request for vault aws credential
+type AWSAccessRequestConfiguration struct {
+	// The ARN of the role to assume if credential_type on the Vault role is assumed_role.
+	// Must match one of the allowed role ARNs in the Vault role. Optional if the Vault role
+	// only allows a single AWS role ARN; required otherwise.
+	RoleARN string `json:"roleARN,omitempty" protobuf:"bytes,3,opt,name=roleARN"`
+
+	// If true, '/aws/sts' endpoint will be used to retrieve credential
+	// Otherwise, '/aws/creds' endpoint will be used to retrieve credential
+	UseSTS bool `json:"useSTS,omitempty" protobuf:"varint,5,opt,name=useSTS"`
 }
 
 // Link:
 //  - https://www.vaultproject.io/api/secret/gcp/index.html#generate-secret-iam-service-account-creds-oauth2-access-token
 //  - https://www.vaultproject.io/api/secret/gcp/index.html#generate-secret-iam-service-account-creds-service-account-key
 
-// GCPAccessKeyRequestSpec contains information to request for vault gcp credentials
-type GCPAccessKeyRequestSpec struct {
-	// Contains vault gcp role info
-	RoleRef RoleRef `json:"roleRef" protobuf:"bytes,1,opt,name=roleRef"`
-
-	// Contains a reference to the object or user identities the role binding is applied to
-	Subjects []rbac.Subject `json:"subjects" protobuf:"bytes,2,rep,name=subjects"`
-
+// GCPAccessRequestConfiguration contains information to request for vault gcp credentials
+type GCPAccessRequestConfiguration struct {
 	// Specifies the algorithm used to generate key.
 	// Defaults to 2k RSA key.
 	// Accepted values: KEY_ALG_UNSPECIFIED, KEY_ALG_RSA_1024, KEY_ALG_RSA_2048
@@ -71,28 +103,22 @@ type GCPAccessKeyRequestSpec struct {
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +kubebuilder:object:root=true
 
-type GCPAccessKeyRequestList struct {
+type SecretAccessRequestList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
 
-	// Items is a list of GCPAccessKeyRequest objects
-	Items []GCPAccessKeyRequest `json:"items,omitempty" protobuf:"bytes,2,rep,name=items"`
+	// Items is a list of SecretAccessRequest objects
+	Items []SecretAccessRequest `json:"items,omitempty" protobuf:"bytes,2,rep,name=items"`
 }
 
-type GCPAccessKeyRequestStatusPhase string
-
-type GCPAccessKeyRequestStatus struct {
-	// Specifies the phase of GCPAccessKeyRequest object
+type SecretAccessRequestStatus struct {
+	// Specifies the phase of SecretAccessRequest object
 	Phase RequestStatusPhase `json:"phase,omitempty" protobuf:"bytes,1,opt,name=phase,casttype=RequestStatusPhase"`
 
 	// Conditions applied to the request, such as approval or denial.
 	// +optional
 	Conditions []kmapi.Condition `json:"conditions,omitempty" protobuf:"bytes,2,rep,name=conditions"`
-
-	// Name of the secret containing GCPCredential
-	Secret *core.LocalObjectReference `json:"secret,omitempty" protobuf:"bytes,3,opt,name=secret"`
 
 	// Contains lease info
 	Lease *Lease `json:"lease,omitempty" protobuf:"bytes,4,opt,name=lease"`

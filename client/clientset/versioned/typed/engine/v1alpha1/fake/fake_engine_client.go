@@ -29,32 +29,16 @@ type FakeEngineV1alpha1 struct {
 	*testing.Fake
 }
 
-func (c *FakeEngineV1alpha1) AWSAccessKeyRequests(namespace string) v1alpha1.AWSAccessKeyRequestInterface {
-	return &FakeAWSAccessKeyRequests{c, namespace}
-}
-
 func (c *FakeEngineV1alpha1) AWSRoles(namespace string) v1alpha1.AWSRoleInterface {
 	return &FakeAWSRoles{c, namespace}
-}
-
-func (c *FakeEngineV1alpha1) AzureAccessKeyRequests(namespace string) v1alpha1.AzureAccessKeyRequestInterface {
-	return &FakeAzureAccessKeyRequests{c, namespace}
 }
 
 func (c *FakeEngineV1alpha1) AzureRoles(namespace string) v1alpha1.AzureRoleInterface {
 	return &FakeAzureRoles{c, namespace}
 }
 
-func (c *FakeEngineV1alpha1) DatabaseAccessRequests(namespace string) v1alpha1.DatabaseAccessRequestInterface {
-	return &FakeDatabaseAccessRequests{c, namespace}
-}
-
 func (c *FakeEngineV1alpha1) ElasticsearchRoles(namespace string) v1alpha1.ElasticsearchRoleInterface {
 	return &FakeElasticsearchRoles{c, namespace}
-}
-
-func (c *FakeEngineV1alpha1) GCPAccessKeyRequests(namespace string) v1alpha1.GCPAccessKeyRequestInterface {
-	return &FakeGCPAccessKeyRequests{c, namespace}
 }
 
 func (c *FakeEngineV1alpha1) GCPRoles(namespace string) v1alpha1.GCPRoleInterface {
@@ -73,8 +57,16 @@ func (c *FakeEngineV1alpha1) PostgresRoles(namespace string) v1alpha1.PostgresRo
 	return &FakePostgresRoles{c, namespace}
 }
 
+func (c *FakeEngineV1alpha1) SecretAccessRequests(namespace string) v1alpha1.SecretAccessRequestInterface {
+	return &FakeSecretAccessRequests{c, namespace}
+}
+
 func (c *FakeEngineV1alpha1) SecretEngines(namespace string) v1alpha1.SecretEngineInterface {
 	return &FakeSecretEngines{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) SecretRoleBindings(namespace string) v1alpha1.SecretRoleBindingInterface {
+	return &FakeSecretRoleBindings{c, namespace}
 }
 
 // RESTClient returns a RESTClient that is used to communicate

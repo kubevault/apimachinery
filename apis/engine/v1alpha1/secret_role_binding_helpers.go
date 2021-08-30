@@ -22,10 +22,10 @@ import (
 	"kmodules.xyz/client-go/apiextensions"
 )
 
-func (_ AWSAccessKeyRequest) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
-	return crds.MustCustomResourceDefinition(SchemeGroupVersion.WithResource(ResourceAWSAccessKeyRequests))
+func (_ SecretRoleBinding) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
+	return crds.MustCustomResourceDefinition(SchemeGroupVersion.WithResource(ResourceSecretRoleBindings))
 }
 
-func (d AWSAccessKeyRequest) IsValid() error {
+func (d SecretRoleBinding) IsValid() error {
 	return nil
 }

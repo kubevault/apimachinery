@@ -33,59 +33,59 @@ import (
 	cache "k8s.io/client-go/tools/cache"
 )
 
-// DatabaseAccessRequestInformer provides access to a shared informer and lister for
-// DatabaseAccessRequests.
-type DatabaseAccessRequestInformer interface {
+// SecretAccessRequestInformer provides access to a shared informer and lister for
+// SecretAccessRequests.
+type SecretAccessRequestInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.DatabaseAccessRequestLister
+	Lister() v1alpha1.SecretAccessRequestLister
 }
 
-type databaseAccessRequestInformer struct {
+type secretAccessRequestInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 	namespace        string
 }
 
-// NewDatabaseAccessRequestInformer constructs a new informer for DatabaseAccessRequest type.
+// NewSecretAccessRequestInformer constructs a new informer for SecretAccessRequest type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewDatabaseAccessRequestInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredDatabaseAccessRequestInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewSecretAccessRequestInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredSecretAccessRequestInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredDatabaseAccessRequestInformer constructs a new informer for DatabaseAccessRequest type.
+// NewFilteredSecretAccessRequestInformer constructs a new informer for SecretAccessRequest type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredDatabaseAccessRequestInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredSecretAccessRequestInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().DatabaseAccessRequests(namespace).List(context.TODO(), options)
+				return client.EngineV1alpha1().SecretAccessRequests(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().DatabaseAccessRequests(namespace).Watch(context.TODO(), options)
+				return client.EngineV1alpha1().SecretAccessRequests(namespace).Watch(context.TODO(), options)
 			},
 		},
-		&enginev1alpha1.DatabaseAccessRequest{},
+		&enginev1alpha1.SecretAccessRequest{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *databaseAccessRequestInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredDatabaseAccessRequestInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *secretAccessRequestInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredSecretAccessRequestInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *databaseAccessRequestInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&enginev1alpha1.DatabaseAccessRequest{}, f.defaultInformer)
+func (f *secretAccessRequestInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&enginev1alpha1.SecretAccessRequest{}, f.defaultInformer)
 }
 
-func (f *databaseAccessRequestInformer) Lister() v1alpha1.DatabaseAccessRequestLister {
-	return v1alpha1.NewDatabaseAccessRequestLister(f.Informer().GetIndexer())
+func (f *secretAccessRequestInformer) Lister() v1alpha1.SecretAccessRequestLister {
+	return v1alpha1.NewSecretAccessRequestLister(f.Informer().GetIndexer())
 }

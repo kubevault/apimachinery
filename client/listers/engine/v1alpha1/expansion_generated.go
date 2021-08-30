@@ -18,14 +18,6 @@ limitations under the License.
 
 package v1alpha1
 
-// AWSAccessKeyRequestListerExpansion allows custom methods to be added to
-// AWSAccessKeyRequestLister.
-type AWSAccessKeyRequestListerExpansion interface{}
-
-// AWSAccessKeyRequestNamespaceListerExpansion allows custom methods to be added to
-// AWSAccessKeyRequestNamespaceLister.
-type AWSAccessKeyRequestNamespaceListerExpansion interface{}
-
 // AWSRoleListerExpansion allows custom methods to be added to
 // AWSRoleLister.
 type AWSRoleListerExpansion interface{}
@@ -33,14 +25,6 @@ type AWSRoleListerExpansion interface{}
 // AWSRoleNamespaceListerExpansion allows custom methods to be added to
 // AWSRoleNamespaceLister.
 type AWSRoleNamespaceListerExpansion interface{}
-
-// AzureAccessKeyRequestListerExpansion allows custom methods to be added to
-// AzureAccessKeyRequestLister.
-type AzureAccessKeyRequestListerExpansion interface{}
-
-// AzureAccessKeyRequestNamespaceListerExpansion allows custom methods to be added to
-// AzureAccessKeyRequestNamespaceLister.
-type AzureAccessKeyRequestNamespaceListerExpansion interface{}
 
 // AzureRoleListerExpansion allows custom methods to be added to
 // AzureRoleLister.
@@ -50,14 +34,6 @@ type AzureRoleListerExpansion interface{}
 // AzureRoleNamespaceLister.
 type AzureRoleNamespaceListerExpansion interface{}
 
-// DatabaseAccessRequestListerExpansion allows custom methods to be added to
-// DatabaseAccessRequestLister.
-type DatabaseAccessRequestListerExpansion interface{}
-
-// DatabaseAccessRequestNamespaceListerExpansion allows custom methods to be added to
-// DatabaseAccessRequestNamespaceLister.
-type DatabaseAccessRequestNamespaceListerExpansion interface{}
-
 // ElasticsearchRoleListerExpansion allows custom methods to be added to
 // ElasticsearchRoleLister.
 type ElasticsearchRoleListerExpansion interface{}
@@ -65,14 +41,6 @@ type ElasticsearchRoleListerExpansion interface{}
 // ElasticsearchRoleNamespaceListerExpansion allows custom methods to be added to
 // ElasticsearchRoleNamespaceLister.
 type ElasticsearchRoleNamespaceListerExpansion interface{}
-
-// GCPAccessKeyRequestListerExpansion allows custom methods to be added to
-// GCPAccessKeyRequestLister.
-type GCPAccessKeyRequestListerExpansion interface{}
-
-// GCPAccessKeyRequestNamespaceListerExpansion allows custom methods to be added to
-// GCPAccessKeyRequestNamespaceLister.
-type GCPAccessKeyRequestNamespaceListerExpansion interface{}
 
 // GCPRoleListerExpansion allows custom methods to be added to
 // GCPRoleLister.
@@ -106,6 +74,14 @@ type PostgresRoleListerExpansion interface{}
 // PostgresRoleNamespaceLister.
 type PostgresRoleNamespaceListerExpansion interface{}
 
+// SecretAccessRequestListerExpansion allows custom methods to be added to
+// SecretAccessRequestLister.
+type SecretAccessRequestListerExpansion interface{}
+
+// SecretAccessRequestNamespaceListerExpansion allows custom methods to be added to
+// SecretAccessRequestNamespaceLister.
+type SecretAccessRequestNamespaceListerExpansion interface{}
+
 // SecretEngineListerExpansion allows custom methods to be added to
 // SecretEngineLister.
 type SecretEngineListerExpansion interface{}
@@ -113,3 +89,11 @@ type SecretEngineListerExpansion interface{}
 // SecretEngineNamespaceListerExpansion allows custom methods to be added to
 // SecretEngineNamespaceLister.
 type SecretEngineNamespaceListerExpansion interface{}
+
+// SecretRoleBindingListerExpansion allows custom methods to be added to
+// SecretRoleBindingLister.
+type SecretRoleBindingListerExpansion interface{}
+
+// SecretRoleBindingNamespaceListerExpansion allows custom methods to be added to
+// SecretRoleBindingNamespaceLister.
+type SecretRoleBindingNamespaceListerExpansion interface{}

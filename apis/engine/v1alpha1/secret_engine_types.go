@@ -17,7 +17,6 @@ limitations under the License.
 package v1alpha1
 
 import (
-	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kmapi "kmodules.xyz/client-go/api/v1"
 	appcat "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1"
@@ -51,9 +50,10 @@ type SecretEngine struct {
 }
 
 type SecretEngineSpec struct {
-	VaultRef core.LocalObjectReference `json:"vaultRef" protobuf:"bytes,1,opt,name=vaultRef"`
+	VaultRef kmapi.ObjectReference `json:"vaultRef" protobuf:"bytes,1,opt,name=vaultRef"`
 
 	// Path defines the path used to enable this secret engine
+	// Visible to user but immutable
 	// +optional
 	Path string `json:"path,omitempty" protobuf:"bytes,2,opt,name=path"`
 

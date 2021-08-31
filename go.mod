@@ -3,10 +3,12 @@ module kubevault.dev/apimachinery
 go 1.16
 
 require (
+	github.com/evanphx/json-patch v4.11.0+incompatible
 	github.com/go-openapi/spec v0.19.5
 	github.com/gogo/protobuf v1.3.2
 	github.com/google/gofuzz v1.1.0
 	github.com/json-iterator/go v1.1.11 // indirect
+	github.com/pkg/errors v0.9.1
 	gomodules.xyz/runtime v0.2.0
 	k8s.io/api v0.21.1
 	k8s.io/apimachinery v0.21.1

@@ -34,7 +34,7 @@ import (
 	kutil "kmodules.xyz/client-go"
 )
 
-func CreateOrPatchDatabaseAccessRequest(
+func CreateOrPatchSecretAccessRequest(
 	ctx context.Context,
 	c cs.EngineV1alpha1Interface,
 	meta metav1.ObjectMeta,
@@ -43,7 +43,7 @@ func CreateOrPatchDatabaseAccessRequest(
 ) (*api.SecretAccessRequest, kutil.VerbType, error) {
 	cur, err := c.SecretAccessRequests(meta.Namespace).Get(ctx, meta.Name, metav1.GetOptions{})
 	if kerr.IsNotFound(err) {
-		klog.V(3).Infof("Creating DatabaseAccessRequest %s/%s.", meta.Namespace, meta.Name)
+		klog.V(3).Infof("Creating SecretAccessRequest %s/%s.", meta.Namespace, meta.Name)
 		out, err := c.SecretAccessRequests(meta.Namespace).Create(ctx, transform(&api.SecretAccessRequest{
 			TypeMeta: metav1.TypeMeta{
 				Kind:       api.ResourceKindSecretAccessRequest,
@@ -59,20 +59,20 @@ func CreateOrPatchDatabaseAccessRequest(
 	} else if err != nil {
 		return nil, kutil.VerbUnchanged, err
 	}
-	return PatchDatabaseAccessRequest(ctx, c, cur, transform, opts)
+	return PatchSecretAccessRequest(ctx, c, cur, transform, opts)
 }
 
-func PatchDatabaseAccessRequest(
+func PatchSecretAccessRequest(
 	ctx context.Context,
 	c cs.EngineV1alpha1Interface,
 	cur *api.SecretAccessRequest,
 	transform func(*api.SecretAccessRequest) *api.SecretAccessRequest,
 	opts metav1.PatchOptions,
 ) (*api.SecretAccessRequest, kutil.VerbType, error) {
-	return PatchDatabaseAccessRequestObject(ctx, c, cur, transform(cur.DeepCopy()), opts)
+	return PatchSecretAccessRequestObject(ctx, c, cur, transform(cur.DeepCopy()), opts)
 }
 
-func PatchDatabaseAccessRequestObject(
+func PatchSecretAccessRequestObject(
 	ctx context.Context,
 	c cs.EngineV1alpha1Interface,
 	cur, mod *api.SecretAccessRequest,
@@ -95,12 +95,12 @@ func PatchDatabaseAccessRequestObject(
 	if len(patch) == 0 || string(patch) == "{}" {
 		return cur, kutil.VerbUnchanged, nil
 	}
-	klog.V(3).Infof("Patching DatabaseAccessRequest %s/%s with %s.", cur.Namespace, cur.Name, string(patch))
+	klog.V(3).Infof("Patching SecretAccessRequest %s/%s with %s.", cur.Namespace, cur.Name, string(patch))
 	out, err := c.SecretAccessRequests(cur.Namespace).Patch(ctx, cur.Name, types.MergePatchType, patch, opts)
 	return out, kutil.VerbPatched, err
 }
 
-func TryUpdateDatabaseAccessRequest(
+func TryUpdateSecretAccessRequest(
 	ctx context.Context,
 	c cs.EngineV1alpha1Interface,
 	meta metav1.ObjectMeta,
@@ -117,17 +117,17 @@ func TryUpdateDatabaseAccessRequest(
 			result, e2 = c.SecretAccessRequests(cur.Namespace).Update(ctx, transform(cur.DeepCopy()), opts)
 			return e2 == nil, nil
 		}
-		klog.Errorf("Attempt %d failed to update DatabaseAccessRequest %s/%s due to %v.", attempt, cur.Namespace, cur.Name, e2)
+		klog.Errorf("Attempt %d failed to update SecretAccessRequest %s/%s due to %v.", attempt, cur.Namespace, cur.Name, e2)
 		return false, nil
 	})
 
 	if err != nil {
-		err = errors.Errorf("failed to update DatabaseAccessRequest %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
+		err = errors.Errorf("failed to update SecretAccessRequest %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}
 	return
 }
 
-func UpdateDatabaseAccessRequestStatus(
+func UpdateSecretAccessRequestStatus(
 	ctx context.Context,
 	c cs.EngineV1alpha1Interface,
 	meta metav1.ObjectMeta,
@@ -170,7 +170,7 @@ func UpdateDatabaseAccessRequestStatus(
 	})
 
 	if err != nil {
-		err = fmt.Errorf("failed to update status of DatabaseAccessRequest %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
+		err = fmt.Errorf("failed to update status of SecretAccessRequest %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}
 	return
 }

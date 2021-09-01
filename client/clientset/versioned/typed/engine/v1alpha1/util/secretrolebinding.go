@@ -43,7 +43,7 @@ func CreateOrPatchSecretRoleBinding(
 ) (*api.SecretRoleBinding, kutil.VerbType, error) {
 	cur, err := c.SecretRoleBindings(meta.Namespace).Get(ctx, meta.Name, metav1.GetOptions{})
 	if kerr.IsNotFound(err) {
-		klog.V(3).Infof("Creating DatabaseAccessRequest %s/%s.", meta.Namespace, meta.Name)
+		klog.V(3).Infof("Creating SecretRoleBinding %s/%s.", meta.Namespace, meta.Name)
 		out, err := c.SecretRoleBindings(meta.Namespace).Create(ctx, transform(&api.SecretRoleBinding{
 			TypeMeta: metav1.TypeMeta{
 				Kind:       api.ResourceKindSecretRoleBinding,
@@ -95,7 +95,7 @@ func PatchSecretRoleBindingObject(
 	if len(patch) == 0 || string(patch) == "{}" {
 		return cur, kutil.VerbUnchanged, nil
 	}
-	klog.V(3).Infof("Patching DatabaseAccessRequest %s/%s with %s.", cur.Namespace, cur.Name, string(patch))
+	klog.V(3).Infof("Patching SecretRoleBinding %s/%s with %s.", cur.Namespace, cur.Name, string(patch))
 	out, err := c.SecretRoleBindings(cur.Namespace).Patch(ctx, cur.Name, types.MergePatchType, patch, opts)
 	return out, kutil.VerbPatched, err
 }
@@ -117,12 +117,12 @@ func TryUpdateSecretRoleBinding(
 			result, e2 = c.SecretRoleBindings(cur.Namespace).Update(ctx, transform(cur.DeepCopy()), opts)
 			return e2 == nil, nil
 		}
-		klog.Errorf("Attempt %d failed to update DatabaseAccessRequest %s/%s due to %v.", attempt, cur.Namespace, cur.Name, e2)
+		klog.Errorf("Attempt %d failed to update SecretRoleBinding %s/%s due to %v.", attempt, cur.Namespace, cur.Name, e2)
 		return false, nil
 	})
 
 	if err != nil {
-		err = errors.Errorf("failed to update DatabaseAccessRequest %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
+		err = errors.Errorf("failed to update SecretRoleBinding %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}
 	return
 }
@@ -170,7 +170,7 @@ func UpdateSecretRoleBindingStatus(
 	})
 
 	if err != nil {
-		err = fmt.Errorf("failed to update status of DatabaseAccessRequest %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
+		err = fmt.Errorf("failed to update status of SecretRoleBinding %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}
 	return
 }

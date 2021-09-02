@@ -45,7 +45,9 @@ var (
 type RolePhase string
 
 const (
-// RolePhase constants
+	// RolePhase constants
+	RolePhaseSuccess    RolePhase = "Success"
+	RolePhaseProcessing RolePhase = "Processing"
 )
 
 type RoleStatus struct {

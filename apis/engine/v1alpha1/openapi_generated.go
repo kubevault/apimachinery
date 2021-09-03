@@ -19503,9 +19503,9 @@ func schema_apimachinery_apis_engine_v1alpha1_GCPRoleSpec(ref common.ReferenceCa
 				Description: "GCPRoleSpec contains connection information, GCP role info, etc More info: https://www.vaultproject.io/api/secret/gcp/index.html#parameters",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
-					"vaultRef": {
+					"secretEngineRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "VaultRef is the name of a AppBinding referencing to a Vault Server",
+							Description: "SecretEngineRef is the name of a Secret Engine",
 							Default:     map[string]interface{}{},
 							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
@@ -19557,7 +19557,7 @@ func schema_apimachinery_apis_engine_v1alpha1_GCPRoleSpec(ref common.ReferenceCa
 						},
 					},
 				},
-				Required: []string{"vaultRef", "secretType", "project", "bindings"},
+				Required: []string{"secretEngineRef", "secretType", "project", "bindings"},
 			},
 		},
 		Dependencies: []string{

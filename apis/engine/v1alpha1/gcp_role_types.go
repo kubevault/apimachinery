@@ -54,8 +54,8 @@ const (
 // GCPRoleSpec contains connection information, GCP role info, etc
 // More info: https://www.vaultproject.io/api/secret/gcp/index.html#parameters
 type GCPRoleSpec struct {
-	// VaultRef is the name of a AppBinding referencing to a Vault Server
-	VaultRef core.LocalObjectReference `json:"vaultRef" protobuf:"bytes,1,opt,name=vaultRef"`
+	// SecretEngineRef is the name of a Secret Engine
+	SecretEngineRef core.LocalObjectReference `json:"secretEngineRef" protobuf:"bytes,1,opt,name=secretEngineRef"`
 
 	// Path defines the path of the Google Cloud secret engine
 	// default: gcp

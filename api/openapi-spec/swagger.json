@@ -13919,7 +13919,7 @@
       "description": "GCPRoleSpec contains connection information, GCP role info, etc More info: https://www.vaultproject.io/api/secret/gcp/index.html#parameters",
       "type": "object",
       "required": [
-        "vaultRef",
+        "secretEngineRef",
         "secretType",
         "project",
         "bindings"
@@ -13939,6 +13939,11 @@
           "type": "string",
           "default": ""
         },
+        "secretEngineRef": {
+          "description": "SecretEngineRef is the name of a Secret Engine",
+          "default": {},
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
         "secretType": {
           "description": "Specifies the type of secret generated for this role set",
           "type": "string",
@@ -13951,11 +13956,6 @@
             "type": "string",
             "default": ""
           }
-        },
-        "vaultRef": {
-          "description": "VaultRef is the name of a AppBinding referencing to a Vault Server",
-          "default": {},
-          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         }
       }
     },

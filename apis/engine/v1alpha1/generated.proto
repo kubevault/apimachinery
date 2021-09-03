@@ -342,8 +342,8 @@ message GCPRoleList {
 // GCPRoleSpec contains connection information, GCP role info, etc
 // More info: https://www.vaultproject.io/api/secret/gcp/index.html#parameters
 message GCPRoleSpec {
-  // VaultRef is the name of a AppBinding referencing to a Vault Server
-  optional k8s.io.api.core.v1.LocalObjectReference vaultRef = 1;
+  // SecretEngineRef is the name of a Secret Engine
+  optional k8s.io.api.core.v1.LocalObjectReference secretEngineRef = 1;
 
   // Path defines the path of the Google Cloud secret engine
   // default: gcp

@@ -66,7 +66,7 @@ func (se SecretEngine) GetSecretEnginePathName() string {
 }
 
 func (se SecretEngine) GetSecretEngineTypeName() api.SecretEngineType {
-	// Todo: Add more later!
+	// Todo: Add more later & refactor, let's get it working first!
 	if se.Spec.GCP != nil {
 		return api.SecretEngineTypeGCP
 	}
@@ -75,6 +75,18 @@ func (se SecretEngine) GetSecretEngineTypeName() api.SecretEngineType {
 	}
 	if se.Spec.Azure != nil {
 		return api.SecretEngineTypeAzure
+	}
+	if se.Spec.Elasticsearch != nil {
+		return api.SecretEngineTypeElasticsearch
+	}
+	if se.Spec.MongoDB != nil {
+		return api.SecretEngineTypeMongoDB
+	}
+	if se.Spec.MySQL != nil {
+		return api.SecretEngineTypeMySQL
+	}
+	if se.Spec.Postgres != nil {
+		return api.SecretEngineTypePostgres
 	}
 	return ""
 }

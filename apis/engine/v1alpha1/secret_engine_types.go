@@ -52,11 +52,6 @@ type SecretEngine struct {
 type SecretEngineSpec struct {
 	VaultRef kmapi.ObjectReference `json:"vaultRef" protobuf:"bytes,1,opt,name=vaultRef"`
 
-	// Path defines the path used to enable this secret engine
-	// Visible to user but immutable
-	// +optional
-	Path string `json:"path,omitempty" protobuf:"bytes,2,opt,name=path"`
-
 	SecretEngineConfiguration `json:",inline" protobuf:"bytes,3,opt,name=secretEngineConfiguration"`
 }
 
@@ -313,4 +308,8 @@ type SecretEngineStatus struct {
 	ObservedGeneration int64 `json:"observedGeneration,omitempty" protobuf:"varint,2,opt,name=observedGeneration"`
 
 	Conditions []kmapi.Condition `json:"conditions,omitempty" protobuf:"bytes,3,rep,name=conditions"`
+
+	// Path defines the path used to enable this secret engine
+	// Visible to user but immutable
+	Path string `json:"path,omitempty" protobuf:"bytes,4,opt,name=path"`
 }

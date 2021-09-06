@@ -748,11 +748,6 @@ message SecretEngineList {
 message SecretEngineSpec {
   optional kmodules.xyz.client_go.api.v1.ObjectReference vaultRef = 1;
 
-  // Path defines the path used to enable this secret engine
-  // Visible to user but immutable
-  // +optional
-  optional string path = 2;
-
   optional SecretEngineConfiguration secretEngineConfiguration = 3;
 }
 
@@ -762,6 +757,10 @@ message SecretEngineStatus {
   optional int64 observedGeneration = 2;
 
   repeated kmodules.xyz.client_go.api.v1.Condition conditions = 3;
+
+  // Path defines the path used to enable this secret engine
+  // Visible to user but immutable
+  optional string path = 4;
 }
 
 // +kubebuilder:object:root=true

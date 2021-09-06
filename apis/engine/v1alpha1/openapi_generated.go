@@ -20800,13 +20800,6 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineSpec(ref common.Refere
 							Ref:     ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
 						},
 					},
-					"path": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Path defines the path used to enable this secret engine Visible to user but immutable",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
 					"aws": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration"),
@@ -20885,6 +20878,13 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineStatus(ref common.Refe
 									},
 								},
 							},
+						},
+					},
+					"path": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Path defines the path used to enable this secret engine Visible to user but immutable",
+							Type:        []string{"string"},
+							Format:      "",
 						},
 					},
 				},

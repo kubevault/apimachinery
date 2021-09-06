@@ -14697,10 +14697,6 @@
         "mysql": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLConfiguration"
         },
-        "path": {
-          "description": "Path defines the path used to enable this secret engine Visible to user but immutable",
-          "type": "string"
-        },
         "postgres": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresConfiguration"
         },
@@ -14723,6 +14719,10 @@
         "observedGeneration": {
           "type": "integer",
           "format": "int64"
+        },
+        "path": {
+          "description": "Path defines the path used to enable this secret engine Visible to user but immutable",
+          "type": "string"
         },
         "phase": {
           "type": "string"

@@ -38,11 +38,11 @@ message AWSAccessRequestConfiguration {
   // The ARN of the role to assume if credential_type on the Vault role is assumed_role.
   // Must match one of the allowed role ARNs in the Vault role. Optional if the Vault role
   // only allows a single AWS role ARN; required otherwise.
-  optional string roleARN = 3;
+  optional string roleARN = 1;
 
   // If true, '/aws/sts' endpoint will be used to retrieve credential
   // Otherwise, '/aws/creds' endpoint will be used to retrieve credential
-  optional bool useSTS = 5;
+  optional bool useSTS = 2;
 }
 
 // https://www.vaultproject.io/api/secret/aws/index.html#configure-root-iam-credentials
@@ -202,12 +202,12 @@ message ElasticsearchConfiguration {
 
   // List of the roles allowed to use this connection.
   // Defaults to empty (no roles), if contains a "*" any role can use this connection.
-  repeated string allowedRoles = 3;
+  repeated string allowedRoles = 2;
 
   // Specifies the name of the plugin to use for this connection.
   // Default plugin:
   //  - for elasticsearch: elasticsearch-database-plugin
-  optional string pluginName = 2;
+  optional string pluginName = 3;
 
   // The URL for Elasticsearch's API ("http://localhost:9200").
   // +kubebuilder:validation:Required
@@ -291,13 +291,13 @@ message GCPAccessRequestConfiguration {
   // Defaults to 2k RSA key.
   // Accepted values: KEY_ALG_UNSPECIFIED, KEY_ALG_RSA_1024, KEY_ALG_RSA_2048
   // +optional
-  optional string keyAlgorithm = 3;
+  optional string keyAlgorithm = 1;
 
   // Specifies the private key type to generate.
   // Defaults to JSON credentials file
   // Accepted values: TYPE_UNSPECIFIED, TYPE_PKCS12_FILE, TYPE_GOOGLE_CREDENTIALS_FILE
   // +optional
-  optional string keyType = 4;
+  optional string keyType = 2;
 }
 
 // https://www.vaultproject.io/api/secret/gcp/index.html#write-config
@@ -680,15 +680,12 @@ message SecretAccessRequestSpec {
 
   repeated k8s.io.api.rbac.v1.Subject subjects = 2;
 
-  // Name of the secret containing secret engine role credentials
-  optional kmodules.xyz.client_go.api.v1.ObjectReference secret = 3;
-
   // Specifies the TTL for the leases associated with this role.
   // Accepts time suffixed strings ("1h") or an integer number of seconds.
   // Defaults to roles default TTL time
-  optional string ttl = 4;
+  optional string ttl = 3;
 
-  optional SecretAccessRequestConfiguration secretAccessRequestConfiguration = 5;
+  optional SecretAccessRequestConfiguration secretAccessRequestConfiguration = 4;
 }
 
 message SecretAccessRequestStatus {
@@ -700,12 +697,15 @@ message SecretAccessRequestStatus {
   repeated kmodules.xyz.client_go.api.v1.Condition conditions = 2;
 
   // Contains lease info
-  optional Lease lease = 4;
+  optional Lease lease = 3;
 
   // observedGeneration is the most recent generation observed for this resource. It corresponds to the
   // resource's generation, which is updated on mutation by the API Server.
   // +optional
-  optional int64 observedGeneration = 5;
+  optional int64 observedGeneration = 4;
+
+  // Name of the secret containing secret engine role credentials
+  optional kmodules.xyz.client_go.api.v1.ObjectReference secret = 5;
 }
 
 // +kubebuilder:object:root=true
@@ -748,7 +748,7 @@ message SecretEngineList {
 message SecretEngineSpec {
   optional kmodules.xyz.client_go.api.v1.ObjectReference vaultRef = 1;
 
-  optional SecretEngineConfiguration secretEngineConfiguration = 3;
+  optional SecretEngineConfiguration secretEngineConfiguration = 2;
 }
 
 message SecretEngineStatus {
@@ -799,15 +799,15 @@ message SecretRoleBindingStatus {
   repeated kmodules.xyz.client_go.api.v1.Condition conditions = 2;
 
   // Contains lease info
-  optional Lease lease = 4;
+  optional Lease lease = 3;
 
   // observedGeneration is the most recent generation observed for this resource. It corresponds to the
   // resource's generation, which is updated on mutation by the API Server.
   // +optional
-  optional int64 observedGeneration = 5;
+  optional int64 observedGeneration = 4;
 
-  optional kmodules.xyz.client_go.api.v1.ObjectReference policyRef = 6;
+  optional kmodules.xyz.client_go.api.v1.ObjectReference policyRef = 5;
 
-  optional kmodules.xyz.client_go.api.v1.ObjectReference policyBindingRef = 7;
+  optional kmodules.xyz.client_go.api.v1.ObjectReference policyBindingRef = 6;
 }
 

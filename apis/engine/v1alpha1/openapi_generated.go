@@ -20561,12 +20561,6 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretAccessRequestSpec(ref common
 							},
 						},
 					},
-					"secret": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Name of the secret containing secret engine role credentials",
-							Ref:         ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
-						},
-					},
 					"ttl": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to roles default TTL time",
@@ -20589,7 +20583,7 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretAccessRequestSpec(ref common
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.TypedLocalObjectReference", "k8s.io/api/rbac/v1.Subject", "kmodules.xyz/client-go/api/v1.ObjectReference", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSAccessRequestConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPAccessRequestConfiguration"},
+			"k8s.io/api/core/v1.TypedLocalObjectReference", "k8s.io/api/rbac/v1.Subject", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSAccessRequestConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPAccessRequestConfiguration"},
 	}
 }
 
@@ -20633,11 +20627,17 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretAccessRequestStatus(ref comm
 							Format:      "int64",
 						},
 					},
+					"secret": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Name of the secret containing secret engine role credentials",
+							Ref:         ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.Condition", "kubevault.dev/apimachinery/apis/engine/v1alpha1.Lease"},
+			"kmodules.xyz/client-go/api/v1.Condition", "kmodules.xyz/client-go/api/v1.ObjectReference", "kubevault.dev/apimachinery/apis/engine/v1alpha1.Lease"},
 	}
 }
 

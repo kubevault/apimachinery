@@ -995,11 +995,6 @@ func (in *SecretAccessRequestSpec) DeepCopyInto(out *SecretAccessRequestSpec) {
 		*out = make([]rbacv1.Subject, len(*in))
 		copy(*out, *in)
 	}
-	if in.Secret != nil {
-		in, out := &in.Secret, &out.Secret
-		*out = new(v1.ObjectReference)
-		**out = **in
-	}
 	in.SecretAccessRequestConfiguration.DeepCopyInto(&out.SecretAccessRequestConfiguration)
 	return
 }
@@ -1027,6 +1022,11 @@ func (in *SecretAccessRequestStatus) DeepCopyInto(out *SecretAccessRequestStatus
 	if in.Lease != nil {
 		in, out := &in.Lease, &out.Lease
 		*out = new(Lease)
+		**out = **in
+	}
+	if in.Secret != nil {
+		in, out := &in.Secret, &out.Secret
+		*out = new(v1.ObjectReference)
 		**out = **in
 	}
 	return

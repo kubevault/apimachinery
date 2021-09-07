@@ -14564,10 +14564,6 @@
           "default": {},
           "$ref": "#/definitions/io.k8s.api.core.v1.TypedLocalObjectReference"
         },
-        "secret": {
-          "description": "Name of the secret containing secret engine role credentials",
-          "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.ObjectReference"
-        },
         "subjects": {
           "type": "array",
           "items": {
@@ -14604,6 +14600,10 @@
         "phase": {
           "description": "Specifies the phase of SecretAccessRequest object",
           "type": "string"
+        },
+        "secret": {
+          "description": "Name of the secret containing secret engine role credentials",
+          "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.ObjectReference"
         }
       }
     },

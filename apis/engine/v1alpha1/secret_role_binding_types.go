@@ -71,14 +71,14 @@ type SecretRoleBindingStatus struct {
 	Conditions []kmapi.Condition `json:"conditions,omitempty" protobuf:"bytes,2,rep,name=conditions"`
 
 	// Contains lease info
-	Lease *Lease `json:"lease,omitempty" protobuf:"bytes,4,opt,name=lease"`
+	Lease *Lease `json:"lease,omitempty" protobuf:"bytes,3,opt,name=lease"`
 
 	// observedGeneration is the most recent generation observed for this resource. It corresponds to the
 	// resource's generation, which is updated on mutation by the API Server.
 	// +optional
-	ObservedGeneration int64 `json:"observedGeneration,omitempty" protobuf:"varint,5,opt,name=observedGeneration"`
+	ObservedGeneration int64 `json:"observedGeneration,omitempty" protobuf:"varint,4,opt,name=observedGeneration"`
 
-	PolicyRef *kmapi.ObjectReference `json:"policyRef,omitempty" protobuf:"bytes,6,opt,name=policyRef"`
+	PolicyRef *kmapi.ObjectReference `json:"policyRef,omitempty" protobuf:"bytes,5,opt,name=policyRef"`
 
-	PolicyBindingRef *kmapi.ObjectReference `json:"policyBindingRef,omitempty" protobuf:"bytes,7,opt,name=policyBindingRef"`
+	PolicyBindingRef *kmapi.ObjectReference `json:"policyBindingRef,omitempty" protobuf:"bytes,6,opt,name=policyBindingRef"`
 }

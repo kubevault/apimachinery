@@ -24,20 +24,12 @@ import (
 
 // Interface provides access to all the informers in this group version.
 type Interface interface {
-	// AWSAccessKeyRequests returns a AWSAccessKeyRequestInformer.
-	AWSAccessKeyRequests() AWSAccessKeyRequestInformer
 	// AWSRoles returns a AWSRoleInformer.
 	AWSRoles() AWSRoleInformer
-	// AzureAccessKeyRequests returns a AzureAccessKeyRequestInformer.
-	AzureAccessKeyRequests() AzureAccessKeyRequestInformer
 	// AzureRoles returns a AzureRoleInformer.
 	AzureRoles() AzureRoleInformer
-	// DatabaseAccessRequests returns a DatabaseAccessRequestInformer.
-	DatabaseAccessRequests() DatabaseAccessRequestInformer
 	// ElasticsearchRoles returns a ElasticsearchRoleInformer.
 	ElasticsearchRoles() ElasticsearchRoleInformer
-	// GCPAccessKeyRequests returns a GCPAccessKeyRequestInformer.
-	GCPAccessKeyRequests() GCPAccessKeyRequestInformer
 	// GCPRoles returns a GCPRoleInformer.
 	GCPRoles() GCPRoleInformer
 	// MongoDBRoles returns a MongoDBRoleInformer.
@@ -46,8 +38,12 @@ type Interface interface {
 	MySQLRoles() MySQLRoleInformer
 	// PostgresRoles returns a PostgresRoleInformer.
 	PostgresRoles() PostgresRoleInformer
+	// SecretAccessRequests returns a SecretAccessRequestInformer.
+	SecretAccessRequests() SecretAccessRequestInformer
 	// SecretEngines returns a SecretEngineInformer.
 	SecretEngines() SecretEngineInformer
+	// SecretRoleBindings returns a SecretRoleBindingInformer.
+	SecretRoleBindings() SecretRoleBindingInformer
 }
 
 type version struct {
@@ -61,19 +57,9 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 	return &version{factory: f, namespace: namespace, tweakListOptions: tweakListOptions}
 }
 
-// AWSAccessKeyRequests returns a AWSAccessKeyRequestInformer.
-func (v *version) AWSAccessKeyRequests() AWSAccessKeyRequestInformer {
-	return &aWSAccessKeyRequestInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
-}
-
 // AWSRoles returns a AWSRoleInformer.
 func (v *version) AWSRoles() AWSRoleInformer {
 	return &aWSRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
-}
-
-// AzureAccessKeyRequests returns a AzureAccessKeyRequestInformer.
-func (v *version) AzureAccessKeyRequests() AzureAccessKeyRequestInformer {
-	return &azureAccessKeyRequestInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // AzureRoles returns a AzureRoleInformer.
@@ -81,19 +67,9 @@ func (v *version) AzureRoles() AzureRoleInformer {
 	return &azureRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
-// DatabaseAccessRequests returns a DatabaseAccessRequestInformer.
-func (v *version) DatabaseAccessRequests() DatabaseAccessRequestInformer {
-	return &databaseAccessRequestInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
-}
-
 // ElasticsearchRoles returns a ElasticsearchRoleInformer.
 func (v *version) ElasticsearchRoles() ElasticsearchRoleInformer {
 	return &elasticsearchRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
-}
-
-// GCPAccessKeyRequests returns a GCPAccessKeyRequestInformer.
-func (v *version) GCPAccessKeyRequests() GCPAccessKeyRequestInformer {
-	return &gCPAccessKeyRequestInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // GCPRoles returns a GCPRoleInformer.
@@ -116,7 +92,17 @@ func (v *version) PostgresRoles() PostgresRoleInformer {
 	return &postgresRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
+// SecretAccessRequests returns a SecretAccessRequestInformer.
+func (v *version) SecretAccessRequests() SecretAccessRequestInformer {
+	return &secretAccessRequestInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
 // SecretEngines returns a SecretEngineInformer.
 func (v *version) SecretEngines() SecretEngineInformer {
 	return &secretEngineInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// SecretRoleBindings returns a SecretRoleBindingInformer.
+func (v *version) SecretRoleBindings() SecretRoleBindingInformer {
+	return &secretRoleBindingInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }

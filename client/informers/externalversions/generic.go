@@ -61,20 +61,12 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Catalog().V1alpha1().VaultServerVersions().Informer()}, nil
 
 		// Group=engine.kubevault.com, Version=v1alpha1
-	case enginev1alpha1.SchemeGroupVersion.WithResource("awsaccesskeyrequests"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().AWSAccessKeyRequests().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("awsroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().AWSRoles().Informer()}, nil
-	case enginev1alpha1.SchemeGroupVersion.WithResource("azureaccesskeyrequests"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().AzureAccessKeyRequests().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("azureroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().AzureRoles().Informer()}, nil
-	case enginev1alpha1.SchemeGroupVersion.WithResource("databaseaccessrequests"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().DatabaseAccessRequests().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("elasticsearchroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().ElasticsearchRoles().Informer()}, nil
-	case enginev1alpha1.SchemeGroupVersion.WithResource("gcpaccesskeyrequests"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().GCPAccessKeyRequests().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("gcproles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().GCPRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("mongodbroles"):
@@ -83,8 +75,12 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MySQLRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("postgresroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().PostgresRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("secretaccessrequests"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().SecretAccessRequests().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("secretengines"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().SecretEngines().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("secretrolebindings"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().SecretRoleBindings().Informer()}, nil
 
 		// Group=kubevault.com, Version=v1alpha1
 	case kubevaultv1alpha1.SchemeGroupVersion.WithResource("vaultservers"):

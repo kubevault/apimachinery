@@ -70,12 +70,10 @@ const (
 
 // SecretRoleBinding Phases
 
-type SecretRoleBindingPhase string
-
 const (
-	SecretRoleBindingPhaseSuccess    SecretRoleBindingPhase = "Success"
-	SecretRoleBindingPhaseProcessing SecretRoleBindingPhase = "Processing"
-	SecretRoleBindingPhaseFailed     SecretRoleBindingPhase = "Failed"
+	SecretRoleBindingPhaseSuccess    RequestStatusPhase = "Success"
+	SecretRoleBindingPhaseProcessing RequestStatusPhase = "Processing"
+	SecretRoleBindingPhaseFailed     RequestStatusPhase = "Failed"
 )
 
 // SecretRoleBinding Conditions

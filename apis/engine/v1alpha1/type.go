@@ -67,3 +67,21 @@ const (
 	SecretRoleBindingAnnotationName      = "secretrolebindings.engine.kubevault.com/name"
 	SecretRoleBindingAnnotationNamespace = "secretrolebindings.engine.kubevault.com/namespace"
 )
+
+// SecretRoleBinding Phases
+
+type SecretRoleBindingPhase string
+
+const (
+	SecretRoleBindingPhaseSuccess    SecretRoleBindingPhase = "Success"
+	SecretRoleBindingPhaseProcessing SecretRoleBindingPhase = "Processing"
+	SecretRoleBindingPhaseFailed     SecretRoleBindingPhase = "Failed"
+)
+
+// SecretRoleBinding Conditions
+
+const (
+	ConditionVaultPolicySuccess        = "VaultPolicySuccess"
+	ConditionVaultPolicyBindingSuccess = "VaultPolicyBindingSuccess"
+	ConditionSecretRoleBindingSuccess  = "SecretRoleBindingSuccess"
+)

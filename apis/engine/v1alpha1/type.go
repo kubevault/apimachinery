@@ -62,3 +62,8 @@ type RoleStatus struct {
 
 	PolicyRef *kmapi.ObjectReference `json:"policyRef,omitempty" protobuf:"bytes,4,opt,name=policyRef"`
 }
+
+const (
+	SecretRoleBindingAnnotationName      = "secretrolebindings.engine.kubevault.com/name"
+	SecretRoleBindingAnnotationNamespace = "secretrolebindings.engine.kubevault.com/namespace"
+)

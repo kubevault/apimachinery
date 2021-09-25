@@ -17,6 +17,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"fmt"
+
 	"kubevault.dev/apimachinery/crds"
 
 	"kmodules.xyz/client-go/apiextensions"
@@ -28,4 +30,12 @@ func (_ SecretRoleBinding) CustomResourceDefinition() *apiextensions.CustomResou
 
 func (d SecretRoleBinding) IsValid() error {
 	return nil
+}
+
+func (srb SecretRoleBinding) PolicyNameForSecretRoleBinding() string {
+	cluster := "-"
+	if srb.ClusterName != "" {
+		cluster = srb.ClusterName
+	}
+	return fmt.Sprintf("k8s.%s.srb.%s.%s", cluster, srb.Namespace, srb.Name)
 }

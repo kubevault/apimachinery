@@ -22,6 +22,7 @@ import (
 	"kubevault.dev/apimachinery/crds"
 
 	"kmodules.xyz/client-go/apiextensions"
+	meta_util "kmodules.xyz/client-go/meta"
 )
 
 func (_ SecretRoleBinding) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
@@ -33,9 +34,5 @@ func (d SecretRoleBinding) IsValid() error {
 }
 
 func (srb SecretRoleBinding) PolicyNameForSecretRoleBinding() string {
-	cluster := "-"
-	if srb.ClusterName != "" {
-		cluster = srb.ClusterName
-	}
-	return fmt.Sprintf("k8s.%s.srb.%s.%s", cluster, srb.Namespace, srb.Name)
+	return meta_util.NameWithPrefix("srb", fmt.Sprintf("%s-%s", srb.Namespace, srb.Name))
 }

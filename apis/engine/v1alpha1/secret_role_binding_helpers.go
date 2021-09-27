@@ -33,6 +33,10 @@ func (d SecretRoleBinding) IsValid() error {
 	return nil
 }
 
-func (srb SecretRoleBinding) PolicyNameForSecretRoleBinding() string {
+func (srb SecretRoleBinding) VaultPolicyName() string {
+	return meta_util.NameWithPrefix("srb", fmt.Sprintf("%s-%s", srb.Namespace, srb.Name))
+}
+
+func (srb SecretRoleBinding) VaultPolicyBindingName() string {
 	return meta_util.NameWithPrefix("srb", fmt.Sprintf("%s-%s", srb.Namespace, srb.Name))
 }

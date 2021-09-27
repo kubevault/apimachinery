@@ -79,7 +79,7 @@ const (
 // SecretRoleBinding Conditions
 
 const (
-	ConditionVaultPolicySuccess        = "VaultPolicySuccess"
-	ConditionVaultPolicyBindingSuccess = "VaultPolicyBindingSuccess"
-	ConditionSecretRoleBindingSuccess  = "SecretRoleBindingSuccess"
+	VaultPolicySuccess        = "VaultPolicySuccess"
+	VaultPolicyBindingSuccess = "VaultPolicyBindingSuccess"
+	SecretRoleBindingSuccess  = "SecretRoleBindingSuccess"
 )

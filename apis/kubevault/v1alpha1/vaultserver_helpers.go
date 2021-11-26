@@ -193,6 +193,14 @@ func (vs *VaultServer) RootTokenID() string {
 	return fmt.Sprintf("k8s.%s.%s.%s-root-token", cluster, vs.Namespace, vs.Name)
 }
 
+func (vs *VaultServer) KeyPrefix() string {
+	cluster := "-"
+	if clusterid.ClusterName() != "" {
+		cluster = clusterid.ClusterName()
+	}
+	return fmt.Sprintf("k8s.%s.%s.%s", cluster, vs.Namespace, vs.Name)
+}
+
 func (vsb *BackendStorageSpec) GetBackendType() (VaultServerBackend, error) {
 	switch {
 	case vsb.Inmem != nil:

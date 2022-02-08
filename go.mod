@@ -16,7 +16,7 @@ require (
 	k8s.io/kube-openapi v0.0.0-20210421082810-95288971da7e
 	kmodules.xyz/client-go v0.0.0-20220203031013-1de48437aaf3
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20210618002152-fae23aef5fb4
-	kmodules.xyz/custom-resources v0.0.0-20220126201139-be014631db0c
+	kmodules.xyz/custom-resources v0.0.0-20220208103158-61b298634e43
 	kmodules.xyz/monitoring-agent-api v0.0.0-20211207173549-028e6430395e
 	kmodules.xyz/offshoot-api v0.0.0-20211207130839-cc7187e020cf
 	sigs.k8s.io/yaml v1.2.0

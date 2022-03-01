@@ -104,11 +104,11 @@ type KubernetesSubjectRef struct {
 	// Specifies the namespaces of the service account
 	ServiceAccountNamespaces []string `json:"serviceAccountNamespaces" protobuf:"bytes,4,rep,name=serviceAccountNamespaces"`
 
-	//Specifies the TTL period of tokens issued using this role in seconds.
+	// Specifies the TTL period of tokens issued using this role in seconds.
 	// +optional
 	TTL string `json:"ttl,omitempty" protobuf:"bytes,5,opt,name=ttl"`
 
-	//Specifies the maximum allowed lifetime of tokens issued in seconds using this role.
+	// Specifies the maximum allowed lifetime of tokens issued in seconds using this role.
 	// +optional
 	MaxTTL string `json:"maxTTL,omitempty" protobuf:"bytes,6,opt,name=maxTTL"`
 

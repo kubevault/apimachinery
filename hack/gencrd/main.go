@@ -94,11 +94,11 @@ func generateSwaggerJson() {
 	}
 
 	filename := gort.GOPath() + "/src/kubevault.dev/apimachinery/api/openapi-spec/swagger.json"
-	err = os.MkdirAll(filepath.Dir(filename), 0755)
+	err = os.MkdirAll(filepath.Dir(filename), 0o755)
 	if err != nil {
 		klog.Fatal(err)
 	}
-	err = ioutil.WriteFile(filename, []byte(apispec), 0644)
+	err = ioutil.WriteFile(filename, []byte(apispec), 0o644)
 	if err != nil {
 		klog.Fatal(err)
 	}

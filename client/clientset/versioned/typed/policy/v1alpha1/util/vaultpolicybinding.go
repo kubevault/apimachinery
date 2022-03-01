@@ -123,7 +123,6 @@ func TryPatchVaultPolicyBinding(
 		klog.Errorf("Attempt %d failed to patch VaultPolicyBinding %s/%s due to %v.", attempt, cur.Namespace, cur.Name, e2)
 		return false, nil
 	})
-
 	if err != nil {
 		return nil, errors.Errorf("failed to patch VaultPolicyBinding %s/%s after %d attempts due to %v", cur.Namespace, cur.Name, attempt, err)
 	}

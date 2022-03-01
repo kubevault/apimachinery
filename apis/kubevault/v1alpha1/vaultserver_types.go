@@ -433,8 +433,7 @@ type ConsulSpec struct {
 }
 
 // ref: https://www.vaultproject.io/docs/configuration/storage/in-memory.html
-type InmemSpec struct {
-}
+type InmemSpec struct{}
 
 // TODO : set defaults and validation
 // vault doc: https://www.vaultproject.io/docs/configuration/storage/etcd.html
@@ -572,7 +571,7 @@ type AzureSpec struct {
 //
 // PostgreSQLSpec defines configuration to set up PostgreSQL storage as backend storage in vault
 type PostgreSQLSpec struct {
-	//Specifies the name of the secret containing the connection string to use to authenticate and connect to PostgreSQL.
+	// Specifies the name of the secret containing the connection string to use to authenticate and connect to PostgreSQL.
 	// A full list of supported parameters can be found in the pq library documentation(https://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters).
 	// secret data:
 	//  - connection_url:<data>

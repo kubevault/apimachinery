@@ -91,7 +91,7 @@ type AWSConfiguration struct {
 	// Specifies a custom HTTP IAM enminidpoint to use
 	IAMEndpoint string `json:"iamEndpoint,omitempty" protobuf:"bytes,3,opt,name=iamEndpoint"`
 
-	//Specifies a custom HTTP STS endpoint to use
+	// Specifies a custom HTTP STS endpoint to use
 	STSEndpoint string `json:"stsEndpoint,omitempty" protobuf:"bytes,4,opt,name=stsEndpoint"`
 
 	// Number of max retries the client should use for recoverable errors.
@@ -137,7 +137,6 @@ type GCPConfiguration struct {
 
 // AzureConfiguration contains information to communicate with Azure
 type AzureConfiguration struct {
-
 	// Specifies the secret name containing Azure credentials
 	// secret.Data:
 	// 	- subscription-id: <value>, The subscription id for the Azure Active Directory.

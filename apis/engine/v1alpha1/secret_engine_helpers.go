@@ -80,6 +80,8 @@ func (se SecretEngine) GetSecretEngineType() api.SecretEngineType {
 		return api.SecretEngineTypeMySQL
 	case seSpec.Postgres != nil:
 		return api.SecretEngineTypePostgres
+	case seSpec.KV != nil:
+		return api.SecretEngineTypeKV
 	default:
 		return ""
 	}

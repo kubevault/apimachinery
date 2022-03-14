@@ -18,6 +18,7 @@ package fuzzer
 
 import (
 	"kubevault.dev/apimachinery/apis/kubevault/v1alpha1"
+	"kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 
 	fuzz "github.com/google/gofuzz"
 	runtimeserializer "k8s.io/apimachinery/pkg/runtime/serializer"
@@ -26,6 +27,9 @@ import (
 // Funcs returns the fuzzer functions for this api group.
 var Funcs = func(codecs runtimeserializer.CodecFactory) []interface{} {
 	return []interface{}{
+		func(s *v1alpha2.VaultServer, c fuzz.Continue) {
+			c.FuzzNoCustom(s) // fuzz self without calling this function again
+		},
 		func(s *v1alpha1.VaultServer, c fuzz.Continue) {
 			c.FuzzNoCustom(s) // fuzz self without calling this function again
 		},

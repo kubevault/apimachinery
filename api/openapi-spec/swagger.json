@@ -11218,6 +11218,1058 @@
         }
       ]
     },
+    "/apis/kubevault.com/v1alpha2/": {
+      "get": {
+        "description": "get available resources",
+        "consumes": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "getKubevaultComV1alpha2APIResources",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.APIResourceList"
+            }
+          }
+        }
+      }
+    },
+    "/apis/kubevault.com/v1alpha2/namespaces/{namespace}/vaultservers": {
+      "get": {
+        "description": "list or watch objects of kind VaultServer",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf",
+          "application/json;stream=watch",
+          "application/vnd.kubernetes.protobuf;stream=watch"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "listKubevaultComV1alpha2NamespacedVaultServer",
+        "parameters": [
+          {
+            "uniqueItems": true,
+            "type": "boolean",
+            "description": "allowWatchBookmarks requests watch events with type \"BOOKMARK\". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. If the feature gate WatchBookmarks is not enabled in apiserver, this field is ignored.",
+            "name": "allowWatchBookmarks",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \"next key\".\n\nThis field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.",
+            "name": "continue",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "A selector to restrict the list of returned objects by their fields. Defaults to everything.",
+            "name": "fieldSelector",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "A selector to restrict the list of returned objects by their labels. Defaults to everything.",
+            "name": "labelSelector",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.\n\nThe server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+            "name": "resourceVersion",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+            "name": "resourceVersionMatch",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.",
+            "name": "timeoutSeconds",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "boolean",
+            "description": "Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.",
+            "name": "watch",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServerList"
+            }
+          }
+        },
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "kubevault.com",
+          "version": "v1alpha2",
+          "kind": "VaultServer"
+        }
+      },
+      "post": {
+        "description": "create a VaultServer",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "createKubevaultComV1alpha2NamespacedVaultServer",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServer"
+            }
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
+            "name": "fieldManager",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServer"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServer"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServer"
+            }
+          }
+        },
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "kubevault.com",
+          "version": "v1alpha2",
+          "kind": "VaultServer"
+        }
+      },
+      "delete": {
+        "description": "delete collection of VaultServer",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "deleteKubevaultComV1alpha2CollectionNamespacedVaultServer",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions"
+            }
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \"next key\".\n\nThis field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.",
+            "name": "continue",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "A selector to restrict the list of returned objects by their fields. Defaults to everything.",
+            "name": "fieldSelector",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.",
+            "name": "gracePeriodSeconds",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "A selector to restrict the list of returned objects by their labels. Defaults to everything.",
+            "name": "labelSelector",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.\n\nThe server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "boolean",
+            "description": "Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.",
+            "name": "orphanDependents",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.",
+            "name": "propagationPolicy",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+            "name": "resourceVersion",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+            "name": "resourceVersionMatch",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.",
+            "name": "timeoutSeconds",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "kubevault.com",
+          "version": "v1alpha2",
+          "kind": "VaultServer"
+        }
+      },
+      "parameters": [
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "object name and auth scope, such as for teams and projects",
+          "name": "namespace",
+          "in": "path",
+          "required": true
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "If 'true', then the output is pretty printed.",
+          "name": "pretty",
+          "in": "query"
+        }
+      ]
+    },
+    "/apis/kubevault.com/v1alpha2/namespaces/{namespace}/vaultservers/{name}": {
+      "get": {
+        "description": "read the specified VaultServer",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "readKubevaultComV1alpha2NamespacedVaultServer",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServer"
+            }
+          }
+        },
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "kubevault.com",
+          "version": "v1alpha2",
+          "kind": "VaultServer"
+        }
+      },
+      "put": {
+        "description": "replace the specified VaultServer",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "replaceKubevaultComV1alpha2NamespacedVaultServer",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServer"
+            }
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
+            "name": "fieldManager",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServer"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServer"
+            }
+          }
+        },
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "kubevault.com",
+          "version": "v1alpha2",
+          "kind": "VaultServer"
+        }
+      },
+      "delete": {
+        "description": "delete a VaultServer",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "deleteKubevaultComV1alpha2NamespacedVaultServer",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions"
+            }
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.",
+            "name": "gracePeriodSeconds",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "boolean",
+            "description": "Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.",
+            "name": "orphanDependents",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.",
+            "name": "propagationPolicy",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "kubevault.com",
+          "version": "v1alpha2",
+          "kind": "VaultServer"
+        }
+      },
+      "patch": {
+        "description": "partially update the specified VaultServer",
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/strategic-merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "patchKubevaultComV1alpha2NamespacedVaultServer",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch"
+            }
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch).",
+            "name": "fieldManager",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "boolean",
+            "description": "Force is going to \"force\" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests.",
+            "name": "force",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServer"
+            }
+          }
+        },
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "kubevault.com",
+          "version": "v1alpha2",
+          "kind": "VaultServer"
+        }
+      },
+      "parameters": [
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "name of the VaultServer",
+          "name": "name",
+          "in": "path",
+          "required": true
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "object name and auth scope, such as for teams and projects",
+          "name": "namespace",
+          "in": "path",
+          "required": true
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "If 'true', then the output is pretty printed.",
+          "name": "pretty",
+          "in": "query"
+        }
+      ]
+    },
+    "/apis/kubevault.com/v1alpha2/vaultservers": {
+      "get": {
+        "description": "list or watch objects of kind VaultServer",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf",
+          "application/json;stream=watch",
+          "application/vnd.kubernetes.protobuf;stream=watch"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "listKubevaultComV1alpha2VaultServerForAllNamespaces",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServerList"
+            }
+          }
+        },
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "kubevault.com",
+          "version": "v1alpha2",
+          "kind": "VaultServer"
+        }
+      },
+      "parameters": [
+        {
+          "uniqueItems": true,
+          "type": "boolean",
+          "description": "allowWatchBookmarks requests watch events with type \"BOOKMARK\". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. If the feature gate WatchBookmarks is not enabled in apiserver, this field is ignored.",
+          "name": "allowWatchBookmarks",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \"next key\".\n\nThis field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.",
+          "name": "continue",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "A selector to restrict the list of returned objects by their fields. Defaults to everything.",
+          "name": "fieldSelector",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "A selector to restrict the list of returned objects by their labels. Defaults to everything.",
+          "name": "labelSelector",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "integer",
+          "description": "limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.\n\nThe server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.",
+          "name": "limit",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "If 'true', then the output is pretty printed.",
+          "name": "pretty",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+          "name": "resourceVersion",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+          "name": "resourceVersionMatch",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "integer",
+          "description": "Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.",
+          "name": "timeoutSeconds",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "boolean",
+          "description": "Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.",
+          "name": "watch",
+          "in": "query"
+        }
+      ]
+    },
+    "/apis/kubevault.com/v1alpha2/watch/namespaces/{namespace}/vaultservers": {
+      "get": {
+        "description": "watch individual changes to a list of VaultServer. deprecated: use the 'watch' parameter with a list operation instead.",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf",
+          "application/json;stream=watch",
+          "application/vnd.kubernetes.protobuf;stream=watch"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "watchKubevaultComV1alpha2NamespacedVaultServerList",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "kubevault.com",
+          "version": "v1alpha2",
+          "kind": "VaultServer"
+        }
+      },
+      "parameters": [
+        {
+          "uniqueItems": true,
+          "type": "boolean",
+          "description": "allowWatchBookmarks requests watch events with type \"BOOKMARK\". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. If the feature gate WatchBookmarks is not enabled in apiserver, this field is ignored.",
+          "name": "allowWatchBookmarks",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \"next key\".\n\nThis field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.",
+          "name": "continue",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "A selector to restrict the list of returned objects by their fields. Defaults to everything.",
+          "name": "fieldSelector",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "A selector to restrict the list of returned objects by their labels. Defaults to everything.",
+          "name": "labelSelector",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "integer",
+          "description": "limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.\n\nThe server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.",
+          "name": "limit",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "object name and auth scope, such as for teams and projects",
+          "name": "namespace",
+          "in": "path",
+          "required": true
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "If 'true', then the output is pretty printed.",
+          "name": "pretty",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+          "name": "resourceVersion",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+          "name": "resourceVersionMatch",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "integer",
+          "description": "Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.",
+          "name": "timeoutSeconds",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "boolean",
+          "description": "Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.",
+          "name": "watch",
+          "in": "query"
+        }
+      ]
+    },
+    "/apis/kubevault.com/v1alpha2/watch/namespaces/{namespace}/vaultservers/{name}": {
+      "get": {
+        "description": "watch changes to an object of kind VaultServer. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf",
+          "application/json;stream=watch",
+          "application/vnd.kubernetes.protobuf;stream=watch"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "watchKubevaultComV1alpha2NamespacedVaultServer",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "x-kubernetes-action": "watch",
+        "x-kubernetes-group-version-kind": {
+          "group": "kubevault.com",
+          "version": "v1alpha2",
+          "kind": "VaultServer"
+        }
+      },
+      "parameters": [
+        {
+          "uniqueItems": true,
+          "type": "boolean",
+          "description": "allowWatchBookmarks requests watch events with type \"BOOKMARK\". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. If the feature gate WatchBookmarks is not enabled in apiserver, this field is ignored.",
+          "name": "allowWatchBookmarks",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \"next key\".\n\nThis field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.",
+          "name": "continue",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "A selector to restrict the list of returned objects by their fields. Defaults to everything.",
+          "name": "fieldSelector",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "A selector to restrict the list of returned objects by their labels. Defaults to everything.",
+          "name": "labelSelector",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "integer",
+          "description": "limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.\n\nThe server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.",
+          "name": "limit",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "name of the VaultServer",
+          "name": "name",
+          "in": "path",
+          "required": true
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "object name and auth scope, such as for teams and projects",
+          "name": "namespace",
+          "in": "path",
+          "required": true
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "If 'true', then the output is pretty printed.",
+          "name": "pretty",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+          "name": "resourceVersion",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+          "name": "resourceVersionMatch",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "integer",
+          "description": "Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.",
+          "name": "timeoutSeconds",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "boolean",
+          "description": "Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.",
+          "name": "watch",
+          "in": "query"
+        }
+      ]
+    },
+    "/apis/kubevault.com/v1alpha2/watch/vaultservers": {
+      "get": {
+        "description": "watch individual changes to a list of VaultServer. deprecated: use the 'watch' parameter with a list operation instead.",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf",
+          "application/json;stream=watch",
+          "application/vnd.kubernetes.protobuf;stream=watch"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "kubevaultCom_v1alpha2"
+        ],
+        "operationId": "watchKubevaultComV1alpha2VaultServerListForAllNamespaces",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "kubevault.com",
+          "version": "v1alpha2",
+          "kind": "VaultServer"
+        }
+      },
+      "parameters": [
+        {
+          "uniqueItems": true,
+          "type": "boolean",
+          "description": "allowWatchBookmarks requests watch events with type \"BOOKMARK\". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. If the feature gate WatchBookmarks is not enabled in apiserver, this field is ignored.",
+          "name": "allowWatchBookmarks",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \"next key\".\n\nThis field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.",
+          "name": "continue",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "A selector to restrict the list of returned objects by their fields. Defaults to everything.",
+          "name": "fieldSelector",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "A selector to restrict the list of returned objects by their labels. Defaults to everything.",
+          "name": "labelSelector",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "integer",
+          "description": "limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.\n\nThe server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.",
+          "name": "limit",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "If 'true', then the output is pretty printed.",
+          "name": "pretty",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+          "name": "resourceVersion",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+          "name": "resourceVersionMatch",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "integer",
+          "description": "Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.",
+          "name": "timeoutSeconds",
+          "in": "query"
+        },
+        {
+          "uniqueItems": true,
+          "type": "boolean",
+          "description": "Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.",
+          "name": "watch",
+          "in": "query"
+        }
+      ]
+    },
     "/apis/policy.kubevault.com/": {
       "get": {
         "description": "get information of a group",
@@ -15909,6 +16961,1066 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AllowedSecretEngines": {
+      "description": "AllowedSecretEngines defines which Secret Engines may be attached to this Listener.",
+      "type": "object",
+      "properties": {
+        "namespaces": {
+          "description": "Namespaces indicates namespaces from which Secret Engines may be attached to this Listener. This is restricted to the namespace of this VaultServer by default.",
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.SecretEngineNamespaces"
+        },
+        "secretEngines": {
+          "description": "SecretEngines specifies the types of Secret Engines that are allowed to bind to this VaultServer. When unspecified or empty, all types of Secret Engines are allowed.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AuthConfig": {
+      "type": "object",
+      "properties": {
+        "auditNonHMACRequestKeys": {
+          "description": "List of keys that will not be HMAC'd by audit devices in the request data object.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "auditNonHMACResponseKeys": {
+          "description": "List of keys that will not be HMAC'd by audit devices in the response data object.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "defaultLeaseTTL": {
+          "description": "The default lease duration, specified as a string duration like \"5s\" or \"30m\".",
+          "type": "string"
+        },
+        "listingVisibility": {
+          "description": "Speficies whether to show this mount in the UI-specific listing endpoint.",
+          "type": "string"
+        },
+        "maxLeaseTTL": {
+          "description": "The maximum lease duration, specified as a string duration like \"5s\" or \"30m\".",
+          "type": "string"
+        },
+        "passthroughRequestHeaders": {
+          "description": "List of headers to whitelist and pass from the request to the backend.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "pluginName": {
+          "description": "The name of the plugin in the plugin catalog to use.",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AuthMethod": {
+      "description": "AuthMethod contains the information to enable vault auth method links: https://www.vaultproject.io/api/system/auth.html",
+      "type": "object",
+      "required": [
+        "type",
+        "path"
+      ],
+      "properties": {
+        "config": {
+          "description": "Specifies configuration options for this auth method.",
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AuthConfig"
+        },
+        "description": {
+          "description": "Specifies a human-friendly description of the auth method.",
+          "type": "string"
+        },
+        "local": {
+          "description": "Specifies if the auth method is a local only. Local auth methods are not replicated nor (if a secondary) removed by replication.",
+          "type": "boolean"
+        },
+        "path": {
+          "description": "Specifies the path in which to enable the auth method. Default value is the same as the 'type'",
+          "type": "string",
+          "default": ""
+        },
+        "pluginName": {
+          "description": "Specifies the name of the auth plugin to use based from the name in the plugin catalog. Applies only to plugin methods.",
+          "type": "string"
+        },
+        "type": {
+          "description": "\n Specifies the name of the authentication method type, such as \"github\" or \"token\".",
+          "type": "string",
+          "default": ""
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AuthMethodStatus": {
+      "description": "AuthMethodStatus specifies the status of the auth method maintained by the auth method controller",
+      "type": "object",
+      "required": [
+        "type",
+        "path",
+        "status"
+      ],
+      "properties": {
+        "path": {
+          "description": "Specifies the path in which to enable the auth method.",
+          "type": "string",
+          "default": ""
+        },
+        "reason": {
+          "description": "Specifies the reason why failed to enable auth method",
+          "type": "string"
+        },
+        "status": {
+          "description": "Specifies whether auth method is enabled or not",
+          "type": "string",
+          "default": ""
+        },
+        "type": {
+          "description": "\n Specifies the name of the authentication method type, such as \"github\" or \"token\".",
+          "type": "string",
+          "default": ""
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AwsKmsSsmSpec": {
+      "description": "AwsKmsSsmSpec contain the fields that required to unseal vault using aws kms ssm",
+      "type": "object",
+      "required": [
+        "kmsKeyID"
+      ],
+      "properties": {
+        "credentialSecret": {
+          "description": "Specifies the secret name containing AWS access key and AWS secret key secret data:\n - access_key:\u003cvalue\u003e\n - secret_key:\u003cvalue\u003e",
+          "type": "string"
+        },
+        "endpoint": {
+          "description": "Used to make AWS KMS requests. This is useful, for example, when connecting to KMS over a VPC Endpoint. If not set, Vault will use the default API endpoint for your region.",
+          "type": "string"
+        },
+        "kmsKeyID": {
+          "description": "The ID or ARN of the AWS KMS key to encrypt values",
+          "type": "string",
+          "default": ""
+        },
+        "region": {
+          "type": "string"
+        },
+        "ssmKeyPrefix": {
+          "description": "An optional Key prefix for SSM Parameter store",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AzureKeyVault": {
+      "description": "AzureKeyVault contain the fields that required to unseal vault using azure key vault",
+      "type": "object",
+      "required": [
+        "vaultBaseURL",
+        "tenantID"
+      ],
+      "properties": {
+        "aadClientSecret": {
+          "description": "Specifies the name of secret containing client id and client secret of AAD application secret data:\n - client-id:\u003cvalue\u003e\n - client-secret:\u003cvalue\u003e",
+          "type": "string"
+        },
+        "clientCertSecret": {
+          "description": "Specifies the name of secret containing client cert and client cert password secret data:\n - client-cert:\u003cvalue\u003e\n\t- client-cert-password: \u003cvalue\u003e",
+          "type": "string"
+        },
+        "cloud": {
+          "description": "The cloud environment identifier default: \"AZUREPUBLICCLOUD\"",
+          "type": "string"
+        },
+        "tenantID": {
+          "description": "The AAD Tenant ID",
+          "type": "string",
+          "default": ""
+        },
+        "useManagedIdentity": {
+          "description": "Use managed service identity for the virtual machine",
+          "type": "boolean"
+        },
+        "vaultBaseURL": {
+          "description": "Azure key vault url, for example https://myvault.vault.azure.net",
+          "type": "string",
+          "default": ""
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AzureSpec": {
+      "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/azure.html\n\nAzureSpec defines configuration to set up Google Cloud Storage as backend storage in vault",
+      "type": "object",
+      "required": [
+        "accountName",
+        "accountKeySecret",
+        "container"
+      ],
+      "properties": {
+        "accountKeySecret": {
+          "description": "Specifies the secret containing Azure Storage account key. secret data:\n - account_key:\u003cvalue\u003e",
+          "type": "string",
+          "default": ""
+        },
+        "accountName": {
+          "description": "Specifies the Azure Storage account name.",
+          "type": "string",
+          "default": ""
+        },
+        "container": {
+          "description": "Specifies the Azure Storage Blob container name.",
+          "type": "string",
+          "default": ""
+        },
+        "maxParallel": {
+          "description": "\n Specifies the maximum number of concurrent operations to take place.",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.BackendStorageSpec": {
+      "description": "BackendStorageSpec defines storage backend configuration of vault",
+      "type": "object",
+      "properties": {
+        "azure": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AzureSpec"
+        },
+        "consul": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.ConsulSpec"
+        },
+        "dynamodb": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.DynamoDBSpec"
+        },
+        "etcd": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.EtcdSpec"
+        },
+        "file": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.FileSpec"
+        },
+        "gcs": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.GcsSpec"
+        },
+        "inmem": {
+          "description": "ref: https://www.vaultproject.io/docs/configuration/storage/in-memory.html",
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.InmemSpec"
+        },
+        "mysql": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.MySQLSpec"
+        },
+        "postgresql": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.PostgreSQLSpec"
+        },
+        "raft": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.RaftSpec"
+        },
+        "s3": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.S3Spec"
+        },
+        "swift": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.SwiftSpec"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.ConsulSpec": {
+      "description": "ref: https://www.vaultproject.io/docs/configuration/storage/consul.html\n\nConsulSpec defines the configuration to set up consul as backend storage in vault",
+      "type": "object",
+      "properties": {
+        "aclTokenSecretName": {
+          "description": "Specifies the secret name that contains ACL token with permission to read and write from the path in Consul's key-value store. secret data:\n - aclToken:\u003cvalue\u003e",
+          "type": "string"
+        },
+        "address": {
+          "description": "Specifies the address of the Consul agent to communicate with. This can be an IP address, DNS record, or unix socket.",
+          "type": "string"
+        },
+        "checkTimeout": {
+          "description": "Specifies the check interval used to send health check information back to Consul. This is specified using a label suffix like \"30s\" or \"1h\".",
+          "type": "string"
+        },
+        "consistencyMode": {
+          "description": "Specifies the Consul consistency mode. Possible values are \"default\" or \"strong\".",
+          "type": "string"
+        },
+        "disableRegistration": {
+          "description": "Specifies whether Vault should register itself with Consul. Possible values are \"true\" or \"false\"",
+          "type": "string"
+        },
+        "lockWaitTime": {
+          "description": "Specifies the wait time before a lock lock acquisition is made. This affects the minimum time it takes to cancel a lock acquisition.",
+          "type": "string"
+        },
+        "maxParallel": {
+          "description": "Specifies the maximum number of concurrent requests to Consul.",
+          "type": "string"
+        },
+        "path": {
+          "description": "Specifies the path in Consul's key-value store where Vault data will be stored.",
+          "type": "string"
+        },
+        "scheme": {
+          "description": "Specifies the scheme to use when communicating with Consul. This can be set to \"http\" or \"https\".",
+          "type": "string"
+        },
+        "service": {
+          "description": "Specifies the name of the service to register in Consul.",
+          "type": "string"
+        },
+        "serviceAddress": {
+          "description": "Specifies a service-specific address to set on the service registration in Consul. If unset, Vault will use what it knows to be the HA redirect address - which is usually desirable. Setting this parameter to \"\" will tell Consul to leverage the configuration of the node the service is registered on dynamically.",
+          "type": "string"
+        },
+        "serviceTags": {
+          "description": "Specifies a comma-separated list of tags to attach to the service registration in Consul.",
+          "type": "string"
+        },
+        "sessionTTL": {
+          "description": "Specifies the minimum allowed session TTL. Consul server has a lower limit of 10s on the session TTL by default.",
+          "type": "string"
+        },
+        "tlsMinVersion": {
+          "description": "Specifies the minimum TLS version to use. Accepted values are \"tls10\", \"tls11\" or \"tls12\".",
+          "type": "string"
+        },
+        "tlsSecretName": {
+          "description": "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for consul communication Secret data:\n - ca.crt\n - client.crt\n - client.key",
+          "type": "string"
+        },
+        "tlsSkipVerify": {
+          "description": "Specifies if the TLS host verification should be disabled. It is highly discouraged that you disable this option.",
+          "type": "boolean"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.DynamoDBSpec": {
+      "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/dynamodb.html\n\nDynamoDBSpec defines configuration to set up DynamoDB Storage as backend storage in vault",
+      "type": "object",
+      "properties": {
+        "credentialSecret": {
+          "description": "Specifies the secret name containing AWS access key and AWS secret key secret data:\n - access_key=\u003cvalue\u003e\n - secret_key=\u003cvalue\u003e",
+          "type": "string"
+        },
+        "endpoint": {
+          "description": "Specifies an alternative, AWS compatible, DynamoDB endpoint.",
+          "type": "string"
+        },
+        "haEnabled": {
+          "description": "Specifies whether this backend should be used to run Vault in high availability mode.",
+          "type": "boolean"
+        },
+        "maxParallel": {
+          "description": "Specifies the maximum number of parallel operations to take place.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "readCapacity": {
+          "description": "Specifies the maximum number of reads consumed per second on the table",
+          "type": "integer",
+          "format": "int64"
+        },
+        "region": {
+          "description": "Specifies the AWS region",
+          "type": "string"
+        },
+        "sessionTokenSecret": {
+          "description": "Specifies the secret name containing AWS session token secret data:\n - session_token:\u003cvalue\u003e",
+          "type": "string"
+        },
+        "table": {
+          "description": "Specifies the name of the DynamoDB table in which to store Vault data. If the specified table does not yet exist, it will be created during initialization. default: vault-dynamodb-backend",
+          "type": "string"
+        },
+        "writeCapacity": {
+          "description": "Specifies the maximum number of writes performed per second on the table.",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.EtcdSpec": {
+      "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/etcd.html\n\nEtcdSpec defines configuration to set up etcd as backend storage in vault",
+      "type": "object",
+      "required": [
+        "address"
+      ],
+      "properties": {
+        "address": {
+          "description": "Specifies the addresses of the etcd instances",
+          "type": "string",
+          "default": ""
+        },
+        "credentialSecretName": {
+          "description": "Specifies the secret name that contain username and password to use when authenticating with the etcd server secret data:\n - username:\u003cvalue\u003e\n - password:\u003cvalue\u003e",
+          "type": "string"
+        },
+        "discoverySrv": {
+          "description": "Specifies the domain name to query for SRV records describing cluster endpoints",
+          "type": "string"
+        },
+        "etcdApi": {
+          "description": "Specifies the version of the API to communicate with etcd",
+          "type": "string"
+        },
+        "haEnable": {
+          "description": "Specifies if high availability should be enabled",
+          "type": "boolean"
+        },
+        "path": {
+          "description": "Specifies the path in etcd where vault data will be stored",
+          "type": "string"
+        },
+        "sync": {
+          "description": "Specifies whether to sync list of available etcd services on startup",
+          "type": "boolean"
+        },
+        "tlsSecretName": {
+          "description": "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for etcd communication secret data:\n - ca.crt\n - client.crt\n - client.key",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.FileSpec": {
+      "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/filesystem.html\n\nFileSpec defines configuration to set up File system Storage as backend storage in vault",
+      "type": "object",
+      "required": [
+        "path",
+        "volumeClaimTemplate"
+      ],
+      "properties": {
+        "path": {
+          "description": "The absolute path on disk to the directory where the data will be stored. If the directory does not exist, Vault will create it.",
+          "type": "string",
+          "default": ""
+        },
+        "volumeClaimTemplate": {
+          "description": "volumeClaimTemplate is a claim that pods are allowed to reference. The VaultServer controller is responsible for deploying the claim and update the volumeMounts in the Vault server container in the template.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.offshoot-api.api.v1.PersistentVolumeClaim"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.GcsSpec": {
+      "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage.html\n\nGcsSpec defines configuration to set up Google Cloud Storage as backend storage in vault",
+      "type": "object",
+      "required": [
+        "bucket"
+      ],
+      "properties": {
+        "bucket": {
+          "description": "Specifies the name of the bucket to use for storage.",
+          "type": "string",
+          "default": ""
+        },
+        "chunkSize": {
+          "description": "Specifies the maximum size (in kilobytes) to send in a single request. If set to 0, it will attempt to send the whole object at once, but will not retry any failures.",
+          "type": "string"
+        },
+        "credentialSecret": {
+          "description": "Secret containing Google application credential secret data:\n - sa.json:\u003cvalue\u003e",
+          "type": "string"
+        },
+        "haEnabled": {
+          "description": "Specifies if high availability mode is enabled.",
+          "type": "boolean"
+        },
+        "maxParallel": {
+          "description": "\n Specifies the maximum number of parallel operations to take place.",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.GoogleKmsGcsSpec": {
+      "description": "GoogleKmsGcsSpec contain the fields that required to unseal vault using google kms",
+      "type": "object",
+      "required": [
+        "kmsCryptoKey",
+        "kmsKeyRing",
+        "kmsLocation",
+        "kmsProject",
+        "bucket"
+      ],
+      "properties": {
+        "bucket": {
+          "description": "The name of the Google Cloud Storage bucket to store values in",
+          "type": "string",
+          "default": ""
+        },
+        "credentialSecret": {
+          "description": "Secret containing Google application credential secret data:\n - sa.json:\u003cvalue\u003e",
+          "type": "string"
+        },
+        "kmsCryptoKey": {
+          "description": "The name of the Google Cloud KMS crypto key to use",
+          "type": "string",
+          "default": ""
+        },
+        "kmsKeyRing": {
+          "description": "The name of the Google Cloud KMS key ring to use",
+          "type": "string",
+          "default": ""
+        },
+        "kmsLocation": {
+          "description": "The Google Cloud KMS location to use (eg. 'global', 'europe-west1')",
+          "type": "string",
+          "default": ""
+        },
+        "kmsProject": {
+          "description": "The Google Cloud KMS project to use",
+          "type": "string",
+          "default": ""
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.InmemSpec": {
+      "description": "ref: https://www.vaultproject.io/docs/configuration/storage/in-memory.html",
+      "type": "object"
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.KubernetesSecretSpec": {
+      "description": "KubernetesSecretSpec contain the fields that required to unseal using kubernetes secret",
+      "type": "object",
+      "required": [
+        "secretName"
+      ],
+      "properties": {
+        "secretName": {
+          "type": "string",
+          "default": ""
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.ModeSpec": {
+      "description": "ModeSpec contain unseal mechanism",
+      "type": "object",
+      "properties": {
+        "awsKmsSsm": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AwsKmsSsmSpec"
+        },
+        "azureKeyVault": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AzureKeyVault"
+        },
+        "googleKmsGcs": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.GoogleKmsGcsSpec"
+        },
+        "kubernetesSecret": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.KubernetesSecretSpec"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.MySQLSpec": {
+      "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/mysql.html\n\nMySQLSpec defines configuration to set up MySQL Storage as backend storage in vault",
+      "type": "object",
+      "required": [
+        "userCredentialSecret"
+      ],
+      "properties": {
+        "address": {
+          "description": "Specifies the address of the MySQL host.",
+          "type": "string",
+          "default": ""
+        },
+        "database": {
+          "description": "Specifies the name of the database. If the database does not exist, Vault will attempt to create it.",
+          "type": "string"
+        },
+        "maxParallel": {
+          "description": "\n Specifies the maximum number of concurrent requests to take place.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "table": {
+          "description": "Specifies the name of the table. If the table does not exist, Vault will attempt to create it.",
+          "type": "string"
+        },
+        "tlsCASecret": {
+          "description": "Specifies the name of the secret containing the CA certificate to connect using TLS. secret data:\n - tls_ca_file=\u003cca_cert\u003e",
+          "type": "string"
+        },
+        "userCredentialSecret": {
+          "description": "Specifies the MySQL username and password to connect to the database secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
+          "type": "string",
+          "default": ""
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.NamedServiceTemplateSpec": {
+      "type": "object",
+      "required": [
+        "alias"
+      ],
+      "properties": {
+        "alias": {
+          "description": "Alias represents the identifier of the service.",
+          "type": "string",
+          "default": ""
+        },
+        "metadata": {
+          "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.offshoot-api.api.v1.ObjectMeta"
+        },
+        "spec": {
+          "description": "Specification of the desired behavior of the service. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#spec-and-status",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.offshoot-api.api.v1.ServiceSpec"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.PostgreSQLSpec": {
+      "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/postgresql.html\n\nPostgreSQLSpec defines configuration to set up PostgreSQL storage as backend storage in vault",
+      "type": "object",
+      "required": [
+        "connectionURLSecret"
+      ],
+      "properties": {
+        "connectionURLSecret": {
+          "description": "Specifies the name of the secret containing the connection string to use to authenticate and connect to PostgreSQL. A full list of supported parameters can be found in the pq library documentation(https://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters). secret data:\n - connection_url:\u003cdata\u003e",
+          "type": "string",
+          "default": ""
+        },
+        "maxParallel": {
+          "description": "\n Specifies the maximum number of concurrent requests to take place.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "table": {
+          "description": "Specifies the name of the table in which to write Vault data. This table must already exist (Vault will not attempt to create it).",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.RaftSpec": {
+      "description": "RaftSpec defines the configuration for the Raft integrated storage. https://www.vaultproject.io/docs/configuration/storage/raft",
+      "type": "object",
+      "properties": {
+        "autopilotReconcileInterval": {
+          "description": "This is the interval after which autopilot will pick up any state changes. default: \"\"",
+          "type": "string"
+        },
+        "maxEntrySize": {
+          "description": "This configures the maximum number of bytes for a raft entry. It applies to both Put operations and transactions. default: 1048576",
+          "type": "integer",
+          "format": "int64"
+        },
+        "path": {
+          "description": "Path (string: \"\") specifies the filesystem path where the vault data gets stored. This value can be overridden by setting the VAULT_RAFT_PATH environment variable. default: \"\"",
+          "type": "string"
+        },
+        "performanceMultiplier": {
+          "description": "An integer multiplier used by servers to scale key Raft timing parameters. Tuning this affects the time it takes Vault to detect leader failures and to perform leader elections, at the expense of requiring more network and CPU resources for better performance. default: 0",
+          "type": "integer",
+          "format": "int64"
+        },
+        "snapshotThreshold": {
+          "description": "This controls the minimum number of raft commit entries between snapshots that are saved to disk. default: 8192",
+          "type": "integer",
+          "format": "int64"
+        },
+        "storage": {
+          "description": "Storage to specify how storage shall be used.",
+          "$ref": "#/definitions/io.k8s.api.core.v1.PersistentVolumeClaimSpec"
+        },
+        "trailingLogs": {
+          "description": "This controls how many log entries are left in the log store on disk after a snapshot is made. default: 10000",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.S3Spec": {
+      "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/s3.html\n\nS3Spec defines configuration to set up Amazon S3 Storage as backend storage in vault",
+      "type": "object",
+      "required": [
+        "bucket"
+      ],
+      "properties": {
+        "bucket": {
+          "description": "Specifies the name of the bucket to use for storage.",
+          "type": "string",
+          "default": ""
+        },
+        "credentialSecret": {
+          "description": "Specifies the secret name containing AWS access key and AWS secret key secret data:\n - access_key=\u003cvalue\u003e\n - secret_key=\u003cvalue\u003e",
+          "type": "string"
+        },
+        "disableSSL": {
+          "description": "Specifies if SSL should be used for the endpoint connection",
+          "type": "boolean"
+        },
+        "endpoint": {
+          "description": "Specifies an alternative, AWS compatible, S3 endpoint.",
+          "type": "string"
+        },
+        "forcePathStyle": {
+          "description": "Specifies whether to use host bucket style domains with the configured endpoint.",
+          "type": "boolean"
+        },
+        "maxParallel": {
+          "description": "Specifies the maximum number of parallel operations to take place.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "region": {
+          "description": "Specifies the AWS region",
+          "type": "string"
+        },
+        "sessionTokenSecret": {
+          "description": "Specifies the secret name containing AWS session token secret data:\n - session_token:\u003cvalue\u003e",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.SecretEngineNamespaces": {
+      "description": "SecretEngineNamespaces indicate which namespaces Secret Engines should be selected from.",
+      "type": "object",
+      "properties": {
+        "from": {
+          "description": "From indicates where Secret Engines will be selected for this VaultServer. Possible values are: * All: Secret Engines in all namespaces may be used by this VaultServer. * Selector: Secret Engines in namespaces selected by the selector may be used by\n  this VaultServer.\n* Same: Only Secret Engines in the same namespace may be used by this VaultServer.",
+          "type": "string"
+        },
+        "selector": {
+          "description": "Selector must be specified when From is set to \"Selector\". In that case, only Secret Engines in Namespaces matching this Selector will be selected by this VaultServer. This field is ignored for other values of \"From\".",
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.SwiftSpec": {
+      "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/swift.html\n\nSwiftSpec defines configuration to set up Swift Storage as backend storage in vault",
+      "type": "object",
+      "required": [
+        "authURL",
+        "container",
+        "credentialSecret"
+      ],
+      "properties": {
+        "authTokenSecret": {
+          "description": "Specifies secret containing auth token from alternate authentication. secret data:\n - auth_token=\u003cvalue\u003e",
+          "type": "string"
+        },
+        "authURL": {
+          "description": "Specifies the OpenStack authentication endpoint.",
+          "type": "string",
+          "default": ""
+        },
+        "container": {
+          "description": "Specifies the name of the Swift container.",
+          "type": "string",
+          "default": ""
+        },
+        "credentialSecret": {
+          "description": "Specifies the name of the secret containing the OpenStack account/username and password secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
+          "type": "string",
+          "default": ""
+        },
+        "domain": {
+          "description": "Specifies the name of the user domain.",
+          "type": "string"
+        },
+        "maxParallel": {
+          "description": "\n Specifies the maximum number of concurrent requests to take place.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "projectDomain": {
+          "description": "Specifies the name of the project's domain.",
+          "type": "string"
+        },
+        "region": {
+          "description": "Specifies the name of the region.",
+          "type": "string"
+        },
+        "storageURL": {
+          "description": "Specifies storage URL from alternate authentication.",
+          "type": "string"
+        },
+        "tenant": {
+          "description": "Specifies the name of the tenant. If left blank, this will default to the default tenant of the username.",
+          "type": "string"
+        },
+        "tenantID": {
+          "description": "Specifies the id of the tenant.",
+          "type": "string"
+        },
+        "trustID": {
+          "description": "Specifies the id of the trust.",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.UnsealerSpec": {
+      "description": "UnsealerSpec contain the configuration for auto vault initialize/unseal",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "description": "mode contains unseal mechanism",
+          "default": {},
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.ModeSpec"
+        },
+        "overwriteExisting": {
+          "description": "overwrite existing unseal keys and root tokens, possibly dangerous!",
+          "type": "boolean"
+        },
+        "retryPeriodSeconds": {
+          "description": "How often to attempt to unseal the vault instance",
+          "type": "integer",
+          "format": "int64"
+        },
+        "secretShares": {
+          "description": "Total count of secret shares that exist",
+          "type": "integer",
+          "format": "int64"
+        },
+        "secretThreshold": {
+          "description": "Minimum required secret shares to unseal",
+          "type": "integer",
+          "format": "int64"
+        },
+        "storeRootToken": {
+          "description": "should the root token be stored in the key store (default true)",
+          "type": "boolean"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServer": {
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "default": {},
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "default": {},
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServerSpec"
+        },
+        "status": {
+          "default": {},
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServerStatus"
+        }
+      },
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "kubevault.com",
+          "kind": "VaultServer",
+          "version": "v1alpha2"
+        }
+      ]
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServerList": {
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "default": {},
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServer"
+          }
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "default": {},
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "kubevault.com",
+          "kind": "VaultServerList",
+          "version": "v1alpha2"
+        }
+      ]
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServerSpec": {
+      "type": "object",
+      "required": [
+        "version",
+        "backend"
+      ],
+      "properties": {
+        "allowedSecretEngines": {
+          "description": "AllowedSecretEngines defines the types of Secret Engines that MAY be attached to a Listener and the trusted namespaces where those Route resources MAY be present.\n\nAlthough a client request may match multiple route rules, only one rule may ultimately receive the request. Matching precedence MUST be determined in order of the following criteria:\n\n* The most specific match as defined by the Route type. * The oldest Route based on creation timestamp. For example, a Route with\n  a creation timestamp of \"2020-09-08 01:02:03\" is given precedence over\n  a Route with a creation timestamp of \"2020-09-08 01:02:04\".\n* If everything else is equivalent, the Route appearing first in\n  alphabetical order (namespace/name) should be given precedence. For\n  example, foo/bar is given precedence over foo/baz.\n\nAll valid rules within a Route attached to this Listener should be implemented. Invalid Route rules can be ignored (sometimes that will mean the full Route). If a Route rule transitions from valid to invalid, support for that Route rule should be dropped to ensure consistency. For example, even if a filter specified by a Route rule is invalid, the rest of the rules within that Route should still be supported.\n\nSupport: Core",
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AllowedSecretEngines"
+        },
+        "authMethods": {
+          "description": "Specifies the list of auth methods to enable",
+          "type": "array",
+          "items": {
+            "default": {},
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AuthMethod"
+          }
+        },
+        "backend": {
+          "description": "backend storage configuration for vault",
+          "default": {},
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.BackendStorageSpec"
+        },
+        "configSecret": {
+          "description": "ConfigSecret is an optional field to provide extra configuration for vault. This secret contain extra config for vault File name should be 'vault.hcl'. If specified, this file will be appended to the controller configuration file.",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "dataSources": {
+          "description": "DataSources is a list of Configmaps/Secrets in the same namespace as the VaultServer object, which shall be mounted into the VaultServer Pods. The data are mounted into /etc/vault/data/\u003cname\u003e. The first data will be named as \"data-0\", second one will be named as \"data-1\" and so on.",
+          "type": "array",
+          "items": {
+            "default": {},
+            "$ref": "#/definitions/io.k8s.api.core.v1.VolumeSource"
+          }
+        },
+        "halted": {
+          "description": "Indicates that the vault server is halted and all offshoot Kubernetes resources except PVCs are deleted.",
+          "type": "boolean"
+        },
+        "monitor": {
+          "description": "Monitor is used monitor database instance",
+          "$ref": "#/definitions/xyz.kmodules.monitoring-agent-api.api.v1.AgentSpec"
+        },
+        "podTemplate": {
+          "description": "PodTemplate is an optional configuration for pods used to run vault",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.offshoot-api.api.v1.PodTemplateSpec"
+        },
+        "replicas": {
+          "description": "Number of instances to deploy for a VaultServer.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "serviceTemplates": {
+          "description": "ServiceTemplates is an optional configuration for services used to expose database",
+          "type": "array",
+          "items": {
+            "default": {},
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.NamedServiceTemplateSpec"
+          }
+        },
+        "terminationPolicy": {
+          "description": "TerminationPolicy controls the delete operation for vault server",
+          "type": "string"
+        },
+        "tls": {
+          "description": "TLS policy of vault nodes",
+          "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.TLSConfig"
+        },
+        "unsealer": {
+          "description": "Unsealer configuration for vault",
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.UnsealerSpec"
+        },
+        "version": {
+          "description": "Version of VaultServer to be deployed.",
+          "type": "string",
+          "default": ""
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServerStatus": {
+      "type": "object",
+      "properties": {
+        "authMethodStatus": {
+          "description": "Status of the vault auth methods",
+          "type": "array",
+          "items": {
+            "default": {},
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AuthMethodStatus"
+          }
+        },
+        "clientPort": {
+          "description": "ClientPort is the port for vault client to access. It's the same on client LB service and vault nodes.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "conditions": {
+          "description": "Represents the latest available observations of a VaultServer current state.",
+          "type": "array",
+          "items": {
+            "default": {},
+            "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.Condition"
+          }
+        },
+        "initialized": {
+          "description": "Initialized indicates if the Vault service is initialized.",
+          "type": "boolean"
+        },
+        "observedGeneration": {
+          "description": "ObservedGeneration is the most recent generation observed for this resource. It corresponds to the resource's generation, which is updated on mutation by the API Server.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "phase": {
+          "description": "Phase indicates the state this Vault server jumps in.",
+          "type": "string"
+        },
+        "serviceName": {
+          "description": "ServiceName is the LB service for accessing vault nodes.",
+          "type": "string"
+        },
+        "updatedNodes": {
+          "description": "PodNames of updated Vault nodes. Updated means the Vault container image version matches the spec's version.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "vaultStatus": {
+          "description": "VaultStatus is the set of Vault node specific statuses: Active, Standby, and Sealed",
+          "default": {},
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultStatus"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultStatus": {
+      "type": "object",
+      "properties": {
+        "active": {
+          "description": "PodName of the active Vault node. Active node is unsealed. Only active node can serve requests. Vault service only points to the active node.",
+          "type": "string"
+        },
+        "sealed": {
+          "description": "PodNames of Sealed Vault nodes. Sealed nodes MUST be unsealed to become standby or leader.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "standby": {
+          "description": "PodNames of the standby Vault nodes. Standby nodes are unsealed. Standby nodes do not process requests, and instead redirect to the active Vault.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "unsealed": {
+          "description": "PodNames of Unsealed Vault nodes.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.policy.v1alpha1.AppRoleSubjectRef": {
       "description": "More info: https://www.vaultproject.io/api-docs/auth/approle#create-update-approle",
       "type": "object",
@@ -19154,6 +21266,11 @@
           "version": "v1alpha1"
         },
         {
+          "group": "kubevault.com",
+          "kind": "DeleteOptions",
+          "version": "v1alpha2"
+        },
+        {
           "group": "policy.kubevault.com",
           "kind": "DeleteOptions",
           "version": "v1alpha1"
@@ -19529,6 +21646,11 @@
           "version": "v1alpha1"
         },
         {
+          "group": "kubevault.com",
+          "kind": "Status",
+          "version": "v1alpha2"
+        },
+        {
           "group": "policy.kubevault.com",
           "kind": "Status",
           "version": "v1alpha1"
@@ -19631,6 +21753,11 @@
           "group": "kubevault.com",
           "kind": "WatchEvent",
           "version": "v1alpha1"
+        },
+        {
+          "group": "kubevault.com",
+          "kind": "WatchEvent",
+          "version": "v1alpha2"
         },
         {
           "group": "policy.kubevault.com",

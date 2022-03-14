@@ -27,6 +27,7 @@ import (
 	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 	vaultinstall "kubevault.dev/apimachinery/apis/kubevault/install"
 	vaultv1alpha1 "kubevault.dev/apimachinery/apis/kubevault/v1alpha1"
+	vaultv1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 	policyinstall "kubevault.dev/apimachinery/apis/policy/install"
 	policyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
 
@@ -67,6 +68,7 @@ func generateSwaggerJson() {
 			},
 		},
 		OpenAPIDefinitions: []common.GetOpenAPIDefinitions{
+			vaultv1alpha2.GetOpenAPIDefinitions,
 			vaultv1alpha1.GetOpenAPIDefinitions,
 			catalogv1alpha1.GetOpenAPIDefinitions,
 			policyv1alpha1.GetOpenAPIDefinitions,
@@ -74,6 +76,7 @@ func generateSwaggerJson() {
 		},
 		//nolint:govet
 		Resources: []openapi.TypeInfo{
+			{vaultv1alpha2.SchemeGroupVersion, vaultv1alpha2.ResourceVaultServers, vaultv1alpha2.ResourceKindVaultServer, true},
 			{vaultv1alpha1.SchemeGroupVersion, vaultv1alpha1.ResourceVaultServers, vaultv1alpha1.ResourceKindVaultServer, true},
 			{catalogv1alpha1.SchemeGroupVersion, catalogv1alpha1.ResourceVaultServerVersions, catalogv1alpha1.ResourceKindVaultServerVersion, false},
 			{policyv1alpha1.SchemeGroupVersion, policyv1alpha1.ResourceVaultPolicies, policyv1alpha1.ResourceKindVaultPolicy, true},

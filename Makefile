@@ -21,7 +21,7 @@ COMPRESS ?= no
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS          ?= "crd:generateEmbeddedObjectMeta=true,allowDangerousTypes=true"
 CODE_GENERATOR_IMAGE ?= appscode/gengo:release-1.21
-API_GROUPS           ?= kubevault:v1alpha1 catalog:v1alpha1 config:v1alpha1 policy:v1alpha1 engine:v1alpha1
+API_GROUPS           ?= kubevault:v1alpha1 kubevault:v1alpha2 catalog:v1alpha1 config:v1alpha1 policy:v1alpha1 engine:v1alpha1
 
 # Where to push the docker image.
 REGISTRY ?= kubevault
@@ -136,7 +136,7 @@ version:
 # Generate a typed clientset
 .PHONY: clientset
 clientset:
-	@docker run --rm                                     \
+	@docker run --rm                                   \
 		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
 		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
@@ -150,6 +150,18 @@ clientset:
 			$(GO_PKG)/$(REPO)/apis                       \
 			"$(API_GROUPS)"                              \
 			--go-header-file "./hack/license/go.txt"
+	rm -rf ./apis/kubevault/v1alpha1/zz_generated.conversion.go
+	@docker run --rm                                   \
+		-u $$(id -u):$$(id -g)                           \
+		-v /tmp:/.cache                                  \
+		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
+		-w $(DOCKER_REPO_ROOT)                           \
+		--env HTTP_PROXY=$(HTTP_PROXY)                   \
+		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
+		$(CODE_GENERATOR_IMAGE)                          \
+		/go/bin/conversion-gen --go-header-file ./hack/license/go.txt \
+			--input-dirs $(GO_PKG)/$(REPO)/apis/kubevault/v1alpha1 \
+			-O zz_generated.conversion
 
 # Generate openapi schema
 .PHONY: openapi
@@ -243,7 +255,7 @@ gen-crd-protos-%:
 manifests: gen-crds patch-crds label-crds
 
 .PHONY: gen
-gen: clientset gen-crd-protos manifests openapi
+gen: clientset manifests openapi
 
 fmt: $(BUILD_DIRS)
 	@docker run                                                 \

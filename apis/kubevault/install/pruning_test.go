@@ -21,6 +21,7 @@ import (
 
 	"kubevault.dev/apimachinery/apis/kubevault/fuzzer"
 	"kubevault.dev/apimachinery/apis/kubevault/v1alpha1"
+	"kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 
 	clientsetscheme "k8s.io/client-go/kubernetes/scheme"
 	crdfuzz "kmodules.xyz/crd-schema-fuzz"
@@ -30,12 +31,12 @@ func TestPruneTypes(t *testing.T) {
 	Install(clientsetscheme.Scheme)
 
 	// CRD v1
-	if crd := (v1alpha1.VaultServer{}).CustomResourceDefinition(); crd.V1 != nil {
+	if crd := (v1alpha2.VaultServer{}).CustomResourceDefinition(); crd.V1 != nil {
 		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
 	}
 
-	// CRD v1beta1
-	if crd := (v1alpha1.VaultServer{}).CustomResourceDefinition(); crd.V1beta1 != nil {
-		crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, crd.V1beta1, fuzzer.Funcs)
+	// CRD v1
+	if crd := (v1alpha1.VaultServer{}).CustomResourceDefinition(); crd.V1 != nil {
+		crdfuzz.SchemaFuzzTestForV1CRD(t, clientsetscheme.Scheme, crd.V1, fuzzer.Funcs)
 	}
 }

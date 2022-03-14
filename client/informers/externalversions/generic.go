@@ -24,6 +24,7 @@ import (
 	v1alpha1 "kubevault.dev/apimachinery/apis/catalog/v1alpha1"
 	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 	kubevaultv1alpha1 "kubevault.dev/apimachinery/apis/kubevault/v1alpha1"
+	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 	policyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
 
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
@@ -85,6 +86,10 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		// Group=kubevault.com, Version=v1alpha1
 	case kubevaultv1alpha1.SchemeGroupVersion.WithResource("vaultservers"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Kubevault().V1alpha1().VaultServers().Informer()}, nil
+
+		// Group=kubevault.com, Version=v1alpha2
+	case v1alpha2.SchemeGroupVersion.WithResource("vaultservers"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Kubevault().V1alpha2().VaultServers().Informer()}, nil
 
 		// Group=policy.kubevault.com, Version=v1alpha1
 	case policyv1alpha1.SchemeGroupVersion.WithResource("vaultpolicies"):

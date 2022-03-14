@@ -662,8 +662,8 @@ func (in *VaultServerSpec) DeepCopyInto(out *VaultServerSpec) {
 		*out = new(int32)
 		**out = **in
 	}
-	if in.ConfigSecret != nil {
-		in, out := &in.ConfigSecret, &out.ConfigSecret
+	if in.ConfigSecretRef != nil {
+		in, out := &in.ConfigSecretRef, &out.ConfigSecretRef
 		*out = new(v1.LocalObjectReference)
 		**out = **in
 	}

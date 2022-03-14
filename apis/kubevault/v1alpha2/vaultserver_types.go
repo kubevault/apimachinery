@@ -63,7 +63,7 @@ type VaultServerSpec struct {
 	// File name should be 'vault.hcl'.
 	// If specified, this file will be appended to the controller configuration file.
 	// +optional
-	ConfigSecret *core.LocalObjectReference `json:"configSecret,omitempty"`
+	ConfigSecretRef *core.LocalObjectReference `json:"configSecretRef,omitempty"`
 
 	// DataSources is a list of Configmaps/Secrets in the same namespace as the VaultServer
 	// object, which shall be mounted into the VaultServer Pods.

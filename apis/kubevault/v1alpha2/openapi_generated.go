@@ -19784,7 +19784,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MySQLSpec(ref common.ReferenceC
 					"databaseRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "DatabaseRef contains the info of KubeDB managed Database This will be used to generate the \"Address\" field",
-							Ref:         ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
 						},
 					},
 					"plaintextCredentialTransmission": {
@@ -19826,7 +19826,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MySQLSpec(ref common.ReferenceC
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.ObjectReference"},
+			"kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
 	}
 }
 

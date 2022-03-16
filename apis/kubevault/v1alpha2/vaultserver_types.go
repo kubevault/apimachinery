@@ -22,6 +22,7 @@ import (
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kmapi "kmodules.xyz/client-go/api/v1"
+	appcat "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1"
 	mona "kmodules.xyz/monitoring-agent-api/api/v1"
 	ofst "kmodules.xyz/offshoot-api/api/v1"
 )
@@ -640,7 +641,7 @@ type MySQLSpec struct {
 
 	// DatabaseRef contains the info of KubeDB managed Database
 	// This will be used to generate the "Address" field
-	DatabaseRef *kmapi.ObjectReference `json:"databaseRef,omitempty"`
+	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
 
 	PlaintextCredentialTransmission string `json:"plaintextCredentialTransmission,omitempty"`
 

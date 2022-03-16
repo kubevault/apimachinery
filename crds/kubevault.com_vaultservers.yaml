@@ -7594,13 +7594,24 @@ spec:
                           Database This will be used to generate the "Address" field
                         properties:
                           name:
-                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                            description: '`name` is the name of the app. Required'
                             type: string
                           namespace:
-                            description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                            description: '`namespace` is the namespace of the app.
+                              Required'
                             type: string
+                          parameters:
+                            description: "Parameters is a set of the parameters to
+                              be used to override default parameters. The inline YAML/JSON
+                              payload to be translated into equivalent JSON object.
+                              \n The Parameters field is NOT secret or secured in
+                              any way and should NEVER be used to hold sensitive information."
+                            type: object
+                            x-kubernetes-embedded-resource: true
+                            x-kubernetes-preserve-unknown-fields: true
                         required:
                         - name
+                        - namespace
                         type: object
                       haEnabled:
                         description: High Availability Parameter Specifies if high

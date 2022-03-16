@@ -17537,7 +17537,7 @@
         },
         "databaseRef": {
           "description": "DatabaseRef contains the info of KubeDB managed Database This will be used to generate the \"Address\" field",
-          "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.ObjectReference"
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
         },
         "haEnabled": {
           "description": "High Availability Parameter Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like \"true\" or \"false\".",

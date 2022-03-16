@@ -576,7 +576,7 @@ type PostgreSQLSpec struct {
 	// A full list of supported parameters can be found in the pq library documentation(https://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters).
 	// secret data:
 	//  - connection_url:<data>
-	ConnectionURLSecret string `json:"connectionURLSecret"`
+	CredentialSecretRef string `json:"credentialSecretRef"`
 
 	// Specifies the name of the table in which to write Vault data.
 	// This table must already exist (Vault will not attempt to create it).
@@ -586,6 +586,21 @@ type PostgreSQLSpec struct {
 	//  Specifies the maximum number of concurrent requests to take place.
 	// +optional
 	MaxParallel int64 `json:"maxParallel,omitempty"`
+
+	// Default not set. Sets the maximum number of connections in the idle connection pool.
+	// See golang docs on SetMaxIdleConns(https://pkg.go.dev/database/sql#DB.SetMaxIdleConns) for more information. Requires 1.2 or later.
+	// +optional
+	MaxIdleConnection int64 `json:"maxIdleConnection,omitempty"`
+
+	// High Availability Parameter
+	// Default not enabled, requires 9.5 or later
+	// Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like "true" or "false".
+	// +optional
+	HAEnabled string `json:"haEnabled,omitempty"`
+
+	// Specifies the name of the table to use for storing high availability information. This table must already exist (Vault will not attempt to create it).
+	// +optional
+	HaTable string `json:"haTable,omitempty"`
 }
 
 // vault doc: https://www.vaultproject.io/docs/configuration/storage/mysql.html
@@ -593,6 +608,9 @@ type PostgreSQLSpec struct {
 // MySQLSpec defines configuration to set up MySQL Storage as backend storage in vault
 type MySQLSpec struct {
 	// Specifies the address of the MySQL host.
+	// if DatabaseRef is set then Address will be generated from it
+	// This must be set if DatabaseRef is empty, validate from ValidatingWebhook
+	// host example: <db-name>.<db-ns>.svc:3306
 	// +optional
 	Address string `json:"address"`
 
@@ -608,17 +626,44 @@ type MySQLSpec struct {
 	// secret data:
 	//  - username=<value>
 	//  - password=<value>
-	UserCredentialSecret string `json:"userCredentialSecret"`
+	CredentialSecretRef string `json:"credentialSecretRef"`
 
 	// Specifies the name of the secret containing the CA certificate to connect using TLS.
 	// secret data:
 	//  - tls_ca_file=<ca_cert>
 	// +optional
-	TLSCASecret string `json:"tlsCASecret,omitempty"`
+	TLSSecretRef string `json:"tlsSecretRef,omitempty"`
 
 	//  Specifies the maximum number of concurrent requests to take place.
 	// +optional
 	MaxParallel int64 `json:"maxParallel,omitempty"`
+
+	// DatabaseRef contains the info of KubeDB managed Database
+	// This will be used to generate the "Address" field
+	DatabaseRef *kmapi.ObjectReference `json:"databaseRef,omitempty"`
+
+	PlaintextCredentialTransmission string `json:"plaintextCredentialTransmission,omitempty"`
+
+	// Specifies the maximum number of idle connections to the database.
+	// A zero uses value defaults to 2 idle connections and a negative value disables idle connections.
+	// If larger than max_parallel it will be reduced to be equal.
+	// +optional
+	MaxIdleConnection int64 `json:"maxIdleConnection,omitempty"`
+
+	// Specifies the maximum amount of time in seconds that a connection may be reused. If <= 0s connections are reused forever.
+	// +optional
+	MaxConnectionLifetime int64 `json:"maxConnectionLifetime,omitempty"`
+
+	// High Availability Parameter
+	// Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like "true" or "false".
+	// +optional
+	HAEnabled string `json:"haEnabled,omitempty"`
+
+	// High Availability Parameter
+	// Specifies the name of the table to use for storing high availability information.
+	// By default, this is the name of the table suffixed with _lock. If the table does not exist, Vault will attempt to create it.
+	// +optional
+	LockTable string `json:"lockTable,omitempty"`
 }
 
 // vault doc: https://www.vaultproject.io/docs/configuration/storage/filesystem.html

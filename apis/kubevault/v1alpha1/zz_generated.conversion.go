@@ -212,16 +212,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*MySQLSpec)(nil), (*v1alpha2.MySQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(a.(*MySQLSpec), b.(*v1alpha2.MySQLSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.MySQLSpec)(nil), (*MySQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(a.(*v1alpha2.MySQLSpec), b.(*MySQLSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*NamedServiceTemplateSpec)(nil), (*v1alpha2.NamedServiceTemplateSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_NamedServiceTemplateSpec_To_v1alpha2_NamedServiceTemplateSpec(a.(*NamedServiceTemplateSpec), b.(*v1alpha2.NamedServiceTemplateSpec), scope)
 	}); err != nil {
@@ -229,16 +219,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}
 	if err := s.AddGeneratedConversionFunc((*v1alpha2.NamedServiceTemplateSpec)(nil), (*NamedServiceTemplateSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha2_NamedServiceTemplateSpec_To_v1alpha1_NamedServiceTemplateSpec(a.(*v1alpha2.NamedServiceTemplateSpec), b.(*NamedServiceTemplateSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*PostgreSQLSpec)(nil), (*v1alpha2.PostgreSQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(a.(*PostgreSQLSpec), b.(*v1alpha2.PostgreSQLSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.PostgreSQLSpec)(nil), (*PostgreSQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(a.(*v1alpha2.PostgreSQLSpec), b.(*PostgreSQLSpec), scope)
 	}); err != nil {
 		return err
 	}
@@ -349,6 +329,26 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}
 	if err := s.AddGeneratedConversionFunc((*v1alpha2.VaultStatus)(nil), (*VaultStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha2_VaultStatus_To_v1alpha1_VaultStatus(a.(*v1alpha2.VaultStatus), b.(*VaultStatus), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*MySQLSpec)(nil), (*v1alpha2.MySQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(a.(*MySQLSpec), b.(*v1alpha2.MySQLSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*PostgreSQLSpec)(nil), (*v1alpha2.PostgreSQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(a.(*PostgreSQLSpec), b.(*v1alpha2.PostgreSQLSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.MySQLSpec)(nil), (*MySQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(a.(*v1alpha2.MySQLSpec), b.(*MySQLSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.PostgreSQLSpec)(nil), (*PostgreSQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(a.(*v1alpha2.PostgreSQLSpec), b.(*PostgreSQLSpec), scope)
 	}); err != nil {
 		return err
 	}
@@ -555,8 +555,24 @@ func autoConvert_v1alpha1_BackendStorageSpec_To_v1alpha2_BackendStorageSpec(in *
 	out.Gcs = (*v1alpha2.GcsSpec)(unsafe.Pointer(in.Gcs))
 	out.S3 = (*v1alpha2.S3Spec)(unsafe.Pointer(in.S3))
 	out.Azure = (*v1alpha2.AzureSpec)(unsafe.Pointer(in.Azure))
-	out.PostgreSQL = (*v1alpha2.PostgreSQLSpec)(unsafe.Pointer(in.PostgreSQL))
-	out.MySQL = (*v1alpha2.MySQLSpec)(unsafe.Pointer(in.MySQL))
+	if in.PostgreSQL != nil {
+		in, out := &in.PostgreSQL, &out.PostgreSQL
+		*out = new(v1alpha2.PostgreSQLSpec)
+		if err := Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.PostgreSQL = nil
+	}
+	if in.MySQL != nil {
+		in, out := &in.MySQL, &out.MySQL
+		*out = new(v1alpha2.MySQLSpec)
+		if err := Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.MySQL = nil
+	}
 	out.File = (*v1alpha2.FileSpec)(unsafe.Pointer(in.File))
 	out.DynamoDB = (*v1alpha2.DynamoDBSpec)(unsafe.Pointer(in.DynamoDB))
 	out.Swift = (*v1alpha2.SwiftSpec)(unsafe.Pointer(in.Swift))
@@ -576,8 +592,24 @@ func autoConvert_v1alpha2_BackendStorageSpec_To_v1alpha1_BackendStorageSpec(in *
 	out.Gcs = (*GcsSpec)(unsafe.Pointer(in.Gcs))
 	out.S3 = (*S3Spec)(unsafe.Pointer(in.S3))
 	out.Azure = (*AzureSpec)(unsafe.Pointer(in.Azure))
-	out.PostgreSQL = (*PostgreSQLSpec)(unsafe.Pointer(in.PostgreSQL))
-	out.MySQL = (*MySQLSpec)(unsafe.Pointer(in.MySQL))
+	if in.PostgreSQL != nil {
+		in, out := &in.PostgreSQL, &out.PostgreSQL
+		*out = new(PostgreSQLSpec)
+		if err := Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.PostgreSQL = nil
+	}
+	if in.MySQL != nil {
+		in, out := &in.MySQL, &out.MySQL
+		*out = new(MySQLSpec)
+		if err := Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.MySQL = nil
+	}
 	out.File = (*FileSpec)(unsafe.Pointer(in.File))
 	out.DynamoDB = (*DynamoDBSpec)(unsafe.Pointer(in.DynamoDB))
 	out.Swift = (*SwiftSpec)(unsafe.Pointer(in.Swift))
@@ -859,30 +891,26 @@ func autoConvert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(in *MySQLSpec, out *v1
 	out.Address = in.Address
 	out.Database = in.Database
 	out.Table = in.Table
-	out.UserCredentialSecret = in.UserCredentialSecret
-	out.TLSCASecret = in.TLSCASecret
+	// WARNING: in.UserCredentialSecret requires manual conversion: does not exist in peer-type
+	// WARNING: in.TLSCASecret requires manual conversion: does not exist in peer-type
 	out.MaxParallel = in.MaxParallel
 	return nil
-}
-
-// Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec is an autogenerated conversion function.
-func Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(in *MySQLSpec, out *v1alpha2.MySQLSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(in, out, s)
 }
 
 func autoConvert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(in *v1alpha2.MySQLSpec, out *MySQLSpec, s conversion.Scope) error {
 	out.Address = in.Address
 	out.Database = in.Database
 	out.Table = in.Table
-	out.UserCredentialSecret = in.UserCredentialSecret
-	out.TLSCASecret = in.TLSCASecret
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.TLSSecretRef requires manual conversion: does not exist in peer-type
 	out.MaxParallel = in.MaxParallel
+	// WARNING: in.DatabaseRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.PlaintextCredentialTransmission requires manual conversion: does not exist in peer-type
+	// WARNING: in.MaxIdleConnection requires manual conversion: does not exist in peer-type
+	// WARNING: in.MaxConnectionLifetime requires manual conversion: does not exist in peer-type
+	// WARNING: in.HAEnabled requires manual conversion: does not exist in peer-type
+	// WARNING: in.LockTable requires manual conversion: does not exist in peer-type
 	return nil
-}
-
-// Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec is an autogenerated conversion function.
-func Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(in *v1alpha2.MySQLSpec, out *MySQLSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(in, out, s)
 }
 
 func autoConvert_v1alpha1_NamedServiceTemplateSpec_To_v1alpha2_NamedServiceTemplateSpec(in *NamedServiceTemplateSpec, out *v1alpha2.NamedServiceTemplateSpec, s conversion.Scope) error {
@@ -908,27 +936,20 @@ func Convert_v1alpha2_NamedServiceTemplateSpec_To_v1alpha1_NamedServiceTemplateS
 }
 
 func autoConvert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(in *PostgreSQLSpec, out *v1alpha2.PostgreSQLSpec, s conversion.Scope) error {
-	out.ConnectionURLSecret = in.ConnectionURLSecret
+	// WARNING: in.ConnectionURLSecret requires manual conversion: does not exist in peer-type
 	out.Table = in.Table
 	out.MaxParallel = in.MaxParallel
 	return nil
-}
-
-// Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec is an autogenerated conversion function.
-func Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(in *PostgreSQLSpec, out *v1alpha2.PostgreSQLSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(in, out, s)
 }
 
 func autoConvert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(in *v1alpha2.PostgreSQLSpec, out *PostgreSQLSpec, s conversion.Scope) error {
-	out.ConnectionURLSecret = in.ConnectionURLSecret
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	out.Table = in.Table
 	out.MaxParallel = in.MaxParallel
+	// WARNING: in.MaxIdleConnection requires manual conversion: does not exist in peer-type
+	// WARNING: in.HAEnabled requires manual conversion: does not exist in peer-type
+	// WARNING: in.HaTable requires manual conversion: does not exist in peer-type
 	return nil
-}
-
-// Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec is an autogenerated conversion function.
-func Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(in *v1alpha2.PostgreSQLSpec, out *PostgreSQLSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(in, out, s)
 }
 
 func autoConvert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(in *RaftSpec, out *v1alpha2.RaftSpec, s conversion.Scope) error {
@@ -1151,7 +1172,17 @@ func Convert_v1alpha2_VaultServer_To_v1alpha1_VaultServer(in *v1alpha2.VaultServ
 
 func autoConvert_v1alpha1_VaultServerList_To_v1alpha2_VaultServerList(in *VaultServerList, out *v1alpha2.VaultServerList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]v1alpha2.VaultServer)(unsafe.Pointer(&in.Items))
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]v1alpha2.VaultServer, len(*in))
+		for i := range *in {
+			if err := Convert_v1alpha1_VaultServer_To_v1alpha2_VaultServer(&(*in)[i], &(*out)[i], s); err != nil {
+				return err
+			}
+		}
+	} else {
+		out.Items = nil
+	}
 	return nil
 }
 
@@ -1162,7 +1193,17 @@ func Convert_v1alpha1_VaultServerList_To_v1alpha2_VaultServerList(in *VaultServe
 
 func autoConvert_v1alpha2_VaultServerList_To_v1alpha1_VaultServerList(in *v1alpha2.VaultServerList, out *VaultServerList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]VaultServer)(unsafe.Pointer(&in.Items))
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]VaultServer, len(*in))
+		for i := range *in {
+			if err := Convert_v1alpha2_VaultServer_To_v1alpha1_VaultServer(&(*in)[i], &(*out)[i], s); err != nil {
+				return err
+			}
+		}
+	} else {
+		out.Items = nil
+	}
 	return nil
 }
 

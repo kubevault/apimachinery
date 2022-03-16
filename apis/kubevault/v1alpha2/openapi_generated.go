@@ -19739,7 +19739,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MySQLSpec(ref common.ReferenceC
 				Properties: map[string]spec.Schema{
 					"address": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the address of the MySQL host.",
+							Description: "Specifies the address of the MySQL host. if DatabaseRef is set then Address will be generated from it This must be set if DatabaseRef is empty, validate from ValidatingWebhook host example: <db-name>.<db-ns>.svc:3306",
 							Default:     "",
 							Type:        []string{"string"},
 							Format:      "",
@@ -19759,7 +19759,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MySQLSpec(ref common.ReferenceC
 							Format:      "",
 						},
 					},
-					"userCredentialSecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the MySQL username and password to connect to the database secret data:\n - username=<value>\n - password=<value>",
 							Default:     "",
@@ -19767,7 +19767,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MySQLSpec(ref common.ReferenceC
 							Format:      "",
 						},
 					},
-					"tlsCASecret": {
+					"tlsSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the name of the secret containing the CA certificate to connect using TLS. secret data:\n - tls_ca_file=<ca_cert>",
 							Type:        []string{"string"},
@@ -19781,10 +19781,52 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MySQLSpec(ref common.ReferenceC
 							Format:      "int64",
 						},
 					},
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DatabaseRef contains the info of KubeDB managed Database This will be used to generate the \"Address\" field",
+							Ref:         ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
+						},
+					},
+					"plaintextCredentialTransmission": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"maxIdleConnection": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the maximum number of idle connections to the database. A zero uses value defaults to 2 idle connections and a negative value disables idle connections. If larger than max_parallel it will be reduced to be equal.",
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+					"maxConnectionLifetime": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the maximum amount of time in seconds that a connection may be reused. If <= 0s connections are reused forever.",
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+					"haEnabled": {
+						SchemaProps: spec.SchemaProps{
+							Description: "High Availability Parameter Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like \"true\" or \"false\".",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"lockTable": {
+						SchemaProps: spec.SchemaProps{
+							Description: "High Availability Parameter Specifies the name of the table to use for storing high availability information. By default, this is the name of the table suffixed with _lock. If the table does not exist, Vault will attempt to create it.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 				},
-				Required: []string{"userCredentialSecret"},
+				Required: []string{"credentialSecretRef"},
 			},
 		},
+		Dependencies: []string{
+			"kmodules.xyz/client-go/api/v1.ObjectReference"},
 	}
 }
 
@@ -19832,7 +19874,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_PostgreSQLSpec(ref common.Refer
 				Description: "vault doc: https://www.vaultproject.io/docs/configuration/storage/postgresql.html\n\nPostgreSQLSpec defines configuration to set up PostgreSQL storage as backend storage in vault",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
-					"connectionURLSecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the name of the secret containing the connection string to use to authenticate and connect to PostgreSQL. A full list of supported parameters can be found in the pq library documentation(https://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters). secret data:\n - connection_url:<data>",
 							Default:     "",
@@ -19854,8 +19896,29 @@ func schema_apimachinery_apis_kubevault_v1alpha2_PostgreSQLSpec(ref common.Refer
 							Format:      "int64",
 						},
 					},
+					"maxIdleConnection": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Default not set. Sets the maximum number of connections in the idle connection pool. See golang docs on SetMaxIdleConns(https://pkg.go.dev/database/sql#DB.SetMaxIdleConns) for more information. Requires 1.2 or later.",
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+					"haEnabled": {
+						SchemaProps: spec.SchemaProps{
+							Description: "High Availability Parameter Default not enabled, requires 9.5 or later Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like \"true\" or \"false\".",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"haTable": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the name of the table to use for storing high availability information. This table must already exist (Vault will not attempt to create it).",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 				},
-				Required: []string{"connectionURLSecret"},
+				Required: []string{"credentialSecretRef"},
 			},
 		},
 	}

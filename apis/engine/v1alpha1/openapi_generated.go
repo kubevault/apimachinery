@@ -406,6 +406,9 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.Lease":                            schema_apimachinery_apis_engine_v1alpha1_Lease(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.LeaseConfig":                      schema_apimachinery_apis_engine_v1alpha1_LeaseConfig(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBConfiguration":             schema_apimachinery_apis_engine_v1alpha1_MariaDBConfiguration(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBRole":                      schema_apimachinery_apis_engine_v1alpha1_MariaDBRole(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBRoleList":                  schema_apimachinery_apis_engine_v1alpha1_MariaDBRoleList(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBRoleSpec":                  schema_apimachinery_apis_engine_v1alpha1_MariaDBRoleSpec(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration":             schema_apimachinery_apis_engine_v1alpha1_MongoDBConfiguration(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBRole":                      schema_apimachinery_apis_engine_v1alpha1_MongoDBRole(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBRoleList":                  schema_apimachinery_apis_engine_v1alpha1_MongoDBRoleList(ref),
@@ -19919,6 +19922,167 @@ func schema_apimachinery_apis_engine_v1alpha1_MariaDBConfiguration(ref common.Re
 		},
 		Dependencies: []string{
 			"kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
+	}
+}
+
+func schema_apimachinery_apis_engine_v1alpha1_MariaDBRole(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBRoleSpec"),
+						},
+					},
+					"status": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBRoleSpec", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus"},
+	}
+}
+
+func schema_apimachinery_apis_engine_v1alpha1_MariaDBRoleList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Items is a list of MariaDBRole objects",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBRole"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBRole"},
+	}
+}
+
+func schema_apimachinery_apis_engine_v1alpha1_MariaDBRoleSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "MariaDBRoleSpec contains connection information, mariadb role info etc",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"secretEngineRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "SecretEngineRef is the name of a Secret Engine",
+							Default:     map[string]interface{}{},
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+					"defaultTTL": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"maxTTL": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the maximum TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"creationStatements": {
+						SchemaProps: spec.SchemaProps{
+							Description: "https://www.vaultproject.io/api/secret/databases/mysql-maria.html#creation_statements Specifies the database statements executed to create and configure a user.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"revocationStatements": {
+						SchemaProps: spec.SchemaProps{
+							Description: "https://www.vaultproject.io/api/secret/databases/mysql-maria.html#revocation_statements Specifies the database statements to be executed to revoke a user.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"secretEngineRef", "creationStatements"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 

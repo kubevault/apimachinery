@@ -178,6 +178,8 @@ API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1a
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,ElasticsearchRoleSpec,RevocationStatements
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,GCPRoleSpec,TokenScopes
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,MariaDBConfiguration,AllowedRoles
+API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,MariaDBRoleSpec,CreationStatements
+API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,MariaDBRoleSpec,RevocationStatements
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,MongoDBConfiguration,AllowedRoles
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,MongoDBRoleSpec,CreationStatements
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,MongoDBRoleSpec,RevocationStatements

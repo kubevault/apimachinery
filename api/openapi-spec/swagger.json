@@ -15074,6 +15074,46 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MariaDBConfiguration": {
+      "description": "MariaDBConfiguration defines a MariaDB app configuration. https://www.vaultproject.io/api/secret/databases/index.html https://www.vaultproject.io/api/secret/databases/mysql-maria.html#configure-connection",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "DatabaseRef refers to a MariaDB database AppBinding in any namespace",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "maxConnectionLifetime": {
+          "description": "Specifies the maximum amount of time a connection may be reused. If \u003c= 0s connections are reused forever.",
+          "type": "string"
+        },
+        "maxIdleConnections": {
+          "description": "Specifies the maximum number of idle connections to the database. A zero uses the value of max_open_connections and a negative value disables idle connections. If larger than max_open_connections it will be reduced to be equal.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "maxOpenConnections": {
+          "description": "Specifies the maximum number of open connections to the database.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for mysql: mysql-database-plugin",
+          "type": "string"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBConfiguration": {
       "description": "MongoDBConfiguration defines a MongoDB app configuration. https://www.vaultproject.io/api/secret/databases/index.html https://www.vaultproject.io/api/secret/databases/mongodb.html#configure-connection",
       "type": "object",
@@ -15742,6 +15782,9 @@
         },
         "kv": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.KVConfiguration"
+        },
+        "mariadb": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MariaDBConfiguration"
         },
         "mongodb": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBConfiguration"

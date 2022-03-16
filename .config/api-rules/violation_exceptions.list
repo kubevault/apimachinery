@@ -177,6 +177,7 @@ API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1a
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,ElasticsearchRoleSpec,CreationStatements
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,ElasticsearchRoleSpec,RevocationStatements
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,GCPRoleSpec,TokenScopes
+API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,MariaDBConfiguration,AllowedRoles
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,MongoDBConfiguration,AllowedRoles
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,MongoDBRoleSpec,CreationStatements
 API rule violation: list_type_missing,kubevault.dev/apimachinery/apis/engine/v1alpha1,MongoDBRoleSpec,RevocationStatements
@@ -243,5 +244,6 @@ API rule violation: names_match,k8s.io/apimachinery/pkg/util/intstr,IntOrString,
 API rule violation: names_match,kmodules.xyz/client-go/api/v1,CertificateSpec,URIs
 API rule violation: names_match,kmodules.xyz/client-go/api/v1,TimeOfDay,Time
 API rule violation: names_match,kmodules.xyz/offshoot-api/api/v1,ContainerRuntimeSettings,IONice
+API rule violation: names_match,kubevault.dev/apimachinery/apis/engine/v1alpha1,SecretEngineConfiguration,MariaDB
 API rule violation: names_match,kubevault.dev/apimachinery/apis/engine/v1alpha1,SecretEngineConfiguration,MongoDB
 API rule violation: names_match,kubevault.dev/apimachinery/apis/engine/v1alpha1,SecretEngineConfiguration,MySQL

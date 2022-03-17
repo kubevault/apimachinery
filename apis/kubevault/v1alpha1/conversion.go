@@ -204,7 +204,7 @@ func Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(in *EtcdSpec, out *v1alpha2.
 	out.Sync = in.Sync
 	out.DiscoverySrv = in.DiscoverySrv
 	out.CredentialSecretRef = &core.LocalObjectReference{
-		in.CredentialSecretName,
+		Name: in.CredentialSecretName,
 	}
 	out.TLSSecretRef = &core.LocalObjectReference{
 		Name: in.TLSSecretName,

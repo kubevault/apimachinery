@@ -82,36 +82,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*AwsKmsSsmSpec)(nil), (*v1alpha2.AwsKmsSsmSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(a.(*AwsKmsSsmSpec), b.(*v1alpha2.AwsKmsSsmSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.AwsKmsSsmSpec)(nil), (*AwsKmsSsmSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(a.(*v1alpha2.AwsKmsSsmSpec), b.(*AwsKmsSsmSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*AzureKeyVault)(nil), (*v1alpha2.AzureKeyVault)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(a.(*AzureKeyVault), b.(*v1alpha2.AzureKeyVault), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.AzureKeyVault)(nil), (*AzureKeyVault)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(a.(*v1alpha2.AzureKeyVault), b.(*AzureKeyVault), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*AzureSpec)(nil), (*v1alpha2.AzureSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(a.(*AzureSpec), b.(*v1alpha2.AzureSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.AzureSpec)(nil), (*AzureSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(a.(*v1alpha2.AzureSpec), b.(*AzureSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*BackendStorageSpec)(nil), (*v1alpha2.BackendStorageSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_BackendStorageSpec_To_v1alpha2_BackendStorageSpec(a.(*BackendStorageSpec), b.(*v1alpha2.BackendStorageSpec), scope)
 	}); err != nil {
@@ -132,26 +102,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*DynamoDBSpec)(nil), (*v1alpha2.DynamoDBSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(a.(*DynamoDBSpec), b.(*v1alpha2.DynamoDBSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.DynamoDBSpec)(nil), (*DynamoDBSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(a.(*v1alpha2.DynamoDBSpec), b.(*DynamoDBSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*EtcdSpec)(nil), (*v1alpha2.EtcdSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(a.(*EtcdSpec), b.(*v1alpha2.EtcdSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.EtcdSpec)(nil), (*EtcdSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(a.(*v1alpha2.EtcdSpec), b.(*EtcdSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*FileSpec)(nil), (*v1alpha2.FileSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_FileSpec_To_v1alpha2_FileSpec(a.(*FileSpec), b.(*v1alpha2.FileSpec), scope)
 	}); err != nil {
@@ -159,26 +109,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}
 	if err := s.AddGeneratedConversionFunc((*v1alpha2.FileSpec)(nil), (*FileSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha2_FileSpec_To_v1alpha1_FileSpec(a.(*v1alpha2.FileSpec), b.(*FileSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*GcsSpec)(nil), (*v1alpha2.GcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(a.(*GcsSpec), b.(*v1alpha2.GcsSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.GcsSpec)(nil), (*GcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(a.(*v1alpha2.GcsSpec), b.(*GcsSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*GoogleKmsGcsSpec)(nil), (*v1alpha2.GoogleKmsGcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(a.(*GoogleKmsGcsSpec), b.(*v1alpha2.GoogleKmsGcsSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.GoogleKmsGcsSpec)(nil), (*GoogleKmsGcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(a.(*v1alpha2.GoogleKmsGcsSpec), b.(*GoogleKmsGcsSpec), scope)
 	}); err != nil {
 		return err
 	}
@@ -222,23 +152,8 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*RaftSpec)(nil), (*v1alpha2.RaftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(a.(*RaftSpec), b.(*v1alpha2.RaftSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*v1alpha2.RaftSpec)(nil), (*RaftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha2_RaftSpec_To_v1alpha1_RaftSpec(a.(*v1alpha2.RaftSpec), b.(*RaftSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*S3Spec)(nil), (*v1alpha2.S3Spec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(a.(*S3Spec), b.(*v1alpha2.S3Spec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.S3Spec)(nil), (*S3Spec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(a.(*v1alpha2.S3Spec), b.(*S3Spec), scope)
 	}); err != nil {
 		return err
 	}
@@ -249,16 +164,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}
 	if err := s.AddGeneratedConversionFunc((*v1alpha2.SecretEngineNamespaces)(nil), (*SecretEngineNamespaces)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha2_SecretEngineNamespaces_To_v1alpha1_SecretEngineNamespaces(a.(*v1alpha2.SecretEngineNamespaces), b.(*SecretEngineNamespaces), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*SwiftSpec)(nil), (*v1alpha2.SwiftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(a.(*SwiftSpec), b.(*v1alpha2.SwiftSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.SwiftSpec)(nil), (*SwiftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_SwiftSpec_To_v1alpha1_SwiftSpec(a.(*v1alpha2.SwiftSpec), b.(*SwiftSpec), scope)
 	}); err != nil {
 		return err
 	}
@@ -332,6 +237,41 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
+	if err := s.AddConversionFunc((*AwsKmsSsmSpec)(nil), (*v1alpha2.AwsKmsSsmSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(a.(*AwsKmsSsmSpec), b.(*v1alpha2.AwsKmsSsmSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*AzureKeyVault)(nil), (*v1alpha2.AzureKeyVault)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(a.(*AzureKeyVault), b.(*v1alpha2.AzureKeyVault), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*AzureSpec)(nil), (*v1alpha2.AzureSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(a.(*AzureSpec), b.(*v1alpha2.AzureSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*DynamoDBSpec)(nil), (*v1alpha2.DynamoDBSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(a.(*DynamoDBSpec), b.(*v1alpha2.DynamoDBSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*EtcdSpec)(nil), (*v1alpha2.EtcdSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(a.(*EtcdSpec), b.(*v1alpha2.EtcdSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*GcsSpec)(nil), (*v1alpha2.GcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(a.(*GcsSpec), b.(*v1alpha2.GcsSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*GoogleKmsGcsSpec)(nil), (*v1alpha2.GoogleKmsGcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(a.(*GoogleKmsGcsSpec), b.(*v1alpha2.GoogleKmsGcsSpec), scope)
+	}); err != nil {
+		return err
+	}
 	if err := s.AddConversionFunc((*MySQLSpec)(nil), (*v1alpha2.MySQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(a.(*MySQLSpec), b.(*v1alpha2.MySQLSpec), scope)
 	}); err != nil {
@@ -342,6 +282,56 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
+	if err := s.AddConversionFunc((*RaftSpec)(nil), (*v1alpha2.RaftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(a.(*RaftSpec), b.(*v1alpha2.RaftSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*S3Spec)(nil), (*v1alpha2.S3Spec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(a.(*S3Spec), b.(*v1alpha2.S3Spec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*SwiftSpec)(nil), (*v1alpha2.SwiftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(a.(*SwiftSpec), b.(*v1alpha2.SwiftSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.AwsKmsSsmSpec)(nil), (*AwsKmsSsmSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(a.(*v1alpha2.AwsKmsSsmSpec), b.(*AwsKmsSsmSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.AzureKeyVault)(nil), (*AzureKeyVault)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(a.(*v1alpha2.AzureKeyVault), b.(*AzureKeyVault), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.AzureSpec)(nil), (*AzureSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(a.(*v1alpha2.AzureSpec), b.(*AzureSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.DynamoDBSpec)(nil), (*DynamoDBSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(a.(*v1alpha2.DynamoDBSpec), b.(*DynamoDBSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.EtcdSpec)(nil), (*EtcdSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(a.(*v1alpha2.EtcdSpec), b.(*EtcdSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.GcsSpec)(nil), (*GcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(a.(*v1alpha2.GcsSpec), b.(*GcsSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.GoogleKmsGcsSpec)(nil), (*GoogleKmsGcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(a.(*v1alpha2.GoogleKmsGcsSpec), b.(*GoogleKmsGcsSpec), scope)
+	}); err != nil {
+		return err
+	}
 	if err := s.AddConversionFunc((*v1alpha2.MySQLSpec)(nil), (*MySQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(a.(*v1alpha2.MySQLSpec), b.(*MySQLSpec), scope)
 	}); err != nil {
@@ -349,6 +339,16 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}
 	if err := s.AddConversionFunc((*v1alpha2.PostgreSQLSpec)(nil), (*PostgreSQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(a.(*v1alpha2.PostgreSQLSpec), b.(*PostgreSQLSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.S3Spec)(nil), (*S3Spec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(a.(*v1alpha2.S3Spec), b.(*S3Spec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.SwiftSpec)(nil), (*SwiftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_SwiftSpec_To_v1alpha1_SwiftSpec(a.(*v1alpha2.SwiftSpec), b.(*SwiftSpec), scope)
 	}); err != nil {
 		return err
 	}

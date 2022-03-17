@@ -17140,9 +17140,9 @@
         "kmsKeyID"
       ],
       "properties": {
-        "credentialSecret": {
+        "credentialSecretRef": {
           "description": "Specifies the secret name containing AWS access key and AWS secret key secret data:\n - access_key:\u003cvalue\u003e\n - secret_key:\u003cvalue\u003e",
-          "type": "string"
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "endpoint": {
           "description": "Used to make AWS KMS requests. This is useful, for example, when connecting to KMS over a VPC Endpoint. If not set, Vault will use the default API endpoint for your region.",
@@ -17170,22 +17170,22 @@
         "tenantID"
       ],
       "properties": {
-        "aadClientSecret": {
-          "description": "Specifies the name of secret containing client id and client secret of AAD application secret data:\n - client-id:\u003cvalue\u003e\n - client-secret:\u003cvalue\u003e",
-          "type": "string"
-        },
-        "clientCertSecret": {
-          "description": "Specifies the name of secret containing client cert and client cert password secret data:\n - client-cert:\u003cvalue\u003e\n\t- client-cert-password: \u003cvalue\u003e",
-          "type": "string"
-        },
         "cloud": {
           "description": "The cloud environment identifier default: \"AZUREPUBLICCLOUD\"",
           "type": "string"
+        },
+        "credentialSecretRef": {
+          "description": "Specifies the name of secret containing client id and client secret of AAD application secret data:\n - client-id:\u003cvalue\u003e\n - client-secret:\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "tenantID": {
           "description": "The AAD Tenant ID",
           "type": "string",
           "default": ""
+        },
+        "tlsSecretRef": {
+          "description": "Specifies the name of secret containing client cert and client cert password secret data:\n - client-cert:\u003cvalue\u003e\n\t- client-cert-password: \u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "useManagedIdentity": {
           "description": "Use managed service identity for the virtual machine",
@@ -17203,15 +17203,9 @@
       "type": "object",
       "required": [
         "accountName",
-        "accountKeySecret",
         "container"
       ],
       "properties": {
-        "accountKeySecret": {
-          "description": "Specifies the secret containing Azure Storage account key. secret data:\n - account_key:\u003cvalue\u003e",
-          "type": "string",
-          "default": ""
-        },
         "accountName": {
           "description": "Specifies the Azure Storage account name.",
           "type": "string",
@@ -17221,6 +17215,10 @@
           "description": "Specifies the Azure Storage Blob container name.",
           "type": "string",
           "default": ""
+        },
+        "credentialSecretRef": {
+          "description": "Specifies the secret containing Azure Storage account key. secret data:\n - account_key:\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "maxParallel": {
           "description": "\n Specifies the maximum number of concurrent operations to take place.",
@@ -17346,9 +17344,9 @@
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/dynamodb.html\n\nDynamoDBSpec defines configuration to set up DynamoDB Storage as backend storage in vault",
       "type": "object",
       "properties": {
-        "credentialSecret": {
-          "description": "Specifies the secret name containing AWS access key and AWS secret key secret data:\n - access_key=\u003cvalue\u003e\n - secret_key=\u003cvalue\u003e",
-          "type": "string"
+        "credentialSecretRef": {
+          "description": "Specifies the secret name containing AWS session token, AWS access key and AWS secret key secret data:\n - access_key=\u003cvalue\u003e\n - secret_key=\u003cvalue\u003e\n - session_token=\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "endpoint": {
           "description": "Specifies an alternative, AWS compatible, DynamoDB endpoint.",
@@ -17370,10 +17368,6 @@
         },
         "region": {
           "description": "Specifies the AWS region",
-          "type": "string"
-        },
-        "sessionTokenSecret": {
-          "description": "Specifies the secret name containing AWS session token secret data:\n - session_token:\u003cvalue\u003e",
           "type": "string"
         },
         "table": {
@@ -17399,9 +17393,9 @@
           "type": "string",
           "default": ""
         },
-        "credentialSecretName": {
+        "credentialSecretRef": {
           "description": "Specifies the secret name that contain username and password to use when authenticating with the etcd server secret data:\n - username:\u003cvalue\u003e\n - password:\u003cvalue\u003e",
-          "type": "string"
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "discoverySrv": {
           "description": "Specifies the domain name to query for SRV records describing cluster endpoints",
@@ -17423,9 +17417,9 @@
           "description": "Specifies whether to sync list of available etcd services on startup",
           "type": "boolean"
         },
-        "tlsSecretName": {
+        "tlsSecretRef": {
           "description": "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for etcd communication secret data:\n - ca.crt\n - client.crt\n - client.key",
-          "type": "string"
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         }
       }
     },
@@ -17465,9 +17459,9 @@
           "description": "Specifies the maximum size (in kilobytes) to send in a single request. If set to 0, it will attempt to send the whole object at once, but will not retry any failures.",
           "type": "string"
         },
-        "credentialSecret": {
+        "credentialSecretRef": {
           "description": "Secret containing Google application credential secret data:\n - sa.json:\u003cvalue\u003e",
-          "type": "string"
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "haEnabled": {
           "description": "Specifies if high availability mode is enabled.",
@@ -17496,9 +17490,9 @@
           "type": "string",
           "default": ""
         },
-        "credentialSecret": {
+        "credentialSecretRef": {
           "description": "Secret containing Google application credential secret data:\n - sa.json:\u003cvalue\u003e",
-          "type": "string"
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "kmsCryptoKey": {
           "description": "The name of the Google Cloud KMS crypto key to use",
@@ -17560,9 +17554,6 @@
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.MySQLSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/mysql.html\n\nMySQLSpec defines configuration to set up MySQL Storage as backend storage in vault",
       "type": "object",
-      "required": [
-        "credentialSecretRef"
-      ],
       "properties": {
         "address": {
           "description": "Specifies the address of the MySQL host. if DatabaseRef is set then Address will be generated from it This must be set if DatabaseRef is empty, validate from ValidatingWebhook host example: \u003cdb-name\u003e.\u003cdb-ns\u003e.svc:3306",
@@ -17571,8 +17562,7 @@
         },
         "credentialSecretRef": {
           "description": "Specifies the MySQL username and password to connect to the database secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
-          "type": "string",
-          "default": ""
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "database": {
           "description": "Specifies the name of the database. If the database does not exist, Vault will attempt to create it.",
@@ -17614,7 +17604,7 @@
         },
         "tlsSecretRef": {
           "description": "Specifies the name of the secret containing the CA certificate to connect using TLS. secret data:\n - tls_ca_file=\u003cca_cert\u003e",
-          "type": "string"
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         }
       }
     },
@@ -17644,14 +17634,10 @@
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.PostgreSQLSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/postgresql.html\n\nPostgreSQLSpec defines configuration to set up PostgreSQL storage as backend storage in vault",
       "type": "object",
-      "required": [
-        "credentialSecretRef"
-      ],
       "properties": {
         "credentialSecretRef": {
           "description": "Specifies the name of the secret containing the connection string to use to authenticate and connect to PostgreSQL. A full list of supported parameters can be found in the pq library documentation(https://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters). secret data:\n - connection_url:\u003cdata\u003e",
-          "type": "string",
-          "default": ""
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "haEnabled": {
           "description": "High Availability Parameter Default not enabled, requires 9.5 or later Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like \"true\" or \"false\".",
@@ -17690,10 +17676,6 @@
           "type": "integer",
           "format": "int64"
         },
-        "path": {
-          "description": "Path (string: \"\") specifies the filesystem path where the vault data gets stored. This value can be overridden by setting the VAULT_RAFT_PATH environment variable. default: \"\"",
-          "type": "string"
-        },
         "performanceMultiplier": {
           "description": "An integer multiplier used by servers to scale key Raft timing parameters. Tuning this affects the time it takes Vault to detect leader failures and to perform leader elections, at the expense of requiring more network and CPU resources for better performance. default: 0",
           "type": "integer",
@@ -17727,9 +17709,9 @@
           "type": "string",
           "default": ""
         },
-        "credentialSecret": {
-          "description": "Specifies the secret name containing AWS access key and AWS secret key secret data:\n - access_key=\u003cvalue\u003e\n - secret_key=\u003cvalue\u003e",
-          "type": "string"
+        "credentialSecretRef": {
+          "description": "Specifies the secret name containing AWS session token, AWS access key and AWS secret key secret data:\n - access_key=\u003cvalue\u003e\n - secret_key=\u003cvalue\u003e\n - session_token=\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "disableSSL": {
           "description": "Specifies if SSL should be used for the endpoint connection",
@@ -17750,10 +17732,6 @@
         },
         "region": {
           "description": "Specifies the AWS region",
-          "type": "string"
-        },
-        "sessionTokenSecret": {
-          "description": "Specifies the secret name containing AWS session token secret data:\n - session_token:\u003cvalue\u003e",
           "type": "string"
         }
       }
@@ -17778,13 +17756,9 @@
       "required": [
         "authURL",
         "container",
-        "credentialSecret"
+        "credentialSecretRef"
       ],
       "properties": {
-        "authTokenSecret": {
-          "description": "Specifies secret containing auth token from alternate authentication. secret data:\n - auth_token=\u003cvalue\u003e",
-          "type": "string"
-        },
         "authURL": {
           "description": "Specifies the OpenStack authentication endpoint.",
           "type": "string",
@@ -17795,8 +17769,8 @@
           "type": "string",
           "default": ""
         },
-        "credentialSecret": {
-          "description": "Specifies the name of the secret containing the OpenStack account/username and password secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
+        "credentialSecretRef": {
+          "description": "Specifies the name of the secret containing the OpenStack account/username and password Specifies secret containing auth token from alternate authentication. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e\n - auth_token=\u003cvalue\u003e",
           "type": "string",
           "default": ""
         },

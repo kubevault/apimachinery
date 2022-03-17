@@ -6997,6 +6997,13 @@ spec:
                     type:
                       description: ' Specifies the name of the authentication method
                         type, such as "github" or "token".'
+                      enum:
+                      - kubernetes
+                      - aws
+                      - gcp
+                      - userpass
+                      - cert
+                      - azure
                       type: string
                   required:
                   - path
@@ -7011,23 +7018,27 @@ spec:
                       \n AzureSpec defines configuration to set up Google Cloud Storage
                       as backend storage in vault"
                     properties:
-                      accountKeySecret:
-                        description: 'Specifies the secret containing Azure Storage
-                          account key. secret data:  - account_key:<value>'
-                        type: string
                       accountName:
                         description: Specifies the Azure Storage account name.
                         type: string
                       container:
                         description: Specifies the Azure Storage Blob container name.
                         type: string
+                      credentialSecretRef:
+                        description: 'Specifies the secret containing Azure Storage
+                          account key. secret data:  - account_key:<value>'
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
                       maxParallel:
                         description: ' Specifies the maximum number of concurrent
                           operations to take place.'
                         format: int64
                         type: integer
                     required:
-                    - accountKeySecret
                     - accountName
                     - container
                     type: object
@@ -7116,11 +7127,16 @@ spec:
                       \n DynamoDBSpec defines configuration to set up DynamoDB Storage
                       as backend storage in vault"
                     properties:
-                      credentialSecret:
-                        description: 'Specifies the secret name containing AWS access
-                          key and AWS secret key secret data:  - access_key=<value>  -
-                          secret_key=<value>'
-                        type: string
+                      credentialSecretRef:
+                        description: 'Specifies the secret name containing AWS session
+                          token, AWS access key and AWS secret key secret data:  -
+                          access_key=<value>  - secret_key=<value>  - session_token=<value>'
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
                       endpoint:
                         description: Specifies an alternative, AWS compatible, DynamoDB
                           endpoint.
@@ -7142,10 +7158,6 @@ spec:
                       region:
                         description: Specifies the AWS region
                         type: string
-                      sessionTokenSecret:
-                        description: 'Specifies the secret name containing AWS session
-                          token secret data:  - session_token:<value>'
-                        type: string
                       table:
                         description: 'Specifies the name of the DynamoDB table in
                           which to store Vault data. If the specified table does not
@@ -7166,11 +7178,16 @@ spec:
                       address:
                         description: Specifies the addresses of the etcd instances
                         type: string
-                      credentialSecretName:
+                      credentialSecretRef:
                         description: 'Specifies the secret name that contain username
                           and password to use when authenticating with the etcd server
                           secret data:  - username:<value>  - password:<value>'
-                        type: string
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
                       discoverySrv:
                         description: Specifies the domain name to query for SRV records
                           describing cluster endpoints
@@ -7190,11 +7207,16 @@ spec:
                         description: Specifies whether to sync list of available etcd
                           services on startup
                         type: boolean
-                      tlsSecretName:
+                      tlsSecretRef:
                         description: 'Specifies the secret name that contains tls_ca_file,
                           tls_cert_file and tls_key_file for etcd communication secret
                           data:  - ca.crt  - client.crt  - client.key'
-                        type: string
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
                     required:
                     - address
                     type: object
@@ -7551,10 +7573,15 @@ spec:
                           send in a single request. If set to 0, it will attempt to
                           send the whole object at once, but will not retry any failures.
                         type: string
-                      credentialSecret:
+                      credentialSecretRef:
                         description: 'Secret containing Google application credential
                           secret data:  - sa.json:<value>'
-                        type: string
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
                       haEnabled:
                         description: Specifies if high availability mode is enabled.
                         type: boolean
@@ -7584,7 +7611,12 @@ spec:
                         description: 'Specifies the MySQL username and password to
                           connect to the database secret data:  - username=<value>  -
                           password=<value>'
-                        type: string
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
                       database:
                         description: Specifies the name of the database. If the database
                           does not exist, Vault will attempt to create it.
@@ -7653,9 +7685,12 @@ spec:
                         description: 'Specifies the name of the secret containing
                           the CA certificate to connect using TLS. secret data:  -
                           tls_ca_file=<ca_cert>'
-                        type: string
-                    required:
-                    - credentialSecretRef
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
                     type: object
                   postgresql:
                     description: "vault doc: https://www.vaultproject.io/docs/configuration/storage/postgresql.html
@@ -7668,7 +7703,12 @@ spec:
                           to PostgreSQL. A full list of supported parameters can be
                           found in the pq library documentation(https://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters).
                           secret data:  - connection_url:<data>'
-                        type: string
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
                       haEnabled:
                         description: High Availability Parameter Default not enabled,
                           requires 9.5 or later Specifies if high availability mode
@@ -7696,8 +7736,6 @@ spec:
                           Vault data. This table must already exist (Vault will not
                           attempt to create it).
                         type: string
-                    required:
-                    - credentialSecretRef
                     type: object
                   raft:
                     description: RaftSpec defines the configuration for the Raft integrated
@@ -7713,12 +7751,6 @@ spec:
                           transactions. default: 1048576'
                         format: int64
                         type: integer
-                      path:
-                        description: 'Path (string: "") specifies the filesystem path
-                          where the vault data gets stored. This value can be overridden
-                          by setting the VAULT_RAFT_PATH environment variable. default:
-                          ""'
-                        type: string
                       performanceMultiplier:
                         description: 'An integer multiplier used by servers to scale
                           key Raft timing parameters. Tuning this affects the time
@@ -7873,11 +7905,16 @@ spec:
                       bucket:
                         description: Specifies the name of the bucket to use for storage.
                         type: string
-                      credentialSecret:
-                        description: 'Specifies the secret name containing AWS access
-                          key and AWS secret key secret data:  - access_key=<value>  -
-                          secret_key=<value>'
-                        type: string
+                      credentialSecretRef:
+                        description: 'Specifies the secret name containing AWS session
+                          token, AWS access key and AWS secret key secret data:  -
+                          access_key=<value>  - secret_key=<value>  - session_token=<value>'
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
                       disableSSL:
                         description: Specifies if SSL should be used for the endpoint
                           connection
@@ -7898,10 +7935,6 @@ spec:
                       region:
                         description: Specifies the AWS region
                         type: string
-                      sessionTokenSecret:
-                        description: 'Specifies the secret name containing AWS session
-                          token secret data:  - session_token:<value>'
-                        type: string
                     required:
                     - bucket
                     type: object
@@ -7910,20 +7943,17 @@ spec:
                       \n SwiftSpec defines configuration to set up Swift Storage as
                       backend storage in vault"
                     properties:
-                      authTokenSecret:
-                        description: 'Specifies secret containing auth token from
-                          alternate authentication. secret data:  - auth_token=<value>'
-                        type: string
                       authURL:
                         description: Specifies the OpenStack authentication endpoint.
                         type: string
                       container:
                         description: Specifies the name of the Swift container.
                         type: string
-                      credentialSecret:
+                      credentialSecretRef:
                         description: 'Specifies the name of the secret containing
-                          the OpenStack account/username and password secret data:  -
-                          username=<value>  - password=<value>'
+                          the OpenStack account/username and password Specifies secret
+                          containing auth token from alternate authentication. secret
+                          data:  - username=<value>  - password=<value>  - auth_token=<value>'
                         type: string
                       domain:
                         description: Specifies the name of the user domain.
@@ -7955,7 +7985,7 @@ spec:
                     required:
                     - authURL
                     - container
-                    - credentialSecret
+                    - credentialSecretRef
                     type: object
                 type: object
               configSecret:
@@ -13347,11 +13377,17 @@ spec:
                         description: AwsKmsSsmSpec contain the fields that required
                           to unseal vault using aws kms ssm
                         properties:
-                          credentialSecret:
+                          credentialSecretRef:
                             description: 'Specifies the secret name containing AWS
                               access key and AWS secret key secret data:  - access_key:<value>  -
                               secret_key:<value>'
-                            type: string
+                            properties:
+                              name:
+                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  TODO: Add other useful fields. apiVersion, kind,
+                                  uid?'
+                                type: string
+                            type: object
                           endpoint:
                             description: Used to make AWS KMS requests. This is useful,
                               for example, when connecting to KMS over a VPC Endpoint.
@@ -13375,23 +13411,35 @@ spec:
                         description: AzureKeyVault contain the fields that required
                           to unseal vault using azure key vault
                         properties:
-                          aadClientSecret:
-                            description: 'Specifies the name of secret containing
-                              client id and client secret of AAD application secret
-                              data:  - client-id:<value>  - client-secret:<value>'
-                            type: string
-                          clientCertSecret:
-                            description: "Specifies the name of secret containing
-                              client cert and client cert password secret data:  -
-                              client-cert:<value> \t- client-cert-password: <value>"
-                            type: string
                           cloud:
                             description: 'The cloud environment identifier default:
                               "AZUREPUBLICCLOUD"'
                             type: string
+                          credentialSecretRef:
+                            description: 'Specifies the name of secret containing
+                              client id and client secret of AAD application secret
+                              data:  - client-id:<value>  - client-secret:<value>'
+                            properties:
+                              name:
+                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  TODO: Add other useful fields. apiVersion, kind,
+                                  uid?'
+                                type: string
+                            type: object
                           tenantID:
                             description: The AAD Tenant ID
                             type: string
+                          tlsSecretRef:
+                            description: "Specifies the name of secret containing
+                              client cert and client cert password secret data:  -
+                              client-cert:<value> \t- client-cert-password: <value>"
+                            properties:
+                              name:
+                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  TODO: Add other useful fields. apiVersion, kind,
+                                  uid?'
+                                type: string
+                            type: object
                           useManagedIdentity:
                             description: Use managed service identity for the virtual
                               machine
@@ -13411,10 +13459,16 @@ spec:
                             description: The name of the Google Cloud Storage bucket
                               to store values in
                             type: string
-                          credentialSecret:
+                          credentialSecretRef:
                             description: 'Secret containing Google application credential
                               secret data:  - sa.json:<value>'
-                            type: string
+                            properties:
+                              name:
+                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  TODO: Add other useful fields. apiVersion, kind,
+                                  uid?'
+                                type: string
+                            type: object
                           kmsCryptoKey:
                             description: The name of the Google Cloud KMS crypto key
                               to use
@@ -13502,6 +13556,13 @@ spec:
                     type:
                       description: ' Specifies the name of the authentication method
                         type, such as "github" or "token".'
+                      enum:
+                      - kubernetes
+                      - aws
+                      - gcp
+                      - userpass
+                      - cert
+                      - azure
                       type: string
                   required:
                   - path

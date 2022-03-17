@@ -470,7 +470,7 @@ type EtcdSpec struct {
 	//  - username:<value>
 	//  - password:<value>
 	// +optional
-	CredentialSecretName string `json:"credentialSecretName,omitempty"`
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for etcd communication
 	// secret data:
@@ -478,7 +478,7 @@ type EtcdSpec struct {
 	//  - client.crt
 	//  - client.key
 	// +optional
-	TLSSecretName string `json:"tlsSecretName,omitempty"`
+	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
 }
 
 // vault doc: https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage.html
@@ -505,7 +505,7 @@ type GcsSpec struct {
 	// secret data:
 	//  - sa.json:<value>
 	// +optional
-	CredentialSecret string `json:"credentialSecret,omitempty"`
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 }
 
 // vault doc: https://www.vaultproject.io/docs/configuration/storage/s3.html
@@ -523,18 +523,13 @@ type S3Spec struct {
 	// +optional
 	Region string `json:"region,omitempty"`
 
-	// Specifies the secret name containing AWS access key and AWS secret key
+	// Specifies the secret name containing AWS session token, AWS access key and AWS secret key
 	// secret data:
 	//  - access_key=<value>
 	//  - secret_key=<value>
+	//  - session_token=<value>
 	// +optional
-	CredentialSecret string `json:"credentialSecret,omitempty"`
-
-	// Specifies the secret name containing AWS session token
-	// secret data:
-	//  - session_token:<value>
-	// +optional
-	SessionTokenSecret string `json:"sessionTokenSecret,omitempty"`
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// Specifies the maximum number of parallel operations to take place.
 	// +optional
@@ -559,7 +554,8 @@ type AzureSpec struct {
 	// Specifies the secret containing Azure Storage account key.
 	// secret data:
 	//  - account_key:<value>
-	AccountKeySecret string `json:"accountKeySecret"`
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// Specifies the Azure Storage Blob container name.
 	Container string `json:"container"`
@@ -577,7 +573,7 @@ type PostgreSQLSpec struct {
 	// A full list of supported parameters can be found in the pq library documentation(https://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters).
 	// secret data:
 	//  - connection_url:<data>
-	CredentialSecretRef string `json:"credentialSecretRef"`
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// Specifies the name of the table in which to write Vault data.
 	// This table must already exist (Vault will not attempt to create it).
@@ -627,13 +623,13 @@ type MySQLSpec struct {
 	// secret data:
 	//  - username=<value>
 	//  - password=<value>
-	CredentialSecretRef string `json:"credentialSecretRef"`
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// Specifies the name of the secret containing the CA certificate to connect using TLS.
 	// secret data:
 	//  - tls_ca_file=<ca_cert>
 	// +optional
-	TLSSecretRef string `json:"tlsSecretRef,omitempty"`
+	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
 
 	//  Specifies the maximum number of concurrent requests to take place.
 	// +optional
@@ -711,18 +707,13 @@ type DynamoDBSpec struct {
 	// +optional
 	Table string `json:"table,omitempty"`
 
-	// Specifies the secret name containing AWS access key and AWS secret key
+	// Specifies the secret name containing AWS session token, AWS access key and AWS secret key
 	// secret data:
 	//  - access_key=<value>
 	//  - secret_key=<value>
+	//  - session_token=<value>
 	// +optional
-	CredentialSecret string `json:"credentialSecret,omitempty"`
-
-	// Specifies the secret name containing AWS session token
-	// secret data:
-	//  - session_token:<value>
-	// +optional
-	SessionTokenSecret string `json:"sessionTokenSecret,omitempty"`
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// Specifies the maximum number of parallel operations to take place.
 	// +optional
@@ -740,10 +731,12 @@ type SwiftSpec struct {
 	Container string `json:"container"`
 
 	// Specifies the name of the secret containing the OpenStack account/username and password
+	// Specifies secret containing auth token from alternate authentication.
 	// secret data:
 	//  - username=<value>
 	//  - password=<value>
-	CredentialSecret string `json:"credentialSecret"`
+	//  - auth_token=<value>
+	CredentialSecretRef string `json:"credentialSecretRef"`
 
 	// Specifies the name of the tenant. If left blank, this will default to the default tenant of the username.
 	// +optional
@@ -772,12 +765,6 @@ type SwiftSpec struct {
 	// Specifies storage URL from alternate authentication.
 	// +optional
 	StorageURL string `json:"storageURL,omitempty"`
-
-	// Specifies secret containing auth token from alternate authentication.
-	// secret data:
-	//  - auth_token=<value>
-	// +optional
-	AuthTokenSecret string `json:"authTokenSecret,omitempty"`
 
 	//  Specifies the maximum number of concurrent requests to take place.
 	// +optional
@@ -852,7 +839,7 @@ type GoogleKmsGcsSpec struct {
 	// secret data:
 	//  - sa.json:<value>
 	// +optional
-	CredentialSecret string `json:"credentialSecret,omitempty"`
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 }
 
 // AwsKmsSsmSpec contain the fields that required to unseal vault using aws kms ssm
@@ -871,7 +858,7 @@ type AwsKmsSsmSpec struct {
 	//  - access_key:<value>
 	//  - secret_key:<value>
 	// +optional
-	CredentialSecret string `json:"credentialSecret,omitempty"`
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// Used to make AWS KMS requests. This is useful,
 	// for example, when connecting to KMS over a VPC Endpoint.
@@ -882,12 +869,6 @@ type AwsKmsSsmSpec struct {
 // RaftSpec defines the configuration for the Raft integrated storage.
 // https://www.vaultproject.io/docs/configuration/storage/raft
 type RaftSpec struct {
-	// Path (string: "") specifies the filesystem path where the vault data gets stored.
-	// This value can be overridden by setting the VAULT_RAFT_PATH environment variable.
-	// default: ""
-	// +optional
-	Path string `json:"path,omitempty"`
-
 	// An integer multiplier used by servers to scale key Raft timing parameters.
 	// Tuning this affects the time it takes Vault to detect leader failures and to perform leader elections,
 	// at the expense of requiring more network and CPU resources for better performance.
@@ -937,14 +918,14 @@ type AzureKeyVault struct {
 	//  - client-cert:<value>
 	// 	- client-cert-password: <value>
 	// +optional
-	ClientCertSecret string `json:"clientCertSecret,omitempty"`
+	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
 
 	// Specifies the name of secret containing client id and client secret of AAD application
 	// secret data:
 	//  - client-id:<value>
 	//  - client-secret:<value>
 	// +optional
-	AADClientSecret string `json:"aadClientSecret,omitempty"`
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// Use managed service identity for the virtual machine
 	// +optional
@@ -967,7 +948,7 @@ const (
 // links: https://www.vaultproject.io/api/system/auth.html
 type AuthMethod struct {
 	//  Specifies the name of the authentication method type, such as "github" or "token".
-	Type string `json:"type"`
+	Type AuthMethodType `json:"type"`
 
 	// Specifies the path in which to enable the auth method.
 	// Default value is the same as the 'type'
@@ -1004,7 +985,7 @@ const (
 // AuthMethodStatus specifies the status of the auth method maintained by the auth method controller
 type AuthMethodStatus struct {
 	//  Specifies the name of the authentication method type, such as "github" or "token".
-	Type string `json:"type"`
+	Type AuthMethodType `json:"type"`
 
 	// Specifies the path in which to enable the auth method.
 	Path string `json:"path"`

@@ -7954,7 +7954,12 @@ spec:
                           the OpenStack account/username and password Specifies secret
                           containing auth token from alternate authentication. secret
                           data:  - username=<value>  - password=<value>  - auth_token=<value>'
-                        type: string
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
                       domain:
                         description: Specifies the name of the user domain.
                         type: string
@@ -7985,7 +7990,6 @@ spec:
                     required:
                     - authURL
                     - container
-                    - credentialSecretRef
                     type: object
                 type: object
               configSecret:

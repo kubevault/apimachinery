@@ -736,7 +736,8 @@ type SwiftSpec struct {
 	//  - username=<value>
 	//  - password=<value>
 	//  - auth_token=<value>
-	CredentialSecretRef string `json:"credentialSecretRef"`
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// Specifies the name of the tenant. If left blank, this will default to the default tenant of the username.
 	// +optional

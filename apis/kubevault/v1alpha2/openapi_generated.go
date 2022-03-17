@@ -20091,9 +20091,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_SwiftSpec(ref common.ReferenceC
 					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the name of the secret containing the OpenStack account/username and password Specifies secret containing auth token from alternate authentication. secret data:\n - username=<value>\n - password=<value>\n - auth_token=<value>",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 					"tenant": {
@@ -20153,9 +20151,11 @@ func schema_apimachinery_apis_kubevault_v1alpha2_SwiftSpec(ref common.ReferenceC
 						},
 					},
 				},
-				Required: []string{"authURL", "container", "credentialSecretRef"},
+				Required: []string{"authURL", "container"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 

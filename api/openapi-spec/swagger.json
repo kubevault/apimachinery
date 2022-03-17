@@ -17755,8 +17755,7 @@
       "type": "object",
       "required": [
         "authURL",
-        "container",
-        "credentialSecretRef"
+        "container"
       ],
       "properties": {
         "authURL": {
@@ -17771,8 +17770,7 @@
         },
         "credentialSecretRef": {
           "description": "Specifies the name of the secret containing the OpenStack account/username and password Specifies secret containing auth token from alternate authentication. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e\n - auth_token=\u003cvalue\u003e",
-          "type": "string",
-          "default": ""
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "domain": {
           "description": "Specifies the name of the user domain.",

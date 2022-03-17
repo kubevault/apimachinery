@@ -272,7 +272,9 @@ func Convert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(in *RaftSpec, out *v1alpha2.
 func Convert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(in *SwiftSpec, out *v1alpha2.SwiftSpec, s conversion.Scope) error {
 	out.AuthURL = in.AuthURL
 	out.Container = in.Container
-	out.CredentialSecretRef = in.CredentialSecret
+	out.CredentialSecretRef = &core.LocalObjectReference{
+		Name: in.CredentialSecret,
+	}
 	// WARNING: in.CredentialSecret requires manual conversion: does not exist in peer-type
 	out.Tenant = in.Tenant
 	out.Region = in.Region
@@ -289,8 +291,8 @@ func Convert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(in *SwiftSpec, out *v1alph
 func Convert_v1alpha2_SwiftSpec_To_v1alpha1_SwiftSpec(in *v1alpha2.SwiftSpec, out *SwiftSpec, s conversion.Scope) error {
 	out.AuthURL = in.AuthURL
 	out.Container = in.Container
-	out.CredentialSecret = in.CredentialSecretRef
-	out.AuthTokenSecret = in.CredentialSecretRef
+	out.CredentialSecret = in.CredentialSecretRef.Name
+	out.AuthTokenSecret = in.CredentialSecretRef.Name
 	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	out.Tenant = in.Tenant
 	out.Region = in.Region

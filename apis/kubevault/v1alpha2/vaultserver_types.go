@@ -216,6 +216,7 @@ const (
 	SecretEngineTypePostgres      SecretEngineType = "postgres"
 	SecretEngineTypeMongoDB       SecretEngineType = "mongodb"
 	SecretEngineTypeMySQL         SecretEngineType = "mysql"
+	SecretEngineTypeMariaDB       SecretEngineType = "mariadb"
 	SecretEngineTypeElasticsearch SecretEngineType = "elasticsearch"
 )
 

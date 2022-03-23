@@ -6928,6 +6928,7 @@ spec:
                       - postgres
                       - mongodb
                       - mysql
+                      - mariadb
                       - elasticsearch
                       type: string
                     type: array

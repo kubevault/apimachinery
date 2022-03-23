@@ -204,7 +204,7 @@ type AllowedSecretEngines struct {
 	SecretEngines []SecretEngineType `json:"secretEngines,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=kv;pki;aws;azure;gcp;postgres;mongodb;mysql;elasticsearch
+// +kubebuilder:validation:Enum=kv;pki;aws;azure;gcp;postgres;mongodb;mysql;mariadb;elasticsearch
 type SecretEngineType string
 
 const (

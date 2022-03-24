@@ -1033,6 +1033,8 @@ func autoConvert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(in *PostgreS
 
 func autoConvert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(in *v1alpha2.PostgreSQLSpec, out *PostgreSQLSpec, s conversion.Scope) error {
 	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.DatabaseRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.SSLMode requires manual conversion: does not exist in peer-type
 	out.Table = in.Table
 	out.MaxParallel = in.MaxParallel
 	// WARNING: in.MaxIdleConnection requires manual conversion: does not exist in peer-type

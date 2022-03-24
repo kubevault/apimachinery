@@ -74,6 +74,8 @@ func Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(in *v1alpha2.Pos
 	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	out.Table = in.Table
 	out.MaxParallel = in.MaxParallel
+	// WARNING: in.DatabaseRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.SSLMode requires manual conversion: does not exist in peer-type
 	// WARNING: in.MaxIdleConnection requires manual conversion: does not exist in peer-type
 	// WARNING: in.HAEnabled requires manual conversion: does not exist in peer-type
 	// WARNING: in.HaTable requires manual conversion: does not exist in peer-type

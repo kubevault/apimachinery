@@ -17636,8 +17636,12 @@
       "type": "object",
       "properties": {
         "credentialSecretRef": {
-          "description": "Specifies the name of the secret containing the connection string to use to authenticate and connect to PostgreSQL. A full list of supported parameters can be found in the pq library documentation(https://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters). secret data:\n - connection_url:\u003cdata\u003e",
+          "description": "Specifies the MySQL username and password to connect to the database secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "databaseRef": {
+          "description": "DatabaseRef contains the info of KubeDB managed Database This will be used to generate the \"Address\" field",
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
         },
         "haEnabled": {
           "description": "High Availability Parameter Default not enabled, requires 9.5 or later Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like \"true\" or \"false\".",
@@ -17656,6 +17660,10 @@
           "description": "\n Specifies the maximum number of concurrent requests to take place.",
           "type": "integer",
           "format": "int64"
+        },
+        "sslMode": {
+          "description": "SSLMode for both standalone and clusters. [disable;verify-full]",
+          "type": "string"
         },
         "table": {
           "description": "Specifies the name of the table in which to write Vault data. This table must already exist (Vault will not attempt to create it).",

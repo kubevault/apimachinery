@@ -514,6 +514,11 @@ func (in *PostgreSQLSpec) DeepCopyInto(out *PostgreSQLSpec) {
 		*out = new(v1.LocalObjectReference)
 		**out = **in
 	}
+	if in.DatabaseRef != nil {
+		in, out := &in.DatabaseRef, &out.DatabaseRef
+		*out = new(v1alpha1.AppReference)
+		(*in).DeepCopyInto(*out)
+	}
 	return
 }
 

@@ -570,11 +570,18 @@ type AzureSpec struct {
 //
 // PostgreSQLSpec defines configuration to set up PostgreSQL storage as backend storage in vault
 type PostgreSQLSpec struct {
-	// Specifies the name of the secret containing the connection string to use to authenticate and connect to PostgreSQL.
-	// A full list of supported parameters can be found in the pq library documentation(https://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters).
+	// Specifies the MySQL username and password to connect to the database
 	// secret data:
-	//  - connection_url:<data>
+	//  - username=<value>
+	//  - password=<value>
 	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+
+	// DatabaseRef contains the info of KubeDB managed Database
+	// This will be used to generate the "Address" field
+	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
+
+	// SSLMode for both standalone and clusters. [disable;verify-full]
+	SSLMode PostgresSSLMode `json:"sslMode,omitempty"`
 
 	// Specifies the name of the table in which to write Vault data.
 	// This table must already exist (Vault will not attempt to create it).
@@ -600,6 +607,18 @@ type PostgreSQLSpec struct {
 	// +optional
 	HaTable string `json:"haTable,omitempty"`
 }
+
+// +kubebuilder:validation:Enum=disable;verify-full
+type PostgresSSLMode string
+
+const (
+	// PostgresSSLModeDisable represents `disable` sslMode. It ensures that the server does not use TLS/SSL.
+	PostgresSSLModeDisable PostgresSSLMode = "disable"
+
+	// PostgresSSLModeVerifyFull represents `verify-full` sslmode. I want my data encrypted, and I accept the overhead.
+	// I want to be sure that I connect to a server I trust, and that it's the one I specify.
+	PostgresSSLModeVerifyFull PostgresSSLMode = "verify-full"
+)
 
 // vault doc: https://www.vaultproject.io/docs/configuration/storage/mysql.html
 //

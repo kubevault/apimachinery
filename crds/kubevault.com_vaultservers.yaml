@@ -7619,6 +7619,7 @@ spec:
                             type: string
                         type: object
                       database:
+                        default: vault
                         description: Specifies the name of the database. If the database
                           does not exist, Vault will attempt to create it.
                         type: string
@@ -7647,11 +7648,13 @@ spec:
                         - namespace
                         type: object
                       haEnabled:
+                        default: "true"
                         description: High Availability Parameter Specifies if high
                           availability mode is enabled. This is a boolean value, but
                           it is specified as a string like "true" or "false".
                         type: string
                       lockTable:
+                        default: vault_lock
                         description: High Availability Parameter Specifies the name
                           of the table to use for storing high availability information.
                           By default, this is the name of the table suffixed with
@@ -7679,6 +7682,7 @@ spec:
                       plaintextCredentialTransmission:
                         type: string
                       table:
+                        default: vault
                         description: Specifies the name of the table. If the table
                           does not exist, Vault will attempt to create it.
                         type: string
@@ -7733,12 +7737,14 @@ spec:
                         - namespace
                         type: object
                       haEnabled:
+                        default: "false"
                         description: High Availability Parameter Default not enabled,
                           requires 9.5 or later Specifies if high availability mode
                           is enabled. This is a boolean value, but it is specified
                           as a string like "true" or "false".
                         type: string
                       haTable:
+                        default: vault_ha_locks
                         description: Specifies the name of the table to use for storing
                           high availability information. This table must already exist
                           (Vault will not attempt to create it).
@@ -7758,9 +7764,12 @@ spec:
                         description: SSLMode for both standalone and clusters. [disable;verify-full]
                         enum:
                         - disable
+                        - require
+                        - verify-ca
                         - verify-full
                         type: string
                       table:
+                        default: vault_kv_store
                         description: Specifies the name of the table in which to write
                           Vault data. This table must already exist (Vault will not
                           attempt to create it).

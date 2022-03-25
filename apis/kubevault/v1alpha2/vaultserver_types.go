@@ -586,6 +586,7 @@ type PostgreSQLSpec struct {
 	// Specifies the name of the table in which to write Vault data.
 	// This table must already exist (Vault will not attempt to create it).
 	// +optional
+	// +kubebuilder:default:="vault_kv_store"
 	Table string `json:"table,omitempty"`
 
 	//  Specifies the maximum number of concurrent requests to take place.
@@ -601,19 +602,27 @@ type PostgreSQLSpec struct {
 	// Default not enabled, requires 9.5 or later
 	// Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like "true" or "false".
 	// +optional
+	// +kubebuilder:default:="false"
 	HAEnabled string `json:"haEnabled,omitempty"`
 
 	// Specifies the name of the table to use for storing high availability information. This table must already exist (Vault will not attempt to create it).
 	// +optional
-	HaTable string `json:"haTable,omitempty"`
+	// +kubebuilder:default:="vault_ha_locks"
+	HATable string `json:"haTable,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=disable;verify-full
+// +kubebuilder:validation:Enum=disable;require;verify-ca;verify-full
 type PostgresSSLMode string
 
 const (
 	// PostgresSSLModeDisable represents `disable` sslMode. It ensures that the server does not use TLS/SSL.
 	PostgresSSLModeDisable PostgresSSLMode = "disable"
+
+	// Always SSL (skip verification)
+	PostgressSSLModeRequire PostgresSSLMode = "require"
+
+	// Always SSL (verify that the certificate presented by the server was signed by a trusted CA)
+	PostgressSSLModeVerifyCA PostgresSSLMode = "verify-ca"
 
 	// PostgresSSLModeVerifyFull represents `verify-full` sslmode. I want my data encrypted, and I accept the overhead.
 	// I want to be sure that I connect to a server I trust, and that it's the one I specify.
@@ -633,10 +642,12 @@ type MySQLSpec struct {
 
 	// Specifies the name of the database. If the database does not exist, Vault will attempt to create it.
 	// +optional
+	// +kubebuilder:default:="vault"
 	Database string `json:"database,omitempty"`
 
 	// Specifies the name of the table. If the table does not exist, Vault will attempt to create it.
 	// +optional
+	// +kubebuilder:default:="vault"
 	Table string `json:"table,omitempty"`
 
 	// Specifies the MySQL username and password to connect to the database
@@ -657,6 +668,7 @@ type MySQLSpec struct {
 
 	// DatabaseRef contains the info of KubeDB managed Database
 	// This will be used to generate the "Address" field
+	// +optional
 	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
 
 	PlaintextCredentialTransmission string `json:"plaintextCredentialTransmission,omitempty"`
@@ -674,12 +686,14 @@ type MySQLSpec struct {
 	// High Availability Parameter
 	// Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like "true" or "false".
 	// +optional
+	// +kubebuilder:default:="true"
 	HAEnabled string `json:"haEnabled,omitempty"`
 
 	// High Availability Parameter
 	// Specifies the name of the table to use for storing high availability information.
 	// By default, this is the name of the table suffixed with _lock. If the table does not exist, Vault will attempt to create it.
 	// +optional
+	// +kubebuilder:default:="vault_lock"
 	LockTable string `json:"lockTable,omitempty"`
 }
 

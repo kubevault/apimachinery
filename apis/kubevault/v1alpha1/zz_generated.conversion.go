@@ -1039,7 +1039,7 @@ func autoConvert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(in *v1alpha2
 	out.MaxParallel = in.MaxParallel
 	// WARNING: in.MaxIdleConnection requires manual conversion: does not exist in peer-type
 	// WARNING: in.HAEnabled requires manual conversion: does not exist in peer-type
-	// WARNING: in.HaTable requires manual conversion: does not exist in peer-type
+	// WARNING: in.HATable requires manual conversion: does not exist in peer-type
 	return nil
 }
 

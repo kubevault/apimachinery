@@ -17,13 +17,62 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"fmt"
 	"unsafe"
 
 	"kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 
 	core "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/conversion"
+	kbconv "sigs.k8s.io/controller-runtime/pkg/conversion"
 )
+
+// ConvertTo converts this to the Hub version (v1alpha2).
+func (src *VaultServer) ConvertTo(dstRaw kbconv.Hub) (err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("failed to convert %s/%s to v1.VaultServer, reason: %v", src.Namespace, src.Name, r)
+		}
+	}()
+
+	dst := dstRaw.(*v1alpha2.VaultServer)
+	err = Convert_v1alpha1_VaultServer_To_v1alpha2_VaultServer(src, dst, nil)
+	if err != nil {
+		return err
+	}
+	dst.TypeMeta = metav1.TypeMeta{
+		APIVersion: v1alpha2.SchemeGroupVersion.String(),
+		Kind:       "VaultServer",
+	}
+	if dst.Annotations != nil {
+		delete(dst.Annotations, "kubectl.kubernetes.io/last-applied-configuration")
+	}
+	return
+}
+
+// ConvertFrom converts from the Hub version (v1alpha2) to this version.
+func (dst *VaultServer) ConvertFrom(srcRaw kbconv.Hub) (err error) {
+	src := srcRaw.(*v1alpha2.VaultServer)
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("failed to convert from %s/%s to v1beta1.VaultServer, reason: %v", src.Namespace, src.Name, r)
+		}
+	}()
+
+	err = Convert_v1alpha2_VaultServer_To_v1alpha1_VaultServer(src, dst, nil)
+	if err != nil {
+		return err
+	}
+	dst.TypeMeta = metav1.TypeMeta{
+		APIVersion: SchemeGroupVersion.String(),
+		Kind:       "VaultServer",
+	}
+	if dst.Annotations != nil {
+		delete(dst.Annotations, "kubectl.kubernetes.io/last-applied-configuration")
+	}
+	return
+}
 
 func Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(in *MySQLSpec, out *v1alpha2.MySQLSpec, s conversion.Scope) error {
 	out.Address = in.Address

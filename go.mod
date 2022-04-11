@@ -19,6 +19,7 @@ require (
 	kmodules.xyz/custom-resources v0.0.0-20220208103158-61b298634e43
 	kmodules.xyz/monitoring-agent-api v0.0.0-20211207173549-028e6430395e
 	kmodules.xyz/offshoot-api v0.0.0-20211207130839-cc7187e020cf
+	sigs.k8s.io/controller-runtime v0.9.0
 	sigs.k8s.io/yaml v1.2.0
 )
 
@@ -97,7 +98,6 @@ require (
 	k8s.io/component-base v0.21.1 // indirect
 	k8s.io/utils v0.0.0-20210802155522-efc7438f0176 // indirect
 	sigs.k8s.io/apiserver-network-proxy/konnectivity-client v0.0.15 // indirect
-	sigs.k8s.io/controller-runtime v0.9.0 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.1.2 // indirect
 )
 

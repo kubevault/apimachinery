@@ -7705,7 +7705,8 @@ spec:
                       credentialSecretRef:
                         description: 'Specifies the MySQL username and password to
                           connect to the database secret data:  - username=<value>  -
-                          password=<value>'
+                          password=<value>  - connection_url="postgres://<username>:<password>@<host>:<port>/<db_name>"
+                          if connection_url is provided, not need to provide the username/password'
                         properties:
                           name:
                             description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names

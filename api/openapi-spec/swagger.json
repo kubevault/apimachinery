@@ -17636,7 +17636,7 @@
       "type": "object",
       "properties": {
         "credentialSecretRef": {
-          "description": "Specifies the MySQL username and password to connect to the database secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
+          "description": "Specifies the MySQL username and password to connect to the database secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e\n - connection_url=\"postgres://\u003cusername\u003e:\u003cpassword\u003e@\u003chost\u003e:\u003cport\u003e/\u003cdb_name\u003e\"\nif connection_url is provided, not need to provide the username/password",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "databaseRef": {

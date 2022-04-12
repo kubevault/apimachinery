@@ -574,6 +574,8 @@ type PostgreSQLSpec struct {
 	// secret data:
 	//  - username=<value>
 	//  - password=<value>
+	//  - connection_url="postgres://<username>:<password>@<host>:<port>/<db_name>"
+	// if connection_url is provided, not need to provide the username/password
 	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// DatabaseRef contains the info of KubeDB managed Database

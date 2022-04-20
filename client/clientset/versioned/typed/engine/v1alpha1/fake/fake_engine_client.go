@@ -45,6 +45,10 @@ func (c *FakeEngineV1alpha1) GCPRoles(namespace string) v1alpha1.GCPRoleInterfac
 	return &FakeGCPRoles{c, namespace}
 }
 
+func (c *FakeEngineV1alpha1) MariaDBRoles(namespace string) v1alpha1.MariaDBRoleInterface {
+	return &FakeMariaDBRoles{c, namespace}
+}
+
 func (c *FakeEngineV1alpha1) MongoDBRoles(namespace string) v1alpha1.MongoDBRoleInterface {
 	return &FakeMongoDBRoles{c, namespace}
 }

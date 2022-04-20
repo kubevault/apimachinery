@@ -18212,6 +18212,22 @@ func schema_kmodulesxyz_offshoot_api_api_v1_PodRuntimeSettings(ref common.Refere
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
+					"podAnnotations": {
+						SchemaProps: spec.SchemaProps{
+							Description: "PodAnnotations are the annotations that will be attached with the respective Pod",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
 					"nodeSelector": {
 						SchemaProps: spec.SchemaProps{
 							Description: "NodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/",
@@ -18233,6 +18249,22 @@ func schema_kmodulesxyz_offshoot_api_api_v1_PodRuntimeSettings(ref common.Refere
 							Description: "ServiceAccountName is the name of the ServiceAccount to use to run this pod. More info: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/",
 							Type:        []string{"string"},
 							Format:      "",
+						},
+					},
+					"serviceAccountAnnotations": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ServiceAccountAnnotations are the annotations that will be attached with the respective ServiceAccount",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
 						},
 					},
 					"automountServiceAccountToken": {
@@ -18338,11 +18370,36 @@ func schema_kmodulesxyz_offshoot_api_api_v1_PodRuntimeSettings(ref common.Refere
 							Format:      "",
 						},
 					},
+					"topologySpreadConstraints": {
+						VendorExtensible: spec.VendorExtensible{
+							Extensions: spec.Extensions{
+								"x-kubernetes-list-map-keys": []interface{}{
+									"topologyKey",
+									"whenUnsatisfiable",
+								},
+								"x-kubernetes-list-type":       "map",
+								"x-kubernetes-patch-merge-key": "topologyKey",
+								"x-kubernetes-patch-strategy":  "merge",
+							},
+						},
+						SchemaProps: spec.SchemaProps{
+							Description: "TopologySpreadConstraints describes how a group of pods ought to spread across topology domains. Scheduler will schedule pods in a way which abides by the constraints. All topologySpreadConstraints are ANDed.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/api/core/v1.TopologySpreadConstraint"),
+									},
+								},
+							},
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.Affinity", "k8s.io/api/core/v1.LocalObjectReference", "k8s.io/api/core/v1.PodReadinessGate", "k8s.io/api/core/v1.PodSecurityContext", "k8s.io/api/core/v1.Toleration"},
+			"k8s.io/api/core/v1.Affinity", "k8s.io/api/core/v1.LocalObjectReference", "k8s.io/api/core/v1.PodReadinessGate", "k8s.io/api/core/v1.PodSecurityContext", "k8s.io/api/core/v1.Toleration", "k8s.io/api/core/v1.TopologySpreadConstraint"},
 	}
 }
 
@@ -18557,11 +18614,36 @@ func schema_kmodulesxyz_offshoot_api_api_v1_PodSpec(ref common.ReferenceCallback
 							Ref:         ref("k8s.io/api/core/v1.SecurityContext"),
 						},
 					},
+					"topologySpreadConstraints": {
+						VendorExtensible: spec.VendorExtensible{
+							Extensions: spec.Extensions{
+								"x-kubernetes-list-map-keys": []interface{}{
+									"topologyKey",
+									"whenUnsatisfiable",
+								},
+								"x-kubernetes-list-type":       "map",
+								"x-kubernetes-patch-merge-key": "topologyKey",
+								"x-kubernetes-patch-strategy":  "merge",
+							},
+						},
+						SchemaProps: spec.SchemaProps{
+							Description: "TopologySpreadConstraints describes how a group of pods ought to spread across topology domains. Scheduler will schedule pods in a way which abides by the constraints. All topologySpreadConstraints are ANDed.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/api/core/v1.TopologySpreadConstraint"),
+									},
+								},
+							},
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.Affinity", "k8s.io/api/core/v1.Container", "k8s.io/api/core/v1.EnvVar", "k8s.io/api/core/v1.Lifecycle", "k8s.io/api/core/v1.LocalObjectReference", "k8s.io/api/core/v1.PodDNSConfig", "k8s.io/api/core/v1.PodSecurityContext", "k8s.io/api/core/v1.Probe", "k8s.io/api/core/v1.ResourceRequirements", "k8s.io/api/core/v1.SecurityContext", "k8s.io/api/core/v1.Toleration"},
+			"k8s.io/api/core/v1.Affinity", "k8s.io/api/core/v1.Container", "k8s.io/api/core/v1.EnvVar", "k8s.io/api/core/v1.Lifecycle", "k8s.io/api/core/v1.LocalObjectReference", "k8s.io/api/core/v1.PodDNSConfig", "k8s.io/api/core/v1.PodSecurityContext", "k8s.io/api/core/v1.Probe", "k8s.io/api/core/v1.ResourceRequirements", "k8s.io/api/core/v1.SecurityContext", "k8s.io/api/core/v1.Toleration", "k8s.io/api/core/v1.TopologySpreadConstraint"},
 	}
 }
 
@@ -19049,11 +19131,10 @@ func schema_apimachinery_apis_kubevault_v1alpha2_AwsKmsSsmSpec(ref common.Refere
 							Format: "",
 						},
 					},
-					"credentialSecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the secret name containing AWS access key and AWS secret key secret data:\n - access_key:<value>\n - secret_key:<value>",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 					"endpoint": {
@@ -19067,6 +19148,8 @@ func schema_apimachinery_apis_kubevault_v1alpha2_AwsKmsSsmSpec(ref common.Refere
 				Required: []string{"kmsKeyID"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 
@@ -19100,18 +19183,16 @@ func schema_apimachinery_apis_kubevault_v1alpha2_AzureKeyVault(ref common.Refere
 							Format:      "",
 						},
 					},
-					"clientCertSecret": {
+					"tlsSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the name of secret containing client cert and client cert password secret data:\n - client-cert:<value>\n\t- client-cert-password: <value>",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
-					"aadClientSecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the name of secret containing client id and client secret of AAD application secret data:\n - client-id:<value>\n - client-secret:<value>",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 					"useManagedIdentity": {
@@ -19125,6 +19206,8 @@ func schema_apimachinery_apis_kubevault_v1alpha2_AzureKeyVault(ref common.Refere
 				Required: []string{"vaultBaseURL", "tenantID"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 
@@ -19143,12 +19226,10 @@ func schema_apimachinery_apis_kubevault_v1alpha2_AzureSpec(ref common.ReferenceC
 							Format:      "",
 						},
 					},
-					"accountKeySecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the secret containing Azure Storage account key. secret data:\n - account_key:<value>",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 					"container": {
@@ -19167,9 +19248,11 @@ func schema_apimachinery_apis_kubevault_v1alpha2_AzureSpec(ref common.ReferenceC
 						},
 					},
 				},
-				Required: []string{"accountName", "accountKeySecret", "container"},
+				Required: []string{"accountName", "container"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 
@@ -19423,18 +19506,10 @@ func schema_apimachinery_apis_kubevault_v1alpha2_DynamoDBSpec(ref common.Referen
 							Format:      "",
 						},
 					},
-					"credentialSecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the secret name containing AWS access key and AWS secret key secret data:\n - access_key=<value>\n - secret_key=<value>",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"sessionTokenSecret": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the secret name containing AWS session token secret data:\n - session_token:<value>",
-							Type:        []string{"string"},
-							Format:      "",
+							Description: "Specifies the secret name containing AWS session token, AWS access key and AWS secret key secret data:\n - access_key=<value>\n - secret_key=<value>\n - session_token=<value>",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 					"maxParallel": {
@@ -19447,6 +19522,8 @@ func schema_apimachinery_apis_kubevault_v1alpha2_DynamoDBSpec(ref common.Referen
 				},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 
@@ -19500,24 +19577,24 @@ func schema_apimachinery_apis_kubevault_v1alpha2_EtcdSpec(ref common.ReferenceCa
 							Format:      "",
 						},
 					},
-					"credentialSecretName": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the secret name that contain username and password to use when authenticating with the etcd server secret data:\n - username:<value>\n - password:<value>",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
-					"tlsSecretName": {
+					"tlsSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for etcd communication secret data:\n - ca.crt\n - client.crt\n - client.key",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 				},
 				Required: []string{"address"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 
@@ -19588,17 +19665,18 @@ func schema_apimachinery_apis_kubevault_v1alpha2_GcsSpec(ref common.ReferenceCal
 							Format:      "",
 						},
 					},
-					"credentialSecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Secret containing Google application credential secret data:\n - sa.json:<value>",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 				},
 				Required: []string{"bucket"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 
@@ -19649,17 +19727,18 @@ func schema_apimachinery_apis_kubevault_v1alpha2_GoogleKmsGcsSpec(ref common.Ref
 							Format:      "",
 						},
 					},
-					"credentialSecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Secret containing Google application credential secret data:\n - sa.json:<value>",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 				},
 				Required: []string{"kmsCryptoKey", "kmsKeyRing", "kmsLocation", "kmsProject", "bucket"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 
@@ -19739,7 +19818,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MySQLSpec(ref common.ReferenceC
 				Properties: map[string]spec.Schema{
 					"address": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the address of the MySQL host.",
+							Description: "Specifies the address of the MySQL host. if DatabaseRef is set then Address will be generated from it This must be set if DatabaseRef is empty, validate from ValidatingWebhook host example: <db-name>.<db-ns>.svc:3306",
 							Default:     "",
 							Type:        []string{"string"},
 							Format:      "",
@@ -19759,19 +19838,16 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MySQLSpec(ref common.ReferenceC
 							Format:      "",
 						},
 					},
-					"userCredentialSecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the MySQL username and password to connect to the database secret data:\n - username=<value>\n - password=<value>",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
-					"tlsCASecret": {
+					"tlsSecretRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the name of the secret containing the CA certificate to connect using TLS. secret data:\n - tls_ca_file=<ca_cert>",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 					"maxParallel": {
@@ -19781,10 +19857,51 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MySQLSpec(ref common.ReferenceC
 							Format:      "int64",
 						},
 					},
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DatabaseRef contains the info of KubeDB managed Database This will be used to generate the \"Address\" field",
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
+					"plaintextCredentialTransmission": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"maxIdleConnection": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the maximum number of idle connections to the database. A zero uses value defaults to 2 idle connections and a negative value disables idle connections. If larger than max_parallel it will be reduced to be equal.",
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+					"maxConnectionLifetime": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the maximum amount of time in seconds that a connection may be reused. If <= 0s connections are reused forever.",
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+					"haEnabled": {
+						SchemaProps: spec.SchemaProps{
+							Description: "High Availability Parameter Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like \"true\" or \"false\".",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"lockTable": {
+						SchemaProps: spec.SchemaProps{
+							Description: "High Availability Parameter Specifies the name of the table to use for storing high availability information. By default, this is the name of the table suffixed with _lock. If the table does not exist, Vault will attempt to create it.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 				},
-				Required: []string{"userCredentialSecret"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
 	}
 }
 
@@ -19832,10 +19949,21 @@ func schema_apimachinery_apis_kubevault_v1alpha2_PostgreSQLSpec(ref common.Refer
 				Description: "vault doc: https://www.vaultproject.io/docs/configuration/storage/postgresql.html\n\nPostgreSQLSpec defines configuration to set up PostgreSQL storage as backend storage in vault",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
-					"connectionURLSecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the name of the secret containing the connection string to use to authenticate and connect to PostgreSQL. A full list of supported parameters can be found in the pq library documentation(https://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters). secret data:\n - connection_url:<data>",
-							Default:     "",
+							Description: "\n - connection_url=\"postgres://<username>:<password>@<host>:<port>/<db_name>\"",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DatabaseRef contains the info of KubeDB managed Database This will be used to generate the \"Address\" field",
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
+					"sslMode": {
+						SchemaProps: spec.SchemaProps{
+							Description: "SSLMode for both standalone and clusters. [disable;verify-full]",
 							Type:        []string{"string"},
 							Format:      "",
 						},
@@ -19854,10 +19982,32 @@ func schema_apimachinery_apis_kubevault_v1alpha2_PostgreSQLSpec(ref common.Refer
 							Format:      "int64",
 						},
 					},
+					"maxIdleConnection": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Default not set. Sets the maximum number of connections in the idle connection pool. See golang docs on SetMaxIdleConns(https://pkg.go.dev/database/sql#DB.SetMaxIdleConns) for more information. Requires 1.2 or later.",
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+					"haEnabled": {
+						SchemaProps: spec.SchemaProps{
+							Description: "High Availability Parameter Default not enabled, requires 9.5 or later Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like \"true\" or \"false\".",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"haTable": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the name of the table to use for storing high availability information. This table must already exist (Vault will not attempt to create it).",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 				},
-				Required: []string{"connectionURLSecret"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
 	}
 }
 
@@ -19868,13 +20018,6 @@ func schema_apimachinery_apis_kubevault_v1alpha2_RaftSpec(ref common.ReferenceCa
 				Description: "RaftSpec defines the configuration for the Raft integrated storage. https://www.vaultproject.io/docs/configuration/storage/raft",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
-					"path": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Path (string: \"\") specifies the filesystem path where the vault data gets stored. This value can be overridden by setting the VAULT_RAFT_PATH environment variable. default: \"\"",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
 					"performanceMultiplier": {
 						SchemaProps: spec.SchemaProps{
 							Description: "An integer multiplier used by servers to scale key Raft timing parameters. Tuning this affects the time it takes Vault to detect leader failures and to perform leader elections, at the expense of requiring more network and CPU resources for better performance. default: 0",
@@ -19953,18 +20096,10 @@ func schema_apimachinery_apis_kubevault_v1alpha2_S3Spec(ref common.ReferenceCall
 							Format:      "",
 						},
 					},
-					"credentialSecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the secret name containing AWS access key and AWS secret key secret data:\n - access_key=<value>\n - secret_key=<value>",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"sessionTokenSecret": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the secret name containing AWS session token secret data:\n - session_token:<value>",
-							Type:        []string{"string"},
-							Format:      "",
+							Description: "Specifies the secret name containing AWS session token, AWS access key and AWS secret key secret data:\n - access_key=<value>\n - secret_key=<value>\n - session_token=<value>",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 					"maxParallel": {
@@ -19992,6 +20127,8 @@ func schema_apimachinery_apis_kubevault_v1alpha2_S3Spec(ref common.ReferenceCall
 				Required: []string{"bucket"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 
@@ -20046,12 +20183,10 @@ func schema_apimachinery_apis_kubevault_v1alpha2_SwiftSpec(ref common.ReferenceC
 							Format:      "",
 						},
 					},
-					"credentialSecret": {
+					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the name of the secret containing the OpenStack account/username and password secret data:\n - username=<value>\n - password=<value>",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
+							Description: "Specifies the name of the secret containing the OpenStack account/username and password Specifies secret containing auth token from alternate authentication. secret data:\n - username=<value>\n - password=<value>\n - auth_token=<value>",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 					"tenant": {
@@ -20103,13 +20238,6 @@ func schema_apimachinery_apis_kubevault_v1alpha2_SwiftSpec(ref common.ReferenceC
 							Format:      "",
 						},
 					},
-					"authTokenSecret": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies secret containing auth token from alternate authentication. secret data:\n - auth_token=<value>",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
 					"maxParallel": {
 						SchemaProps: spec.SchemaProps{
 							Description: "\n Specifies the maximum number of concurrent requests to take place.",
@@ -20118,9 +20246,11 @@ func schema_apimachinery_apis_kubevault_v1alpha2_SwiftSpec(ref common.ReferenceC
 						},
 					},
 				},
-				Required: []string{"authURL", "container", "credentialSecret"},
+				Required: []string{"authURL", "container"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 

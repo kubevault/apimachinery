@@ -7226,11 +7226,16 @@ spec:
                         description: Specifies the minimum TLS version to use. Accepted
                           values are "tls10", "tls11" or "tls12".
                         type: string
-                      tlsSecretName:
+                      tlsSecretRef:
                         description: 'Specifies the secret name that contains tls_ca_file,
                           tls_cert_file and tls_key_file for consul communication
-                          Secret data:  - ca.crt  - client.crt  - client.key'
-                        type: string
+                          Secret data:  - ca.crt  - tls.crt  - tls.key'
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
                       tlsSkipVerify:
                         description: Specifies if the TLS host verification should
                           be disabled. It is highly discouraged that you disable this
@@ -7325,7 +7330,7 @@ spec:
                       tlsSecretRef:
                         description: 'Specifies the secret name that contains tls_ca_file,
                           tls_cert_file and tls_key_file for etcd communication secret
-                          data:  - ca.crt  - client.crt  - client.key'
+                          data:  - ca.crt  - tls.crt  - tls.key'
                         properties:
                           name:
                             description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
@@ -7803,7 +7808,7 @@ spec:
                       tlsSecretRef:
                         description: 'Specifies the name of the secret containing
                           the CA certificate to connect using TLS. secret data:  -
-                          tls_ca_file=<ca_cert>'
+                          ca.crt=<value>'
                         properties:
                           name:
                             description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
@@ -7816,8 +7821,14 @@ spec:
                       \n PostgreSQLSpec defines configuration to set up PostgreSQL
                       storage as backend storage in vault"
                     properties:
+                      address:
+                        description: 'Specifies the address of the Postgres host.
+                          if DatabaseRef is set then Address will be generated from
+                          it This must be set if DatabaseRef is empty, validate from
+                          ValidatingWebhook host example: <db-name>.<db-ns>.svc:3306'
+                        type: string
                       credentialSecretRef:
-                        description: ' - connection_url="postgres://<username>:<password>@<host>:<port>/<db_name>"'
+                        description: ' - username=<value>  - password=<value>  - connection_url="postgres://<username>:<password>@<host>:<port>/<db_name>"'
                         properties:
                           name:
                             description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
@@ -7873,7 +7884,7 @@ spec:
                         format: int64
                         type: integer
                       sslMode:
-                        description: SSLMode for both standalone and clusters. [disable;verify-full]
+                        description: SSLMode for both standalone and clusters. [disable;require;verify-ca;verify-full]
                         enum:
                         - disable
                         - require

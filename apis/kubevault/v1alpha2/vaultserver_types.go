@@ -419,10 +419,10 @@ type ConsulSpec struct {
 	// for consul communication
 	// Secret data:
 	//  - ca.crt
-	//  - client.crt
-	//  - client.key
+	//  - tls.crt
+	//  - tls.key
 	// +optional
-	TLSSecretName string `json:"tlsSecretName,omitempty"`
+	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
 
 	// Specifies the minimum TLS version to use.
 	// Accepted values are "tls10", "tls11" or "tls12".
@@ -476,8 +476,8 @@ type EtcdSpec struct {
 	// Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for etcd communication
 	// secret data:
 	//  - ca.crt
-	//  - client.crt
-	//  - client.key
+	//  - tls.crt
+	//  - tls.key
 	// +optional
 	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
 }
@@ -570,6 +570,15 @@ type AzureSpec struct {
 //
 // PostgreSQLSpec defines configuration to set up PostgreSQL storage as backend storage in vault
 type PostgreSQLSpec struct {
+	// Specifies the address of the Postgres host.
+	// if DatabaseRef is set then Address will be generated from it
+	// This must be set if DatabaseRef is empty, validate from ValidatingWebhook
+	// host example: <db-name>.<db-ns>.svc:3306
+	// +optional
+	Address string `json:"address"`
+
+	//  - username=<value>
+	//  - password=<value>
 	//  - connection_url="postgres://<username>:<password>@<host>:<port>/<db_name>"
 	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
@@ -577,7 +586,7 @@ type PostgreSQLSpec struct {
 	// This will be used to generate the "Address" field
 	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
 
-	// SSLMode for both standalone and clusters. [disable;verify-full]
+	// SSLMode for both standalone and clusters. [disable;require;verify-ca;verify-full]
 	SSLMode PostgresSSLMode `json:"sslMode,omitempty"`
 
 	// Specifies the name of the table in which to write Vault data.
@@ -655,7 +664,7 @@ type MySQLSpec struct {
 
 	// Specifies the name of the secret containing the CA certificate to connect using TLS.
 	// secret data:
-	//  - tls_ca_file=<ca_cert>
+	//  - ca.crt=<value>
 	// +optional
 	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
 

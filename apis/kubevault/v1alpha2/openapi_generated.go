@@ -19430,11 +19430,10 @@ func schema_apimachinery_apis_kubevault_v1alpha2_ConsulSpec(ref common.Reference
 							Format:      "",
 						},
 					},
-					"tlsSecretName": {
+					"tlsSecretRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for consul communication Secret data:\n - ca.crt\n - client.crt\n - client.key",
-							Type:        []string{"string"},
-							Format:      "",
+							Description: "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for consul communication Secret data:\n - ca.crt\n - tls.crt\n - tls.key",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 					"tlsMinVersion": {
@@ -19454,6 +19453,8 @@ func schema_apimachinery_apis_kubevault_v1alpha2_ConsulSpec(ref common.Reference
 				},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 
@@ -19585,7 +19586,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_EtcdSpec(ref common.ReferenceCa
 					},
 					"tlsSecretRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for etcd communication secret data:\n - ca.crt\n - client.crt\n - client.key",
+							Description: "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for etcd communication secret data:\n - ca.crt\n - tls.crt\n - tls.key",
 							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
@@ -19846,7 +19847,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MySQLSpec(ref common.ReferenceC
 					},
 					"tlsSecretRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the name of the secret containing the CA certificate to connect using TLS. secret data:\n - tls_ca_file=<ca_cert>",
+							Description: "Specifies the name of the secret containing the CA certificate to connect using TLS. secret data:\n - ca.crt=<value>",
 							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
@@ -19949,9 +19950,17 @@ func schema_apimachinery_apis_kubevault_v1alpha2_PostgreSQLSpec(ref common.Refer
 				Description: "vault doc: https://www.vaultproject.io/docs/configuration/storage/postgresql.html\n\nPostgreSQLSpec defines configuration to set up PostgreSQL storage as backend storage in vault",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
+					"address": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the address of the Postgres host. if DatabaseRef is set then Address will be generated from it This must be set if DatabaseRef is empty, validate from ValidatingWebhook host example: <db-name>.<db-ns>.svc:3306",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "\n - connection_url=\"postgres://<username>:<password>@<host>:<port>/<db_name>\"",
+							Description: "\n - username=<value>\n - password=<value>\n - connection_url=\"postgres://<username>:<password>@<host>:<port>/<db_name>\"",
 							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
@@ -19963,7 +19972,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_PostgreSQLSpec(ref common.Refer
 					},
 					"sslMode": {
 						SchemaProps: spec.SchemaProps{
-							Description: "SSLMode for both standalone and clusters. [disable;verify-full]",
+							Description: "SSLMode for both standalone and clusters. [disable;require;verify-ca;verify-full]",
 							Type:        []string{"string"},
 							Format:      "",
 						},

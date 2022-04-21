@@ -17603,7 +17603,7 @@
           "type": "string"
         },
         "tlsSecretRef": {
-          "description": "Specifies the name of the secret containing the CA certificate to connect using TLS. secret data:\n - tls_ca_file=\u003cca_cert\u003e",
+          "description": "Specifies the name of the secret containing the CA certificate to connect using TLS. secret data:\n - ca.crt=\u003cvalue\u003e",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         }
       }
@@ -17635,8 +17635,13 @@
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/postgresql.html\n\nPostgreSQLSpec defines configuration to set up PostgreSQL storage as backend storage in vault",
       "type": "object",
       "properties": {
+        "address": {
+          "description": "Specifies the address of the Postgres host. if DatabaseRef is set then Address will be generated from it This must be set if DatabaseRef is empty, validate from ValidatingWebhook host example: \u003cdb-name\u003e.\u003cdb-ns\u003e.svc:3306",
+          "type": "string",
+          "default": ""
+        },
         "credentialSecretRef": {
-          "description": "\n - connection_url=\"postgres://\u003cusername\u003e:\u003cpassword\u003e@\u003chost\u003e:\u003cport\u003e/\u003cdb_name\u003e\"",
+          "description": "\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e\n - connection_url=\"postgres://\u003cusername\u003e:\u003cpassword\u003e@\u003chost\u003e:\u003cport\u003e/\u003cdb_name\u003e\"",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "databaseRef": {
@@ -17662,7 +17667,7 @@
           "format": "int64"
         },
         "sslMode": {
-          "description": "SSLMode for both standalone and clusters. [disable;verify-full]",
+          "description": "SSLMode for both standalone and clusters. [disable;require;verify-ca;verify-full]",
           "type": "string"
         },
         "table": {

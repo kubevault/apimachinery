@@ -369,3 +369,47 @@ func Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(in *v1alpha2.S3Spec, out *S3Spec
 	out.DisableSSL = in.DisableSSL
 	return nil
 }
+
+func Convert_v1alpha1_ConsulSpec_To_v1alpha2_ConsulSpec(in *ConsulSpec, out *v1alpha2.ConsulSpec, s conversion.Scope) error {
+	out.Address = in.Address
+	out.CheckTimeout = in.CheckTimeout
+	out.ConsistencyMode = in.ConsistencyMode
+	out.DisableRegistration = in.DisableRegistration
+	out.MaxParallel = in.MaxParallel
+	out.Path = in.Path
+	out.Scheme = in.Scheme
+	out.Service = in.Service
+	out.ServiceTags = in.ServiceTags
+	out.ServiceAddress = in.ServiceAddress
+	out.ACLTokenSecretName = in.ACLTokenSecretName
+	out.SessionTTL = in.SessionTTL
+	out.LockWaitTime = in.LockWaitTime
+	out.TLSSecretRef = &core.LocalObjectReference{
+		Name: in.TLSSecretName,
+	}
+	out.TLSMinVersion = in.TLSMinVersion
+	out.TLSSkipVerify = in.TLSSkipVerify
+	return nil
+}
+
+func Convert_v1alpha2_ConsulSpec_To_v1alpha1_ConsulSpec(in *v1alpha2.ConsulSpec, out *ConsulSpec, s conversion.Scope) error {
+	out.Address = in.Address
+	out.CheckTimeout = in.CheckTimeout
+	out.ConsistencyMode = in.ConsistencyMode
+	out.DisableRegistration = in.DisableRegistration
+	out.MaxParallel = in.MaxParallel
+	out.Path = in.Path
+	out.Scheme = in.Scheme
+	out.Service = in.Service
+	out.ServiceTags = in.ServiceTags
+	out.ServiceAddress = in.ServiceAddress
+	out.ACLTokenSecretName = in.ACLTokenSecretName
+	out.SessionTTL = in.SessionTTL
+	out.LockWaitTime = in.LockWaitTime
+	if in.TLSSecretRef != nil {
+		out.TLSSecretName = in.TLSSecretRef.Name
+	}
+	out.TLSMinVersion = in.TLSMinVersion
+	out.TLSSkipVerify = in.TLSSkipVerify
+	return nil
+}

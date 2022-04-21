@@ -92,16 +92,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*ConsulSpec)(nil), (*v1alpha2.ConsulSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_ConsulSpec_To_v1alpha2_ConsulSpec(a.(*ConsulSpec), b.(*v1alpha2.ConsulSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.ConsulSpec)(nil), (*ConsulSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_ConsulSpec_To_v1alpha1_ConsulSpec(a.(*v1alpha2.ConsulSpec), b.(*ConsulSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*FileSpec)(nil), (*v1alpha2.FileSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_FileSpec_To_v1alpha2_FileSpec(a.(*FileSpec), b.(*v1alpha2.FileSpec), scope)
 	}); err != nil {
@@ -252,6 +242,11 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
+	if err := s.AddConversionFunc((*ConsulSpec)(nil), (*v1alpha2.ConsulSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_ConsulSpec_To_v1alpha2_ConsulSpec(a.(*ConsulSpec), b.(*v1alpha2.ConsulSpec), scope)
+	}); err != nil {
+		return err
+	}
 	if err := s.AddConversionFunc((*DynamoDBSpec)(nil), (*v1alpha2.DynamoDBSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(a.(*DynamoDBSpec), b.(*v1alpha2.DynamoDBSpec), scope)
 	}); err != nil {
@@ -309,6 +304,11 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}
 	if err := s.AddConversionFunc((*v1alpha2.AzureSpec)(nil), (*AzureSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(a.(*v1alpha2.AzureSpec), b.(*AzureSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.ConsulSpec)(nil), (*ConsulSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_ConsulSpec_To_v1alpha1_ConsulSpec(a.(*v1alpha2.ConsulSpec), b.(*ConsulSpec), scope)
 	}); err != nil {
 		return err
 	}

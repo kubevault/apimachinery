@@ -17330,9 +17330,9 @@
           "description": "Specifies the minimum TLS version to use. Accepted values are \"tls10\", \"tls11\" or \"tls12\".",
           "type": "string"
         },
-        "tlsSecretName": {
-          "description": "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for consul communication Secret data:\n - ca.crt\n - client.crt\n - client.key",
-          "type": "string"
+        "tlsSecretRef": {
+          "description": "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for consul communication Secret data:\n - ca.crt\n - tls.crt\n - tls.key",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "tlsSkipVerify": {
           "description": "Specifies if the TLS host verification should be disabled. It is highly discouraged that you disable this option.",
@@ -17418,7 +17418,7 @@
           "type": "boolean"
         },
         "tlsSecretRef": {
-          "description": "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for etcd communication secret data:\n - ca.crt\n - client.crt\n - client.key",
+          "description": "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for etcd communication secret data:\n - ca.crt\n - tls.crt\n - tls.key",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         }
       }

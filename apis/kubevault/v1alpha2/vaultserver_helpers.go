@@ -263,3 +263,8 @@ func (vs *VaultServer) GetServiceTemplate(alias ServiceAlias) ofst.ServiceTempla
 	}
 	return ofst.ServiceTemplateSpec{}
 }
+
+const (
+	VaultServerAnnotationName      = "vaultservers.kubevault.com/name"
+	VaultServerAnnotationNamespace = "vaultservers.kubevault.com/namespace"
+)

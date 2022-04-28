@@ -7119,6 +7119,7 @@ spec:
                       - userpass
                       - cert
                       - azure
+                      - jwt
                       type: string
                   required:
                   - path
@@ -13842,6 +13843,7 @@ spec:
                       - userpass
                       - cert
                       - azure
+                      - jwt
                       type: string
                   required:
                   - path

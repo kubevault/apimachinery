@@ -973,7 +973,7 @@ type AzureKeyVault struct {
 	UseManagedIdentity bool `json:"useManagedIdentity,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=kubernetes;aws;gcp;userpass;cert;azure
+// +kubebuilder:validation:Enum=kubernetes;aws;gcp;userpass;cert;azure;jwt
 type AuthMethodType string
 
 const (
@@ -983,6 +983,7 @@ const (
 	AuthTypeUserPass   AuthMethodType = "userpass"
 	AuthTypeCert       AuthMethodType = "cert"
 	AuthTypeAzure      AuthMethodType = "azure"
+	AuthTypeJWT        AuthMethodType = "jwt"
 )
 
 // AuthMethod contains the information to enable vault auth method

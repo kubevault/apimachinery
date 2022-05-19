@@ -973,7 +973,7 @@ type AzureKeyVault struct {
 	UseManagedIdentity bool `json:"useManagedIdentity,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=kubernetes;aws;gcp;userpass;cert;azure;jwt
+// +kubebuilder:validation:Enum=kubernetes;aws;gcp;userpass;cert;azure;jwt;oidc
 type AuthMethodType string
 
 const (
@@ -984,6 +984,7 @@ const (
 	AuthTypeCert       AuthMethodType = "cert"
 	AuthTypeAzure      AuthMethodType = "azure"
 	AuthTypeJWT        AuthMethodType = "jwt"
+	AuthTypeOIDC       AuthMethodType = "oidc"
 )
 
 // AuthMethod contains the information to enable vault auth method
@@ -1000,9 +1001,14 @@ type AuthMethod struct {
 	// +optional
 	Description string `json:"description,omitempty"`
 
-	// Specifies configuration options for this auth method.
-	// +optional
-	Config *AuthConfig `json:"config,omitempty"`
+	// Kubernetes auth config
+	KubernetesConfig *KubernetesConfig `json:"kubernetesConfig,omitempty"`
+
+	// OIDC auth config
+	OIDCConfig *OIDCConfig `json:"oidcConfig,omitempty"`
+
+	// JWT auth config
+	JWTConfig *JWTConfig `json:"jwtConfig,omitempty"`
 
 	// Specifies the name of the auth plugin to use based from the name in the plugin catalog.
 	// Applies only to plugin methods.
@@ -1040,7 +1046,7 @@ type AuthMethodStatus struct {
 	Reason string `json:"reason,omitempty"`
 }
 
-type AuthConfig struct {
+type KubernetesConfig struct {
 	// The default lease duration, specified as a string duration like "5s" or "30m".
 	// +optional
 	DefaultLeaseTTL string `json:"defaultLeaseTTL,omitempty"`
@@ -1068,4 +1074,140 @@ type AuthConfig struct {
 	// List of headers to whitelist and pass from the request to the backend.
 	// +optional
 	PassthroughRequestHeaders []string `json:"passthroughRequestHeaders,omitempty"`
+}
+
+type OIDCConfig struct {
+	// The default lease duration, specified as a string duration like "5s" or "30m".
+	// +optional
+	DefaultLeaseTTL string `json:"defaultLeaseTTL,omitempty"`
+
+	// The maximum lease duration, specified as a string duration like "5s" or "30m".
+	// +optional
+	MaxLeaseTTL string `json:"maxLeaseTTL,omitempty"`
+
+	// The name of the plugin in the plugin catalog to use.
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of keys that will not be HMAC'd by audit devices in the request data object.
+	// +optional
+	AuditNonHMACRequestKeys []string `json:"auditNonHMACRequestKeys,omitempty"`
+
+	// List of keys that will not be HMAC'd by audit devices in the response data object.
+	// +optional
+	AuditNonHMACResponseKeys []string `json:"auditNonHMACResponseKeys,omitempty"`
+
+	// Speficies whether to show this mount in the UI-specific listing endpoint.
+	// +optional
+	ListingVisibility string `json:"listingVisibility,omitempty"`
+
+	// List of headers to whitelist and pass from the request to the backend.
+	// +optional
+	PassthroughRequestHeaders []string `json:"passthroughRequestHeaders,omitempty"`
+
+	// CredentialSecretRef
+	// TODO: add keys that could be present
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+
+	// TLSSecretRef
+	// TODO: add keys that could be present
+	// +optional
+	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
+
+	// common configuration parameters
+	// The OIDC Discovery URL, without any .well-known component (base path). Cannot be used with "jwks_url" or "jwt_validation_pubkeys".
+	// +optional
+	OIDCDiscoveryURL string `json:"oidcDiscoveryURL,omitempty"`
+
+	// The OAuth Client ID from the provider for OIDC roles.
+	// +optional
+	OIDCClientID string `json:"oidcClientID,omitempty"`
+
+	// The response mode to be used in the OAuth2 request. Allowed values are "query" and "form_post". Defaults to "query".
+	// If using Vault namespaces, and oidc_response_mode is "form_post", then "namespace_in_state" should be set to false.
+	// +optional
+	OIDCResponseMode string `json:"oidcResponseMode,omitempty"`
+
+	// (comma-separated string, or array of strings: <optional>) - The response types to request.
+	// Allowed values are "code" and "id_token". Defaults to "code". Note: "id_token" may only be used if "oidc_response_mode" is set to "form_post".
+	// +optional
+	OIDCResponseTypes string `json:"oidcResponseTypes,omitempty"`
+
+	// The default role to use if none is provided during login
+	// +optional
+	DefaultRole string `json:"defaultRole,omitempty"`
+
+	// Configuration options for provider-specific handling.
+	// Providers with specific handling include: Azure, Google. The options are described in each provider's section in OIDC Provider Setup.
+	// +optional
+	ProviderConfig map[string]string `json:"providerConfig,omitempty"`
+}
+
+type JWTConfig struct {
+	// The default lease duration, specified as a string duration like "5s" or "30m".
+	// +optional
+	DefaultLeaseTTL string `json:"defaultLeaseTTL,omitempty"`
+
+	// The maximum lease duration, specified as a string duration like "5s" or "30m".
+	// +optional
+	MaxLeaseTTL string `json:"maxLeaseTTL,omitempty"`
+
+	// The name of the plugin in the plugin catalog to use.
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of keys that will not be HMAC'd by audit devices in the request data object.
+	// +optional
+	AuditNonHMACRequestKeys []string `json:"auditNonHMACRequestKeys,omitempty"`
+
+	// List of keys that will not be HMAC'd by audit devices in the response data object.
+	// +optional
+	AuditNonHMACResponseKeys []string `json:"auditNonHMACResponseKeys,omitempty"`
+
+	// Speficies whether to show this mount in the UI-specific listing endpoint.
+	// +optional
+	ListingVisibility string `json:"listingVisibility,omitempty"`
+
+	// List of headers to whitelist and pass from the request to the backend.
+	// +optional
+	PassthroughRequestHeaders []string `json:"passthroughRequestHeaders,omitempty"`
+
+	// CredentialSecretRef
+	// TODO: add keys that could be present
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+
+	// TLSSecretRef
+	// TODO: add keys that could be present
+	// +optional
+	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
+
+	// common configuration parameters
+	// The OIDC Discovery URL, without any .well-known component (base path). Cannot be used with "jwks_url" or "jwt_validation_pubkeys".
+	// +optional
+	OIDCDiscoveryURL string `json:"oidcDiscoveryURL,omitempty"`
+
+	// The OAuth Client ID from the provider for OIDC roles.
+	// +optional
+	OIDCClientID string `json:"oidcClientID,omitempty"`
+
+	// The response mode to be used in the OAuth2 request. Allowed values are "query" and "form_post". Defaults to "query".
+	// If using Vault namespaces, and oidc_response_mode is "form_post", then "namespace_in_state" should be set to false.
+	// +optional
+	OIDCResponseMode string `json:"oidcResponseMode,omitempty"`
+
+	// (comma-separated string, or array of strings: <optional>) - The response types to request.
+	// Allowed values are "code" and "id_token". Defaults to "code". Note: "id_token" may only be used if "oidc_response_mode" is set to "form_post".
+	// +optional
+	OIDCResponseTypes string `json:"oidcResponseTypes,omitempty"`
+
+	// The default role to use if none is provided during login
+	// +optional
+	DefaultRole string `json:"defaultRole,omitempty"`
+
+	// Configuration options for provider-specific handling.
+	// Providers with specific handling include: Azure, Google. The options are described in each provider's section in OIDC Provider Setup.
+	// +optional
+	ProviderConfig map[string]string `json:"providerConfig,omitempty"`
 }

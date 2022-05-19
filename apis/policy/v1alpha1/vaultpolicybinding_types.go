@@ -85,7 +85,8 @@ type SubjectRef struct {
 	LdapGroup *LdapGroupSubjectRef `json:"ldapGroup,omitempty"`
 	LdapUser  *LdapUserSubjectRef  `json:"ldapUser,omitempty"`
 	// More info: https://www.vaultproject.io/api-docs/auth/jwt#configure
-	JWT *JWTSubjectRef `json:"jwt,omitempty"`
+	JWT  *JWTSubjectRef  `json:"jwt,omitempty"`
+	OIDC *OIDCSubjectRef `json:"oidc,omitempty"`
 }
 
 // More info: https://www.vaultproject.io/api/auth/kubernetes/index.html#create-role
@@ -206,8 +207,79 @@ type LdapUserSubjectRef struct {
 
 // More info: https://www.vaultproject.io/api-docs/auth/jwt#create-role
 type JWTSubjectRef struct {
-	// Specifies the path where jwt/oidc auth is enabled
+	// Specifies the path where jwt auth is enabled
 	// default : jwt
+	// +optional
+	Path string `json:"path,omitempty"`
+
+	// Name of the role.
+	// This defaults to following format: k8s.${cluster}.${metadata.namespace}.${metadata.name}
+	Name string `json:"name,omitempty"`
+
+	// Type of role, either "oidc" (default) or "jwt".
+	RoleType string `json:"roleType,omitempty"`
+
+	// List of aud claims to match against. Any match is sufficient. Required for "jwt" roles, optional for "oidc" roles.
+	BoundAudiences []string `json:"boundAudiences,omitempty"`
+
+	// The claim to use to uniquely identify the user; this will be used as the name for the Identity entity alias created due to a successful login. The claim value must be a string.
+	UserClaim string `json:"userClaim"`
+
+	// If set, requires that the sub claim matches this value.
+	BoundSubject string `json:"boundSubject,omitempty"`
+
+	// If set, a map of claims/values to match against. The expected value may be a single string or a list of strings. The interpretation of the bound claim values is configured with bound_claims_type.
+	BoundClaims map[string]string `json:"boundClaims,omitempty"`
+
+	// Configures the interpretation of the bound_claims values. If "string" (the default), the values will treated as string literals and must match exactly. If set to "glob", the values will be interpreted as globs, with * matching any number of characters.
+	BoundClaimsType string `json:"boundClaimsType,omitempty"`
+
+	// The claim to use to uniquely identify the set of groups to which the user belongs; this will be used as the names for the Identity group aliases created due to a successful login. The claim value must be a list of strings.
+	GroupClaim string `json:"groupClaim,omitempty"`
+
+	// If set, a map of claims (keys) to be copied to specified metadata fields (values).
+	ClaimMappings map[string]string `json:"claimMappings,omitempty"`
+
+	// If set, a list of OIDC scopes to be used with an OIDC role. The standard scope "openid" is automatically included and need not be specified.
+	OIDCScopes []string `json:"oidcScopes,omitempty"`
+
+	// The list of allowed values for redirect_uri during OIDC logins.
+	AllowedRedirectUris []string `json:"allowedRedirectUris"`
+
+	VerboseOIDCLogging bool `json:"verboseOidcLogging,omitempty"`
+
+	// The incremental lifetime for generated tokens. This current value of this will be referenced at renewal time.
+	TokenTTL int64 `json:"tokenTTL,omitempty"`
+
+	// The maximum lifetime for generated tokens. This current value of this will be referenced at renewal time.
+	TokenMaxTTL int64 `json:"tokenMaxTTL,omitempty"`
+
+	// List of policies to encode onto generated tokens. Depending on the auth method, this list may be supplemented by user/group/other values.
+	TokenPolicies []string `json:"tokenPolicies,omitempty"`
+
+	// List of CIDR blocks; if set, specifies blocks of IP addresses which can authenticate successfully, and ties the resulting token to these blocks as well.
+	TokenBoundCidrs []string `json:"tokenBoundCidrs,omitempty"`
+
+	// If set, will encode an explicit max TTL onto the token. This is a hard cap even if token_ttl and token_max_ttl would otherwise allow a renewal.
+	TokenExplicitMaxTTL int64 `json:"tokenExplicitMaxTTL,omitempty"`
+
+	// If set, the default policy will not be set on generated tokens; otherwise it will be added to the policies set in token_policies.
+	TokenNoDefaultPolicy bool `json:"tokenNoDefaultPolicy,omitempty"`
+
+	// The maximum number of times a generated token may be used (within its lifetime); 0 means unlimited.
+	TokenNumUses int64 `json:"tokenNumUses,omitempty"`
+
+	// The period, if any, to set on the token.
+	TokenPeriod int64 `json:"tokenPeriod,omitempty"`
+
+	// The type of token that should be generated. Can be service, batch, or default to use the mount's tuned default (which unless changed will be service tokens). For token store roles, there are two additional possibilities: default-service and default-batch which specify the type to return unless the client requests a different type at generation time.
+	TokenType string `json:"tokenType,omitempty"`
+}
+
+// More info: https://www.vaultproject.io/api-docs/auth/jwt#create-role
+type OIDCSubjectRef struct {
+	// Specifies the path where oidc auth is enabled
+	// default : oidc
 	// +optional
 	Path string `json:"path,omitempty"`
 

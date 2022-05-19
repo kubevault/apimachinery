@@ -66,6 +66,7 @@ const (
 	VaultAuthLDAPGroups = "groups"
 	VaultAuthLDAPUsers  = "users"
 	VaultAuthJWTRole    = "role"
+	VautlAuthOIDCRole   = "role"
 )
 
 const (

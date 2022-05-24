@@ -425,6 +425,16 @@ func (in *JWTConfig) DeepCopyInto(out *JWTConfig) {
 			(*out)[key] = val
 		}
 	}
+	if in.JWTValidationPubkeys != nil {
+		in, out := &in.JWTValidationPubkeys, &out.JWTValidationPubkeys
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.JWTSupportedAlgs != nil {
+		in, out := &in.JWTSupportedAlgs, &out.JWTSupportedAlgs
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 
@@ -603,6 +613,16 @@ func (in *OIDCConfig) DeepCopyInto(out *OIDCConfig) {
 		for key, val := range *in {
 			(*out)[key] = val
 		}
+	}
+	if in.JWTValidationPubkeys != nil {
+		in, out := &in.JWTValidationPubkeys, &out.JWTValidationPubkeys
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.JWTSupportedAlgs != nil {
+		in, out := &in.JWTSupportedAlgs, &out.JWTSupportedAlgs
+		*out = make([]string, len(*in))
+		copy(*out, *in)
 	}
 	return
 }

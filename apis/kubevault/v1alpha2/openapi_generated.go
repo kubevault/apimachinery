@@ -19825,6 +19825,50 @@ func schema_apimachinery_apis_kubevault_v1alpha2_JWTConfig(ref common.ReferenceC
 							},
 						},
 					},
+					"jwksURL": {
+						SchemaProps: spec.SchemaProps{
+							Description: "JWKS URL to use to authenticate signatures. Cannot be used with \"oidc_discovery_url\" or \"jwt_validation_pubkeys\".",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"jwtValidationPubkeys": {
+						SchemaProps: spec.SchemaProps{
+							Description: "(comma-separated string, or array of strings: <optional>) - A list of PEM-encoded public keys to use to authenticate signatures locally. Cannot be used with \"jwks_url\" or \"oidc_discovery_url\".",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"jwtSupportedAlgs": {
+						SchemaProps: spec.SchemaProps{
+							Description: "(comma-separated string, or array of strings: <optional>) A list of supported signing algorithms. Defaults to [RS256] for OIDC roles. Defaults to all available algorithms for JWT roles.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"boundIssuer": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The value against which to match the iss claim in a JWT.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 				},
 			},
 		},
@@ -20247,6 +20291,50 @@ func schema_apimachinery_apis_kubevault_v1alpha2_OIDCConfig(ref common.Reference
 									},
 								},
 							},
+						},
+					},
+					"jwksURL": {
+						SchemaProps: spec.SchemaProps{
+							Description: "JWKS URL to use to authenticate signatures. Cannot be used with \"oidc_discovery_url\" or \"jwt_validation_pubkeys\".",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"jwtValidationPubkeys": {
+						SchemaProps: spec.SchemaProps{
+							Description: "(comma-separated string, or array of strings: <optional>) A list of PEM-encoded public keys to use to authenticate signatures locally. Cannot be used with \"jwks_url\" or \"oidc_discovery_url\".",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"jwtSupportedAlgs": {
+						SchemaProps: spec.SchemaProps{
+							Description: "(comma-separated string, or array of strings: <optional>) A list of supported signing algorithms. Defaults to [RS256] for OIDC roles. Defaults to all available algorithms for JWT roles.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"boundIssuer": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The value against which to match the iss claim in a JWT.",
+							Type:        []string{"string"},
+							Format:      "",
 						},
 					},
 				},

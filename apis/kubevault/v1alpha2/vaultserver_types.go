@@ -1142,6 +1142,23 @@ type OIDCConfig struct {
 	// Providers with specific handling include: Azure, Google. The options are described in each provider's section in OIDC Provider Setup.
 	// +optional
 	ProviderConfig map[string]string `json:"providerConfig,omitempty"`
+
+	// JWKS URL to use to authenticate signatures. Cannot be used with "oidc_discovery_url" or "jwt_validation_pubkeys".
+	// +optional
+	JWKSURL string `json:"jwksURL,omitempty"`
+
+	// (comma-separated string, or array of strings: <optional>)
+	// A list of PEM-encoded public keys to use to authenticate signatures locally. Cannot be used with "jwks_url" or "oidc_discovery_url".
+	JWTValidationPubkeys []string `json:"jwtValidationPubkeys,omitempty"`
+
+	// (comma-separated string, or array of strings: <optional>)
+	// A list of supported signing algorithms. Defaults to [RS256] for OIDC roles. Defaults to all available algorithms for JWT roles.
+	// +optional
+	JWTSupportedAlgs []string `json:"jwtSupportedAlgs,omitempty"`
+
+	// The value against which to match the iss claim in a JWT.
+	// +optional
+	BoundIssuer string `json:"boundIssuer,omitempty"`
 }
 
 type JWTConfig struct {
@@ -1210,4 +1227,21 @@ type JWTConfig struct {
 	// Providers with specific handling include: Azure, Google. The options are described in each provider's section in OIDC Provider Setup.
 	// +optional
 	ProviderConfig map[string]string `json:"providerConfig,omitempty"`
+
+	// JWKS URL to use to authenticate signatures. Cannot be used with "oidc_discovery_url" or "jwt_validation_pubkeys".
+	// +optional
+	JWKSURL string `json:"jwksURL,omitempty"`
+
+	// (comma-separated string, or array of strings: <optional>) -
+	// A list of PEM-encoded public keys to use to authenticate signatures locally. Cannot be used with "jwks_url" or "oidc_discovery_url".
+	JWTValidationPubkeys []string `json:"jwtValidationPubkeys,omitempty"`
+
+	// (comma-separated string, or array of strings: <optional>)
+	// A list of supported signing algorithms. Defaults to [RS256] for OIDC roles. Defaults to all available algorithms for JWT roles.
+	// +optional
+	JWTSupportedAlgs []string `json:"jwtSupportedAlgs,omitempty"`
+
+	// The value against which to match the iss claim in a JWT.
+	// +optional
+	BoundIssuer string `json:"boundIssuer,omitempty"`
 }

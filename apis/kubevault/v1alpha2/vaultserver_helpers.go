@@ -72,6 +72,10 @@ func (v VaultServer) PolicyNameForAuthMethodController() string {
 	return meta_util.NameWithSuffix(v.Name, "auth-method-controller")
 }
 
+func (v VaultServer) PolicyNameForAuthMethod(typ AuthMethodType, path string) string {
+	return fmt.Sprintf("%s-%s-auth-policy", string(typ), path)
+}
+
 func (v VaultServer) AppBindingName() string {
 	return v.Name
 }

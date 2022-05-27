@@ -1106,12 +1106,10 @@ type OIDCConfig struct {
 	PassthroughRequestHeaders []string `json:"passthroughRequestHeaders,omitempty"`
 
 	// CredentialSecretRef
-	// TODO: add keys that could be present
 	// +optional
 	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// TLSSecretRef
-	// TODO: add keys that could be present
 	// +optional
 	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
 
@@ -1191,12 +1189,10 @@ type JWTConfig struct {
 	PassthroughRequestHeaders []string `json:"passthroughRequestHeaders,omitempty"`
 
 	// CredentialSecretRef
-	// TODO: add keys that could be present
 	// +optional
 	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 
 	// TLSSecretRef
-	// TODO: add keys that could be present
 	// +optional
 	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
 

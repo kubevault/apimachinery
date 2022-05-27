@@ -429,9 +429,6 @@ func Convert_v1alpha2_AuthMethod_To_v1alpha1_AuthMethod(in *v1alpha2.AuthMethod,
 			out.Config.AuditNonHMACRequestKeys = in.KubernetesConfig.AuditNonHMACRequestKeys
 		}
 	}
-	// WARNING: in.KubernetesConfig requires manual conversion: does not exist in peer-type
-	// WARNING: in.OIDCConfig requires manual conversion: does not exist in peer-type
-	// WARNING: in.JWTConfig requires manual conversion: does not exist in peer-type
 	out.PluginName = in.PluginName
 	out.Local = in.Local
 	return nil
@@ -441,7 +438,6 @@ func Convert_v1alpha1_AuthMethod_To_v1alpha2_AuthMethod(in *AuthMethod, out *v1a
 	out.Type = v1alpha2.AuthMethodType(in.Type)
 	out.Path = in.Path
 	out.Description = in.Description
-	// WARNING: in.Config requires manual conversion: does not exist in peer-type
 	if out.Type == v1alpha2.AuthTypeKubernetes {
 		if in.Config != nil {
 			out.KubernetesConfig.DefaultLeaseTTL = in.Config.DefaultLeaseTTL

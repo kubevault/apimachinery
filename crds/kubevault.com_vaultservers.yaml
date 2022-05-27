@@ -7077,8 +7077,7 @@ spec:
                             in a JWT.
                           type: string
                         credentialSecretRef:
-                          description: 'CredentialSecretRef TODO: add keys that could
-                            be present'
+                          description: CredentialSecretRef
                           properties:
                             name:
                               description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
@@ -7162,8 +7161,7 @@ spec:
                             section in OIDC Provider Setup.'
                           type: object
                         tlsSecretRef:
-                          description: 'TLSSecretRef TODO: add keys that could be
-                            present'
+                          description: TLSSecretRef
                           properties:
                             name:
                               description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
@@ -7234,8 +7232,7 @@ spec:
                             in a JWT.
                           type: string
                         credentialSecretRef:
-                          description: 'CredentialSecretRef TODO: add keys that could
-                            be present'
+                          description: CredentialSecretRef
                           properties:
                             name:
                               description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
@@ -7319,8 +7316,7 @@ spec:
                             section in OIDC Provider Setup.'
                           type: object
                         tlsSecretRef:
-                          description: 'TLSSecretRef TODO: add keys that could be
-                            present'
+                          description: TLSSecretRef
                           properties:
                             name:
                               description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names

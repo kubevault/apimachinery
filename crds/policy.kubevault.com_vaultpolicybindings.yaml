@@ -220,11 +220,7 @@ spec:
                           type: string
                         type: array
                       path:
-                        description: 'Specifies the path where jwt auth is enabled
-                          default : jwt'
-                        type: string
-                      roleType:
-                        description: Type of role, either "oidc" (default) or "jwt".
+                        description: Specifies the path where jwt/oidc auth is enabled
                         type: string
                       tokenBoundCidrs:
                         description: List of CIDR blocks; if set, specifies blocks
@@ -290,6 +286,7 @@ spec:
                         type: boolean
                     required:
                     - allowedRedirectUris
+                    - path
                     - userClaim
                     type: object
                   kubernetes:
@@ -436,11 +433,7 @@ spec:
                           type: string
                         type: array
                       path:
-                        description: 'Specifies the path where oidc auth is enabled
-                          default : oidc'
-                        type: string
-                      roleType:
-                        description: Type of role, either "oidc" (default) or "jwt".
+                        description: Specifies the path where jwt/oidc auth is enabled
                         type: string
                       tokenBoundCidrs:
                         description: List of CIDR blocks; if set, specifies blocks
@@ -506,6 +499,7 @@ spec:
                         type: boolean
                     required:
                     - allowedRedirectUris
+                    - path
                     - userClaim
                     type: object
                 type: object

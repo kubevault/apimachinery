@@ -82,36 +82,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*AwsKmsSsmSpec)(nil), (*v1alpha2.AwsKmsSsmSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(a.(*AwsKmsSsmSpec), b.(*v1alpha2.AwsKmsSsmSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.AwsKmsSsmSpec)(nil), (*AwsKmsSsmSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(a.(*v1alpha2.AwsKmsSsmSpec), b.(*AwsKmsSsmSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*AzureKeyVault)(nil), (*v1alpha2.AzureKeyVault)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(a.(*AzureKeyVault), b.(*v1alpha2.AzureKeyVault), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.AzureKeyVault)(nil), (*AzureKeyVault)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(a.(*v1alpha2.AzureKeyVault), b.(*AzureKeyVault), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*AzureSpec)(nil), (*v1alpha2.AzureSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(a.(*AzureSpec), b.(*v1alpha2.AzureSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.AzureSpec)(nil), (*AzureSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(a.(*v1alpha2.AzureSpec), b.(*AzureSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*BackendStorageSpec)(nil), (*v1alpha2.BackendStorageSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_BackendStorageSpec_To_v1alpha2_BackendStorageSpec(a.(*BackendStorageSpec), b.(*v1alpha2.BackendStorageSpec), scope)
 	}); err != nil {
@@ -132,26 +102,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*DynamoDBSpec)(nil), (*v1alpha2.DynamoDBSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(a.(*DynamoDBSpec), b.(*v1alpha2.DynamoDBSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.DynamoDBSpec)(nil), (*DynamoDBSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(a.(*v1alpha2.DynamoDBSpec), b.(*DynamoDBSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*EtcdSpec)(nil), (*v1alpha2.EtcdSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(a.(*EtcdSpec), b.(*v1alpha2.EtcdSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.EtcdSpec)(nil), (*EtcdSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(a.(*v1alpha2.EtcdSpec), b.(*EtcdSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*FileSpec)(nil), (*v1alpha2.FileSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_FileSpec_To_v1alpha2_FileSpec(a.(*FileSpec), b.(*v1alpha2.FileSpec), scope)
 	}); err != nil {
@@ -159,26 +109,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}
 	if err := s.AddGeneratedConversionFunc((*v1alpha2.FileSpec)(nil), (*FileSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha2_FileSpec_To_v1alpha1_FileSpec(a.(*v1alpha2.FileSpec), b.(*FileSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*GcsSpec)(nil), (*v1alpha2.GcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(a.(*GcsSpec), b.(*v1alpha2.GcsSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.GcsSpec)(nil), (*GcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(a.(*v1alpha2.GcsSpec), b.(*GcsSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*GoogleKmsGcsSpec)(nil), (*v1alpha2.GoogleKmsGcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(a.(*GoogleKmsGcsSpec), b.(*v1alpha2.GoogleKmsGcsSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.GoogleKmsGcsSpec)(nil), (*GoogleKmsGcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(a.(*v1alpha2.GoogleKmsGcsSpec), b.(*GoogleKmsGcsSpec), scope)
 	}); err != nil {
 		return err
 	}
@@ -212,16 +142,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*MySQLSpec)(nil), (*v1alpha2.MySQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(a.(*MySQLSpec), b.(*v1alpha2.MySQLSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.MySQLSpec)(nil), (*MySQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(a.(*v1alpha2.MySQLSpec), b.(*MySQLSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*NamedServiceTemplateSpec)(nil), (*v1alpha2.NamedServiceTemplateSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_NamedServiceTemplateSpec_To_v1alpha2_NamedServiceTemplateSpec(a.(*NamedServiceTemplateSpec), b.(*v1alpha2.NamedServiceTemplateSpec), scope)
 	}); err != nil {
@@ -232,33 +152,8 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*PostgreSQLSpec)(nil), (*v1alpha2.PostgreSQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(a.(*PostgreSQLSpec), b.(*v1alpha2.PostgreSQLSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.PostgreSQLSpec)(nil), (*PostgreSQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(a.(*v1alpha2.PostgreSQLSpec), b.(*PostgreSQLSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*RaftSpec)(nil), (*v1alpha2.RaftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(a.(*RaftSpec), b.(*v1alpha2.RaftSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*v1alpha2.RaftSpec)(nil), (*RaftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha2_RaftSpec_To_v1alpha1_RaftSpec(a.(*v1alpha2.RaftSpec), b.(*RaftSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*S3Spec)(nil), (*v1alpha2.S3Spec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(a.(*S3Spec), b.(*v1alpha2.S3Spec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.S3Spec)(nil), (*S3Spec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(a.(*v1alpha2.S3Spec), b.(*S3Spec), scope)
 	}); err != nil {
 		return err
 	}
@@ -269,16 +164,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}
 	if err := s.AddGeneratedConversionFunc((*v1alpha2.SecretEngineNamespaces)(nil), (*SecretEngineNamespaces)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha2_SecretEngineNamespaces_To_v1alpha1_SecretEngineNamespaces(a.(*v1alpha2.SecretEngineNamespaces), b.(*SecretEngineNamespaces), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*SwiftSpec)(nil), (*v1alpha2.SwiftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(a.(*SwiftSpec), b.(*v1alpha2.SwiftSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha2.SwiftSpec)(nil), (*SwiftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha2_SwiftSpec_To_v1alpha1_SwiftSpec(a.(*v1alpha2.SwiftSpec), b.(*SwiftSpec), scope)
 	}); err != nil {
 		return err
 	}
@@ -352,6 +237,121 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
+	if err := s.AddConversionFunc((*AwsKmsSsmSpec)(nil), (*v1alpha2.AwsKmsSsmSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(a.(*AwsKmsSsmSpec), b.(*v1alpha2.AwsKmsSsmSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*AzureKeyVault)(nil), (*v1alpha2.AzureKeyVault)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(a.(*AzureKeyVault), b.(*v1alpha2.AzureKeyVault), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*AzureSpec)(nil), (*v1alpha2.AzureSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(a.(*AzureSpec), b.(*v1alpha2.AzureSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*DynamoDBSpec)(nil), (*v1alpha2.DynamoDBSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(a.(*DynamoDBSpec), b.(*v1alpha2.DynamoDBSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*EtcdSpec)(nil), (*v1alpha2.EtcdSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(a.(*EtcdSpec), b.(*v1alpha2.EtcdSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*GcsSpec)(nil), (*v1alpha2.GcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(a.(*GcsSpec), b.(*v1alpha2.GcsSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*GoogleKmsGcsSpec)(nil), (*v1alpha2.GoogleKmsGcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(a.(*GoogleKmsGcsSpec), b.(*v1alpha2.GoogleKmsGcsSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*MySQLSpec)(nil), (*v1alpha2.MySQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(a.(*MySQLSpec), b.(*v1alpha2.MySQLSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*PostgreSQLSpec)(nil), (*v1alpha2.PostgreSQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(a.(*PostgreSQLSpec), b.(*v1alpha2.PostgreSQLSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*RaftSpec)(nil), (*v1alpha2.RaftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(a.(*RaftSpec), b.(*v1alpha2.RaftSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*S3Spec)(nil), (*v1alpha2.S3Spec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(a.(*S3Spec), b.(*v1alpha2.S3Spec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*SwiftSpec)(nil), (*v1alpha2.SwiftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(a.(*SwiftSpec), b.(*v1alpha2.SwiftSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.AwsKmsSsmSpec)(nil), (*AwsKmsSsmSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(a.(*v1alpha2.AwsKmsSsmSpec), b.(*AwsKmsSsmSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.AzureKeyVault)(nil), (*AzureKeyVault)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(a.(*v1alpha2.AzureKeyVault), b.(*AzureKeyVault), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.AzureSpec)(nil), (*AzureSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(a.(*v1alpha2.AzureSpec), b.(*AzureSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.DynamoDBSpec)(nil), (*DynamoDBSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(a.(*v1alpha2.DynamoDBSpec), b.(*DynamoDBSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.EtcdSpec)(nil), (*EtcdSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(a.(*v1alpha2.EtcdSpec), b.(*EtcdSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.GcsSpec)(nil), (*GcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(a.(*v1alpha2.GcsSpec), b.(*GcsSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.GoogleKmsGcsSpec)(nil), (*GoogleKmsGcsSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(a.(*v1alpha2.GoogleKmsGcsSpec), b.(*GoogleKmsGcsSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.MySQLSpec)(nil), (*MySQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(a.(*v1alpha2.MySQLSpec), b.(*MySQLSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.PostgreSQLSpec)(nil), (*PostgreSQLSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(a.(*v1alpha2.PostgreSQLSpec), b.(*PostgreSQLSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.S3Spec)(nil), (*S3Spec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(a.(*v1alpha2.S3Spec), b.(*S3Spec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*v1alpha2.SwiftSpec)(nil), (*SwiftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha2_SwiftSpec_To_v1alpha1_SwiftSpec(a.(*v1alpha2.SwiftSpec), b.(*SwiftSpec), scope)
+	}); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -410,7 +410,7 @@ func Convert_v1alpha2_AuthConfig_To_v1alpha1_AuthConfig(in *v1alpha2.AuthConfig,
 }
 
 func autoConvert_v1alpha1_AuthMethod_To_v1alpha2_AuthMethod(in *AuthMethod, out *v1alpha2.AuthMethod, s conversion.Scope) error {
-	out.Type = in.Type
+	out.Type = v1alpha2.AuthMethodType(in.Type)
 	out.Path = in.Path
 	out.Description = in.Description
 	out.Config = (*v1alpha2.AuthConfig)(unsafe.Pointer(in.Config))
@@ -425,7 +425,7 @@ func Convert_v1alpha1_AuthMethod_To_v1alpha2_AuthMethod(in *AuthMethod, out *v1a
 }
 
 func autoConvert_v1alpha2_AuthMethod_To_v1alpha1_AuthMethod(in *v1alpha2.AuthMethod, out *AuthMethod, s conversion.Scope) error {
-	out.Type = in.Type
+	out.Type = string(in.Type)
 	out.Path = in.Path
 	out.Description = in.Description
 	out.Config = (*AuthConfig)(unsafe.Pointer(in.Config))
@@ -440,7 +440,7 @@ func Convert_v1alpha2_AuthMethod_To_v1alpha1_AuthMethod(in *v1alpha2.AuthMethod,
 }
 
 func autoConvert_v1alpha1_AuthMethodStatus_To_v1alpha2_AuthMethodStatus(in *AuthMethodStatus, out *v1alpha2.AuthMethodStatus, s conversion.Scope) error {
-	out.Type = in.Type
+	out.Type = v1alpha2.AuthMethodType(in.Type)
 	out.Path = in.Path
 	out.Status = v1alpha2.AuthMethodEnableDisableStatus(in.Status)
 	out.Reason = in.Reason
@@ -453,7 +453,7 @@ func Convert_v1alpha1_AuthMethodStatus_To_v1alpha2_AuthMethodStatus(in *AuthMeth
 }
 
 func autoConvert_v1alpha2_AuthMethodStatus_To_v1alpha1_AuthMethodStatus(in *v1alpha2.AuthMethodStatus, out *AuthMethodStatus, s conversion.Scope) error {
-	out.Type = in.Type
+	out.Type = string(in.Type)
 	out.Path = in.Path
 	out.Status = AuthMethodEnableDisableStatus(in.Status)
 	out.Reason = in.Reason
@@ -469,99 +469,141 @@ func autoConvert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(in *AwsKmsSsmS
 	out.KmsKeyID = in.KmsKeyID
 	out.SsmKeyPrefix = in.SsmKeyPrefix
 	out.Region = in.Region
-	out.CredentialSecret = in.CredentialSecret
+	// WARNING: in.CredentialSecret requires manual conversion: does not exist in peer-type
 	out.Endpoint = in.Endpoint
 	return nil
-}
-
-// Convert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec is an autogenerated conversion function.
-func Convert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(in *AwsKmsSsmSpec, out *v1alpha2.AwsKmsSsmSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(in, out, s)
 }
 
 func autoConvert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(in *v1alpha2.AwsKmsSsmSpec, out *AwsKmsSsmSpec, s conversion.Scope) error {
 	out.KmsKeyID = in.KmsKeyID
 	out.SsmKeyPrefix = in.SsmKeyPrefix
 	out.Region = in.Region
-	out.CredentialSecret = in.CredentialSecret
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	out.Endpoint = in.Endpoint
 	return nil
-}
-
-// Convert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec is an autogenerated conversion function.
-func Convert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(in *v1alpha2.AwsKmsSsmSpec, out *AwsKmsSsmSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(in, out, s)
 }
 
 func autoConvert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(in *AzureKeyVault, out *v1alpha2.AzureKeyVault, s conversion.Scope) error {
 	out.VaultBaseURL = in.VaultBaseURL
 	out.Cloud = in.Cloud
 	out.TenantID = in.TenantID
-	out.ClientCertSecret = in.ClientCertSecret
-	out.AADClientSecret = in.AADClientSecret
+	// WARNING: in.ClientCertSecret requires manual conversion: does not exist in peer-type
+	// WARNING: in.AADClientSecret requires manual conversion: does not exist in peer-type
 	out.UseManagedIdentity = in.UseManagedIdentity
 	return nil
-}
-
-// Convert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault is an autogenerated conversion function.
-func Convert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(in *AzureKeyVault, out *v1alpha2.AzureKeyVault, s conversion.Scope) error {
-	return autoConvert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(in, out, s)
 }
 
 func autoConvert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(in *v1alpha2.AzureKeyVault, out *AzureKeyVault, s conversion.Scope) error {
 	out.VaultBaseURL = in.VaultBaseURL
 	out.Cloud = in.Cloud
 	out.TenantID = in.TenantID
-	out.ClientCertSecret = in.ClientCertSecret
-	out.AADClientSecret = in.AADClientSecret
+	// WARNING: in.TLSSecretRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	out.UseManagedIdentity = in.UseManagedIdentity
 	return nil
 }
 
-// Convert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault is an autogenerated conversion function.
-func Convert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(in *v1alpha2.AzureKeyVault, out *AzureKeyVault, s conversion.Scope) error {
-	return autoConvert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(in, out, s)
-}
-
 func autoConvert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(in *AzureSpec, out *v1alpha2.AzureSpec, s conversion.Scope) error {
 	out.AccountName = in.AccountName
-	out.AccountKeySecret = in.AccountKeySecret
+	// WARNING: in.AccountKeySecret requires manual conversion: does not exist in peer-type
 	out.Container = in.Container
 	out.MaxParallel = in.MaxParallel
 	return nil
-}
-
-// Convert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec is an autogenerated conversion function.
-func Convert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(in *AzureSpec, out *v1alpha2.AzureSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(in, out, s)
 }
 
 func autoConvert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(in *v1alpha2.AzureSpec, out *AzureSpec, s conversion.Scope) error {
 	out.AccountName = in.AccountName
-	out.AccountKeySecret = in.AccountKeySecret
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	out.Container = in.Container
 	out.MaxParallel = in.MaxParallel
 	return nil
 }
 
-// Convert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec is an autogenerated conversion function.
-func Convert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(in *v1alpha2.AzureSpec, out *AzureSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(in, out, s)
-}
-
 func autoConvert_v1alpha1_BackendStorageSpec_To_v1alpha2_BackendStorageSpec(in *BackendStorageSpec, out *v1alpha2.BackendStorageSpec, s conversion.Scope) error {
 	out.Inmem = (*v1alpha2.InmemSpec)(unsafe.Pointer(in.Inmem))
-	out.Etcd = (*v1alpha2.EtcdSpec)(unsafe.Pointer(in.Etcd))
-	out.Gcs = (*v1alpha2.GcsSpec)(unsafe.Pointer(in.Gcs))
-	out.S3 = (*v1alpha2.S3Spec)(unsafe.Pointer(in.S3))
-	out.Azure = (*v1alpha2.AzureSpec)(unsafe.Pointer(in.Azure))
-	out.PostgreSQL = (*v1alpha2.PostgreSQLSpec)(unsafe.Pointer(in.PostgreSQL))
-	out.MySQL = (*v1alpha2.MySQLSpec)(unsafe.Pointer(in.MySQL))
+	if in.Etcd != nil {
+		in, out := &in.Etcd, &out.Etcd
+		*out = new(v1alpha2.EtcdSpec)
+		if err := Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Etcd = nil
+	}
+	if in.Gcs != nil {
+		in, out := &in.Gcs, &out.Gcs
+		*out = new(v1alpha2.GcsSpec)
+		if err := Convert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Gcs = nil
+	}
+	if in.S3 != nil {
+		in, out := &in.S3, &out.S3
+		*out = new(v1alpha2.S3Spec)
+		if err := Convert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.S3 = nil
+	}
+	if in.Azure != nil {
+		in, out := &in.Azure, &out.Azure
+		*out = new(v1alpha2.AzureSpec)
+		if err := Convert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Azure = nil
+	}
+	if in.PostgreSQL != nil {
+		in, out := &in.PostgreSQL, &out.PostgreSQL
+		*out = new(v1alpha2.PostgreSQLSpec)
+		if err := Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.PostgreSQL = nil
+	}
+	if in.MySQL != nil {
+		in, out := &in.MySQL, &out.MySQL
+		*out = new(v1alpha2.MySQLSpec)
+		if err := Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.MySQL = nil
+	}
 	out.File = (*v1alpha2.FileSpec)(unsafe.Pointer(in.File))
-	out.DynamoDB = (*v1alpha2.DynamoDBSpec)(unsafe.Pointer(in.DynamoDB))
-	out.Swift = (*v1alpha2.SwiftSpec)(unsafe.Pointer(in.Swift))
+	if in.DynamoDB != nil {
+		in, out := &in.DynamoDB, &out.DynamoDB
+		*out = new(v1alpha2.DynamoDBSpec)
+		if err := Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.DynamoDB = nil
+	}
+	if in.Swift != nil {
+		in, out := &in.Swift, &out.Swift
+		*out = new(v1alpha2.SwiftSpec)
+		if err := Convert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Swift = nil
+	}
 	out.Consul = (*v1alpha2.ConsulSpec)(unsafe.Pointer(in.Consul))
-	out.Raft = (*v1alpha2.RaftSpec)(unsafe.Pointer(in.Raft))
+	if in.Raft != nil {
+		in, out := &in.Raft, &out.Raft
+		*out = new(v1alpha2.RaftSpec)
+		if err := Convert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Raft = nil
+	}
 	return nil
 }
 
@@ -572,17 +614,89 @@ func Convert_v1alpha1_BackendStorageSpec_To_v1alpha2_BackendStorageSpec(in *Back
 
 func autoConvert_v1alpha2_BackendStorageSpec_To_v1alpha1_BackendStorageSpec(in *v1alpha2.BackendStorageSpec, out *BackendStorageSpec, s conversion.Scope) error {
 	out.Inmem = (*InmemSpec)(unsafe.Pointer(in.Inmem))
-	out.Etcd = (*EtcdSpec)(unsafe.Pointer(in.Etcd))
-	out.Gcs = (*GcsSpec)(unsafe.Pointer(in.Gcs))
-	out.S3 = (*S3Spec)(unsafe.Pointer(in.S3))
-	out.Azure = (*AzureSpec)(unsafe.Pointer(in.Azure))
-	out.PostgreSQL = (*PostgreSQLSpec)(unsafe.Pointer(in.PostgreSQL))
-	out.MySQL = (*MySQLSpec)(unsafe.Pointer(in.MySQL))
+	if in.Etcd != nil {
+		in, out := &in.Etcd, &out.Etcd
+		*out = new(EtcdSpec)
+		if err := Convert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Etcd = nil
+	}
+	if in.Gcs != nil {
+		in, out := &in.Gcs, &out.Gcs
+		*out = new(GcsSpec)
+		if err := Convert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Gcs = nil
+	}
+	if in.S3 != nil {
+		in, out := &in.S3, &out.S3
+		*out = new(S3Spec)
+		if err := Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.S3 = nil
+	}
+	if in.Azure != nil {
+		in, out := &in.Azure, &out.Azure
+		*out = new(AzureSpec)
+		if err := Convert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Azure = nil
+	}
+	if in.PostgreSQL != nil {
+		in, out := &in.PostgreSQL, &out.PostgreSQL
+		*out = new(PostgreSQLSpec)
+		if err := Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.PostgreSQL = nil
+	}
+	if in.MySQL != nil {
+		in, out := &in.MySQL, &out.MySQL
+		*out = new(MySQLSpec)
+		if err := Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.MySQL = nil
+	}
 	out.File = (*FileSpec)(unsafe.Pointer(in.File))
-	out.DynamoDB = (*DynamoDBSpec)(unsafe.Pointer(in.DynamoDB))
-	out.Swift = (*SwiftSpec)(unsafe.Pointer(in.Swift))
+	if in.DynamoDB != nil {
+		in, out := &in.DynamoDB, &out.DynamoDB
+		*out = new(DynamoDBSpec)
+		if err := Convert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.DynamoDB = nil
+	}
+	if in.Swift != nil {
+		in, out := &in.Swift, &out.Swift
+		*out = new(SwiftSpec)
+		if err := Convert_v1alpha2_SwiftSpec_To_v1alpha1_SwiftSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Swift = nil
+	}
 	out.Consul = (*ConsulSpec)(unsafe.Pointer(in.Consul))
-	out.Raft = (*RaftSpec)(unsafe.Pointer(in.Raft))
+	if in.Raft != nil {
+		in, out := &in.Raft, &out.Raft
+		*out = new(RaftSpec)
+		if err := Convert_v1alpha2_RaftSpec_To_v1alpha1_RaftSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Raft = nil
+	}
 	return nil
 }
 
@@ -648,15 +762,10 @@ func autoConvert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(in *DynamoDBSpec
 	out.ReadCapacity = in.ReadCapacity
 	out.WriteCapacity = in.WriteCapacity
 	out.Table = in.Table
-	out.CredentialSecret = in.CredentialSecret
-	out.SessionTokenSecret = in.SessionTokenSecret
+	// WARNING: in.CredentialSecret requires manual conversion: does not exist in peer-type
+	// WARNING: in.SessionTokenSecret requires manual conversion: does not exist in peer-type
 	out.MaxParallel = in.MaxParallel
 	return nil
-}
-
-// Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec is an autogenerated conversion function.
-func Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(in *DynamoDBSpec, out *v1alpha2.DynamoDBSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(in, out, s)
 }
 
 func autoConvert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(in *v1alpha2.DynamoDBSpec, out *DynamoDBSpec, s conversion.Scope) error {
@@ -666,15 +775,9 @@ func autoConvert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(in *v1alpha2.Dyn
 	out.ReadCapacity = in.ReadCapacity
 	out.WriteCapacity = in.WriteCapacity
 	out.Table = in.Table
-	out.CredentialSecret = in.CredentialSecret
-	out.SessionTokenSecret = in.SessionTokenSecret
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	out.MaxParallel = in.MaxParallel
 	return nil
-}
-
-// Convert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec is an autogenerated conversion function.
-func Convert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(in *v1alpha2.DynamoDBSpec, out *DynamoDBSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(in, out, s)
 }
 
 func autoConvert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(in *EtcdSpec, out *v1alpha2.EtcdSpec, s conversion.Scope) error {
@@ -684,14 +787,9 @@ func autoConvert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(in *EtcdSpec, out *v1alp
 	out.Path = in.Path
 	out.Sync = in.Sync
 	out.DiscoverySrv = in.DiscoverySrv
-	out.CredentialSecretName = in.CredentialSecretName
-	out.TLSSecretName = in.TLSSecretName
+	// WARNING: in.CredentialSecretName requires manual conversion: does not exist in peer-type
+	// WARNING: in.TLSSecretName requires manual conversion: does not exist in peer-type
 	return nil
-}
-
-// Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec is an autogenerated conversion function.
-func Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(in *EtcdSpec, out *v1alpha2.EtcdSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(in, out, s)
 }
 
 func autoConvert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(in *v1alpha2.EtcdSpec, out *EtcdSpec, s conversion.Scope) error {
@@ -701,14 +799,9 @@ func autoConvert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(in *v1alpha2.EtcdSpec, o
 	out.Path = in.Path
 	out.Sync = in.Sync
 	out.DiscoverySrv = in.DiscoverySrv
-	out.CredentialSecretName = in.CredentialSecretName
-	out.TLSSecretName = in.TLSSecretName
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.TLSSecretRef requires manual conversion: does not exist in peer-type
 	return nil
-}
-
-// Convert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec is an autogenerated conversion function.
-func Convert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(in *v1alpha2.EtcdSpec, out *EtcdSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(in, out, s)
 }
 
 func autoConvert_v1alpha1_FileSpec_To_v1alpha2_FileSpec(in *FileSpec, out *v1alpha2.FileSpec, s conversion.Scope) error {
@@ -738,13 +831,8 @@ func autoConvert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(in *GcsSpec, out *v1alpha2
 	out.ChunkSize = in.ChunkSize
 	out.MaxParallel = in.MaxParallel
 	out.HAEnabled = in.HAEnabled
-	out.CredentialSecret = in.CredentialSecret
+	// WARNING: in.CredentialSecret requires manual conversion: does not exist in peer-type
 	return nil
-}
-
-// Convert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec is an autogenerated conversion function.
-func Convert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(in *GcsSpec, out *v1alpha2.GcsSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(in, out, s)
 }
 
 func autoConvert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(in *v1alpha2.GcsSpec, out *GcsSpec, s conversion.Scope) error {
@@ -752,13 +840,8 @@ func autoConvert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(in *v1alpha2.GcsSpec, out 
 	out.ChunkSize = in.ChunkSize
 	out.MaxParallel = in.MaxParallel
 	out.HAEnabled = in.HAEnabled
-	out.CredentialSecret = in.CredentialSecret
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	return nil
-}
-
-// Convert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec is an autogenerated conversion function.
-func Convert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(in *v1alpha2.GcsSpec, out *GcsSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(in, out, s)
 }
 
 func autoConvert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(in *GoogleKmsGcsSpec, out *v1alpha2.GoogleKmsGcsSpec, s conversion.Scope) error {
@@ -767,13 +850,8 @@ func autoConvert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(in *Goog
 	out.KmsLocation = in.KmsLocation
 	out.KmsProject = in.KmsProject
 	out.Bucket = in.Bucket
-	out.CredentialSecret = in.CredentialSecret
+	// WARNING: in.CredentialSecret requires manual conversion: does not exist in peer-type
 	return nil
-}
-
-// Convert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec is an autogenerated conversion function.
-func Convert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(in *GoogleKmsGcsSpec, out *v1alpha2.GoogleKmsGcsSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(in, out, s)
 }
 
 func autoConvert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(in *v1alpha2.GoogleKmsGcsSpec, out *GoogleKmsGcsSpec, s conversion.Scope) error {
@@ -782,13 +860,8 @@ func autoConvert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(in *v1al
 	out.KmsLocation = in.KmsLocation
 	out.KmsProject = in.KmsProject
 	out.Bucket = in.Bucket
-	out.CredentialSecret = in.CredentialSecret
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	return nil
-}
-
-// Convert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec is an autogenerated conversion function.
-func Convert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(in *v1alpha2.GoogleKmsGcsSpec, out *GoogleKmsGcsSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(in, out, s)
 }
 
 func autoConvert_v1alpha1_InmemSpec_To_v1alpha2_InmemSpec(in *InmemSpec, out *v1alpha2.InmemSpec, s conversion.Scope) error {
@@ -831,9 +904,33 @@ func Convert_v1alpha2_KubernetesSecretSpec_To_v1alpha1_KubernetesSecretSpec(in *
 
 func autoConvert_v1alpha1_ModeSpec_To_v1alpha2_ModeSpec(in *ModeSpec, out *v1alpha2.ModeSpec, s conversion.Scope) error {
 	out.KubernetesSecret = (*v1alpha2.KubernetesSecretSpec)(unsafe.Pointer(in.KubernetesSecret))
-	out.GoogleKmsGcs = (*v1alpha2.GoogleKmsGcsSpec)(unsafe.Pointer(in.GoogleKmsGcs))
-	out.AwsKmsSsm = (*v1alpha2.AwsKmsSsmSpec)(unsafe.Pointer(in.AwsKmsSsm))
-	out.AzureKeyVault = (*v1alpha2.AzureKeyVault)(unsafe.Pointer(in.AzureKeyVault))
+	if in.GoogleKmsGcs != nil {
+		in, out := &in.GoogleKmsGcs, &out.GoogleKmsGcs
+		*out = new(v1alpha2.GoogleKmsGcsSpec)
+		if err := Convert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.GoogleKmsGcs = nil
+	}
+	if in.AwsKmsSsm != nil {
+		in, out := &in.AwsKmsSsm, &out.AwsKmsSsm
+		*out = new(v1alpha2.AwsKmsSsmSpec)
+		if err := Convert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.AwsKmsSsm = nil
+	}
+	if in.AzureKeyVault != nil {
+		in, out := &in.AzureKeyVault, &out.AzureKeyVault
+		*out = new(v1alpha2.AzureKeyVault)
+		if err := Convert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.AzureKeyVault = nil
+	}
 	return nil
 }
 
@@ -844,9 +941,33 @@ func Convert_v1alpha1_ModeSpec_To_v1alpha2_ModeSpec(in *ModeSpec, out *v1alpha2.
 
 func autoConvert_v1alpha2_ModeSpec_To_v1alpha1_ModeSpec(in *v1alpha2.ModeSpec, out *ModeSpec, s conversion.Scope) error {
 	out.KubernetesSecret = (*KubernetesSecretSpec)(unsafe.Pointer(in.KubernetesSecret))
-	out.GoogleKmsGcs = (*GoogleKmsGcsSpec)(unsafe.Pointer(in.GoogleKmsGcs))
-	out.AwsKmsSsm = (*AwsKmsSsmSpec)(unsafe.Pointer(in.AwsKmsSsm))
-	out.AzureKeyVault = (*AzureKeyVault)(unsafe.Pointer(in.AzureKeyVault))
+	if in.GoogleKmsGcs != nil {
+		in, out := &in.GoogleKmsGcs, &out.GoogleKmsGcs
+		*out = new(GoogleKmsGcsSpec)
+		if err := Convert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.GoogleKmsGcs = nil
+	}
+	if in.AwsKmsSsm != nil {
+		in, out := &in.AwsKmsSsm, &out.AwsKmsSsm
+		*out = new(AwsKmsSsmSpec)
+		if err := Convert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.AwsKmsSsm = nil
+	}
+	if in.AzureKeyVault != nil {
+		in, out := &in.AzureKeyVault, &out.AzureKeyVault
+		*out = new(AzureKeyVault)
+		if err := Convert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.AzureKeyVault = nil
+	}
 	return nil
 }
 
@@ -859,30 +980,26 @@ func autoConvert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(in *MySQLSpec, out *v1
 	out.Address = in.Address
 	out.Database = in.Database
 	out.Table = in.Table
-	out.UserCredentialSecret = in.UserCredentialSecret
-	out.TLSCASecret = in.TLSCASecret
+	// WARNING: in.UserCredentialSecret requires manual conversion: does not exist in peer-type
+	// WARNING: in.TLSCASecret requires manual conversion: does not exist in peer-type
 	out.MaxParallel = in.MaxParallel
 	return nil
-}
-
-// Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec is an autogenerated conversion function.
-func Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(in *MySQLSpec, out *v1alpha2.MySQLSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(in, out, s)
 }
 
 func autoConvert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(in *v1alpha2.MySQLSpec, out *MySQLSpec, s conversion.Scope) error {
 	out.Address = in.Address
 	out.Database = in.Database
 	out.Table = in.Table
-	out.UserCredentialSecret = in.UserCredentialSecret
-	out.TLSCASecret = in.TLSCASecret
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.TLSSecretRef requires manual conversion: does not exist in peer-type
 	out.MaxParallel = in.MaxParallel
+	// WARNING: in.DatabaseRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.PlaintextCredentialTransmission requires manual conversion: does not exist in peer-type
+	// WARNING: in.MaxIdleConnection requires manual conversion: does not exist in peer-type
+	// WARNING: in.MaxConnectionLifetime requires manual conversion: does not exist in peer-type
+	// WARNING: in.HAEnabled requires manual conversion: does not exist in peer-type
+	// WARNING: in.LockTable requires manual conversion: does not exist in peer-type
 	return nil
-}
-
-// Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec is an autogenerated conversion function.
-func Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(in *v1alpha2.MySQLSpec, out *MySQLSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(in, out, s)
 }
 
 func autoConvert_v1alpha1_NamedServiceTemplateSpec_To_v1alpha2_NamedServiceTemplateSpec(in *NamedServiceTemplateSpec, out *v1alpha2.NamedServiceTemplateSpec, s conversion.Scope) error {
@@ -908,31 +1025,26 @@ func Convert_v1alpha2_NamedServiceTemplateSpec_To_v1alpha1_NamedServiceTemplateS
 }
 
 func autoConvert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(in *PostgreSQLSpec, out *v1alpha2.PostgreSQLSpec, s conversion.Scope) error {
-	out.ConnectionURLSecret = in.ConnectionURLSecret
+	// WARNING: in.ConnectionURLSecret requires manual conversion: does not exist in peer-type
 	out.Table = in.Table
 	out.MaxParallel = in.MaxParallel
 	return nil
-}
-
-// Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec is an autogenerated conversion function.
-func Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(in *PostgreSQLSpec, out *v1alpha2.PostgreSQLSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(in, out, s)
 }
 
 func autoConvert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(in *v1alpha2.PostgreSQLSpec, out *PostgreSQLSpec, s conversion.Scope) error {
-	out.ConnectionURLSecret = in.ConnectionURLSecret
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.DatabaseRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.SSLMode requires manual conversion: does not exist in peer-type
 	out.Table = in.Table
 	out.MaxParallel = in.MaxParallel
+	// WARNING: in.MaxIdleConnection requires manual conversion: does not exist in peer-type
+	// WARNING: in.HAEnabled requires manual conversion: does not exist in peer-type
+	// WARNING: in.HATable requires manual conversion: does not exist in peer-type
 	return nil
 }
 
-// Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec is an autogenerated conversion function.
-func Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(in *v1alpha2.PostgreSQLSpec, out *PostgreSQLSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(in, out, s)
-}
-
 func autoConvert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(in *RaftSpec, out *v1alpha2.RaftSpec, s conversion.Scope) error {
-	out.Path = in.Path
+	// WARNING: in.Path requires manual conversion: does not exist in peer-type
 	out.PerformanceMultiplier = in.PerformanceMultiplier
 	out.TrailingLogs = (*int64)(unsafe.Pointer(in.TrailingLogs))
 	out.SnapshotThreshold = (*int64)(unsafe.Pointer(in.SnapshotThreshold))
@@ -942,13 +1054,7 @@ func autoConvert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(in *RaftSpec, out *v1alp
 	return nil
 }
 
-// Convert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec is an autogenerated conversion function.
-func Convert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(in *RaftSpec, out *v1alpha2.RaftSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(in, out, s)
-}
-
 func autoConvert_v1alpha2_RaftSpec_To_v1alpha1_RaftSpec(in *v1alpha2.RaftSpec, out *RaftSpec, s conversion.Scope) error {
-	out.Path = in.Path
 	out.PerformanceMultiplier = in.PerformanceMultiplier
 	out.TrailingLogs = (*int64)(unsafe.Pointer(in.TrailingLogs))
 	out.SnapshotThreshold = (*int64)(unsafe.Pointer(in.SnapshotThreshold))
@@ -967,34 +1073,23 @@ func autoConvert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(in *S3Spec, out *v1alpha2.S3
 	out.Bucket = in.Bucket
 	out.Endpoint = in.Endpoint
 	out.Region = in.Region
-	out.CredentialSecret = in.CredentialSecret
-	out.SessionTokenSecret = in.SessionTokenSecret
+	// WARNING: in.CredentialSecret requires manual conversion: does not exist in peer-type
+	// WARNING: in.SessionTokenSecret requires manual conversion: does not exist in peer-type
 	out.MaxParallel = in.MaxParallel
 	out.ForcePathStyle = in.ForcePathStyle
 	out.DisableSSL = in.DisableSSL
 	return nil
-}
-
-// Convert_v1alpha1_S3Spec_To_v1alpha2_S3Spec is an autogenerated conversion function.
-func Convert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(in *S3Spec, out *v1alpha2.S3Spec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(in, out, s)
 }
 
 func autoConvert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(in *v1alpha2.S3Spec, out *S3Spec, s conversion.Scope) error {
 	out.Bucket = in.Bucket
 	out.Endpoint = in.Endpoint
 	out.Region = in.Region
-	out.CredentialSecret = in.CredentialSecret
-	out.SessionTokenSecret = in.SessionTokenSecret
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	out.MaxParallel = in.MaxParallel
 	out.ForcePathStyle = in.ForcePathStyle
 	out.DisableSSL = in.DisableSSL
 	return nil
-}
-
-// Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec is an autogenerated conversion function.
-func Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(in *v1alpha2.S3Spec, out *S3Spec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(in, out, s)
 }
 
 func autoConvert_v1alpha1_SecretEngineNamespaces_To_v1alpha2_SecretEngineNamespaces(in *SecretEngineNamespaces, out *v1alpha2.SecretEngineNamespaces, s conversion.Scope) error {
@@ -1022,7 +1117,7 @@ func Convert_v1alpha2_SecretEngineNamespaces_To_v1alpha1_SecretEngineNamespaces(
 func autoConvert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(in *SwiftSpec, out *v1alpha2.SwiftSpec, s conversion.Scope) error {
 	out.AuthURL = in.AuthURL
 	out.Container = in.Container
-	out.CredentialSecret = in.CredentialSecret
+	// WARNING: in.CredentialSecret requires manual conversion: does not exist in peer-type
 	out.Tenant = in.Tenant
 	out.Region = in.Region
 	out.TenantID = in.TenantID
@@ -1030,20 +1125,15 @@ func autoConvert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(in *SwiftSpec, out *v1
 	out.ProjectDomain = in.ProjectDomain
 	out.TrustID = in.TrustID
 	out.StorageURL = in.StorageURL
-	out.AuthTokenSecret = in.AuthTokenSecret
+	// WARNING: in.AuthTokenSecret requires manual conversion: does not exist in peer-type
 	out.MaxParallel = in.MaxParallel
 	return nil
-}
-
-// Convert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec is an autogenerated conversion function.
-func Convert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(in *SwiftSpec, out *v1alpha2.SwiftSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(in, out, s)
 }
 
 func autoConvert_v1alpha2_SwiftSpec_To_v1alpha1_SwiftSpec(in *v1alpha2.SwiftSpec, out *SwiftSpec, s conversion.Scope) error {
 	out.AuthURL = in.AuthURL
 	out.Container = in.Container
-	out.CredentialSecret = in.CredentialSecret
+	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	out.Tenant = in.Tenant
 	out.Region = in.Region
 	out.TenantID = in.TenantID
@@ -1051,14 +1141,8 @@ func autoConvert_v1alpha2_SwiftSpec_To_v1alpha1_SwiftSpec(in *v1alpha2.SwiftSpec
 	out.ProjectDomain = in.ProjectDomain
 	out.TrustID = in.TrustID
 	out.StorageURL = in.StorageURL
-	out.AuthTokenSecret = in.AuthTokenSecret
 	out.MaxParallel = in.MaxParallel
 	return nil
-}
-
-// Convert_v1alpha2_SwiftSpec_To_v1alpha1_SwiftSpec is an autogenerated conversion function.
-func Convert_v1alpha2_SwiftSpec_To_v1alpha1_SwiftSpec(in *v1alpha2.SwiftSpec, out *SwiftSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha2_SwiftSpec_To_v1alpha1_SwiftSpec(in, out, s)
 }
 
 func autoConvert_v1alpha1_TLSPolicy_To_v1alpha2_TLSPolicy(in *TLSPolicy, out *v1alpha2.TLSPolicy, s conversion.Scope) error {
@@ -1151,7 +1235,17 @@ func Convert_v1alpha2_VaultServer_To_v1alpha1_VaultServer(in *v1alpha2.VaultServ
 
 func autoConvert_v1alpha1_VaultServerList_To_v1alpha2_VaultServerList(in *VaultServerList, out *v1alpha2.VaultServerList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]v1alpha2.VaultServer)(unsafe.Pointer(&in.Items))
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]v1alpha2.VaultServer, len(*in))
+		for i := range *in {
+			if err := Convert_v1alpha1_VaultServer_To_v1alpha2_VaultServer(&(*in)[i], &(*out)[i], s); err != nil {
+				return err
+			}
+		}
+	} else {
+		out.Items = nil
+	}
 	return nil
 }
 
@@ -1162,7 +1256,17 @@ func Convert_v1alpha1_VaultServerList_To_v1alpha2_VaultServerList(in *VaultServe
 
 func autoConvert_v1alpha2_VaultServerList_To_v1alpha1_VaultServerList(in *v1alpha2.VaultServerList, out *VaultServerList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]VaultServer)(unsafe.Pointer(&in.Items))
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]VaultServer, len(*in))
+		for i := range *in {
+			if err := Convert_v1alpha2_VaultServer_To_v1alpha1_VaultServer(&(*in)[i], &(*out)[i], s); err != nil {
+				return err
+			}
+		}
+	} else {
+		out.Items = nil
+	}
 	return nil
 }
 
@@ -1180,7 +1284,15 @@ func autoConvert_v1alpha1_VaultServerSpec_To_v1alpha2_VaultServerSpec(in *VaultS
 	if err := Convert_v1alpha1_BackendStorageSpec_To_v1alpha2_BackendStorageSpec(&in.Backend, &out.Backend, s); err != nil {
 		return err
 	}
-	out.Unsealer = (*v1alpha2.UnsealerSpec)(unsafe.Pointer(in.Unsealer))
+	if in.Unsealer != nil {
+		in, out := &in.Unsealer, &out.Unsealer
+		*out = new(v1alpha2.UnsealerSpec)
+		if err := Convert_v1alpha1_UnsealerSpec_To_v1alpha2_UnsealerSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Unsealer = nil
+	}
 	out.AuthMethods = *(*[]v1alpha2.AuthMethod)(unsafe.Pointer(&in.AuthMethods))
 	out.Monitor = (*monitoringagentapiapiv1.AgentSpec)(unsafe.Pointer(in.Monitor))
 	out.PodTemplate = in.PodTemplate
@@ -1205,7 +1317,15 @@ func autoConvert_v1alpha2_VaultServerSpec_To_v1alpha1_VaultServerSpec(in *v1alph
 	if err := Convert_v1alpha2_BackendStorageSpec_To_v1alpha1_BackendStorageSpec(&in.Backend, &out.Backend, s); err != nil {
 		return err
 	}
-	out.Unsealer = (*UnsealerSpec)(unsafe.Pointer(in.Unsealer))
+	if in.Unsealer != nil {
+		in, out := &in.Unsealer, &out.Unsealer
+		*out = new(UnsealerSpec)
+		if err := Convert_v1alpha2_UnsealerSpec_To_v1alpha1_UnsealerSpec(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.Unsealer = nil
+	}
 	out.AuthMethods = *(*[]AuthMethod)(unsafe.Pointer(&in.AuthMethods))
 	out.Monitor = (*monitoringagentapiapiv1.AgentSpec)(unsafe.Pointer(in.Monitor))
 	out.PodTemplate = in.PodTemplate

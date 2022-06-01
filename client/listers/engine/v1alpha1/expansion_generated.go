@@ -50,6 +50,14 @@ type GCPRoleListerExpansion interface{}
 // GCPRoleNamespaceLister.
 type GCPRoleNamespaceListerExpansion interface{}
 
+// MariaDBRoleListerExpansion allows custom methods to be added to
+// MariaDBRoleLister.
+type MariaDBRoleListerExpansion interface{}
+
+// MariaDBRoleNamespaceListerExpansion allows custom methods to be added to
+// MariaDBRoleNamespaceLister.
+type MariaDBRoleNamespaceListerExpansion interface{}
+
 // MongoDBRoleListerExpansion allows custom methods to be added to
 // MongoDBRoleLister.
 type MongoDBRoleListerExpansion interface{}

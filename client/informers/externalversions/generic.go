@@ -70,6 +70,8 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().ElasticsearchRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("gcproles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().GCPRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("mariadbroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MariaDBRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("mongodbroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MongoDBRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("mysqlroles"):

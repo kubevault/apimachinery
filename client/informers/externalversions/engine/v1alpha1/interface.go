@@ -32,6 +32,8 @@ type Interface interface {
 	ElasticsearchRoles() ElasticsearchRoleInformer
 	// GCPRoles returns a GCPRoleInformer.
 	GCPRoles() GCPRoleInformer
+	// MariaDBRoles returns a MariaDBRoleInformer.
+	MariaDBRoles() MariaDBRoleInformer
 	// MongoDBRoles returns a MongoDBRoleInformer.
 	MongoDBRoles() MongoDBRoleInformer
 	// MySQLRoles returns a MySQLRoleInformer.
@@ -75,6 +77,11 @@ func (v *version) ElasticsearchRoles() ElasticsearchRoleInformer {
 // GCPRoles returns a GCPRoleInformer.
 func (v *version) GCPRoles() GCPRoleInformer {
 	return &gCPRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// MariaDBRoles returns a MariaDBRoleInformer.
+func (v *version) MariaDBRoles() MariaDBRoleInformer {
+	return &mariaDBRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // MongoDBRoles returns a MongoDBRoleInformer.

@@ -72,6 +72,7 @@ type SecretEngineConfiguration struct {
 	Postgres      *PostgresConfiguration      `json:"postgres,omitempty"`
 	MongoDB       *MongoDBConfiguration       `json:"mongodb,omitempty"`
 	MySQL         *MySQLConfiguration         `json:"mysql,omitempty"`
+	MariaDB       *MariaDBConfiguration       `json:"mariadb,omitempty"`
 	KV            *KVConfiguration            `json:"kv,omitempty"`
 	Elasticsearch *ElasticsearchConfiguration `json:"elasticsearch,omitempty"`
 }
@@ -206,6 +207,35 @@ type MongoDBConfiguration struct {
 // https://www.vaultproject.io/api/secret/databases/mysql-maria.html#configure-connection
 type MySQLConfiguration struct {
 	// DatabaseRef refers to a MySQL/MariaDB database AppBinding in any namespace
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for mysql: mysql-database-plugin
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Specifies the maximum number of open connections to the database.
+	MaxOpenConnections int64 `json:"maxOpenConnections,omitempty"`
+
+	// Specifies the maximum number of idle connections to the database.
+	// A zero uses the value of max_open_connections and a negative value disables idle connections.
+	// If larger than max_open_connections it will be reduced to be equal.
+	MaxIdleConnections int64 `json:"maxIdleConnections,omitempty"`
+
+	// Specifies the maximum amount of time a connection may be reused.
+	// If <= 0s connections are reused forever.
+	MaxConnectionLifetime string `json:"maxConnectionLifetime,omitempty"`
+}
+
+// MariaDBConfiguration defines a MariaDB app configuration.
+// https://www.vaultproject.io/api/secret/databases/index.html
+// https://www.vaultproject.io/api/secret/databases/mysql-maria.html#configure-connection
+type MariaDBConfiguration struct {
+	// DatabaseRef refers to a MariaDB database AppBinding in any namespace
 	DatabaseRef appcat.AppReference `json:"databaseRef"`
 
 	// Specifies the name of the plugin to use for this connection.

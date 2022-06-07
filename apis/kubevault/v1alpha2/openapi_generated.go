@@ -398,13 +398,12 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.GcsSpec":                  schema_apimachinery_apis_kubevault_v1alpha2_GcsSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.GoogleKmsGcsSpec":         schema_apimachinery_apis_kubevault_v1alpha2_GoogleKmsGcsSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.InmemSpec":                schema_apimachinery_apis_kubevault_v1alpha2_InmemSpec(ref),
-		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.JWTConfig":                schema_apimachinery_apis_kubevault_v1alpha2_JWTConfig(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.JWTOIDCConfig":            schema_apimachinery_apis_kubevault_v1alpha2_JWTOIDCConfig(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.KubernetesConfig":         schema_apimachinery_apis_kubevault_v1alpha2_KubernetesConfig(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.KubernetesSecretSpec":     schema_apimachinery_apis_kubevault_v1alpha2_KubernetesSecretSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ModeSpec":                 schema_apimachinery_apis_kubevault_v1alpha2_ModeSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.MySQLSpec":                schema_apimachinery_apis_kubevault_v1alpha2_MySQLSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.NamedServiceTemplateSpec": schema_apimachinery_apis_kubevault_v1alpha2_NamedServiceTemplateSpec(ref),
-		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.OIDCConfig":               schema_apimachinery_apis_kubevault_v1alpha2_OIDCConfig(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.PostgreSQLSpec":           schema_apimachinery_apis_kubevault_v1alpha2_PostgreSQLSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RaftSpec":                 schema_apimachinery_apis_kubevault_v1alpha2_RaftSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.S3Spec":                   schema_apimachinery_apis_kubevault_v1alpha2_S3Spec(ref),
@@ -18955,13 +18954,13 @@ func schema_apimachinery_apis_kubevault_v1alpha2_AuthMethod(ref common.Reference
 					"oidcConfig": {
 						SchemaProps: spec.SchemaProps{
 							Description: "OIDC auth config",
-							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.OIDCConfig"),
+							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.JWTOIDCConfig"),
 						},
 					},
 					"jwtConfig": {
 						SchemaProps: spec.SchemaProps{
 							Description: "JWT auth config",
-							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.JWTConfig"),
+							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.JWTOIDCConfig"),
 						},
 					},
 					"pluginName": {
@@ -18983,7 +18982,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_AuthMethod(ref common.Reference
 			},
 		},
 		Dependencies: []string{
-			"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.JWTConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.KubernetesConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.OIDCConfig"},
+			"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.JWTOIDCConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.KubernetesConfig"},
 	}
 }
 
@@ -19683,7 +19682,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_InmemSpec(ref common.ReferenceC
 	}
 }
 
-func schema_apimachinery_apis_kubevault_v1alpha2_JWTConfig(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_apimachinery_apis_kubevault_v1alpha2_JWTOIDCConfig(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -19834,7 +19833,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_JWTConfig(ref common.ReferenceC
 					},
 					"jwtValidationPubkeys": {
 						SchemaProps: spec.SchemaProps{
-							Description: "(comma-separated string, or array of strings: <optional>) - A list of PEM-encoded public keys to use to authenticate signatures locally. Cannot be used with \"jwks_url\" or \"oidc_discovery_url\".",
+							Description: "(comma-separated string, or array of strings: <optional>) A list of PEM-encoded public keys to use to authenticate signatures locally. Cannot be used with \"jwks_url\" or \"oidc_discovery_url\".",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
@@ -20148,200 +20147,6 @@ func schema_apimachinery_apis_kubevault_v1alpha2_NamedServiceTemplateSpec(ref co
 		},
 		Dependencies: []string{
 			"kmodules.xyz/offshoot-api/api/v1.ObjectMeta", "kmodules.xyz/offshoot-api/api/v1.ServiceSpec"},
-	}
-}
-
-func schema_apimachinery_apis_kubevault_v1alpha2_OIDCConfig(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"defaultLeaseTTL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The default lease duration, specified as a string duration like \"5s\" or \"30m\".",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"maxLeaseTTL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The maximum lease duration, specified as a string duration like \"5s\" or \"30m\".",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"pluginName": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The name of the plugin in the plugin catalog to use.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"auditNonHMACRequestKeys": {
-						SchemaProps: spec.SchemaProps{
-							Description: "List of keys that will not be HMAC'd by audit devices in the request data object.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-					"auditNonHMACResponseKeys": {
-						SchemaProps: spec.SchemaProps{
-							Description: "List of keys that will not be HMAC'd by audit devices in the response data object.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-					"listingVisibility": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Speficies whether to show this mount in the UI-specific listing endpoint.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"passthroughRequestHeaders": {
-						SchemaProps: spec.SchemaProps{
-							Description: "List of headers to whitelist and pass from the request to the backend.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-					"credentialSecretRef": {
-						SchemaProps: spec.SchemaProps{
-							Description: "CredentialSecretRef",
-							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
-						},
-					},
-					"tlsSecretRef": {
-						SchemaProps: spec.SchemaProps{
-							Description: "TLSSecretRef",
-							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
-						},
-					},
-					"oidcDiscoveryURL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "common configuration parameters The OIDC Discovery URL, without any .well-known component (base path). Cannot be used with \"jwks_url\" or \"jwt_validation_pubkeys\".",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"oidcClientID": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The OAuth Client ID from the provider for OIDC roles.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"oidcResponseMode": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The response mode to be used in the OAuth2 request. Allowed values are \"query\" and \"form_post\". Defaults to \"query\". If using Vault namespaces, and oidc_response_mode is \"form_post\", then \"namespace_in_state\" should be set to false.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"oidcResponseTypes": {
-						SchemaProps: spec.SchemaProps{
-							Description: "(comma-separated string, or array of strings: <optional>) - The response types to request. Allowed values are \"code\" and \"id_token\". Defaults to \"code\". Note: \"id_token\" may only be used if \"oidc_response_mode\" is set to \"form_post\".",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"defaultRole": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The default role to use if none is provided during login",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"providerConfig": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Configuration options for provider-specific handling. Providers with specific handling include: Azure, Google. The options are described in each provider's section in OIDC Provider Setup.",
-							Type:        []string{"object"},
-							AdditionalProperties: &spec.SchemaOrBool{
-								Allows: true,
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-					"jwksURL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "JWKS URL to use to authenticate signatures. Cannot be used with \"oidc_discovery_url\" or \"jwt_validation_pubkeys\".",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"jwtValidationPubkeys": {
-						SchemaProps: spec.SchemaProps{
-							Description: "(comma-separated string, or array of strings: <optional>) A list of PEM-encoded public keys to use to authenticate signatures locally. Cannot be used with \"jwks_url\" or \"oidc_discovery_url\".",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-					"jwtSupportedAlgs": {
-						SchemaProps: spec.SchemaProps{
-							Description: "(comma-separated string, or array of strings: <optional>) A list of supported signing algorithms. Defaults to [RS256] for OIDC roles. Defaults to all available algorithms for JWT roles.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-					"boundIssuer": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The value against which to match the iss claim in a JWT.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
 	}
 }
 

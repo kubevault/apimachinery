@@ -17022,51 +17022,6 @@
         }
       }
     },
-    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AuthConfig": {
-      "type": "object",
-      "properties": {
-        "auditNonHMACRequestKeys": {
-          "description": "List of keys that will not be HMAC'd by audit devices in the request data object.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "default": ""
-          }
-        },
-        "auditNonHMACResponseKeys": {
-          "description": "List of keys that will not be HMAC'd by audit devices in the response data object.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "default": ""
-          }
-        },
-        "defaultLeaseTTL": {
-          "description": "The default lease duration, specified as a string duration like \"5s\" or \"30m\".",
-          "type": "string"
-        },
-        "listingVisibility": {
-          "description": "Speficies whether to show this mount in the UI-specific listing endpoint.",
-          "type": "string"
-        },
-        "maxLeaseTTL": {
-          "description": "The maximum lease duration, specified as a string duration like \"5s\" or \"30m\".",
-          "type": "string"
-        },
-        "passthroughRequestHeaders": {
-          "description": "List of headers to whitelist and pass from the request to the backend.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "default": ""
-          }
-        },
-        "pluginName": {
-          "description": "The name of the plugin in the plugin catalog to use.",
-          "type": "string"
-        }
-      }
-    },
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AuthMethod": {
       "description": "AuthMethod contains the information to enable vault auth method links: https://www.vaultproject.io/api/system/auth.html",
       "type": "object",
@@ -17075,17 +17030,25 @@
         "path"
       ],
       "properties": {
-        "config": {
-          "description": "Specifies configuration options for this auth method.",
-          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AuthConfig"
-        },
         "description": {
           "description": "Specifies a human-friendly description of the auth method.",
           "type": "string"
         },
+        "jwtConfig": {
+          "description": "JWT auth config",
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.JWTOIDCConfig"
+        },
+        "kubernetesConfig": {
+          "description": "Kubernetes auth config",
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.KubernetesConfig"
+        },
         "local": {
           "description": "Specifies if the auth method is a local only. Local auth methods are not replicated nor (if a secondary) removed by replication.",
           "type": "boolean"
+        },
+        "oidcConfig": {
+          "description": "OIDC auth config",
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.JWTOIDCConfig"
         },
         "path": {
           "description": "Specifies the path in which to enable the auth method. Default value is the same as the 'type'",
@@ -17330,9 +17293,9 @@
           "description": "Specifies the minimum TLS version to use. Accepted values are \"tls10\", \"tls11\" or \"tls12\".",
           "type": "string"
         },
-        "tlsSecretName": {
-          "description": "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for consul communication Secret data:\n - ca.crt\n - client.crt\n - client.key",
-          "type": "string"
+        "tlsSecretRef": {
+          "description": "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for consul communication Secret data:\n - ca.crt\n - tls.crt\n - tls.key",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "tlsSkipVerify": {
           "description": "Specifies if the TLS host verification should be disabled. It is highly discouraged that you disable this option.",
@@ -17418,7 +17381,7 @@
           "type": "boolean"
         },
         "tlsSecretRef": {
-          "description": "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for etcd communication secret data:\n - ca.crt\n - client.crt\n - client.key",
+          "description": "Specifies the secret name that contains tls_ca_file, tls_cert_file and tls_key_file for etcd communication secret data:\n - ca.crt\n - tls.crt\n - tls.key",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         }
       }
@@ -17520,6 +17483,156 @@
       "description": "ref: https://www.vaultproject.io/docs/configuration/storage/in-memory.html",
       "type": "object"
     },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.JWTOIDCConfig": {
+      "type": "object",
+      "properties": {
+        "auditNonHMACRequestKeys": {
+          "description": "List of keys that will not be HMAC'd by audit devices in the request data object.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "auditNonHMACResponseKeys": {
+          "description": "List of keys that will not be HMAC'd by audit devices in the response data object.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "boundIssuer": {
+          "description": "The value against which to match the iss claim in a JWT.",
+          "type": "string"
+        },
+        "credentialSecretRef": {
+          "description": "CredentialSecretRef",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "defaultLeaseTTL": {
+          "description": "The default lease duration, specified as a string duration like \"5s\" or \"30m\".",
+          "type": "string"
+        },
+        "defaultRole": {
+          "description": "The default role to use if none is provided during login",
+          "type": "string"
+        },
+        "jwksURL": {
+          "description": "JWKS URL to use to authenticate signatures. Cannot be used with \"oidc_discovery_url\" or \"jwt_validation_pubkeys\".",
+          "type": "string"
+        },
+        "jwtSupportedAlgs": {
+          "description": "(comma-separated string, or array of strings: \u003coptional\u003e) A list of supported signing algorithms. Defaults to [RS256] for OIDC roles. Defaults to all available algorithms for JWT roles.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "jwtValidationPubkeys": {
+          "description": "(comma-separated string, or array of strings: \u003coptional\u003e) A list of PEM-encoded public keys to use to authenticate signatures locally. Cannot be used with \"jwks_url\" or \"oidc_discovery_url\".",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "listingVisibility": {
+          "description": "Speficies whether to show this mount in the UI-specific listing endpoint.",
+          "type": "string"
+        },
+        "maxLeaseTTL": {
+          "description": "The maximum lease duration, specified as a string duration like \"5s\" or \"30m\".",
+          "type": "string"
+        },
+        "oidcClientID": {
+          "description": "The OAuth Client ID from the provider for OIDC roles.",
+          "type": "string"
+        },
+        "oidcDiscoveryURL": {
+          "description": "common configuration parameters The OIDC Discovery URL, without any .well-known component (base path). Cannot be used with \"jwks_url\" or \"jwt_validation_pubkeys\".",
+          "type": "string"
+        },
+        "oidcResponseMode": {
+          "description": "The response mode to be used in the OAuth2 request. Allowed values are \"query\" and \"form_post\". Defaults to \"query\". If using Vault namespaces, and oidc_response_mode is \"form_post\", then \"namespace_in_state\" should be set to false.",
+          "type": "string"
+        },
+        "oidcResponseTypes": {
+          "description": "(comma-separated string, or array of strings: \u003coptional\u003e) - The response types to request. Allowed values are \"code\" and \"id_token\". Defaults to \"code\". Note: \"id_token\" may only be used if \"oidc_response_mode\" is set to \"form_post\".",
+          "type": "string"
+        },
+        "passthroughRequestHeaders": {
+          "description": "List of headers to whitelist and pass from the request to the backend.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "pluginName": {
+          "description": "The name of the plugin in the plugin catalog to use.",
+          "type": "string"
+        },
+        "providerConfig": {
+          "description": "Configuration options for provider-specific handling. Providers with specific handling include: Azure, Google. The options are described in each provider's section in OIDC Provider Setup.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "tlsSecretRef": {
+          "description": "TLSSecretRef",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.KubernetesConfig": {
+      "type": "object",
+      "properties": {
+        "auditNonHMACRequestKeys": {
+          "description": "List of keys that will not be HMAC'd by audit devices in the request data object.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "auditNonHMACResponseKeys": {
+          "description": "List of keys that will not be HMAC'd by audit devices in the response data object.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "defaultLeaseTTL": {
+          "description": "The default lease duration, specified as a string duration like \"5s\" or \"30m\".",
+          "type": "string"
+        },
+        "listingVisibility": {
+          "description": "Speficies whether to show this mount in the UI-specific listing endpoint.",
+          "type": "string"
+        },
+        "maxLeaseTTL": {
+          "description": "The maximum lease duration, specified as a string duration like \"5s\" or \"30m\".",
+          "type": "string"
+        },
+        "passthroughRequestHeaders": {
+          "description": "List of headers to whitelist and pass from the request to the backend.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "pluginName": {
+          "description": "The name of the plugin in the plugin catalog to use.",
+          "type": "string"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.KubernetesSecretSpec": {
       "description": "KubernetesSecretSpec contain the fields that required to unseal using kubernetes secret",
       "type": "object",
@@ -17603,7 +17716,7 @@
           "type": "string"
         },
         "tlsSecretRef": {
-          "description": "Specifies the name of the secret containing the CA certificate to connect using TLS. secret data:\n - tls_ca_file=\u003cca_cert\u003e",
+          "description": "Specifies the name of the secret containing the CA certificate to connect using TLS. secret data:\n - ca.crt=\u003cvalue\u003e",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         }
       }
@@ -17635,8 +17748,13 @@
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/postgresql.html\n\nPostgreSQLSpec defines configuration to set up PostgreSQL storage as backend storage in vault",
       "type": "object",
       "properties": {
+        "address": {
+          "description": "Specifies the address of the Postgres host. if DatabaseRef is set then Address will be generated from it This must be set if DatabaseRef is empty, validate from ValidatingWebhook host example: \u003cdb-name\u003e.\u003cdb-ns\u003e.svc:3306",
+          "type": "string",
+          "default": ""
+        },
         "credentialSecretRef": {
-          "description": "\n - connection_url=\"postgres://\u003cusername\u003e:\u003cpassword\u003e@\u003chost\u003e:\u003cport\u003e/\u003cdb_name\u003e\"",
+          "description": "\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e\n - connection_url=\"postgres://\u003cusername\u003e:\u003cpassword\u003e@\u003chost\u003e:\u003cport\u003e/\u003cdb_name\u003e\"",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "databaseRef": {
@@ -17662,7 +17780,7 @@
           "format": "int64"
         },
         "sslMode": {
-          "description": "SSLMode for both standalone and clusters. [disable;verify-full]",
+          "description": "SSLMode for both standalone and clusters. [disable;require;verify-ca;verify-full]",
           "type": "string"
         },
         "table": {
@@ -18174,10 +18292,11 @@
         }
       }
     },
-    "dev.kubevault.apimachinery.apis.policy.v1alpha1.JWTSubjectRef": {
+    "dev.kubevault.apimachinery.apis.policy.v1alpha1.JWTOIDCSubjectRef": {
       "description": "More info: https://www.vaultproject.io/api-docs/auth/jwt#create-role",
       "type": "object",
       "required": [
+        "path",
         "userClaim",
         "allowedRedirectUris"
       ],
@@ -18239,12 +18358,9 @@
           }
         },
         "path": {
-          "description": "Specifies the path where jwt/oidc auth is enabled default : jwt",
-          "type": "string"
-        },
-        "roleType": {
-          "description": "Type of role, either \"oidc\" (default) or \"jwt\".",
-          "type": "string"
+          "description": "Specifies the path where jwt/oidc auth is enabled",
+          "type": "string",
+          "default": ""
         },
         "tokenBoundCidrs": {
           "description": "List of CIDR blocks; if set, specifies blocks of IP addresses which can authenticate successfully, and ties the resulting token to these blocks as well.",
@@ -18433,7 +18549,7 @@
         },
         "jwt": {
           "description": "More info: https://www.vaultproject.io/api-docs/auth/jwt#configure",
-          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.JWTSubjectRef"
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.JWTOIDCSubjectRef"
         },
         "kubernetes": {
           "description": "Kubernetes refers to Vault users who are authenticated via Kubernetes auth method More info: https://www.vaultproject.io/docs/auth/kubernetes.html#configuration",
@@ -18445,6 +18561,9 @@
         },
         "ldapUser": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.LdapUserSubjectRef"
+        },
+        "oidc": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.policy.v1alpha1.JWTOIDCSubjectRef"
         }
       }
     },

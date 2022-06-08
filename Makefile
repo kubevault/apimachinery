@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 SHELL=/bin/bash -o pipefail
 
 GO_PKG   := kubevault.dev
@@ -20,7 +21,7 @@ COMPRESS ?= no
 
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS          ?= "crd:generateEmbeddedObjectMeta=true,allowDangerousTypes=true"
-CODE_GENERATOR_IMAGE ?= appscode/gengo:release-1.21
+CODE_GENERATOR_IMAGE ?= appscode/gengo:release-1.24
 API_GROUPS           ?= kubevault:v1alpha1 kubevault:v1alpha2 catalog:v1alpha1 config:v1alpha1 policy:v1alpha1 engine:v1alpha1
 
 # Where to push the docker image.

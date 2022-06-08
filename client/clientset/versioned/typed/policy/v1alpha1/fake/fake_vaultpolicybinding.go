@@ -118,7 +118,7 @@ func (c *FakeVaultPolicyBindings) UpdateStatus(ctx context.Context, vaultPolicyB
 // Delete takes name of the vaultPolicyBinding and deletes it. Returns an error if one occurs.
 func (c *FakeVaultPolicyBindings) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(vaultpolicybindingsResource, c.ns, name), &v1alpha1.VaultPolicyBinding{})
+		Invokes(testing.NewDeleteActionWithOptions(vaultpolicybindingsResource, c.ns, name, opts), &v1alpha1.VaultPolicyBinding{})
 
 	return err
 }

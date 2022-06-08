@@ -118,7 +118,7 @@ func (c *FakeSecretRoleBindings) UpdateStatus(ctx context.Context, secretRoleBin
 // Delete takes name of the secretRoleBinding and deletes it. Returns an error if one occurs.
 func (c *FakeSecretRoleBindings) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(secretrolebindingsResource, c.ns, name), &v1alpha1.SecretRoleBinding{})
+		Invokes(testing.NewDeleteActionWithOptions(secretrolebindingsResource, c.ns, name, opts), &v1alpha1.SecretRoleBinding{})
 
 	return err
 }

@@ -118,7 +118,7 @@ func (c *FakeElasticsearchRoles) UpdateStatus(ctx context.Context, elasticsearch
 // Delete takes name of the elasticsearchRole and deletes it. Returns an error if one occurs.
 func (c *FakeElasticsearchRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(elasticsearchrolesResource, c.ns, name), &v1alpha1.ElasticsearchRole{})
+		Invokes(testing.NewDeleteActionWithOptions(elasticsearchrolesResource, c.ns, name, opts), &v1alpha1.ElasticsearchRole{})
 
 	return err
 }

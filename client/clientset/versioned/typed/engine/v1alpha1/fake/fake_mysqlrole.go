@@ -118,7 +118,7 @@ func (c *FakeMySQLRoles) UpdateStatus(ctx context.Context, mySQLRole *v1alpha1.M
 // Delete takes name of the mySQLRole and deletes it. Returns an error if one occurs.
 func (c *FakeMySQLRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(mysqlrolesResource, c.ns, name), &v1alpha1.MySQLRole{})
+		Invokes(testing.NewDeleteActionWithOptions(mysqlrolesResource, c.ns, name, opts), &v1alpha1.MySQLRole{})
 
 	return err
 }

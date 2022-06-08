@@ -118,7 +118,7 @@ func (c *FakePostgresRoles) UpdateStatus(ctx context.Context, postgresRole *v1al
 // Delete takes name of the postgresRole and deletes it. Returns an error if one occurs.
 func (c *FakePostgresRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(postgresrolesResource, c.ns, name), &v1alpha1.PostgresRole{})
+		Invokes(testing.NewDeleteActionWithOptions(postgresrolesResource, c.ns, name, opts), &v1alpha1.PostgresRole{})
 
 	return err
 }

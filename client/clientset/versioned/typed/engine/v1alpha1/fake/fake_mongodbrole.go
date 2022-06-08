@@ -118,7 +118,7 @@ func (c *FakeMongoDBRoles) UpdateStatus(ctx context.Context, mongoDBRole *v1alph
 // Delete takes name of the mongoDBRole and deletes it. Returns an error if one occurs.
 func (c *FakeMongoDBRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(mongodbrolesResource, c.ns, name), &v1alpha1.MongoDBRole{})
+		Invokes(testing.NewDeleteActionWithOptions(mongodbrolesResource, c.ns, name, opts), &v1alpha1.MongoDBRole{})
 
 	return err
 }

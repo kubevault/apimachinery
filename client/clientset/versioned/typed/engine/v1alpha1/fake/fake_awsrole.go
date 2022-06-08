@@ -118,7 +118,7 @@ func (c *FakeAWSRoles) UpdateStatus(ctx context.Context, aWSRole *v1alpha1.AWSRo
 // Delete takes name of the aWSRole and deletes it. Returns an error if one occurs.
 func (c *FakeAWSRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(awsrolesResource, c.ns, name), &v1alpha1.AWSRole{})
+		Invokes(testing.NewDeleteActionWithOptions(awsrolesResource, c.ns, name, opts), &v1alpha1.AWSRole{})
 
 	return err
 }

@@ -118,7 +118,7 @@ func (c *FakeSecretAccessRequests) UpdateStatus(ctx context.Context, secretAcces
 // Delete takes name of the secretAccessRequest and deletes it. Returns an error if one occurs.
 func (c *FakeSecretAccessRequests) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(secretaccessrequestsResource, c.ns, name), &v1alpha1.SecretAccessRequest{})
+		Invokes(testing.NewDeleteActionWithOptions(secretaccessrequestsResource, c.ns, name, opts), &v1alpha1.SecretAccessRequest{})
 
 	return err
 }

@@ -118,7 +118,7 @@ func (c *FakeVaultServers) UpdateStatus(ctx context.Context, vaultServer *v1alph
 // Delete takes name of the vaultServer and deletes it. Returns an error if one occurs.
 func (c *FakeVaultServers) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(vaultserversResource, c.ns, name), &v1alpha1.VaultServer{})
+		Invokes(testing.NewDeleteActionWithOptions(vaultserversResource, c.ns, name, opts), &v1alpha1.VaultServer{})
 
 	return err
 }

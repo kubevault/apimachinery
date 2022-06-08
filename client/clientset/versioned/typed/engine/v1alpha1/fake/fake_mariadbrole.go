@@ -118,7 +118,7 @@ func (c *FakeMariaDBRoles) UpdateStatus(ctx context.Context, mariaDBRole *v1alph
 // Delete takes name of the mariaDBRole and deletes it. Returns an error if one occurs.
 func (c *FakeMariaDBRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(mariadbrolesResource, c.ns, name), &v1alpha1.MariaDBRole{})
+		Invokes(testing.NewDeleteActionWithOptions(mariadbrolesResource, c.ns, name, opts), &v1alpha1.MariaDBRole{})
 
 	return err
 }

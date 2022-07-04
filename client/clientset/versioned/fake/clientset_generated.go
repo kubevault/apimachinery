@@ -30,6 +30,8 @@ import (
 	fakekubevaultv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha1/fake"
 	kubevaultv1alpha2 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha2"
 	fakekubevaultv1alpha2 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha2/fake"
+	opsv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/ops/v1alpha1"
+	fakeopsv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/ops/v1alpha1/fake"
 	policyv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/policy/v1alpha1"
 	fakepolicyv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/policy/v1alpha1/fake"
 
@@ -113,6 +115,11 @@ func (c *Clientset) KubevaultV1alpha1() kubevaultv1alpha1.KubevaultV1alpha1Inter
 // KubevaultV1alpha2 retrieves the KubevaultV1alpha2Client
 func (c *Clientset) KubevaultV1alpha2() kubevaultv1alpha2.KubevaultV1alpha2Interface {
 	return &fakekubevaultv1alpha2.FakeKubevaultV1alpha2{Fake: &c.Fake}
+}
+
+// OpsV1alpha1 retrieves the OpsV1alpha1Client
+func (c *Clientset) OpsV1alpha1() opsv1alpha1.OpsV1alpha1Interface {
+	return &fakeopsv1alpha1.FakeOpsV1alpha1{Fake: &c.Fake}
 }
 
 // PolicyV1alpha1 retrieves the PolicyV1alpha1Client

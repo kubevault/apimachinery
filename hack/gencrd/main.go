@@ -28,6 +28,8 @@ import (
 	vaultinstall "kubevault.dev/apimachinery/apis/kubevault/install"
 	vaultv1alpha1 "kubevault.dev/apimachinery/apis/kubevault/v1alpha1"
 	vaultv1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+	opsinstall "kubevault.dev/apimachinery/apis/ops/install"
+	opsv1alpha1 "kubevault.dev/apimachinery/apis/ops/v1alpha1"
 	policyinstall "kubevault.dev/apimachinery/apis/policy/install"
 	policyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
 
@@ -50,6 +52,7 @@ func generateSwaggerJson() {
 	cataloginstall.Install(Scheme)
 	policyinstall.Install(Scheme)
 	engineinstall.Install(Scheme)
+	opsinstall.Install(Scheme)
 
 	apispec, err := openapi.RenderOpenAPISpec(openapi.Config{
 		Scheme: Scheme,
@@ -73,6 +76,7 @@ func generateSwaggerJson() {
 			catalogv1alpha1.GetOpenAPIDefinitions,
 			policyv1alpha1.GetOpenAPIDefinitions,
 			enginev1alpha1.GetOpenAPIDefinitions,
+			opsv1alpha1.GetOpenAPIDefinitions,
 		},
 		//nolint:govet
 		Resources: []openapi.TypeInfo{
@@ -90,6 +94,7 @@ func generateSwaggerJson() {
 			{enginev1alpha1.SchemeGroupVersion, enginev1alpha1.ResourceMongoDBRoles, enginev1alpha1.ResourceKindMongoDBRole, true},
 			{enginev1alpha1.SchemeGroupVersion, enginev1alpha1.ResourceMySQLRoles, enginev1alpha1.ResourceKindMySQLRole, true},
 			{enginev1alpha1.SchemeGroupVersion, enginev1alpha1.ResourcePostgresRoles, enginev1alpha1.ResourceKindPostgresRole, true},
+			{opsv1alpha1.SchemeGroupVersion, opsv1alpha1.ResourcePluralVaultOpsRequest, opsv1alpha1.ResourceKindVaultOpsRequest, true},
 		},
 	})
 	if err != nil {

@@ -51,6 +51,12 @@ spec:
             properties:
               restart:
                 description: Specifies information necessary for restarting VaultServer
+                properties:
+                  ignoreHealthCheck:
+                    default: true
+                    description: IgnoreHealthCheck indicates if health check should
+                      be skipped during the restart process
+                    type: boolean
                 type: object
               timeout:
                 description: Timeout for each step of the ops request in second. If

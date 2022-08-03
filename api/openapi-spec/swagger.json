@@ -19387,7 +19387,13 @@
       }
     },
     "dev.kubevault.apimachinery.apis.ops.v1alpha1.RestartSpec": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "ignoreHealthCheck": {
+          "description": "IgnoreHealthCheck indicates if health check should be skipped during the restart process",
+          "type": "boolean"
+        }
+      }
     },
     "dev.kubevault.apimachinery.apis.ops.v1alpha1.TLSSpec": {
       "type": "object",

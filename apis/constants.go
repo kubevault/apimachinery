@@ -86,6 +86,9 @@ const (
 	AllReplicasAreReady            = "AllReplicasReady"
 	SomeReplicasAreNotReady        = "SomeReplicasNotReady"
 	VaultServerPaused              = "Paused"
+
+	// health check constants
+	VaultHealthCheckPaused = "HealthCheckPaused"
 )
 
 const (

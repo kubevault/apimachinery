@@ -399,6 +399,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.FileSpec":                 schema_apimachinery_apis_kubevault_v1alpha2_FileSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.GcsSpec":                  schema_apimachinery_apis_kubevault_v1alpha2_GcsSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.GoogleKmsGcsSpec":         schema_apimachinery_apis_kubevault_v1alpha2_GoogleKmsGcsSpec(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.HealthCheckSpec":          schema_apimachinery_apis_kubevault_v1alpha2_HealthCheckSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.InmemSpec":                schema_apimachinery_apis_kubevault_v1alpha2_InmemSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.JWTOIDCConfig":            schema_apimachinery_apis_kubevault_v1alpha2_JWTOIDCConfig(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.KubernetesConfig":         schema_apimachinery_apis_kubevault_v1alpha2_KubernetesConfig(ref),
@@ -19982,6 +19983,47 @@ func schema_apimachinery_apis_kubevault_v1alpha2_GoogleKmsGcsSpec(ref common.Ref
 	}
 }
 
+func schema_apimachinery_apis_kubevault_v1alpha2_HealthCheckSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "HealthCheckSpec defines attributes of the health check",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"periodSeconds": {
+						SchemaProps: spec.SchemaProps{
+							Description: "How often (in seconds) to perform the health check. Default to 10 seconds. Minimum value is 1.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"timeoutSeconds": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Number of seconds after which the probe times out. Defaults to 10 second. Minimum value is 1. It should be less than the periodSeconds.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"failureThreshold": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Minimum consecutive failures for the health check to be considered failed after having succeeded. Defaults to 1. Minimum value is 1.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"disableWriteCheck": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Whether to disable write check on database. Defaults to false.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
 func schema_apimachinery_apis_kubevault_v1alpha2_InmemSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -21081,12 +21123,19 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultServerSpec(ref common.Refe
 							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AllowedSecretEngines"),
 						},
 					},
+					"healthChecker": {
+						SchemaProps: spec.SchemaProps{
+							Description: "HealthChecker defines attributes of the health checker",
+							Default:     map[string]interface{}{},
+							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.HealthCheckSpec"),
+						},
+					},
 				},
 				Required: []string{"version", "backend"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference", "k8s.io/api/core/v1.VolumeSource", "kmodules.xyz/client-go/api/v1.TLSConfig", "kmodules.xyz/monitoring-agent-api/api/v1.AgentSpec", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AllowedSecretEngines", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethod", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.BackendStorageSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.NamedServiceTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.UnsealerSpec"},
+			"k8s.io/api/core/v1.LocalObjectReference", "k8s.io/api/core/v1.VolumeSource", "kmodules.xyz/client-go/api/v1.TLSConfig", "kmodules.xyz/monitoring-agent-api/api/v1.AgentSpec", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AllowedSecretEngines", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethod", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.BackendStorageSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.HealthCheckSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.NamedServiceTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.UnsealerSpec"},
 	}
 }
 

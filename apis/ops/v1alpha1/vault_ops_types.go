@@ -66,12 +66,7 @@ type VaultOpsRequestSpec struct {
 	Timeout *metav1.Duration `json:"timeout,omitempty"`
 }
 
-type RestartSpec struct {
-	// IgnoreHealthCheck indicates if health check should be skipped during the restart process
-	// +optional
-	// +kubebuilder:default=true
-	IgnoreHealthCheck bool `json:"ignoreHealthCheck,omitempty"`
-}
+type RestartSpec struct{}
 
 type TLSSpec struct {
 	// TLSConfig contains updated tls configurations for client and server.

@@ -19168,15 +19168,6 @@ func schema_apimachinery_apis_ops_v1alpha1_RestartSpec(ref common.ReferenceCallb
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"ignoreHealthCheck": {
-						SchemaProps: spec.SchemaProps{
-							Description: "IgnoreHealthCheck indicates if health check should be skipped during the restart process",
-							Type:        []string{"boolean"},
-							Format:      "",
-						},
-					},
-				},
 			},
 		},
 	}

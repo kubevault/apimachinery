@@ -139,7 +139,7 @@ type VaultServerSpec struct {
 	// HealthChecker defines attributes of the health checker
 	// +optional
 	// +kubebuilder:default={periodSeconds: 10, timeoutSeconds: 10, failureThreshold: 1}
-	HealthChecker HealthCheckSpec `json:"healthChecker"`
+	HealthChecker kmapi.HealthCheckSpec `json:"healthChecker"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -1162,28 +1162,4 @@ type JWTOIDCConfig struct {
 	// The value against which to match the iss claim in a JWT.
 	// +optional
 	BoundIssuer string `json:"boundIssuer,omitempty"`
-}
-
-// HealthCheckSpec defines attributes of the health check
-type HealthCheckSpec struct {
-	// How often (in seconds) to perform the health check.
-	// Default to 10 seconds. Minimum value is 1.
-	// +optional
-	// +kubebuilder:default=10
-	PeriodSeconds *int32 `json:"periodSeconds,omitempty"`
-	// Number of seconds after which the probe times out.
-	// Defaults to 10 second. Minimum value is 1.
-	// It should be less than the periodSeconds.
-	// +optional
-	// +kubebuilder:default=10
-	TimeoutSeconds *int32 `json:"timeoutSeconds,omitempty"`
-	// Minimum consecutive failures for the health check to be considered failed after having succeeded.
-	// Defaults to 1. Minimum value is 1.
-	// +optional
-	// +kubebuilder:default=1
-	FailureThreshold *int32 `json:"failureThreshold,omitempty"`
-	// Whether to disable write check on database.
-	// Defaults to false.
-	// +optional
-	DisableWriteCheck bool `json:"disableWriteCheck,omitempty"`
 }

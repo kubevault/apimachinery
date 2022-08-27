@@ -7,13 +7,14 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/google/gofuzz v1.2.0
 	github.com/pkg/errors v0.9.1
+	gomodules.xyz/pointer v0.1.0
 	gomodules.xyz/runtime v0.3.0
 	k8s.io/api v0.24.1
 	k8s.io/apimachinery v0.24.1
 	k8s.io/client-go v0.24.1
 	k8s.io/klog/v2 v2.60.1
 	k8s.io/kube-openapi v0.0.0-20220413171646-5e7f5fdc6da6
-	kmodules.xyz/client-go v0.24.1
+	kmodules.xyz/client-go v0.24.8
 	kmodules.xyz/crd-schema-fuzz v0.24.1
 	kmodules.xyz/custom-resources v0.24.0
 	kmodules.xyz/monitoring-agent-api v0.24.0
@@ -91,7 +92,6 @@ require (
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
 	gomodules.xyz/mergo v0.3.13 // indirect
-	gomodules.xyz/pointer v0.1.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20220107163113-42d7afdf6368 // indirect
 	google.golang.org/grpc v1.40.0 // indirect

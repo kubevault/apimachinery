@@ -28,6 +28,7 @@ import (
 	engine "kubevault.dev/apimachinery/client/informers/externalversions/engine"
 	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
 	kubevault "kubevault.dev/apimachinery/client/informers/externalversions/kubevault"
+	ops "kubevault.dev/apimachinery/client/informers/externalversions/ops"
 	policy "kubevault.dev/apimachinery/client/informers/externalversions/policy"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -179,6 +180,7 @@ type SharedInformerFactory interface {
 	Catalog() catalog.Interface
 	Engine() engine.Interface
 	Kubevault() kubevault.Interface
+	Ops() ops.Interface
 	Policy() policy.Interface
 }
 
@@ -192,6 +194,10 @@ func (f *sharedInformerFactory) Engine() engine.Interface {
 
 func (f *sharedInformerFactory) Kubevault() kubevault.Interface {
 	return kubevault.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Ops() ops.Interface {
+	return ops.New(f, f.namespace, f.tweakListOptions)
 }
 
 func (f *sharedInformerFactory) Policy() policy.Interface {

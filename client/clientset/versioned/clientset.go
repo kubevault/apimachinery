@@ -27,6 +27,7 @@ import (
 	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 	kubevaultv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha1"
 	kubevaultv1alpha2 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha2"
+	opsv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/ops/v1alpha1"
 	policyv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/policy/v1alpha1"
 
 	discovery "k8s.io/client-go/discovery"
@@ -41,6 +42,7 @@ type Interface interface {
 	EngineV1alpha1() enginev1alpha1.EngineV1alpha1Interface
 	KubevaultV1alpha1() kubevaultv1alpha1.KubevaultV1alpha1Interface
 	KubevaultV1alpha2() kubevaultv1alpha2.KubevaultV1alpha2Interface
+	OpsV1alpha1() opsv1alpha1.OpsV1alpha1Interface
 	PolicyV1alpha1() policyv1alpha1.PolicyV1alpha1Interface
 }
 
@@ -53,6 +55,7 @@ type Clientset struct {
 	engineV1alpha1    *enginev1alpha1.EngineV1alpha1Client
 	kubevaultV1alpha1 *kubevaultv1alpha1.KubevaultV1alpha1Client
 	kubevaultV1alpha2 *kubevaultv1alpha2.KubevaultV1alpha2Client
+	opsV1alpha1       *opsv1alpha1.OpsV1alpha1Client
 	policyV1alpha1    *policyv1alpha1.PolicyV1alpha1Client
 }
 
@@ -79,6 +82,11 @@ func (c *Clientset) KubevaultV1alpha1() kubevaultv1alpha1.KubevaultV1alpha1Inter
 // KubevaultV1alpha2 retrieves the KubevaultV1alpha2Client
 func (c *Clientset) KubevaultV1alpha2() kubevaultv1alpha2.KubevaultV1alpha2Interface {
 	return c.kubevaultV1alpha2
+}
+
+// OpsV1alpha1 retrieves the OpsV1alpha1Client
+func (c *Clientset) OpsV1alpha1() opsv1alpha1.OpsV1alpha1Interface {
+	return c.opsV1alpha1
 }
 
 // PolicyV1alpha1 retrieves the PolicyV1alpha1Client
@@ -150,6 +158,10 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 	if err != nil {
 		return nil, err
 	}
+	cs.opsV1alpha1, err = opsv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
+	if err != nil {
+		return nil, err
+	}
 	cs.policyV1alpha1, err = policyv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
@@ -180,6 +192,7 @@ func New(c rest.Interface) *Clientset {
 	cs.engineV1alpha1 = enginev1alpha1.New(c)
 	cs.kubevaultV1alpha1 = kubevaultv1alpha1.New(c)
 	cs.kubevaultV1alpha2 = kubevaultv1alpha2.New(c)
+	cs.opsV1alpha1 = opsv1alpha1.New(c)
 	cs.policyV1alpha1 = policyv1alpha1.New(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClient(c)

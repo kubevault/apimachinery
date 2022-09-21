@@ -1182,7 +1182,6 @@ func TestConvert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(t *testing.T) {
 			}
 
 			if d.Modified() {
-				fmt.Println("====delta: ", d.Deltas())
 				t.Error("modified")
 			}
 		})
@@ -1244,6 +1243,224 @@ func TestConvert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(t *testing.T) {
 			}
 
 			new, err := json.Marshal(newdynv1alpha2)
+			if err != nil {
+				t.Error(err)
+			}
+
+			differ := diff.New()
+			d, err := differ.Compare(old, new)
+			if err != nil {
+				t.Error(err)
+			}
+
+			if d.Modified() {
+				t.Error("modified")
+			}
+		})
+	}
+}
+
+func TestConvert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(t *testing.T) {
+	testData := []struct {
+		testName string
+		spec     *RaftSpec
+	}{
+		{
+			testName: "test-0: should be successful",
+			spec: &RaftSpec{
+				Path:                       "/vault/data",
+				PerformanceMultiplier:      0,
+				TrailingLogs:               nil,
+				SnapshotThreshold:          nil,
+				MaxEntrySize:               nil,
+				AutopilotReconcileInterval: "",
+				Storage: &v1.PersistentVolumeClaimSpec{
+					AccessModes:      nil,
+					Selector:         nil,
+					Resources:        v1.ResourceRequirements{},
+					VolumeName:       "",
+					StorageClassName: nil,
+					VolumeMode:       nil,
+					DataSource:       nil,
+					DataSourceRef:    nil,
+				},
+			},
+		},
+		{
+			testName: "test-1: should be successful",
+			spec: &RaftSpec{
+				Path:                       "",
+				PerformanceMultiplier:      0,
+				TrailingLogs:               nil,
+				SnapshotThreshold:          nil,
+				MaxEntrySize:               nil,
+				AutopilotReconcileInterval: "",
+				Storage:                    nil,
+			},
+		},
+	}
+
+	for idx := range testData {
+		test := testData[idx]
+		t.Run(test.testName, func(t *testing.T) {
+			raftv1alph1 := test.spec
+			raftv1alph2 := &v1alpha2.RaftSpec{}
+			if err := Convert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(raftv1alph1, raftv1alph2, nil); err != nil {
+				t.Error(err)
+			}
+
+			newraftv1alpha1 := &RaftSpec{}
+			if err := Convert_v1alpha2_RaftSpec_To_v1alpha1_RaftSpec(raftv1alph2, newraftv1alpha1, nil); err != nil {
+				t.Error(err)
+			}
+
+			old, err := json.Marshal(raftv1alph1)
+			if err != nil {
+				t.Error(err)
+			}
+
+			new, err := json.Marshal(newraftv1alpha1)
+			if err != nil {
+				t.Error(err)
+			}
+
+			differ := diff.New()
+			d, err := differ.Compare(old, new)
+			if err != nil {
+				t.Error(err)
+			}
+
+			if d.Modified() {
+				t.Error("modified")
+			}
+		})
+	}
+}
+
+func TestConvert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(t *testing.T) {
+	testData := []struct {
+		testName string
+		spec     *S3Spec
+	}{
+		{
+			testName: "test-0: should be successful",
+			spec: &S3Spec{
+				Bucket:             "bucket",
+				Endpoint:           "endpoint",
+				Region:             "region",
+				CredentialSecret:   "cred",
+				SessionTokenSecret: "",
+				MaxParallel:        0,
+				ForcePathStyle:     false,
+				DisableSSL:         false,
+			},
+		},
+		{
+			testName: "test-1: should be successful",
+			spec: &S3Spec{
+				Bucket:             "",
+				Endpoint:           "",
+				Region:             "",
+				CredentialSecret:   "",
+				SessionTokenSecret: "",
+				MaxParallel:        0,
+				ForcePathStyle:     false,
+				DisableSSL:         false,
+			},
+		},
+	}
+
+	for idx := range testData {
+		test := testData[idx]
+		t.Run(test.testName, func(t *testing.T) {
+			azurev1alph1 := test.spec
+			azurev1alph2 := &v1alpha2.S3Spec{}
+			if err := Convert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(azurev1alph1, azurev1alph2, nil); err != nil {
+				t.Error(err)
+			}
+
+			newazurev1alpha1 := &S3Spec{}
+			if err := Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(azurev1alph2, newazurev1alpha1, nil); err != nil {
+				t.Error(err)
+			}
+
+			old, err := json.Marshal(azurev1alph1)
+			if err != nil {
+				t.Error(err)
+			}
+
+			new, err := json.Marshal(newazurev1alpha1)
+			if err != nil {
+				t.Error(err)
+			}
+
+			differ := diff.New()
+			d, err := differ.Compare(old, new)
+			if err != nil {
+				t.Error(err)
+			}
+
+			if d.Modified() {
+				fmt.Println("deltas: ", d.Deltas())
+				t.Error("modified")
+			}
+		})
+	}
+}
+
+func TestConvert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(t *testing.T) {
+	testData := []struct {
+		testName string
+		spec     *v1alpha2.S3Spec
+	}{
+		{
+			testName: "test-0: should be successful",
+			spec: &v1alpha2.S3Spec{
+				Bucket:   "bucket",
+				Endpoint: "endpoint",
+				Region:   "region",
+				CredentialSecretRef: &v1.LocalObjectReference{
+					Name: "cred",
+				},
+				MaxParallel:    0,
+				ForcePathStyle: false,
+				DisableSSL:     false,
+			},
+		},
+		{
+			testName: "test-1: should be successful",
+			spec: &v1alpha2.S3Spec{
+				Bucket:              "",
+				Endpoint:            "",
+				Region:              "",
+				CredentialSecretRef: nil,
+				MaxParallel:         0,
+				ForcePathStyle:      false,
+				DisableSSL:          false,
+			},
+		},
+	}
+
+	for idx := range testData {
+		test := testData[idx]
+		t.Run(test.testName, func(t *testing.T) {
+			awskmsv1alph2 := test.spec
+			awskmsv1alph1 := &S3Spec{}
+			if err := Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(awskmsv1alph2, awskmsv1alph1, nil); err != nil {
+				t.Error(err)
+			}
+
+			newawskmsv1alpha2 := &v1alpha2.S3Spec{}
+			if err := Convert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(awskmsv1alph1, newawskmsv1alpha2, nil); err != nil {
+				t.Error(err)
+			}
+
+			old, err := json.Marshal(awskmsv1alph2)
+			if err != nil {
+				t.Error(err)
+			}
+
+			new, err := json.Marshal(newawskmsv1alpha2)
 			if err != nil {
 				t.Error(err)
 			}

@@ -343,6 +343,7 @@ func Convert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(in *RaftSpec, out *v1alpha2.
 	out.MaxEntrySize = (*int64)(unsafe.Pointer(in.MaxEntrySize))
 	out.AutopilotReconcileInterval = in.AutopilotReconcileInterval
 	out.Storage = in.Storage
+	in.Path = ""
 	return nil
 }
 
@@ -405,7 +406,6 @@ func Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(in *v1alpha2.S3Spec, out *S3Spec
 	out.Region = in.Region
 	if in.CredentialSecretRef != nil {
 		out.CredentialSecret = in.CredentialSecretRef.Name
-		out.SessionTokenSecret = in.CredentialSecretRef.Name
 	}
 	out.MaxParallel = in.MaxParallel
 	out.ForcePathStyle = in.ForcePathStyle

@@ -104,6 +104,7 @@ func Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(in *v1alpha2.MySQLSpec, ou
 	if in.TLSSecretRef != nil {
 		out.TLSCASecret = in.TLSSecretRef.Name
 	}
+	in.DatabaseRef = nil
 	out.MaxParallel = in.MaxParallel
 	return nil
 }
@@ -115,7 +116,6 @@ func Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(in *PostgreSQLSp
 		}
 	}
 
-	// WARNING: in.ConnectionURLSecret requires manual conversion: does not exist in peer-type
 	out.Table = in.Table
 	out.MaxParallel = in.MaxParallel
 	return nil
@@ -125,6 +125,9 @@ func Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(in *v1alpha2.Pos
 	if in.CredentialSecretRef != nil {
 		out.ConnectionURLSecret = in.CredentialSecretRef.Name
 	}
+	in.MaxIdleConnection = 0
+	in.Address = ""
+	in.DatabaseRef = nil
 	out.Table = in.Table
 	out.MaxParallel = in.MaxParallel
 	return nil

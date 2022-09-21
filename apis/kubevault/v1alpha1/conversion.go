@@ -331,7 +331,6 @@ func Convert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(in *v1alpha2.DynamoD
 	out.Table = in.Table
 	if in.CredentialSecretRef != nil {
 		out.CredentialSecret = in.CredentialSecretRef.Name
-		out.SessionTokenSecret = in.CredentialSecretRef.Name
 	}
 	out.MaxParallel = in.MaxParallel
 	return nil

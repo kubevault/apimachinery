@@ -7,6 +7,7 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/google/gofuzz v1.2.0
 	github.com/pkg/errors v0.9.1
+	github.com/yudai/gojsondiff v1.0.0
 	gomodules.xyz/pointer v0.1.0
 	gomodules.xyz/runtime v0.3.0
 	k8s.io/api v0.25.1
@@ -14,7 +15,7 @@ require (
 	k8s.io/client-go v0.25.1
 	k8s.io/klog/v2 v2.80.1
 	k8s.io/kube-openapi v0.0.0-20220803164354-a70c9af30aea
-	kmodules.xyz/client-go v0.25.4
+	kmodules.xyz/client-go v0.25.6
 	kmodules.xyz/crd-schema-fuzz v0.25.0
 	kmodules.xyz/custom-resources v0.25.0
 	kmodules.xyz/monitoring-agent-api v0.25.0
@@ -65,7 +66,6 @@ require (
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/spf13/cobra v1.4.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.4 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.4 // indirect

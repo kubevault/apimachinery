@@ -17,16 +17,60 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"encoding/json"
-	"fmt"
 	"testing"
 
 	"kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+	tl "kubevault.dev/apimachinery/testing"
 
-	diff "github.com/yudai/gojsondiff"
 	v1 "k8s.io/api/core/v1"
 	appcat "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1"
+	"sigs.k8s.io/yaml"
 )
+
+func TestConvert_v1alpha1_VaultServer_To_v1alpha2_VaultServer(t *testing.T) {
+	tests := []struct {
+		name    string
+		wantErr bool
+	}{
+		{
+			name:    "testdata/apis/kubevault/v1server.yaml",
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			data, err := tl.ReadFile(tt.name)
+			if err != nil {
+				t.Error(err)
+				return
+			}
+
+			var v1Obj VaultServer
+			if err = yaml.Unmarshal(data, &v1Obj); err != nil {
+				t.Error(err)
+				return
+			}
+
+			var v2Obj v1alpha2.VaultServer
+			if err := Convert_v1alpha1_VaultServer_To_v1alpha2_VaultServer(&v1Obj, &v2Obj, nil); err != nil {
+				t.Error(err)
+				return
+			}
+
+			var v1Result VaultServer
+			if err := Convert_v1alpha2_VaultServer_To_v1alpha1_VaultServer(&v2Obj, &v1Result, nil); err != nil {
+				t.Error(err)
+				return
+			}
+			v1Result.TypeMeta = v1Obj.TypeMeta
+
+			if err := tl.CheckDiff(v1Obj, v1Result); err != nil {
+				t.Error(err)
+				return
+			}
+		})
+	}
+}
 
 func TestConvert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(t *testing.T) {
 	testData := []struct {
@@ -64,31 +108,18 @@ func TestConvert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(t *testing.T) {
 			mysqlv1alph2 := &v1alpha2.MySQLSpec{}
 			if err := Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(mysqlv1alph1, mysqlv1alph2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newmysqlv1alpha1 := &MySQLSpec{}
 			if err := Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(mysqlv1alph2, newmysqlv1alpha1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(mysqlv1alph1)
-			if err != nil {
+			if err := tl.CheckDiff(mysqlv1alph1, newmysqlv1alpha1); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newmysqlv1alpha1)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -149,31 +180,18 @@ func TestConvert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(t *testing.T) {
 			mysqlv1alph1 := &MySQLSpec{}
 			if err := Convert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(mysqlv1alph2, mysqlv1alph1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newmysqlv1alpha2 := &v1alpha2.MySQLSpec{}
 			if err := Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(mysqlv1alph1, newmysqlv1alpha2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(mysqlv1alph2)
-			if err != nil {
+			if err := tl.CheckDiff(mysqlv1alph2, newmysqlv1alpha2); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newmysqlv1alpha2)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -209,31 +227,18 @@ func TestConvert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(t *testing.T
 			pgv1alph2 := &v1alpha2.PostgreSQLSpec{}
 			if err := Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(pgv1alph1, pgv1alph2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newpgv1alpha1 := &PostgreSQLSpec{}
 			if err := Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(pgv1alph2, newpgv1alpha1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(pgv1alph1)
-			if err != nil {
+			if err := tl.CheckDiff(pgv1alph1, newpgv1alpha1); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newpgv1alpha1)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -286,31 +291,18 @@ func TestConvert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(t *testing.T
 			pgv1alph1 := &PostgreSQLSpec{}
 			if err := Convert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(pgv1alph2, pgv1alph1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newpgv1alpha2 := &v1alpha2.PostgreSQLSpec{}
 			if err := Convert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(pgv1alph1, newpgv1alpha2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(pgv1alph2)
-			if err != nil {
+			if err := tl.CheckDiff(pgv1alph2, newpgv1alpha2); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newpgv1alpha2)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -350,31 +342,18 @@ func TestConvert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(t *testing.T) 
 			awskmsv1alph2 := &v1alpha2.AwsKmsSsmSpec{}
 			if err := Convert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(awskmsv1alph1, awskmsv1alph2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newawskmsv1alpha1 := &AwsKmsSsmSpec{}
 			if err := Convert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(awskmsv1alph2, newawskmsv1alpha1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(awskmsv1alph1)
-			if err != nil {
+			if err := tl.CheckDiff(awskmsv1alph1, newawskmsv1alpha1); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newawskmsv1alpha1)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -416,31 +395,18 @@ func TestConvert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(t *testing.T) 
 			awskmsv1alph1 := &AwsKmsSsmSpec{}
 			if err := Convert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(awskmsv1alph2, awskmsv1alph1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newawskmsv1alpha2 := &v1alpha2.AwsKmsSsmSpec{}
 			if err := Convert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(awskmsv1alph1, newawskmsv1alpha2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(awskmsv1alph2)
-			if err != nil {
+			if err := tl.CheckDiff(awskmsv1alph2, newawskmsv1alpha2); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newawskmsv1alpha2)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -482,31 +448,18 @@ func TestConvert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(t *testing.T) 
 			azurev1alph2 := &v1alpha2.AzureKeyVault{}
 			if err := Convert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(azurev1alph1, azurev1alph2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newazurev1alpha1 := &AzureKeyVault{}
 			if err := Convert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(azurev1alph2, newazurev1alpha1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(azurev1alph1)
-			if err != nil {
+			if err := tl.CheckDiff(azurev1alph1, newazurev1alpha1); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newazurev1alpha1)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -552,31 +505,18 @@ func TestConvert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(t *testing.T) 
 			azurev1alph1 := &AzureKeyVault{}
 			if err := Convert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(azurev1alph2, azurev1alph1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newazurev1alpha2 := &v1alpha2.AzureKeyVault{}
 			if err := Convert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(azurev1alph1, newazurev1alpha2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(azurev1alph2)
-			if err != nil {
+			if err := tl.CheckDiff(azurev1alph2, newazurev1alpha2); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newazurev1alpha2)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -614,31 +554,18 @@ func TestConvert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(t *testing.T) {
 			azurev1alph2 := &v1alpha2.AzureSpec{}
 			if err := Convert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(azurev1alph1, azurev1alph2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newazurev1alpha1 := &AzureSpec{}
 			if err := Convert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(azurev1alph2, newazurev1alpha1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(azurev1alph1)
-			if err != nil {
+			if err := tl.CheckDiff(azurev1alph1, newazurev1alpha1); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newazurev1alpha1)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -678,31 +605,18 @@ func TestConvert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(t *testing.T) {
 			azurev1alph1 := &AzureSpec{}
 			if err := Convert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(azurev1alph2, azurev1alph1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newazurev1alpha2 := &v1alpha2.AzureSpec{}
 			if err := Convert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(azurev1alph1, newazurev1alpha2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(azurev1alph2)
-			if err != nil {
+			if err := tl.CheckDiff(azurev1alph2, newazurev1alpha2); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newazurev1alpha2)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -744,31 +658,18 @@ func TestConvert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(t *testi
 			gcsv1alph2 := &v1alpha2.GoogleKmsGcsSpec{}
 			if err := Convert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(gcsv1alph1, gcsv1alph2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newgcsv1alpha1 := &GoogleKmsGcsSpec{}
 			if err := Convert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(gcsv1alph2, newgcsv1alpha1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(gcsv1alph1)
-			if err != nil {
+			if err := tl.CheckDiff(gcsv1alph1, newgcsv1alpha1); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newgcsv1alpha1)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -812,31 +713,18 @@ func TestConvert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(t *testi
 			gcsv1alph1 := &GoogleKmsGcsSpec{}
 			if err := Convert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(gcsv1alph2, gcsv1alph1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newgcsv1alpha2 := &v1alpha2.GoogleKmsGcsSpec{}
 			if err := Convert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(gcsv1alph1, newgcsv1alpha2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(gcsv1alph2)
-			if err != nil {
+			if err := tl.CheckDiff(gcsv1alph2, newgcsv1alpha2); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newgcsv1alpha2)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -876,31 +764,18 @@ func TestConvert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(t *testing.T) {
 			gcsv1alph2 := &v1alpha2.GcsSpec{}
 			if err := Convert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(gcsv1alph1, gcsv1alph2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newgcsv1alpha1 := &GcsSpec{}
 			if err := Convert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(gcsv1alph2, newgcsv1alpha1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(gcsv1alph1)
-			if err != nil {
+			if err := tl.CheckDiff(gcsv1alph1, newgcsv1alpha1); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newgcsv1alpha1)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -942,31 +817,18 @@ func TestConvert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(t *testing.T) {
 			gcsv1alph1 := &GcsSpec{}
 			if err := Convert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(gcsv1alph2, gcsv1alph1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newgcsv1alpha2 := &v1alpha2.GcsSpec{}
 			if err := Convert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(gcsv1alph1, newgcsv1alpha2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(gcsv1alph2)
-			if err != nil {
+			if err := tl.CheckDiff(gcsv1alph2, newgcsv1alpha2); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newgcsv1alpha2)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -1012,31 +874,18 @@ func TestConvert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(t *testing.T) {
 			etcdsv1alph2 := &v1alpha2.EtcdSpec{}
 			if err := Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(etcdv1alph1, etcdsv1alph2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newetcdv1alpha1 := &EtcdSpec{}
 			if err := Convert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(etcdsv1alph2, newetcdv1alpha1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(etcdv1alph1)
-			if err != nil {
+			if err := tl.CheckDiff(etcdv1alph1, newetcdv1alpha1); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newetcdv1alpha1)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -1086,31 +935,18 @@ func TestConvert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(t *testing.T) {
 			etcdv1alph1 := &EtcdSpec{}
 			if err := Convert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(etcdv1alph2, etcdv1alph1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newetcdv1alpha2 := &v1alpha2.EtcdSpec{}
 			if err := Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(etcdv1alph1, newetcdv1alpha2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(etcdv1alph2)
-			if err != nil {
+			if err := tl.CheckDiff(etcdv1alph2, newetcdv1alpha2); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newetcdv1alpha2)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -1158,31 +994,18 @@ func TestConvert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(t *testing.T) {
 			dynsv1alph2 := &v1alpha2.DynamoDBSpec{}
 			if err := Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(dynv1alph1, dynsv1alph2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newdynv1alpha1 := &DynamoDBSpec{}
 			if err := Convert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(dynsv1alph2, newdynv1alpha1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(dynv1alph1)
-			if err != nil {
+			if err := tl.CheckDiff(dynv1alph1, newdynv1alpha1); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newdynv1alpha1)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -1230,31 +1053,18 @@ func TestConvert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(t *testing.T) {
 			dynv1alph1 := &DynamoDBSpec{}
 			if err := Convert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(dynv1alph2, dynv1alph1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newdynv1alpha2 := &v1alpha2.DynamoDBSpec{}
 			if err := Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(dynv1alph1, newdynv1alpha2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(dynv1alph2)
-			if err != nil {
+			if err := tl.CheckDiff(dynv1alph2, newdynv1alpha2); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newdynv1alpha2)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -1307,31 +1117,18 @@ func TestConvert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(t *testing.T) {
 			raftv1alph2 := &v1alpha2.RaftSpec{}
 			if err := Convert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(raftv1alph1, raftv1alph2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newraftv1alpha1 := &RaftSpec{}
 			if err := Convert_v1alpha2_RaftSpec_To_v1alpha1_RaftSpec(raftv1alph2, newraftv1alpha1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(raftv1alph1)
-			if err != nil {
+			if err := tl.CheckDiff(raftv1alph1, newraftv1alpha1); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newraftv1alpha1)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -1377,32 +1174,18 @@ func TestConvert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(t *testing.T) {
 			azurev1alph2 := &v1alpha2.S3Spec{}
 			if err := Convert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(azurev1alph1, azurev1alph2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newazurev1alpha1 := &S3Spec{}
 			if err := Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(azurev1alph2, newazurev1alpha1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(azurev1alph1)
-			if err != nil {
+			if err := tl.CheckDiff(azurev1alph1, newazurev1alpha1); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newazurev1alpha1)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				fmt.Println("deltas: ", d.Deltas())
-				t.Error("modified")
+				return
 			}
 		})
 	}
@@ -1448,31 +1231,18 @@ func TestConvert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(t *testing.T) {
 			awskmsv1alph1 := &S3Spec{}
 			if err := Convert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(awskmsv1alph2, awskmsv1alph1, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
 			newawskmsv1alpha2 := &v1alpha2.S3Spec{}
 			if err := Convert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(awskmsv1alph1, newawskmsv1alpha2, nil); err != nil {
 				t.Error(err)
+				return
 			}
 
-			old, err := json.Marshal(awskmsv1alph2)
-			if err != nil {
+			if err := tl.CheckDiff(awskmsv1alph2, newawskmsv1alpha2); err != nil {
 				t.Error(err)
-			}
-
-			new, err := json.Marshal(newawskmsv1alpha2)
-			if err != nil {
-				t.Error(err)
-			}
-
-			differ := diff.New()
-			d, err := differ.Compare(old, new)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if d.Modified() {
-				t.Error("modified")
+				return
 			}
 		})
 	}

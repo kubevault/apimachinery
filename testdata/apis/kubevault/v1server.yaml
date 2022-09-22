@@ -1,0 +1,28 @@
+apiVersion: kubevault.com/v1alpha1
+kind: VaultServer
+metadata:
+  name: vault
+  namespace: default
+spec:
+  replicas: 1
+  tls:
+    certificates:
+      - alias: ca
+      - alias: server
+  monitor:
+    agent: prometheus.io
+  authMethods:
+    - path: kubernetes
+      type: kubernetes
+  backend:
+    s3:
+      bucket: eks-prod-vault
+      region: ap-southeast-2
+  unsealer:
+    mode:
+      awsKmsSsm:
+        kmsKeyID: 5c3c604c-4812-440a-bf44-e359e32afb00
+        region: ap-northeast-2
+    secretShares: 1
+    secretThreshold: 1
+  version: 0.11.5

@@ -158,7 +158,7 @@ github.com/prometheus/common/model
 github.com/prometheus/procfs
 github.com/prometheus/procfs/internal/fs
 github.com/prometheus/procfs/internal/util
-# github.com/sergi/go-diff v1.1.0
+# github.com/sergi/go-diff v1.2.0
 ## explicit; go 1.12
 github.com/sergi/go-diff/diffmatchpatch
 # github.com/spf13/cobra v1.4.0
@@ -337,6 +337,9 @@ gomodules.xyz/pointer
 # gomodules.xyz/runtime v0.3.0
 ## explicit; go 1.17
 gomodules.xyz/runtime
+# gomodules.xyz/testing v0.0.1
+## explicit; go 1.18
+gomodules.xyz/testing
 # google.golang.org/appengine v1.6.7
 ## explicit; go 1.11
 google.golang.org/appengine/internal

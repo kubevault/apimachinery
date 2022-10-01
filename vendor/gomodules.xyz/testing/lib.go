@@ -30,7 +30,7 @@ import (
 
 var rootDir = func() string {
 	_, b, _, _ := runtime.Caller(0)
-	return filepath.Dir(filepath.Dir(b))
+	return filepath.Dir(filepath.Dir(filepath.Dir(filepath.Dir(b))))
 }()
 
 func ReadFile(filename string) ([]byte, error) {

@@ -20,8 +20,8 @@ import (
 	"testing"
 
 	"kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
-	tl "kubevault.dev/apimachinery/testing"
 
+	tl "gomodules.xyz/testing"
 	v1 "k8s.io/api/core/v1"
 	appcat "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1"
 	"sigs.k8s.io/yaml"

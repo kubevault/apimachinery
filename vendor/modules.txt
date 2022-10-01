@@ -325,6 +325,10 @@ golang.org/x/text/unicode/norm
 # golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9
 ## explicit
 golang.org/x/time/rate
+# gomodules.xyz/encoding v0.0.7
+## explicit; go 1.17
+gomodules.xyz/encoding/json
+gomodules.xyz/encoding/yaml
 # gomodules.xyz/jsonpatch/v2 v2.2.0
 ## explicit; go 1.12
 gomodules.xyz/jsonpatch/v2
@@ -337,7 +341,7 @@ gomodules.xyz/pointer
 # gomodules.xyz/runtime v0.3.0
 ## explicit; go 1.17
 gomodules.xyz/runtime
-# gomodules.xyz/testing v0.0.1
+# gomodules.xyz/testing v0.0.4
 ## explicit; go 1.18
 gomodules.xyz/testing
 # google.golang.org/appengine v1.6.7

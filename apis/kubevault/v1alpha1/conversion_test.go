@@ -64,7 +64,7 @@ func TestConvert_v1alpha1_VaultServer_To_v1alpha2_VaultServer(t *testing.T) {
 			}
 			v1Result.TypeMeta = v1Obj.TypeMeta
 
-			if err := tl.CheckDiff(v1Obj, v1Result); err != nil {
+			if err := tl.Diff(v1Obj, v1Result); err != nil {
 				t.Error(err)
 				return
 			}
@@ -117,7 +117,7 @@ func TestConvert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(mysqlv1alph1, newmysqlv1alpha1); err != nil {
+			if err := tl.Diff(mysqlv1alph1, newmysqlv1alpha1); err != nil {
 				t.Error(err)
 				return
 			}
@@ -189,7 +189,7 @@ func TestConvert_v1alpha2_MySQLSpec_To_v1alpha1_MySQLSpec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(mysqlv1alph2, newmysqlv1alpha2); err != nil {
+			if err := tl.Diff(mysqlv1alph2, newmysqlv1alpha2); err != nil {
 				t.Error(err)
 				return
 			}
@@ -236,7 +236,7 @@ func TestConvert_v1alpha1_PostgreSQLSpec_To_v1alpha2_PostgreSQLSpec(t *testing.T
 				return
 			}
 
-			if err := tl.CheckDiff(pgv1alph1, newpgv1alpha1); err != nil {
+			if err := tl.Diff(pgv1alph1, newpgv1alpha1); err != nil {
 				t.Error(err)
 				return
 			}
@@ -300,7 +300,7 @@ func TestConvert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(t *testing.T
 				return
 			}
 
-			if err := tl.CheckDiff(pgv1alph2, newpgv1alpha2); err != nil {
+			if err := tl.Diff(pgv1alph2, newpgv1alpha2); err != nil {
 				t.Error(err)
 				return
 			}
@@ -351,7 +351,7 @@ func TestConvert_v1alpha1_AwsKmsSsmSpec_To_v1alpha2_AwsKmsSsmSpec(t *testing.T) 
 				return
 			}
 
-			if err := tl.CheckDiff(awskmsv1alph1, newawskmsv1alpha1); err != nil {
+			if err := tl.Diff(awskmsv1alph1, newawskmsv1alpha1); err != nil {
 				t.Error(err)
 				return
 			}
@@ -404,7 +404,7 @@ func TestConvert_v1alpha2_AwsKmsSsmSpec_To_v1alpha1_AwsKmsSsmSpec(t *testing.T) 
 				return
 			}
 
-			if err := tl.CheckDiff(awskmsv1alph2, newawskmsv1alpha2); err != nil {
+			if err := tl.Diff(awskmsv1alph2, newawskmsv1alpha2); err != nil {
 				t.Error(err)
 				return
 			}
@@ -457,7 +457,7 @@ func TestConvert_v1alpha1_AzureKeyVault_To_v1alpha2_AzureKeyVault(t *testing.T) 
 				return
 			}
 
-			if err := tl.CheckDiff(azurev1alph1, newazurev1alpha1); err != nil {
+			if err := tl.Diff(azurev1alph1, newazurev1alpha1); err != nil {
 				t.Error(err)
 				return
 			}
@@ -514,7 +514,7 @@ func TestConvert_v1alpha2_AzureKeyVault_To_v1alpha1_AzureKeyVault(t *testing.T) 
 				return
 			}
 
-			if err := tl.CheckDiff(azurev1alph2, newazurev1alpha2); err != nil {
+			if err := tl.Diff(azurev1alph2, newazurev1alpha2); err != nil {
 				t.Error(err)
 				return
 			}
@@ -563,7 +563,7 @@ func TestConvert_v1alpha1_AzureSpec_To_v1alpha2_AzureSpec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(azurev1alph1, newazurev1alpha1); err != nil {
+			if err := tl.Diff(azurev1alph1, newazurev1alpha1); err != nil {
 				t.Error(err)
 				return
 			}
@@ -614,7 +614,7 @@ func TestConvert_v1alpha2_AzureSpec_To_v1alpha1_AzureSpec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(azurev1alph2, newazurev1alpha2); err != nil {
+			if err := tl.Diff(azurev1alph2, newazurev1alpha2); err != nil {
 				t.Error(err)
 				return
 			}
@@ -667,7 +667,7 @@ func TestConvert_v1alpha1_GoogleKmsGcsSpec_To_v1alpha2_GoogleKmsGcsSpec(t *testi
 				return
 			}
 
-			if err := tl.CheckDiff(gcsv1alph1, newgcsv1alpha1); err != nil {
+			if err := tl.Diff(gcsv1alph1, newgcsv1alpha1); err != nil {
 				t.Error(err)
 				return
 			}
@@ -722,7 +722,7 @@ func TestConvert_v1alpha2_GoogleKmsGcsSpec_To_v1alpha1_GoogleKmsGcsSpec(t *testi
 				return
 			}
 
-			if err := tl.CheckDiff(gcsv1alph2, newgcsv1alpha2); err != nil {
+			if err := tl.Diff(gcsv1alph2, newgcsv1alpha2); err != nil {
 				t.Error(err)
 				return
 			}
@@ -773,7 +773,7 @@ func TestConvert_v1alpha1_GcsSpec_To_v1alpha2_GcsSpec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(gcsv1alph1, newgcsv1alpha1); err != nil {
+			if err := tl.Diff(gcsv1alph1, newgcsv1alpha1); err != nil {
 				t.Error(err)
 				return
 			}
@@ -826,7 +826,7 @@ func TestConvert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(gcsv1alph2, newgcsv1alpha2); err != nil {
+			if err := tl.Diff(gcsv1alph2, newgcsv1alpha2); err != nil {
 				t.Error(err)
 				return
 			}
@@ -883,7 +883,7 @@ func TestConvert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(etcdv1alph1, newetcdv1alpha1); err != nil {
+			if err := tl.Diff(etcdv1alph1, newetcdv1alpha1); err != nil {
 				t.Error(err)
 				return
 			}
@@ -944,7 +944,7 @@ func TestConvert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(etcdv1alph2, newetcdv1alpha2); err != nil {
+			if err := tl.Diff(etcdv1alph2, newetcdv1alpha2); err != nil {
 				t.Error(err)
 				return
 			}
@@ -1003,7 +1003,7 @@ func TestConvert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(dynv1alph1, newdynv1alpha1); err != nil {
+			if err := tl.Diff(dynv1alph1, newdynv1alpha1); err != nil {
 				t.Error(err)
 				return
 			}
@@ -1062,7 +1062,7 @@ func TestConvert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(dynv1alph2, newdynv1alpha2); err != nil {
+			if err := tl.Diff(dynv1alph2, newdynv1alpha2); err != nil {
 				t.Error(err)
 				return
 			}
@@ -1126,7 +1126,7 @@ func TestConvert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(raftv1alph1, newraftv1alpha1); err != nil {
+			if err := tl.Diff(raftv1alph1, newraftv1alpha1); err != nil {
 				t.Error(err)
 				return
 			}
@@ -1183,7 +1183,7 @@ func TestConvert_v1alpha1_S3Spec_To_v1alpha2_S3Spec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(azurev1alph1, newazurev1alpha1); err != nil {
+			if err := tl.Diff(azurev1alph1, newazurev1alpha1); err != nil {
 				t.Error(err)
 				return
 			}
@@ -1240,7 +1240,7 @@ func TestConvert_v1alpha2_S3Spec_To_v1alpha1_S3Spec(t *testing.T) {
 				return
 			}
 
-			if err := tl.CheckDiff(awskmsv1alph2, newawskmsv1alpha2); err != nil {
+			if err := tl.Diff(awskmsv1alph2, newawskmsv1alpha2); err != nil {
 				t.Error(err)
 				return
 			}

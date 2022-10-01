@@ -9,7 +9,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	gomodules.xyz/pointer v0.1.0
 	gomodules.xyz/runtime v0.3.0
-	gomodules.xyz/testing v0.0.1
+	gomodules.xyz/testing v0.0.4
 	k8s.io/api v0.25.1
 	k8s.io/apimachinery v0.25.1
 	k8s.io/client-go v0.25.1
@@ -93,6 +93,7 @@ require (
 	golang.org/x/term v0.0.0-20220722155259-a9ba230a4035 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
+	gomodules.xyz/encoding v0.0.7 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
 	gomodules.xyz/mergo v0.3.13 // indirect
 	google.golang.org/appengine v1.6.7 // indirect

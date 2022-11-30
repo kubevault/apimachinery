@@ -15966,6 +15966,11 @@
           "default": {},
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionExporter"
         },
+        "stash": {
+          "description": "Stash defines backup and restore task definitions.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.StashAddonSpec"
+        },
         "unsealer": {
           "description": "Unsealer Image",
           "default": {},
@@ -24176,6 +24181,74 @@
         "parameters": {
           "description": "Parameters is a set of the parameters to be used to override default parameters. The inline YAML/JSON payload to be translated into equivalent JSON object.\n\nThe Parameters field is NOT secret or secured in any way and should NEVER be used to hold sensitive information.",
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.runtime.RawExtension"
+        }
+      }
+    },
+    "xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.Param": {
+      "description": "Param declares a value to use for the Param called Name.",
+      "type": "object",
+      "required": [
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": ""
+        },
+        "value": {
+          "type": "string",
+          "default": ""
+        }
+      }
+    },
+    "xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.StashAddonSpec": {
+      "description": "StashAddonSpec is the spec for app",
+      "type": "object",
+      "properties": {
+        "addon": {
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.StashTaskSpec"
+        }
+      }
+    },
+    "xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.StashTaskSpec": {
+      "description": "StashTaskSpec is the spec for app",
+      "type": "object",
+      "required": [
+        "backupTask",
+        "restoreTask"
+      ],
+      "properties": {
+        "backupTask": {
+          "description": "Backup task definition",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.TaskRef"
+        },
+        "restoreTask": {
+          "description": "Restore task definition",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.TaskRef"
+        }
+      }
+    },
+    "xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.TaskRef": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": ""
+        },
+        "params": {
+          "description": "Params specifies a list of parameter to pass to the Task. Stash will use this parameters to resolve the task.",
+          "type": "array",
+          "items": {
+            "default": {},
+            "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.Param"
+          }
         }
       }
     },

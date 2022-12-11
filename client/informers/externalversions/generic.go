@@ -79,6 +79,8 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MySQLRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("postgresroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().PostgresRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("redisroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().RedisRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("secretaccessrequests"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().SecretAccessRequests().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("secretengines"):

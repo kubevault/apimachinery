@@ -82,6 +82,14 @@ type PostgresRoleListerExpansion interface{}
 // PostgresRoleNamespaceLister.
 type PostgresRoleNamespaceListerExpansion interface{}
 
+// RedisRoleListerExpansion allows custom methods to be added to
+// RedisRoleLister.
+type RedisRoleListerExpansion interface{}
+
+// RedisRoleNamespaceListerExpansion allows custom methods to be added to
+// RedisRoleNamespaceLister.
+type RedisRoleNamespaceListerExpansion interface{}
+
 // SecretAccessRequestListerExpansion allows custom methods to be added to
 // SecretAccessRequestLister.
 type SecretAccessRequestListerExpansion interface{}

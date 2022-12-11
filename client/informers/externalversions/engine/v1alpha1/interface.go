@@ -40,6 +40,8 @@ type Interface interface {
 	MySQLRoles() MySQLRoleInformer
 	// PostgresRoles returns a PostgresRoleInformer.
 	PostgresRoles() PostgresRoleInformer
+	// RedisRoles returns a RedisRoleInformer.
+	RedisRoles() RedisRoleInformer
 	// SecretAccessRequests returns a SecretAccessRequestInformer.
 	SecretAccessRequests() SecretAccessRequestInformer
 	// SecretEngines returns a SecretEngineInformer.
@@ -97,6 +99,11 @@ func (v *version) MySQLRoles() MySQLRoleInformer {
 // PostgresRoles returns a PostgresRoleInformer.
 func (v *version) PostgresRoles() PostgresRoleInformer {
 	return &postgresRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// RedisRoles returns a RedisRoleInformer.
+func (v *version) RedisRoles() RedisRoleInformer {
+	return &redisRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // SecretAccessRequests returns a SecretAccessRequestInformer.

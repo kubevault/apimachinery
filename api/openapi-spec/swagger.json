@@ -17055,6 +17055,32 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.RedisConfiguration": {
+      "description": "RedisConfiguration defines a Redis app configuration. https://www.vaultproject.io/api/secret/databases/index.html https://developer.hashicorp.com/vault/api-docs/secret/databases/redis#configure-connection",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the database appbinding reference",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for redis: redis-database-plugin",
+          "type": "string"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.engine.v1alpha1.RoleStatus": {
       "type": "object",
       "properties": {
@@ -17300,6 +17326,9 @@
         },
         "postgres": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresConfiguration"
+        },
+        "redis": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.RedisConfiguration"
         },
         "vaultRef": {
           "default": {},

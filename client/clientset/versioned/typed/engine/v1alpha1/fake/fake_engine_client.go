@@ -61,6 +61,10 @@ func (c *FakeEngineV1alpha1) PostgresRoles(namespace string) v1alpha1.PostgresRo
 	return &FakePostgresRoles{c, namespace}
 }
 
+func (c *FakeEngineV1alpha1) RedisRoles(namespace string) v1alpha1.RedisRoleInterface {
+	return &FakeRedisRoles{c, namespace}
+}
+
 func (c *FakeEngineV1alpha1) SecretAccessRequests(namespace string) v1alpha1.SecretAccessRequestInterface {
 	return &FakeSecretAccessRequests{c, namespace}
 }

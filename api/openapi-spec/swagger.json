@@ -15953,8 +15953,7 @@
       "required": [
         "version",
         "vault",
-        "unsealer",
-        "exporter"
+        "unsealer"
       ],
       "properties": {
         "deprecated": {

@@ -159,7 +159,6 @@ spec:
                 description: Version
                 type: string
             required:
-            - exporter
             - unsealer
             - vault
             - version

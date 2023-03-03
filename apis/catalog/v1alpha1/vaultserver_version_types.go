@@ -57,6 +57,7 @@ type VaultServerVersionSpec struct {
 	// Unsealer Image
 	Unsealer VaultServerVersionUnsealer `json:"unsealer"`
 	// Exporter Image
+	// +optional
 	Exporter VaultServerVersionExporter `json:"exporter"`
 	// Deprecated versions usable but regarded as obsolete and best avoided, typically due to having been superseded.
 	// +optional

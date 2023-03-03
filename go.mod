@@ -25,6 +25,8 @@ require (
 	sigs.k8s.io/yaml v1.3.0
 )
 
+require github.com/dustin/go-humanize v1.0.1-0.20220316001817-d5090ed65664 // indirect
+
 require (
 	github.com/NYTimes/gziphandler v1.1.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect

@@ -28,7 +28,7 @@ import (
 
 	promapi "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	"gomodules.xyz/pointer"
-	corev1 "k8s.io/api/core/v1"
+	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	appslister "k8s.io/client-go/listers/apps/v1"
 	kmapi "kmodules.xyz/client-go/api/v1"
@@ -182,11 +182,11 @@ func (v vaultServerStatsService) TLSConfig() *promapi.TLSConfig {
 		return &promapi.TLSConfig{
 			SafeTLSConfig: promapi.SafeTLSConfig{
 				CA: promapi.SecretOrConfigMap{
-					Secret: &corev1.SecretKeySelector{
-						LocalObjectReference: corev1.LocalObjectReference{
+					Secret: &core.SecretKeySelector{
+						LocalObjectReference: core.LocalObjectReference{
 							Name: v.VaultServer.GetCertSecretName(string(VaultServerCert)),
 						},
-						Key: "tls.crt",
+						Key: core.TLSCertKey,
 					},
 				},
 				ServerName: fmt.Sprintf("%s.%s.svc", v.VaultServer.ServiceName(VaultServerServiceVault), v.VaultServer.Namespace),

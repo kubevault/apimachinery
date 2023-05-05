@@ -20,7 +20,7 @@ require (
 	kmodules.xyz/crd-schema-fuzz v0.25.0
 	kmodules.xyz/custom-resources v0.25.0
 	kmodules.xyz/monitoring-agent-api v0.25.1
-	kmodules.xyz/offshoot-api v0.25.0
+	kmodules.xyz/offshoot-api v0.25.4
 	sigs.k8s.io/controller-runtime v0.13.1
 	sigs.k8s.io/yaml v1.3.0
 )

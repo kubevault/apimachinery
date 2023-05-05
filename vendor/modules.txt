@@ -1022,7 +1022,7 @@ kmodules.xyz/custom-resources/crds
 # kmodules.xyz/monitoring-agent-api v0.25.1
 ## explicit; go 1.18
 kmodules.xyz/monitoring-agent-api/api/v1
-# kmodules.xyz/offshoot-api v0.25.0
+# kmodules.xyz/offshoot-api v0.25.4
 ## explicit; go 1.18
 kmodules.xyz/offshoot-api/api/v1
 # sigs.k8s.io/apiserver-network-proxy/konnectivity-client v0.0.32

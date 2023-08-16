@@ -37,6 +37,7 @@ const (
 // +kubebuilder:resource:path=secretaccessrequests,singular=secretaccessrequest,categories={vault,appscode,all}
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"
+// +kubebuilder:printcolumn:name="Secret",type="string",JSONPath=".status.secret.name"
 // +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
 type SecretAccessRequest struct {
 	metav1.TypeMeta   `json:",inline,omitempty"`

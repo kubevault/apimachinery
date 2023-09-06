@@ -17,7 +17,6 @@ limitations under the License.
 package v1alpha1
 
 import (
-	core "k8s.io/api/core/v1"
 	rbac "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kmapi "kmodules.xyz/client-go/api/v1"
@@ -49,7 +48,7 @@ type SecretAccessRequest struct {
 // SecretAccessRequestSpec contains information to request for database credential
 type SecretAccessRequestSpec struct {
 	// Contains vault database role info
-	RoleRef core.TypedLocalObjectReference `json:"roleRef"`
+	RoleRef kmapi.TypedObjectReference `json:"roleRef"`
 
 	Subjects []rbac.Subject `json:"subjects"`
 

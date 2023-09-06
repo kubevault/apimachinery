@@ -17185,7 +17185,7 @@
         "roleRef": {
           "description": "Contains vault database role info",
           "default": {},
-          "$ref": "#/definitions/io.k8s.api.core.v1.TypedLocalObjectReference"
+          "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.TypedObjectReference"
         },
         "subjects": {
           "type": "array",
@@ -23991,6 +23991,30 @@
         "issuerRef": {
           "description": "IssuerRef is a reference to a Certificate Issuer.",
           "$ref": "#/definitions/io.k8s.api.core.v1.TypedLocalObjectReference"
+        }
+      }
+    },
+    "xyz.kmodules.client-go.api.v1.TypedObjectReference": {
+      "description": "TypedObjectReference represents an typed namespaced object.",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "apiGroup": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+          "type": "string",
+          "default": ""
+        },
+        "namespace": {
+          "description": "Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/",
+          "type": "string"
         }
       }
     },

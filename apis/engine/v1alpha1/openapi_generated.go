@@ -22318,7 +22318,7 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretAccessRequestSpec(ref common
 						SchemaProps: spec.SchemaProps{
 							Description: "Contains vault database role info",
 							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/api/core/v1.TypedLocalObjectReference"),
+							Ref:         ref("kmodules.xyz/client-go/api/v1.TypedObjectReference"),
 						},
 					},
 					"subjects": {
@@ -22356,7 +22356,7 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretAccessRequestSpec(ref common
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.TypedLocalObjectReference", "k8s.io/api/rbac/v1.Subject", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSAccessRequestConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPAccessRequestConfiguration"},
+			"k8s.io/api/rbac/v1.Subject", "kmodules.xyz/client-go/api/v1.TypedObjectReference", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSAccessRequestConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPAccessRequestConfiguration"},
 	}
 }
 

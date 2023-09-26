@@ -72,10 +72,6 @@ type VaultServerConfiguration struct {
 	// Unsealer configuration for vault
 	// +optional
 	Unsealer *kubevaultv1alpha2.UnsealerSpec `json:"unsealer,omitempty"`
-
-	// Hashicorp Vault Version
-	// +optional
-	VaultVersion string `json:"vaultVersion"`
 }
 
 // KubernetesAuthConfiguration contains necessary information for

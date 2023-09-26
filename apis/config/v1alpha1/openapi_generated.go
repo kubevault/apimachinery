@@ -20094,14 +20094,6 @@ func schema_apimachinery_apis_config_v1alpha1_VaultServerConfiguration(ref commo
 							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.UnsealerSpec"),
 						},
 					},
-					"vaultVersion": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Hashicorp Vault Version",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
 				},
 			},
 		},

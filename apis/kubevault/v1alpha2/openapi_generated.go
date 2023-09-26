@@ -427,6 +427,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultServerSpec":          schema_apimachinery_apis_kubevault_v1alpha2_VaultServerSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultServerStatus":        schema_apimachinery_apis_kubevault_v1alpha2_VaultServerStatus(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultStatus":              schema_apimachinery_apis_kubevault_v1alpha2_VaultStatus(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.vaultServerApp":           schema_apimachinery_apis_kubevault_v1alpha2_vaultServerApp(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.vaultServerStatsService":  schema_apimachinery_apis_kubevault_v1alpha2_vaultServerStatsService(ref),
 	}
 }
@@ -22013,6 +22014,26 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultStatus(ref common.Referenc
 				},
 			},
 		},
+	}
+}
+
+func schema_apimachinery_apis_kubevault_v1alpha2_vaultServerApp(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"VaultServer": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultServer"),
+						},
+					},
+				},
+				Required: []string{"VaultServer"},
+			},
+		},
+		Dependencies: []string{
+			"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultServer"},
 	}
 }
 

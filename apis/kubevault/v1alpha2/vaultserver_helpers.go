@@ -37,6 +37,7 @@ import (
 	"kmodules.xyz/client-go/meta"
 	meta_util "kmodules.xyz/client-go/meta"
 	"kmodules.xyz/client-go/tools/clusterid"
+	appcat "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1"
 	mona "kmodules.xyz/monitoring-agent-api/api/v1"
 	ofst "kmodules.xyz/offshoot-api/api/v1"
 )
@@ -144,6 +145,22 @@ func (vs *VaultServer) GetCertSecretName(alias string) string {
 
 func (v VaultServer) StatsService() mona.StatsAccessor {
 	return &vaultServerStatsService{&v}
+}
+
+type vaultServerApp struct {
+	*VaultServer
+}
+
+func (v vaultServerApp) Name() string {
+	return v.VaultServer.Name
+}
+
+func (v vaultServerApp) Type() appcat.AppType {
+	return appcat.AppType(fmt.Sprintf("%s/%s", kubevault.GroupName, ResourceVaultServer))
+}
+
+func (v VaultServer) AppBindingMeta() appcat.AppBindingMeta {
+	return &vaultServerApp{&v}
 }
 
 type vaultServerStatsService struct {

@@ -25,7 +25,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -37,9 +36,9 @@ type FakeElasticsearchRoles struct {
 	ns   string
 }
 
-var elasticsearchrolesResource = schema.GroupVersionResource{Group: "engine.kubevault.com", Version: "v1alpha1", Resource: "elasticsearchroles"}
+var elasticsearchrolesResource = v1alpha1.SchemeGroupVersion.WithResource("elasticsearchroles")
 
-var elasticsearchrolesKind = schema.GroupVersionKind{Group: "engine.kubevault.com", Version: "v1alpha1", Kind: "ElasticsearchRole"}
+var elasticsearchrolesKind = v1alpha1.SchemeGroupVersion.WithKind("ElasticsearchRole")
 
 // Get takes name of the elasticsearchRole, and returns the corresponding elasticsearchRole object, and an error if there is any.
 func (c *FakeElasticsearchRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ElasticsearchRole, err error) {

@@ -25,7 +25,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -37,9 +36,9 @@ type FakeAWSRoles struct {
 	ns   string
 }
 
-var awsrolesResource = schema.GroupVersionResource{Group: "engine.kubevault.com", Version: "v1alpha1", Resource: "awsroles"}
+var awsrolesResource = v1alpha1.SchemeGroupVersion.WithResource("awsroles")
 
-var awsrolesKind = schema.GroupVersionKind{Group: "engine.kubevault.com", Version: "v1alpha1", Kind: "AWSRole"}
+var awsrolesKind = v1alpha1.SchemeGroupVersion.WithKind("AWSRole")
 
 // Get takes name of the aWSRole, and returns the corresponding aWSRole object, and an error if there is any.
 func (c *FakeAWSRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.AWSRole, err error) {

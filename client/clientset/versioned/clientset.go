@@ -46,8 +46,7 @@ type Interface interface {
 	PolicyV1alpha1() policyv1alpha1.PolicyV1alpha1Interface
 }
 
-// Clientset contains the clients for groups. Each group has exactly one
-// version included in a Clientset.
+// Clientset contains the clients for groups.
 type Clientset struct {
 	*discovery.DiscoveryClient
 	catalogV1alpha1   *catalogv1alpha1.CatalogV1alpha1Client

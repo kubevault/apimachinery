@@ -25,7 +25,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -37,9 +36,9 @@ type FakeAzureRoles struct {
 	ns   string
 }
 
-var azurerolesResource = schema.GroupVersionResource{Group: "engine.kubevault.com", Version: "v1alpha1", Resource: "azureroles"}
+var azurerolesResource = v1alpha1.SchemeGroupVersion.WithResource("azureroles")
 
-var azurerolesKind = schema.GroupVersionKind{Group: "engine.kubevault.com", Version: "v1alpha1", Kind: "AzureRole"}
+var azurerolesKind = v1alpha1.SchemeGroupVersion.WithKind("AzureRole")
 
 // Get takes name of the azureRole, and returns the corresponding azureRole object, and an error if there is any.
 func (c *FakeAzureRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.AzureRole, err error) {

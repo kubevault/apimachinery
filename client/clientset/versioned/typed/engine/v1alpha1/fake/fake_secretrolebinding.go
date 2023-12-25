@@ -25,7 +25,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -37,9 +36,9 @@ type FakeSecretRoleBindings struct {
 	ns   string
 }
 
-var secretrolebindingsResource = schema.GroupVersionResource{Group: "engine.kubevault.com", Version: "v1alpha1", Resource: "secretrolebindings"}
+var secretrolebindingsResource = v1alpha1.SchemeGroupVersion.WithResource("secretrolebindings")
 
-var secretrolebindingsKind = schema.GroupVersionKind{Group: "engine.kubevault.com", Version: "v1alpha1", Kind: "SecretRoleBinding"}
+var secretrolebindingsKind = v1alpha1.SchemeGroupVersion.WithKind("SecretRoleBinding")
 
 // Get takes name of the secretRoleBinding, and returns the corresponding secretRoleBinding object, and an error if there is any.
 func (c *FakeSecretRoleBindings) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.SecretRoleBinding, err error) {

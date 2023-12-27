@@ -25,7 +25,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -37,9 +36,9 @@ type FakeMariaDBRoles struct {
 	ns   string
 }
 
-var mariadbrolesResource = schema.GroupVersionResource{Group: "engine.kubevault.com", Version: "v1alpha1", Resource: "mariadbroles"}
+var mariadbrolesResource = v1alpha1.SchemeGroupVersion.WithResource("mariadbroles")
 
-var mariadbrolesKind = schema.GroupVersionKind{Group: "engine.kubevault.com", Version: "v1alpha1", Kind: "MariaDBRole"}
+var mariadbrolesKind = v1alpha1.SchemeGroupVersion.WithKind("MariaDBRole")
 
 // Get takes name of the mariaDBRole, and returns the corresponding mariaDBRole object, and an error if there is any.
 func (c *FakeMariaDBRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.MariaDBRole, err error) {

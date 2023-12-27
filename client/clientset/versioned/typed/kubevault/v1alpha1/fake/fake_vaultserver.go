@@ -25,7 +25,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -37,9 +36,9 @@ type FakeVaultServers struct {
 	ns   string
 }
 
-var vaultserversResource = schema.GroupVersionResource{Group: "kubevault.com", Version: "v1alpha1", Resource: "vaultservers"}
+var vaultserversResource = v1alpha1.SchemeGroupVersion.WithResource("vaultservers")
 
-var vaultserversKind = schema.GroupVersionKind{Group: "kubevault.com", Version: "v1alpha1", Kind: "VaultServer"}
+var vaultserversKind = v1alpha1.SchemeGroupVersion.WithKind("VaultServer")
 
 // Get takes name of the vaultServer, and returns the corresponding vaultServer object, and an error if there is any.
 func (c *FakeVaultServers) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.VaultServer, err error) {

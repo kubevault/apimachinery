@@ -25,7 +25,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -37,9 +36,9 @@ type FakeVaultPolicyBindings struct {
 	ns   string
 }
 
-var vaultpolicybindingsResource = schema.GroupVersionResource{Group: "policy.kubevault.com", Version: "v1alpha1", Resource: "vaultpolicybindings"}
+var vaultpolicybindingsResource = v1alpha1.SchemeGroupVersion.WithResource("vaultpolicybindings")
 
-var vaultpolicybindingsKind = schema.GroupVersionKind{Group: "policy.kubevault.com", Version: "v1alpha1", Kind: "VaultPolicyBinding"}
+var vaultpolicybindingsKind = v1alpha1.SchemeGroupVersion.WithKind("VaultPolicyBinding")
 
 // Get takes name of the vaultPolicyBinding, and returns the corresponding vaultPolicyBinding object, and an error if there is any.
 func (c *FakeVaultPolicyBindings) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.VaultPolicyBinding, err error) {

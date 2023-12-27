@@ -25,7 +25,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -37,9 +36,9 @@ type FakeRedisRoles struct {
 	ns   string
 }
 
-var redisrolesResource = schema.GroupVersionResource{Group: "engine.kubevault.com", Version: "v1alpha1", Resource: "redisroles"}
+var redisrolesResource = v1alpha1.SchemeGroupVersion.WithResource("redisroles")
 
-var redisrolesKind = schema.GroupVersionKind{Group: "engine.kubevault.com", Version: "v1alpha1", Kind: "RedisRole"}
+var redisrolesKind = v1alpha1.SchemeGroupVersion.WithKind("RedisRole")
 
 // Get takes name of the redisRole, and returns the corresponding redisRole object, and an error if there is any.
 func (c *FakeRedisRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.RedisRole, err error) {

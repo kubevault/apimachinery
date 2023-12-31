@@ -1140,7 +1140,7 @@ kmodules.xyz/client-go/meta
 kmodules.xyz/client-go/openapi
 kmodules.xyz/client-go/policy/secomp
 kmodules.xyz/client-go/tools/clusterid
-# kmodules.xyz/crd-schema-fuzz v0.29.0
+# kmodules.xyz/crd-schema-fuzz v0.29.1
 ## explicit; go 1.21.5
 kmodules.xyz/crd-schema-fuzz
 # kmodules.xyz/custom-resources v0.29.0

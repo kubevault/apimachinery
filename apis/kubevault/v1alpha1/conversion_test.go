@@ -1087,7 +1087,7 @@ func TestConvert_v1alpha1_RaftSpec_To_v1alpha2_RaftSpec(t *testing.T) {
 				Storage: &v1.PersistentVolumeClaimSpec{
 					AccessModes:      nil,
 					Selector:         nil,
-					Resources:        v1.ResourceRequirements{},
+					Resources:        v1.VolumeResourceRequirements{},
 					VolumeName:       "",
 					StorageClassName: nil,
 					VolumeMode:       nil,

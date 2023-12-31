@@ -17,7 +17,7 @@ require (
 	k8s.io/klog/v2 v2.110.1
 	k8s.io/kube-openapi v0.0.0-20231129212854-f0671cc7e66a
 	kmodules.xyz/client-go v0.29.4
-	kmodules.xyz/crd-schema-fuzz v0.29.0
+	kmodules.xyz/crd-schema-fuzz v0.29.1
 	kmodules.xyz/custom-resources v0.29.0
 	kmodules.xyz/monitoring-agent-api v0.29.0
 	kmodules.xyz/offshoot-api v0.29.0

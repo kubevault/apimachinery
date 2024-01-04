@@ -28,14 +28,20 @@ func ConfigureOpenAPI(scheme *runtime.Scheme, serverConfig *genericapiserver.Rec
 	ignorePrefixes := []string{
 		"/swaggerapi",
 
+		"/apis/mutators.engine.kubevault.com/v1alpha1",
+		"/apis/mutators.engine.kubevault.com/v1alpha1/secretaccessrequestwebhooks",
+
 		"/apis/mutators.kubevault.com/v1alpha1",
-		"/apis/mutators.kubevault.com/v1alpha1/vaultserver",
-		"/apis/mutators.kubevault.com/v1alpha1/secretaccessrequest",
-		"/apis/mutators.kubevault.com/v1alpha1/vaultpolicybinding",
+		"/apis/mutators.kubevault.com/v1alpha1/vaultserverwebhooks",
+
+		"/apis/mutators.policy.kubevault.com/v1alpha1",
+		"/apis/mutators.policy.kubevault.com/v1alpha1/vaultpolicybindingwebhooks",
+
+		"/apis/validators.engine.kubevault.com/v1alpha1",
+		"/apis/validators.engine.kubevault.com/v1alpha1/secretaccessrequestwebhooks",
 
 		"/apis/validators.kubevault.com/v1alpha1",
-		"/apis/validators.kubevault.com/v1alpha1/vaultserver",
-		"/apis/validators.kubevault.com/v1alpha1/secretaccessrequest ",
+		"/apis/validators.kubevault.com/v1alpha1/vaultserverwebhooks",
 	}
 
 	serverConfig.OpenAPIConfig = genericapiserver.DefaultOpenAPIConfig(vaulitapi.GetOpenAPIDefinitions, openapinamer.NewDefinitionNamer(scheme))

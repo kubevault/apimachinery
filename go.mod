@@ -43,7 +43,7 @@ require (
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
-	github.com/go-logr/logr v1.3.0 // indirect
+	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/jsonpointer v0.20.0 // indirect
 	github.com/go-openapi/jsonreference v0.20.2 // indirect
@@ -61,15 +61,15 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
-	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
+	github.com/matttproud/golang_protobuf_extensions/v2 v2.0.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/prometheus/client_golang v1.17.0 // indirect
+	github.com/prometheus/client_golang v1.18.0 // indirect
 	github.com/prometheus/client_model v0.5.0 // indirect
-	github.com/prometheus/common v0.44.0 // indirect
-	github.com/prometheus/procfs v0.11.1 // indirect
+	github.com/prometheus/common v0.45.0 // indirect
+	github.com/prometheus/procfs v0.12.0 // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
 	github.com/sirupsen/logrus v1.9.1 // indirect
 	github.com/spf13/cobra v1.7.0 // indirect
@@ -126,10 +126,10 @@ require (
 
 replace github.com/Masterminds/sprig/v3 => github.com/gomodules/sprig/v3 v3.2.3-0.20220405051441-0a8a99bac1b8
 
-replace sigs.k8s.io/controller-runtime => github.com/kmodules/controller-runtime v0.16.1-0.20231224083233-bead154270db
+replace sigs.k8s.io/controller-runtime => github.com/kmodules/controller-runtime v0.16.1-0.20240104120228-ef547cbd1b75
 
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.6
 
-replace k8s.io/apiserver => github.com/kmodules/apiserver v0.29.1-0.20231224075222-50d5bb4aeb26
+replace k8s.io/apiserver => github.com/kmodules/apiserver v0.29.1-0.20240104121741-1fb217d4a573
 
 replace k8s.io/kubernetes => github.com/kmodules/kubernetes v1.30.0-alpha.0.0.20231224075822-3bd9a13c86db

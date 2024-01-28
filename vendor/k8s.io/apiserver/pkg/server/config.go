@@ -72,6 +72,7 @@ import (
 	flowcontrolrequest "k8s.io/apiserver/pkg/util/flowcontrol/request"
 	"k8s.io/client-go/informers"
 	restclient "k8s.io/client-go/rest"
+	"k8s.io/component-base/logs"
 	"k8s.io/component-base/metrics/features"
 	"k8s.io/component-base/metrics/prometheus/slis"
 	"k8s.io/component-base/tracing"
@@ -326,9 +327,6 @@ type SecureServingInfo struct {
 	// Cert is the main server cert which is used if SNI does not match. Cert must be non-nil and is
 	// allowed to be in SNICerts.
 	Cert dynamiccertificates.CertKeyContentProvider
-
-	// CertFile is the file containing the main server cert.
-	CertFile string
 
 	// SNICerts are the TLS certificates used for SNI.
 	SNICerts []dynamiccertificates.SNICertKeyContentProvider
@@ -717,14 +715,6 @@ func (c *Config) Complete(informers informers.SharedInformerFactory) CompletedCo
 		}
 	}
 
-	if c.SecureServing != nil && c.SecureServing.CertFile != "" {
-		certChecker, err := healthz.NewCertHealthz(c.SecureServing.CertFile)
-		if err != nil {
-			klog.Fatalf("failed to create certificate checker. Reason: %v", err)
-		}
-		c.HealthzChecks = append(c.HealthzChecks, certChecker)
-	}
-
 	return CompletedConfig{&completedConfig{c, informers}}
 }
 
@@ -1064,11 +1054,11 @@ func installAPI(s *GenericAPIServer, c *Config) {
 			goruntime.SetBlockProfileRate(1)
 		}
 		// so far, only logging related endpoints are considered valid to add for these debug flags.
-		routes.DebugFlags{}.Install(s.Handler.NonGoRestfulMux, "v", routes.StringFlagPutHandler(glogSetter))
+		routes.DebugFlags{}.Install(s.Handler.NonGoRestfulMux, "v", routes.StringFlagPutHandler(logs.GlogSetter))
 	}
 	if s.UnprotectedDebugSocket != nil {
 		s.UnprotectedDebugSocket.InstallProfiling()
-		s.UnprotectedDebugSocket.InstallDebugFlag("v", routes.StringFlagPutHandler(glogSetter))
+		s.UnprotectedDebugSocket.InstallDebugFlag("v", routes.StringFlagPutHandler(logs.GlogSetter))
 		if c.EnableContentionProfiling {
 			goruntime.SetBlockProfileRate(1)
 		}
@@ -1166,13 +1156,4 @@ func SetHostnameFuncForTests(name string) {
 		err = nil
 		return
 	}
-}
-
-// glogSetter is a setter to set glog level.
-func glogSetter(val string) (string, error) {
-	var level klog.Level
-	if err := level.Set(val); err != nil {
-		return "", fmt.Errorf("failed set klog.logging.verbosity %s: %v", val, err)
-	}
-	return fmt.Sprintf("successfully set klog.logging.verbosity to %s", val), nil
 }

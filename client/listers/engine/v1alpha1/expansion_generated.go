@@ -74,6 +74,14 @@ type MySQLRoleListerExpansion interface{}
 // MySQLRoleNamespaceLister.
 type MySQLRoleNamespaceListerExpansion interface{}
 
+// PKIRoleListerExpansion allows custom methods to be added to
+// PKIRoleLister.
+type PKIRoleListerExpansion interface{}
+
+// PKIRoleNamespaceListerExpansion allows custom methods to be added to
+// PKIRoleNamespaceLister.
+type PKIRoleNamespaceListerExpansion interface{}
+
 // PostgresRoleListerExpansion allows custom methods to be added to
 // PostgresRoleLister.
 type PostgresRoleListerExpansion interface{}

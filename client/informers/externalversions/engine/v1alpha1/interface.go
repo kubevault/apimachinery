@@ -38,6 +38,8 @@ type Interface interface {
 	MongoDBRoles() MongoDBRoleInformer
 	// MySQLRoles returns a MySQLRoleInformer.
 	MySQLRoles() MySQLRoleInformer
+	// PKIRoles returns a PKIRoleInformer.
+	PKIRoles() PKIRoleInformer
 	// PostgresRoles returns a PostgresRoleInformer.
 	PostgresRoles() PostgresRoleInformer
 	// RedisRoles returns a RedisRoleInformer.
@@ -94,6 +96,11 @@ func (v *version) MongoDBRoles() MongoDBRoleInformer {
 // MySQLRoles returns a MySQLRoleInformer.
 func (v *version) MySQLRoles() MySQLRoleInformer {
 	return &mySQLRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// PKIRoles returns a PKIRoleInformer.
+func (v *version) PKIRoles() PKIRoleInformer {
+	return &pKIRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // PostgresRoles returns a PostgresRoleInformer.

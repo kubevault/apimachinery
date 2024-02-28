@@ -21639,6 +21639,13 @@ func schema_apimachinery_apis_policy_v1alpha1_KubernetesSubjectRef(ref common.Re
 							Format:      "",
 						},
 					},
+					"audience": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Optional Audience claim to verify in the JWT.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 				},
 				Required: []string{"serviceAccountNames", "serviceAccountNamespaces"},
 			},

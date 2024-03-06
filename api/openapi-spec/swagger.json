@@ -3447,6 +3447,470 @@
         }
       ]
     },
+    "/apis/engine.kubevault.com/v1alpha1/namespaces/{namespace}/pkiroles": {
+      "get": {
+        "description": "list or watch objects of kind PKIRole",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf",
+          "application/json;stream=watch",
+          "application/vnd.kubernetes.protobuf;stream=watch"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "engineKubevaultCom_v1alpha1"
+        ],
+        "operationId": "listEngineKubevaultComV1alpha1NamespacedPKIRole",
+        "parameters": [
+          {
+            "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          },
+          {
+            "$ref": "#/parameters/watch-XNNPZGbK"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRoleList"
+            }
+          }
+        },
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "engine.kubevault.com",
+          "version": "v1alpha1",
+          "kind": "PKIRole"
+        }
+      },
+      "post": {
+        "description": "create a PKIRole",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "engineKubevaultCom_v1alpha1"
+        ],
+        "operationId": "createEngineKubevaultComV1alpha1NamespacedPKIRole",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole"
+            }
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "name": "fieldValidation",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole"
+            }
+          }
+        },
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "engine.kubevault.com",
+          "version": "v1alpha1",
+          "kind": "PKIRole"
+        }
+      },
+      "delete": {
+        "description": "delete collection of PKIRole",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "engineKubevaultCom_v1alpha1"
+        ],
+        "operationId": "deleteEngineKubevaultComV1alpha1CollectionNamespacedPKIRole",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "$ref": "#/parameters/continue-QfD61s0i"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/labelSelector-5Zw57w4C"
+          },
+          {
+            "$ref": "#/parameters/limit-1NfNmdNH"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          },
+          {
+            "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+          },
+          {
+            "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+          },
+          {
+            "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+          },
+          {
+            "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "engine.kubevault.com",
+          "version": "v1alpha1",
+          "kind": "PKIRole"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ]
+    },
+    "/apis/engine.kubevault.com/v1alpha1/namespaces/{namespace}/pkiroles/{name}": {
+      "get": {
+        "description": "read the specified PKIRole",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "engineKubevaultCom_v1alpha1"
+        ],
+        "operationId": "readEngineKubevaultComV1alpha1NamespacedPKIRole",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole"
+            }
+          }
+        },
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "engine.kubevault.com",
+          "version": "v1alpha1",
+          "kind": "PKIRole"
+        }
+      },
+      "put": {
+        "description": "replace the specified PKIRole",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "engineKubevaultCom_v1alpha1"
+        ],
+        "operationId": "replaceEngineKubevaultComV1alpha1NamespacedPKIRole",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole"
+            }
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "$ref": "#/parameters/fieldManager-Qy4HdaTW"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "name": "fieldValidation",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole"
+            }
+          }
+        },
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "engine.kubevault.com",
+          "version": "v1alpha1",
+          "kind": "PKIRole"
+        }
+      },
+      "delete": {
+        "description": "delete a PKIRole",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "engineKubevaultCom_v1alpha1"
+        ],
+        "operationId": "deleteEngineKubevaultComV1alpha1NamespacedPKIRole",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-2Y1dVQaQ"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
+          },
+          {
+            "$ref": "#/parameters/orphanDependents-uRB25kX5"
+          },
+          {
+            "$ref": "#/parameters/propagationPolicy-6jk3prlO"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+            }
+          }
+        },
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "engine.kubevault.com",
+          "version": "v1alpha1",
+          "kind": "PKIRole"
+        }
+      },
+      "patch": {
+        "description": "partially update the specified PKIRole",
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/strategic-merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "engineKubevaultCom_v1alpha1"
+        ],
+        "operationId": "patchEngineKubevaultComV1alpha1NamespacedPKIRole",
+        "parameters": [
+          {
+            "$ref": "#/parameters/body-78PwaGsr"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "$ref": "#/parameters/fieldManager-7c6nTn1T"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.",
+            "name": "fieldValidation",
+            "in": "query"
+          },
+          {
+            "$ref": "#/parameters/force-tOGGb0Yi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole"
+            }
+          }
+        },
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "engine.kubevault.com",
+          "version": "v1alpha1",
+          "kind": "PKIRole"
+        }
+      },
+      "parameters": [
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "name of the PKIRole",
+          "name": "name",
+          "in": "path",
+          "required": true
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        }
+      ]
+    },
     "/apis/engine.kubevault.com/v1alpha1/namespaces/{namespace}/postgresroles": {
       "get": {
         "description": "list or watch objects of kind PostgresRole",
@@ -5303,6 +5767,77 @@
         }
       ]
     },
+    "/apis/engine.kubevault.com/v1alpha1/pkiroles": {
+      "get": {
+        "description": "list or watch objects of kind PKIRole",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf",
+          "application/json;stream=watch",
+          "application/vnd.kubernetes.protobuf;stream=watch"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "engineKubevaultCom_v1alpha1"
+        ],
+        "operationId": "listEngineKubevaultComV1alpha1PKIRoleForAllNamespaces",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRoleList"
+            }
+          }
+        },
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "engine.kubevault.com",
+          "version": "v1alpha1",
+          "kind": "PKIRole"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
     "/apis/engine.kubevault.com/v1alpha1/postgresroles": {
       "get": {
         "description": "list or watch objects of kind PostgresRole",
@@ -6722,6 +7257,162 @@
         }
       ]
     },
+    "/apis/engine.kubevault.com/v1alpha1/watch/namespaces/{namespace}/pkiroles": {
+      "get": {
+        "description": "watch individual changes to a list of PKIRole. deprecated: use the 'watch' parameter with a list operation instead.",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf",
+          "application/json;stream=watch",
+          "application/vnd.kubernetes.protobuf;stream=watch"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "engineKubevaultCom_v1alpha1"
+        ],
+        "operationId": "watchEngineKubevaultComV1alpha1NamespacedPKIRoleList",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "engine.kubevault.com",
+          "version": "v1alpha1",
+          "kind": "PKIRole"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/engine.kubevault.com/v1alpha1/watch/namespaces/{namespace}/pkiroles/{name}": {
+      "get": {
+        "description": "watch changes to an object of kind PKIRole. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf",
+          "application/json;stream=watch",
+          "application/vnd.kubernetes.protobuf;stream=watch"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "engineKubevaultCom_v1alpha1"
+        ],
+        "operationId": "watchEngineKubevaultComV1alpha1NamespacedPKIRole",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "x-kubernetes-action": "watch",
+        "x-kubernetes-group-version-kind": {
+          "group": "engine.kubevault.com",
+          "version": "v1alpha1",
+          "kind": "PKIRole"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "name of the PKIRole",
+          "name": "name",
+          "in": "path",
+          "required": true
+        },
+        {
+          "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
     "/apis/engine.kubevault.com/v1alpha1/watch/namespaces/{namespace}/postgresroles": {
       "get": {
         "description": "watch individual changes to a list of PostgresRole. deprecated: use the 'watch' parameter with a list operation instead.",
@@ -7325,6 +8016,77 @@
         },
         {
           "$ref": "#/parameters/namespace-vgWSWtn3"
+        },
+        {
+          "$ref": "#/parameters/pretty-tJGM1-ng"
+        },
+        {
+          "$ref": "#/parameters/resourceVersion-5WAnf1kx"
+        },
+        {
+          "$ref": "#/parameters/resourceVersionMatch-t8XhRHeC"
+        },
+        {
+          "$ref": "#/parameters/sendInitialEvents-rLXlEK_k"
+        },
+        {
+          "$ref": "#/parameters/timeoutSeconds-yvYezaOC"
+        },
+        {
+          "$ref": "#/parameters/watch-XNNPZGbK"
+        }
+      ]
+    },
+    "/apis/engine.kubevault.com/v1alpha1/watch/pkiroles": {
+      "get": {
+        "description": "watch individual changes to a list of PKIRole. deprecated: use the 'watch' parameter with a list operation instead.",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml",
+          "application/vnd.kubernetes.protobuf",
+          "application/json;stream=watch",
+          "application/vnd.kubernetes.protobuf;stream=watch"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "engineKubevaultCom_v1alpha1"
+        ],
+        "operationId": "watchEngineKubevaultComV1alpha1PKIRoleListForAllNamespaces",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent"
+            }
+          }
+        },
+        "x-kubernetes-action": "watchlist",
+        "x-kubernetes-group-version-kind": {
+          "group": "engine.kubevault.com",
+          "version": "v1alpha1",
+          "kind": "PKIRole"
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/allowWatchBookmarks-HC2hJt-J"
+        },
+        {
+          "$ref": "#/parameters/continue-QfD61s0i"
+        },
+        {
+          "$ref": "#/parameters/fieldSelector-xIcQKXFG"
+        },
+        {
+          "$ref": "#/parameters/labelSelector-5Zw57w4C"
+        },
+        {
+          "$ref": "#/parameters/limit-1NfNmdNH"
         },
         {
           "$ref": "#/parameters/pretty-tJGM1-ng"
@@ -12100,6 +12862,35 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.ConfigURL": {
+      "type": "object",
+      "properties": {
+        "crlDistributionPoints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "enableTemplating": {
+          "type": "boolean"
+        },
+        "issuingCertificates": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "ocspServers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.engine.v1alpha1.ElasticsearchConfiguration": {
       "description": "ElasticsearchConfiguration defines a Elasticsearch app configuration. https://www.vaultproject.io/api-docs/secret/databases/elasticdb",
       "type": "object",
@@ -12684,6 +13475,198 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIAccessRequestConfiguration": {
+      "description": "https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-certificate-and-key",
+      "type": "object",
+      "properties": {
+        "additionalPayload": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "altNames": {
+          "type": "string"
+        },
+        "commonName": {
+          "type": "string"
+        },
+        "issuerRef": {
+          "type": "string"
+        },
+        "ttl": {
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIConfiguration": {
+      "description": "https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-root PKIConfiguration contains information about PKI Secret Engine",
+      "type": "object",
+      "required": [
+        "isRootCA"
+      ],
+      "properties": {
+        "additionalPayload": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "altNames": {
+          "type": "string"
+        },
+        "commonName": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "isRootCA": {
+          "type": "boolean",
+          "default": false
+        },
+        "issuerName": {
+          "type": "string"
+        },
+        "maxPathLength": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "organization": {
+          "type": "string"
+        },
+        "ou": {
+          "type": "string"
+        },
+        "parentCARef": {
+          "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.ObjectReference"
+        },
+        "ttl": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "urls": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.ConfigURL"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole": {
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "default": {},
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "default": {},
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRoleSpec"
+        },
+        "status": {
+          "default": {},
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.RoleStatus"
+        }
+      },
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "engine.kubevault.com",
+          "kind": "PKIRole",
+          "version": "v1alpha1"
+        }
+      ]
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRoleList": {
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "description": "Items is a list of PKIRole objects",
+          "type": "array",
+          "items": {
+            "default": {},
+            "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRole"
+          }
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "default": {},
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "engine.kubevault.com",
+          "kind": "PKIRoleList",
+          "version": "v1alpha1"
+        }
+      ]
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIRoleSpec": {
+      "description": "PKIRoleSpec contains connection information, PKI role info, etc More info: https://developer.hashicorp.com/vault/api-docs/secret/pki#create-update-role",
+      "type": "object",
+      "required": [
+        "secretEngineRef"
+      ],
+      "properties": {
+        "additionalPayload": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "allowSubdomains": {
+          "type": "boolean"
+        },
+        "allowedDomains": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "country": {
+          "type": "string"
+        },
+        "issuerRef": {
+          "type": "string"
+        },
+        "maxTTL": {
+          "type": "string"
+        },
+        "organization": {
+          "type": "string"
+        },
+        "ou": {
+          "type": "string"
+        },
+        "secretEngineRef": {
+          "description": "SecretEngineRef is the name of a Secret Engine",
+          "default": {},
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "ttl": {
+          "type": "string"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresConfiguration": {
       "description": "PostgresConfiguration defines a PostgreSQL app configuration. https://www.vaultproject.io/api/secret/databases/index.html https://www.vaultproject.io/api/secret/databases/postgresql.html#configure-connection",
       "type": "object",
@@ -12971,6 +13954,9 @@
         "gcp": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPAccessRequestConfiguration"
         },
+        "pki": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIAccessRequestConfiguration"
+        },
         "roleRef": {
           "description": "Contains vault database role info",
           "default": {},
@@ -13111,6 +14097,9 @@
         },
         "mysql": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLConfiguration"
+        },
+        "pki": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIConfiguration"
         },
         "postgres": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresConfiguration"
@@ -15905,6 +16894,10 @@
         "serviceAccountNamespaces"
       ],
       "properties": {
+        "audience": {
+          "description": "Optional Audience claim to verify in the JWT.",
+          "type": "string"
+        },
         "maxTTL": {
           "description": "Specifies the maximum allowed lifetime of tokens issued in seconds using this role.",
           "type": "string"

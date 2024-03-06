@@ -88,6 +88,7 @@ func generateSwaggerJson() {
 			{enginev1alpha1.SchemeGroupVersion, enginev1alpha1.ResourceSecretRoleBindings, enginev1alpha1.ResourceKindSecretRoleBinding, true},
 			{enginev1alpha1.SchemeGroupVersion, enginev1alpha1.ResourceSecretAccessRequests, enginev1alpha1.ResourceKindSecretAccessRequest, true},
 			{enginev1alpha1.SchemeGroupVersion, enginev1alpha1.ResourceAWSRoles, enginev1alpha1.ResourceKindAWSRole, true},
+			{enginev1alpha1.SchemeGroupVersion, enginev1alpha1.ResourcePKIRoles, enginev1alpha1.ResourceKindPKIRole, true},
 			{enginev1alpha1.SchemeGroupVersion, enginev1alpha1.ResourceAzureRoles, enginev1alpha1.ResourceKindAzureRole, true},
 			{enginev1alpha1.SchemeGroupVersion, enginev1alpha1.ResourceGCPRoles, enginev1alpha1.ResourceKindGCPRole, true},
 			{enginev1alpha1.SchemeGroupVersion, enginev1alpha1.ResourceMongoDBRoles, enginev1alpha1.ResourceKindMongoDBRole, true},

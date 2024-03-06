@@ -57,6 +57,10 @@ func (c *FakeEngineV1alpha1) MySQLRoles(namespace string) v1alpha1.MySQLRoleInte
 	return &FakeMySQLRoles{c, namespace}
 }
 
+func (c *FakeEngineV1alpha1) PKIRoles(namespace string) v1alpha1.PKIRoleInterface {
+	return &FakePKIRoles{c, namespace}
+}
+
 func (c *FakeEngineV1alpha1) PostgresRoles(namespace string) v1alpha1.PostgresRoleInterface {
 	return &FakePostgresRoles{c, namespace}
 }

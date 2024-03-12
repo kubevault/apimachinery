@@ -1,6 +1,8 @@
 module kubevault.dev/apimachinery
 
-go 1.22
+go 1.22.0
+
+toolchain go1.22.1
 
 require (
 	github.com/evanphx/json-patch v5.7.0+incompatible
@@ -17,7 +19,7 @@ require (
 	k8s.io/client-go v0.29.2
 	k8s.io/klog/v2 v2.120.1
 	k8s.io/kube-openapi v0.0.0-20240228011516-70dd3763d340
-	kmodules.xyz/client-go v0.29.12
+	kmodules.xyz/client-go v0.29.13
 	kmodules.xyz/crd-schema-fuzz v0.29.1
 	kmodules.xyz/custom-resources v0.29.1
 	kmodules.xyz/monitoring-agent-api v0.29.0
@@ -54,7 +56,7 @@ require (
 	github.com/google/cel-go v0.17.7 // indirect
 	github.com/google/gnostic-models v0.6.8 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/google/uuid v1.4.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.0 // indirect
 	github.com/imdario/mergo v0.3.13 // indirect
@@ -73,7 +75,7 @@ require (
 	github.com/prometheus/common v0.45.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
-	github.com/spf13/cobra v1.7.0 // indirect
+	github.com/spf13/cobra v1.8.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stoewer/go-strcase v1.2.0 // indirect
 	github.com/yudai/gojsondiff v1.0.0 // indirect

@@ -14080,6 +14080,9 @@
         "azure": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureConfiguration"
         },
+        "defaultLeaseTTL": {
+          "type": "string"
+        },
         "elasticsearch": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.ElasticsearchConfiguration"
         },
@@ -14091,6 +14094,9 @@
         },
         "mariadb": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MariaDBConfiguration"
+        },
+        "maxLeaseTTL": {
+          "type": "string"
         },
         "mongodb": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBConfiguration"

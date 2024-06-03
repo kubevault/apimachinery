@@ -31,6 +31,7 @@ import (
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	appslister "k8s.io/client-go/listers/apps/v1"
+	"k8s.io/utils/ptr"
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/client-go/apiextensions"
 	apps_util "kmodules.xyz/client-go/apps/v1"
@@ -189,7 +190,7 @@ func (v vaultServerStatsService) TLSConfig() *promapi.TLSConfig {
 						Key: core.TLSCertKey,
 					},
 				},
-				ServerName: fmt.Sprintf("%s.%s.svc", v.VaultServer.ServiceName(VaultServerServiceVault), v.VaultServer.Namespace),
+				ServerName: ptr.To(fmt.Sprintf("%s.%s.svc", v.VaultServer.ServiceName(VaultServerServiceVault), v.VaultServer.Namespace)),
 			},
 		}
 	}

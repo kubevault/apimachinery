@@ -35,9 +35,8 @@ import (
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/client-go/apiextensions"
 	apps_util "kmodules.xyz/client-go/apps/v1"
-	"kmodules.xyz/client-go/meta"
+	clustermeta "kmodules.xyz/client-go/cluster"
 	meta_util "kmodules.xyz/client-go/meta"
-	"kmodules.xyz/client-go/tools/clusterid"
 	mona "kmodules.xyz/monitoring-agent-api/api/v1"
 	ofst "kmodules.xyz/offshoot-api/api/v1"
 )
@@ -127,7 +126,7 @@ func (v VaultServer) StatsLabels() map[string]string {
 
 // Returns the default certificate secret name for given alias.
 func (vs *VaultServer) DefaultCertSecretName(alias string) string {
-	return meta.NameWithSuffix(fmt.Sprintf("%s-%s", vs.Name, alias), "certs")
+	return meta_util.NameWithSuffix(fmt.Sprintf("%s-%s", vs.Name, alias), "certs")
 }
 
 // Returns certificate secret name for given alias if exists,
@@ -220,8 +219,8 @@ func (vs *VaultServer) RootTokenID() string {
 
 func (vs *VaultServer) KeyPrefix() string {
 	cluster := "-"
-	if clusterid.ClusterName() != "" {
-		cluster = clusterid.ClusterName()
+	if clustermeta.ClusterName() != "" {
+		cluster = clustermeta.ClusterName()
 	}
 	return fmt.Sprintf("k8s.%s.%s.%s", cluster, vs.Namespace, vs.Name)
 }

@@ -50,7 +50,7 @@ func (m *MongoDBConfiguration) SetDefaults() {
 
 	// If user doesn't specify the list of AllowedRoles
 	// It is set to "*" (allow all)
-	if m.AllowedRoles == nil || len(m.AllowedRoles) == 0 {
+	if m.AllowedRoles == nil {
 		m.AllowedRoles = []string{"*"}
 	}
 

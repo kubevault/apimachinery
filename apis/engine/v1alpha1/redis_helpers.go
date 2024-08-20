@@ -50,7 +50,7 @@ func (r *RedisConfiguration) SetDefaults() {
 
 	// If user doesn't specify the list of AllowedRoles
 	// It is set to "*" (allow all)
-	if r.AllowedRoles == nil || len(r.AllowedRoles) == 0 {
+	if r.AllowedRoles == nil {
 		r.AllowedRoles = []string{"*"}
 	}
 

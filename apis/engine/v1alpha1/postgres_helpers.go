@@ -50,7 +50,7 @@ func (p *PostgresConfiguration) SetDefaults() {
 
 	// If user doesn't specify the list of AllowedRoles
 	// It is set to "*" (allow all)
-	if p.AllowedRoles == nil || len(p.AllowedRoles) == 0 {
+	if p.AllowedRoles == nil {
 		p.AllowedRoles = []string{"*"}
 	}
 

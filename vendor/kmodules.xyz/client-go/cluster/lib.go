@@ -108,7 +108,7 @@ func ClusterMetadataFromConfigMap(cm *core.ConfigMap, clusterUIDVerifier string)
 	hasher.Write(data)
 	messageMAC := hasher.Sum(nil)
 	expectedMAC := cm.BinaryData["mac"]
-	if hmac.Equal(messageMAC, expectedMAC) {
+	if !hmac.Equal(messageMAC, expectedMAC) {
 		return nil, fmt.Errorf("configmap %s/%s fails validation", cm.Namespace, cm.Name)
 	}
 
@@ -211,14 +211,14 @@ func getCAPIValues(values map[string]any) (string, string, string, error) {
 	return capiProvider, clusterName, ns, nil
 }
 
-func getProviderName(kind string) string {
+func getProviderName(kind string) kmapi.CAPIProvider {
 	switch kind {
 	case "AWSManagedCluster", "AWSManagedControlPlane":
-		return "capa"
+		return kmapi.CAPIProviderCAPA
 	case "AzureManagedCluster":
-		return "capz"
+		return kmapi.CAPIProviderCAPZ
 	case "GCPManagedCluster":
-		return "capg"
+		return kmapi.CAPIProviderCAPG
 	}
 	return ""
 }

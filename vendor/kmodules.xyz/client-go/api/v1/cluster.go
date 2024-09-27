@@ -16,7 +16,13 @@ limitations under the License.
 
 package v1
 
-import "strings"
+import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/base64"
+	"fmt"
+	"strings"
+)
 
 // +kubebuilder:validation:Enum=Aws;Azure;DigitalOcean;GoogleCloud;Linode;Packet;Scaleway;Vultr;BareMetal;KIND;Generic;Private
 type HostingProvider string
@@ -26,6 +32,7 @@ const (
 	HostingProviderAzure        HostingProvider = "Azure"
 	HostingProviderDigitalOcean HostingProvider = "DigitalOcean"
 	HostingProviderGoogleCloud  HostingProvider = "GoogleCloud"
+	HostingProviderExoscale     HostingProvider = "Exoscale"
 	HostingProviderLinode       HostingProvider = "Linode"
 	HostingProviderPacket       HostingProvider = "Packet"
 	HostingProviderScaleway     HostingProvider = "Scaleway"
@@ -53,6 +60,13 @@ type ClusterMetadata struct {
 	OwnerType   string          `json:"ownerType,omitempty"`
 	APIEndpoint string          `json:"apiEndpoint,omitempty"`
 	CABundle    string          `json:"caBundle,omitempty"`
+}
+
+func (md ClusterMetadata) State() string {
+	hasher := hmac.New(sha256.New, []byte(md.UID))
+	state := fmt.Sprintf("%s,%s", md.APIEndpoint, md.OwnerID)
+	hasher.Write([]byte(state))
+	return base64.URLEncoding.EncodeToString(hasher.Sum(nil))
 }
 
 /*
@@ -139,7 +153,27 @@ func (cm ClusterManager) String() string {
 }
 
 type CAPIClusterInfo struct {
-	Provider    string `json:"provider,omitempty"`
-	Namespace   string `json:"namespace,omitempty"`
-	ClusterName string `json:"clusterName,omitempty"`
+	Provider    CAPIProvider `json:"provider"`
+	Namespace   string       `json:"namespace"`
+	ClusterName string       `json:"clusterName"`
 }
+
+// ClusterInfo used in ace-installer
+type ClusterInfo struct {
+	UID             string   `json:"uid"`
+	Name            string   `json:"name"`
+	ClusterManagers []string `json:"clusterManagers"`
+	// +optional
+	CAPI CAPIClusterInfo `json:"capi"`
+}
+
+// +kubebuilder:validation:Enum=capa;capg;capz
+type CAPIProvider string
+
+const (
+	CAPIProviderUnknown CAPIProvider = ""
+	CAPIProviderCAPA    CAPIProvider = "capa"
+	CAPIProviderCAPG    CAPIProvider = "capg"
+	CAPIProviderCAPZ    CAPIProvider = "capz"
+	CAPIProviderCAPH    CAPIProvider = "caph"
+)

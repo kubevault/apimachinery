@@ -6,6 +6,7 @@ API rule violation: list_type_missing,kmodules.xyz/client-go/api/v1,CertificateS
 API rule violation: list_type_missing,kmodules.xyz/client-go/api/v1,CertificateSpec,EmailAddresses
 API rule violation: list_type_missing,kmodules.xyz/client-go/api/v1,CertificateSpec,IPAddresses
 API rule violation: list_type_missing,kmodules.xyz/client-go/api/v1,CertificateSpec,URIs
+API rule violation: list_type_missing,kmodules.xyz/client-go/api/v1,ClusterInfo,ClusterManagers
 API rule violation: list_type_missing,kmodules.xyz/client-go/api/v1,ImageInfo,Lineages
 API rule violation: list_type_missing,kmodules.xyz/client-go/api/v1,Lineage,Chain
 API rule violation: list_type_missing,kmodules.xyz/client-go/api/v1,Lineage,Containers
@@ -26,6 +27,9 @@ API rule violation: list_type_missing,kmodules.xyz/monitoring-agent-api/api/v1,P
 API rule violation: list_type_missing,kmodules.xyz/monitoring-agent-api/api/v1,PrometheusExporterSpec,Env
 API rule violation: list_type_missing,kmodules.xyz/offshoot-api/api/v1,ContainerRuntimeSettings,Env
 API rule violation: list_type_missing,kmodules.xyz/offshoot-api/api/v1,ContainerRuntimeSettings,EnvFrom
+API rule violation: list_type_missing,kmodules.xyz/offshoot-api/api/v1,Gateway,Services
+API rule violation: list_type_missing,kmodules.xyz/offshoot-api/api/v1,Gateway,UI
+API rule violation: list_type_missing,kmodules.xyz/offshoot-api/api/v1,NamedServiceStatus,Ports
 API rule violation: list_type_missing,kmodules.xyz/offshoot-api/api/v1,PartialObjectMeta,OwnerReferences
 API rule violation: list_type_missing,kmodules.xyz/offshoot-api/api/v1,PodRuntimeSettings,ImagePullSecrets
 API rule violation: list_type_missing,kmodules.xyz/offshoot-api/api/v1,PodRuntimeSettings,ReadinessGates

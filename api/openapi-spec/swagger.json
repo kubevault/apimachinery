@@ -12465,6 +12465,29 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionInitContainer": {
+      "description": "VaultServerVersionInitContainer is the vault server init container image",
+      "type": "object",
+      "required": [
+        "image"
+      ],
+      "properties": {
+        "image": {
+          "description": "Image is the Docker image name",
+          "type": "string",
+          "default": ""
+        },
+        "imagePullPolicy": {
+          "description": "ImagePullPolicy one of Always, Never, IfNotPresent. It defaults to Always if :latest is used, or IfNotPresent otherwise.\n\nPossible enum values:\n - `\"Always\"` means that kubelet always attempts to pull the latest image. Container will fail If the pull fails.\n - `\"IfNotPresent\"` means that kubelet pulls if the image isn't present on disk. Container will fail if the image isn't present and the pull fails.\n - `\"Never\"` means that kubelet never pulls an image, but only uses a local image. Container will fail if the image isn't present",
+          "type": "string",
+          "enum": [
+            "Always",
+            "IfNotPresent",
+            "Never"
+          ]
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionList": {
       "description": "VaultServerVersionList is a list of VaultserverVersions",
       "type": "object",
@@ -12515,6 +12538,11 @@
           "description": "Exporter Image",
           "default": {},
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionExporter"
+        },
+        "initContainer": {
+          "description": "init container image",
+          "default": {},
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.catalog.v1alpha1.VaultServerVersionInitContainer"
         },
         "stash": {
           "description": "Stash defines backup and restore task definitions.",

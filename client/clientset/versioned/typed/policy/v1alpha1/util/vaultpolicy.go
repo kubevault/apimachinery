@@ -111,7 +111,7 @@ func TryPatchVaultPolicy(
 		e2  error
 	)
 	attempt := 0
-	err := wait.PollImmediate(kutil.RetryInterval, kutil.RetryTimeout, func() (bool, error) {
+	err := wait.PollUntilContextTimeout(context.Background(), kutil.RetryInterval, kutil.RetryTimeout, true, func(ctx context.Context) (bool, error) {
 		attempt++
 		cur, e2 = c.VaultPolicies(cur.Namespace).Get(ctx, cur.Name, metav1.GetOptions{})
 		if kerr.IsNotFound(e2) {
@@ -137,7 +137,7 @@ func TryUpdateVaultPolicy(
 	opts metav1.UpdateOptions,
 ) (result *api.VaultPolicy, err error) {
 	attempt := 0
-	err = wait.PollImmediate(kutil.RetryInterval, kutil.RetryTimeout, func() (bool, error) {
+	err = wait.PollUntilContextTimeout(context.Background(), kutil.RetryInterval, kutil.RetryTimeout, true, func(ctx context.Context) (bool, error) {
 		attempt++
 		cur, e2 := c.VaultPolicies(meta.Namespace).Get(ctx, meta.Name, metav1.GetOptions{})
 		if kerr.IsNotFound(e2) {
@@ -177,7 +177,7 @@ func UpdateVaultPolicyStatus(
 	if err != nil {
 		return nil, err
 	}
-	err = wait.PollImmediate(kutil.RetryInterval, kutil.RetryTimeout, func() (bool, error) {
+	err = wait.PollUntilContextTimeout(context.Background(), kutil.RetryInterval, kutil.RetryTimeout, true, func(ctx context.Context) (bool, error) {
 		attempt++
 		var e2 error
 		result, e2 = c.VaultPolicies(meta.Namespace).UpdateStatus(ctx, apply(cur), opts)

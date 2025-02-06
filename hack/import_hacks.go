@@ -18,6 +18,8 @@ package hack
 
 import (
 	_ "github.com/gogo/protobuf/gogoproto"
+	_ "go.bytebuilders.dev/audit/lib"
+	_ "go.bytebuilders.dev/license-verifier/kubernetes"
 	_ "k8s.io/apimachinery/pkg/api/resource"
 	_ "k8s.io/apimachinery/pkg/apis/meta/v1"
 	_ "k8s.io/apimachinery/pkg/runtime"

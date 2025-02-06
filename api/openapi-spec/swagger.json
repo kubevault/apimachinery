@@ -21055,7 +21055,7 @@
           "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.CertificatePrivateKey"
         },
         "renewBefore": {
-          "description": "Certificate renew before expiration duration",
+          "description": "Certificate renew before expiration duration\n\nDeprecated use `ReconfigureTLS` type OpsRequest instead.",
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration"
         },
         "secretName": {
@@ -21179,7 +21179,7 @@
       }
     },
     "xyz.kmodules.client-go.api.v1.TypedObjectReference": {
-      "description": "TypedObjectReference represents an typed namespaced object.",
+      "description": "TypedObjectReference represents a typed namespaced object.",
       "type": "object",
       "required": [
         "name"

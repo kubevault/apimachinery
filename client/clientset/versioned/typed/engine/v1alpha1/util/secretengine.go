@@ -120,7 +120,6 @@ func TryUpdateSecretEngine(
 		klog.Errorf("Attempt %d failed to update SecretEngine %s/%s due to %v.", attempt, cur.Namespace, cur.Name, e2)
 		return false, nil
 	})
-
 	if err != nil {
 		err = errors.Errorf("failed to update SecretEngine %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}
@@ -168,7 +167,6 @@ func UpdateSecretEngineStatus(
 		}
 		return e2 == nil, nil
 	})
-
 	if err != nil {
 		err = fmt.Errorf("failed to update status of SecretEngine %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}

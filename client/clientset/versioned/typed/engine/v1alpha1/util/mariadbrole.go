@@ -120,7 +120,6 @@ func TryUpdateMariaDBRole(
 		klog.Errorf("Attempt %d failed to update MariaDBRole %s/%s due to %v.", attempt, cur.Namespace, cur.Name, e2)
 		return false, nil
 	})
-
 	if err != nil {
 		err = errors.Errorf("failed to update MariaDBRole %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}
@@ -168,7 +167,6 @@ func UpdateMariaDBRoleStatus(
 		}
 		return e2 == nil, nil
 	})
-
 	if err != nil {
 		err = fmt.Errorf("failed to update status of MariaDBRole %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}

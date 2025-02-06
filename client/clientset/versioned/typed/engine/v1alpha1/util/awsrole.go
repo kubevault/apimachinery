@@ -120,7 +120,6 @@ func TryUpdateAWSRole(
 		klog.Errorf("Attempt %d failed to update AWSRole %s/%s due to %v.", attempt, cur.Namespace, cur.Name, e2)
 		return false, nil
 	})
-
 	if err != nil {
 		err = errors.Errorf("failed to update AWSRole %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}
@@ -168,7 +167,6 @@ func UpdateAWSRoleStatus(
 		}
 		return e2 == nil, nil
 	})
-
 	if err != nil {
 		err = fmt.Errorf("failed to update status of AWSRole %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}

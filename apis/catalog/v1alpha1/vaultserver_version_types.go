@@ -71,12 +71,12 @@ type VaultServerVersionSpec struct {
 	Stash appcat.StashAddonSpec `json:"stash,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=Vault;Openbao
+// +kubebuilder:validation:Enum=Vault;OpenBao
 type Distro string
 
 const (
 	DistroOfficial Distro = "Vault"
-	DistroPercona  Distro = "Openbao"
+	DistroOpenBao  Distro = "OpenBao"
 )
 
 // VaultServerVersionVault is the vault image

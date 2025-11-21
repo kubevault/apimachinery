@@ -64,7 +64,7 @@ spec:
                 description: Distribution
                 enum:
                 - Vault
-                - Openbao
+                - OpenBao
                 type: string
               exporter:
                 description: Exporter Image

@@ -48,6 +48,14 @@ type MySQLRoleSpec struct {
 	// SecretEngineRef is the name of a Secret Engine
 	SecretEngineRef core.LocalObjectReference `json:"secretEngineRef"`
 
+	// Namespace specifies the OpenBao namespace for this MySQLRole.
+	// Only applicable when using OpenBao distribution.
+	// If specified, overrides the namespace from SecretEngine.
+	// Empty string means use SecretEngine's namespace.
+	// Supports hierarchical namespaces (e.g., "tenant-1/project-a").
+	// +optional
+	Namespace string `json:"namespace,omitempty"`
+
 	// links:
 	// 	- https://www.vaultproject.io/api/secret/databases/index.html
 	//	- https://www.vaultproject.io/api/secret/databases/mysql-maria.html

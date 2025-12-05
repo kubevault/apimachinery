@@ -22,6 +22,9 @@ import (
 	"fmt"
 	"net/http"
 
+	discovery "k8s.io/client-go/discovery"
+	rest "k8s.io/client-go/rest"
+	flowcontrol "k8s.io/client-go/util/flowcontrol"
 	catalogv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/catalog/v1alpha1"
 	configv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/config/v1alpha1"
 	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
@@ -29,10 +32,6 @@ import (
 	kubevaultv1alpha2 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha2"
 	opsv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/ops/v1alpha1"
 	policyv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/policy/v1alpha1"
-
-	discovery "k8s.io/client-go/discovery"
-	rest "k8s.io/client-go/rest"
-	flowcontrol "k8s.io/client-go/util/flowcontrol"
 )
 
 type Interface interface {

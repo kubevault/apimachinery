@@ -367,6 +367,38 @@ func AppNodeResourcesV2(
 	return rr, *node.Replicas, nil
 }
 
+type SidecarNodeV2 struct {
+	Replicas    *int64                 `json:"replicas,omitempty"`
+	PodTemplate ofstv2.PodTemplateSpec `json:"podTemplate,omitempty"`
+}
+
+func SidecarNodeResourcesV2(
+	obj map[string]interface{},
+	fn func(rr core.ResourceRequirements) core.ResourceList,
+	containerName string,
+	fields ...string,
+) (core.ResourceList, error) {
+	val, found, err := unstructured.NestedFieldNoCopy(obj, fields...)
+	if !found || err != nil {
+		return nil, err
+	}
+
+	var tpl struct {
+		PodTemplate ofstv2.PodTemplateSpec `json:"podTemplate,omitempty"`
+	}
+	err = runtime.DefaultUnstructuredConverter.FromUnstructured(val.(map[string]interface{}), &tpl)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse %w", err)
+	}
+
+	sidecar := GetContainerByName(tpl.PodTemplate.Spec.Containers, containerName)
+	if sidecar == nil {
+		return nil, fmt.Errorf("failed to find container %s in podTemplate spec %v ", containerName, tpl.PodTemplate.Spec)
+	}
+
+	return fn(sidecar.Resources), nil
+}
+
 func ToResourceRequirements(vrr core.VolumeResourceRequirements) core.ResourceRequirements {
 	return core.ResourceRequirements{
 		Limits:   vrr.Limits,

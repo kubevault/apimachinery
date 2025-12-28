@@ -32,6 +32,11 @@ func init() {
 		Version: "v1alpha2",
 		Kind:    "Hazelcast",
 	}, Hazelcast{}.ResourceCalculator())
+	api.Register(schema.GroupVersionKind{
+		Group:   "gitops.kubedb.com",
+		Version: "v1alpha1",
+		Kind:    "Hazelcast",
+	}, Hazelcast{}.ResourceCalculator())
 }
 
 type Hazelcast struct{}
@@ -48,7 +53,7 @@ func (h Hazelcast) ResourceCalculator() api.ResourceCalculator {
 	}
 }
 
-func (h Hazelcast) roleReplicasFn(obj map[string]interface{}) (api.ReplicaList, error) {
+func (h Hazelcast) roleReplicasFn(obj map[string]any) (api.ReplicaList, error) {
 	replicas, found, err := unstructured.NestedInt64(obj, "spec", "replicas")
 	if err != nil {
 		return nil, fmt.Errorf("failed to read spec.replicas %v: %w", obj, err)
@@ -59,7 +64,7 @@ func (h Hazelcast) roleReplicasFn(obj map[string]interface{}) (api.ReplicaList, 
 	return api.ReplicaList{api.PodRoleDefault: replicas}, nil
 }
 
-func (h Hazelcast) modeFn(obj map[string]interface{}) (string, error) {
+func (h Hazelcast) modeFn(obj map[string]any) (string, error) {
 	replicas, _, err := unstructured.NestedInt64(obj, "spec", "replicas")
 	if err != nil {
 		return "", err
@@ -70,13 +75,13 @@ func (h Hazelcast) modeFn(obj map[string]interface{}) (string, error) {
 	return DBModeStandalone, nil
 }
 
-func (h Hazelcast) usesTLSFn(obj map[string]interface{}) (bool, error) {
+func (h Hazelcast) usesTLSFn(obj map[string]any) (bool, error) {
 	_, found, err := unstructured.NestedFieldNoCopy(obj, "spec", "tls")
 	return found, err
 }
 
-func (h Hazelcast) roleResourceFn(fn func(rr core.ResourceRequirements) core.ResourceList) func(obj map[string]interface{}) (map[api.PodRole]api.PodInfo, error) {
-	return func(obj map[string]interface{}) (map[api.PodRole]api.PodInfo, error) {
+func (h Hazelcast) roleResourceFn(fn func(rr core.ResourceRequirements) core.ResourceList) func(obj map[string]any) (map[api.PodRole]api.PodInfo, error) {
+	return func(obj map[string]any) (map[api.PodRole]api.PodInfo, error) {
 		container, replicas, err := api.AppNodeResourcesV2(obj, fn, HazelcastContainerName, "spec")
 		if err != nil {
 			return nil, err

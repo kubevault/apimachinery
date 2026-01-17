@@ -54,6 +54,13 @@ func GetDBNameFromAppBindingRef(dbAppRef *appcat.AppReference) string {
 	return fmt.Sprintf("k8s.%s.%s.%s", cluster, dbAppRef.Namespace, dbAppRef.Name)
 }
 
+// Generates simplified database name from database appbinding reference
+// Used for namespace-aware approach - simpler name without cluster UUID
+// The OpenBao namespace itself provides isolation
+func GetDBNameFromAppBindingRefForNamespace(dbAppRef *appcat.AppReference) string {
+	return fmt.Sprintf("%s-%s", dbAppRef.Namespace, dbAppRef.Name)
+}
+
 func (se SecretEngine) GetSecretEnginePath() string {
 	// Todo: update SecretEngine path
 	//  - k8s.{cluster-name or -}.{se-type}.se-ns.se-name
@@ -61,6 +68,12 @@ func (se SecretEngine) GetSecretEnginePath() string {
 	if clustermeta.ClusterName() != "" {
 		cluster = clustermeta.ClusterName()
 	}
+	// Format: k8s.{cluster-uuid}.{engine-type}.{k8s-namespace}.{name}
+	// Example: k8s.dd7ca3e0.mysql.demo.mysql-engine
+	// The path format is the same for both root and namespace-aware approaches.
+	// The difference is WHERE this path exists in OpenBao:
+	//   - Root approach: path lives in OpenBao root namespace "/"
+	//   - Namespace approach: path lives in OpenBao namespace (e.g., "tenant-1")
 	return fmt.Sprintf("k8s.%s.%s.%s.%s", cluster, se.GetSecretEngineType(), se.Namespace, se.Name)
 }
 

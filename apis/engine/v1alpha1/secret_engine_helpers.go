@@ -46,6 +46,7 @@ func (e SecretEngine) GetPolicyName() string {
 }
 
 // Generates unique database name from database appbinding reference
+// Used for root namespace (previous approach) - includes cluster UUID for isolation
 func GetDBNameFromAppBindingRef(dbAppRef *appcat.AppReference) string {
 	cluster := "-"
 	if clustermeta.ClusterName() != "" {
@@ -54,20 +55,25 @@ func GetDBNameFromAppBindingRef(dbAppRef *appcat.AppReference) string {
 	return fmt.Sprintf("k8s.%s.%s.%s", cluster, dbAppRef.Namespace, dbAppRef.Name)
 }
 
-// Generates simplified database name from database appbinding reference
-// Used for namespace-aware approach - simpler name without cluster UUID
-// The OpenBao namespace itself provides isolation
+// Generates unique database name from database appbinding reference
+// Used for namespace-aware approach - includes cluster UUID for consistency
+// Even though OpenBao namespace provides isolation, we keep UUID for:
+// 1. Consistency with GetSecretEnginePath and GetDBNameFromAppBindingRef
+// 2. Multi-cluster safety (if multiple clusters share the same OpenBao namespace)
 func GetDBNameFromAppBindingRefForNamespace(dbAppRef *appcat.AppReference) string {
-	return fmt.Sprintf("%s-%s", dbAppRef.Namespace, dbAppRef.Name)
-}
-
-func (se SecretEngine) GetSecretEnginePath() string {
-	// Todo: update SecretEngine path
-	//  - k8s.{cluster-name or -}.{se-type}.se-ns.se-name
 	cluster := "-"
 	if clustermeta.ClusterName() != "" {
 		cluster = clustermeta.ClusterName()
 	}
+	return fmt.Sprintf("k8s.%s.%s.%s", cluster, dbAppRef.Namespace, dbAppRef.Name)
+}
+
+func (se SecretEngine) GetSecretEnginePath() string {
+	cluster := "-"
+	if clustermeta.ClusterName() != "" {
+		cluster = clustermeta.ClusterName()
+	}
+
 	// Format: k8s.{cluster-uuid}.{engine-type}.{k8s-namespace}.{name}
 	// Example: k8s.dd7ca3e0.mysql.demo.mysql-engine
 	// The path format is the same for both root and namespace-aware approaches.

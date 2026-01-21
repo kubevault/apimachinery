@@ -13602,6 +13602,10 @@
           "description": "Specifies the maximum TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
           "type": "string"
         },
+        "namespace": {
+          "description": "Namespace specifies the OpenBao namespace for this MySQLRole. Only applicable when using OpenBao distribution. If specified, overrides the namespace from SecretEngine. Empty string means use SecretEngine's namespace. Supports hierarchical namespaces (e.g., \"tenant-1/project-a\").",
+          "type": "string"
+        },
         "revocationStatements": {
           "description": "https://www.vaultproject.io/api/secret/databases/mysql-maria.html#revocation_statements Specifies the database statements to be executed to revoke a user.",
           "type": "array",
@@ -14245,6 +14249,10 @@
         },
         "mysql": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLConfiguration"
+        },
+        "namespace": {
+          "description": "Namespace specifies the OpenBao namespace for this SecretEngine. Only applicable when using OpenBao distribution. If specified, overrides the namespace from VaultServer. Empty string means use VaultServer's namespace (or root if VaultServer has none). Supports hierarchical namespaces (e.g., \"tenant-1/project-a\").",
+          "type": "string"
         },
         "pki": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIConfiguration"

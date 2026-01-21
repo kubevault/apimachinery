@@ -3851,13 +3851,6 @@ spec:
                         type: object
                     type: object
                 type: object
-              namespace:
-                description: |-
-                  Namespace specifies the OpenBao namespace for this VaultServer.
-                  Only applicable when using OpenBao distribution.
-                  Empty string means root namespace.
-                  Supports hierarchical namespaces (e.g., "tenant-1/project-a").
-                type: string
               podTemplate:
                 description: PodTemplate is an optional configuration for pods used
                   to run vault

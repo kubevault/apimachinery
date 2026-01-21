@@ -25,13 +25,14 @@ import (
 	time "time"
 	unsafe "unsafe"
 
+	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	conversion "k8s.io/apimachinery/pkg/conversion"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	apiv1 "kmodules.xyz/client-go/api/v1"
 	monitoringagentapiapiv1 "kmodules.xyz/monitoring-agent-api/api/v1"
-	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 )
 
 func init() {
@@ -176,11 +177,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VaultServerSpec)(nil), (*v1alpha2.VaultServerSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_VaultServerSpec_To_v1alpha2_VaultServerSpec(a.(*VaultServerSpec), b.(*v1alpha2.VaultServerSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*VaultServerStatus)(nil), (*v1alpha2.VaultServerStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_VaultServerStatus_To_v1alpha2_VaultServerStatus(a.(*VaultServerStatus), b.(*v1alpha2.VaultServerStatus), scope)
 	}); err != nil {
@@ -268,6 +264,11 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}
 	if err := s.AddConversionFunc((*SwiftSpec)(nil), (*v1alpha2.SwiftSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_SwiftSpec_To_v1alpha2_SwiftSpec(a.(*SwiftSpec), b.(*v1alpha2.SwiftSpec), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddConversionFunc((*VaultServerSpec)(nil), (*v1alpha2.VaultServerSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_VaultServerSpec_To_v1alpha2_VaultServerSpec(a.(*VaultServerSpec), b.(*v1alpha2.VaultServerSpec), scope)
 	}); err != nil {
 		return err
 	}
@@ -1233,7 +1234,6 @@ func Convert_v1alpha2_VaultServerList_To_v1alpha1_VaultServerList(in *v1alpha2.V
 
 func autoConvert_v1alpha1_VaultServerSpec_To_v1alpha2_VaultServerSpec(in *VaultServerSpec, out *v1alpha2.VaultServerSpec, s conversion.Scope) error {
 	out.Version = in.Version
-	// WARNING: in.Namespace requires manual conversion: does not exist in peer-type
 	out.Replicas = (*int32)(unsafe.Pointer(in.Replicas))
 	out.ConfigSecret = (*v1.LocalObjectReference)(unsafe.Pointer(in.ConfigSecret))
 	out.DataSources = *(*[]v1.VolumeSource)(unsafe.Pointer(&in.DataSources))

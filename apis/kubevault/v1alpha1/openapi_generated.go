@@ -25019,13 +25019,6 @@ func schema_apimachinery_apis_kubevault_v1alpha1_VaultServerSpec(ref common.Refe
 							Format:      "",
 						},
 					},
-					"namespace": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Namespace specifies the OpenBao namespace for this VaultServer. Only applicable when using OpenBao distribution. Empty string means root namespace. Supports hierarchical namespaces (e.g., \"tenant-1/project-a\").",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
 					"replicas": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Number of instances to deploy for a VaultServer.",

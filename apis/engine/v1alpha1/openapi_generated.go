@@ -25223,13 +25223,6 @@ func schema_apimachinery_apis_engine_v1alpha1_MySQLRoleSpec(ref common.Reference
 							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
-					"namespace": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Namespace specifies the OpenBao namespace for this MySQLRole. Only applicable when using OpenBao distribution. If specified, overrides the namespace from SecretEngine. Empty string means use SecretEngine's namespace. Supports hierarchical namespaces (e.g., \"tenant-1/project-a\").",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
 					"defaultTTL": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time",

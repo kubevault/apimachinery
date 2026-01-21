@@ -54,13 +54,6 @@ type VaultServerSpec struct {
 	// Version of VaultServer to be deployed.
 	Version string `json:"version"`
 
-	// Namespace specifies the OpenBao namespace for this VaultServer.
-	// Only applicable when using OpenBao distribution.
-	// Empty string means root namespace.
-	// Supports hierarchical namespaces (e.g., "tenant-1/project-a").
-	// +optional
-	Namespace string `json:"namespace,omitempty"`
-
 	// Number of instances to deploy for a VaultServer.
 	Replicas *int32 `json:"replicas,omitempty"`
 

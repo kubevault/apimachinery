@@ -55,19 +55,6 @@ func GetDBNameFromAppBindingRef(dbAppRef *appcat.AppReference) string {
 	return fmt.Sprintf("k8s.%s.%s.%s", cluster, dbAppRef.Namespace, dbAppRef.Name)
 }
 
-// Generates unique database name from database appbinding reference
-// Used for namespace-aware approach - includes cluster UUID for consistency
-// Even though OpenBao namespace provides isolation, we keep UUID for:
-// 1. Consistency with GetSecretEnginePath and GetDBNameFromAppBindingRef
-// 2. Multi-cluster safety (if multiple clusters share the same OpenBao namespace)
-func GetDBNameFromAppBindingRefForNamespace(dbAppRef *appcat.AppReference) string {
-	cluster := "-"
-	if clustermeta.ClusterName() != "" {
-		cluster = clustermeta.ClusterName()
-	}
-	return fmt.Sprintf("k8s.%s.%s.%s", cluster, dbAppRef.Namespace, dbAppRef.Name)
-}
-
 func (se SecretEngine) GetSecretEnginePath() string {
 	cluster := "-"
 	if clustermeta.ClusterName() != "" {

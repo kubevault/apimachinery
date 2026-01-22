@@ -46,7 +46,6 @@ func (e SecretEngine) GetPolicyName() string {
 }
 
 // Generates unique database name from database appbinding reference
-// Used for root namespace (previous approach) - includes cluster UUID for isolation
 func GetDBNameFromAppBindingRef(dbAppRef *appcat.AppReference) string {
 	cluster := "-"
 	if clustermeta.ClusterName() != "" {

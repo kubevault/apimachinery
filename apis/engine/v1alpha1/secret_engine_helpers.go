@@ -60,9 +60,7 @@ func (se SecretEngine) GetSecretEnginePath() string {
 		cluster = clustermeta.ClusterName()
 	}
 
-	// Format: k8s.{cluster-uuid}.{engine-type}.{k8s-namespace}.{name}
-	// Example: k8s.dd7ca3e0.mysql.demo.mysql-engine
-	// The path format is the same for both root and namespace-aware approaches.
+	// Format: k8s.{cluster-name}.{se-type}.{se-ns}.{se-name}
 	// The difference is WHERE this path exists in OpenBao:
 	//   - Root approach: path lives in OpenBao root namespace "/"
 	//   - Namespace approach: path lives in OpenBao namespace (e.g., "tenant-1")

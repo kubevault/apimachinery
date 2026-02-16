@@ -26537,6 +26537,13 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineSpec(ref common.Refere
 							Ref:     ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
 						},
 					},
+					"namespace": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Namespace specifies the OpenBao namespace for this SecretEngine. Only applicable when using OpenBao distribution. If specified, overrides the namespace from VaultServer. Empty string means use VaultServer's namespace (or root if VaultServer has none). Supports hierarchical namespaces (e.g., \"tenant-1/project-a\").",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 					"aws": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration"),

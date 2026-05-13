@@ -29,8 +29,9 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` pending
 - [ ] Verify `controller-gen` produces identical `crds/` output (no diff). Deferred to Phase 1 follow-up.
 
 ### Phase 1 follow-up
-- [ ] Replace `ghcr.io/appscode/gengo:release-1.32` docker image with standard controller-gen invocation in Makefile
-- [ ] Regenerate `zz_generated.deepcopy.go` and `crds/*.yaml`, diff must be empty
+- [x] Replace docker `ghcr.io/appscode/gengo:release-1.32` invocation with a local `controller-gen` for `gen-crds` (`e41b929f`). Pinned at `CONTROLLER_TOOLS_VERSION` (default `v0.16.5`), installed on demand via `go install` into `./bin/`. Other generators (clientset/lister/informer via `generate-groups.sh`, conversion-gen, openapi-gen, go-to-protobuf) are not part of controller-gen and stay on the docker image for now — they need a separate set of pinned binaries.
+- [ ] Verify: run `make gen-crds` and confirm `git diff crds/` is empty against the previous docker-generated output. If non-empty, bump `CONTROLLER_TOOLS_VERSION` to match the version the legacy docker image ships.
+- [ ] Regenerate `zz_generated.deepcopy.go` with `controller-gen object` — same toolchain swap, deferred.
 
 ### Phase 5 cleanup (BLOCKED until operator no longer imports them)
 - [ ] Delete `client/clientset`, `client/listers`, `client/informers`

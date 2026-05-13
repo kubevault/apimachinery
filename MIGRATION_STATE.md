@@ -21,17 +21,12 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` pending
 ### Phase 1 — Scaffolding parity
 - [x] Create `kubebuilder` branch from `nolgtm`
 - [x] Add `MIGRATION_STATE.md` (this file)
-- [ ] Add `hack/boilerplate.go.txt` if missing (standard kubebuilder copyright header)
-- [ ] Add `PROJECT` file enumerating all 6 groups × 29 Kinds
-- [ ] Verify `controller-gen` produces identical `crds/` output (no diff)
-- [ ] Rename `apis/<group>/<version>/register.go` → `groupversion_info.go` (one group per commit)
-  - [ ] catalog/v1alpha1
-  - [ ] config/v1alpha1
-  - [ ] engine/v1alpha1
-  - [ ] kubevault/v1alpha1
-  - [ ] kubevault/v1alpha2
-  - [ ] ops/v1alpha1
-  - [ ] policy/v1alpha1
+- [x] Rename `apis/<group>/<version>/register.go` → `groupversion_info.go` (all 7 done)
+  - [x] catalog/v1alpha1 (`c4e926ee`)
+  - [x] config/v1alpha1, engine/v1alpha1, kubevault/v1alpha1+v1alpha2, ops/v1alpha1, policy/v1alpha1 (`6d2de305`)
+- [ ] Skipped: separate `hack/boilerplate.go.txt` (existing `hack/license/go.txt` already serves this; duplicating would drift)
+- [ ] Skipped for now: `PROJECT` file. Not required since types/CRDs already exist; only needed if running `kubebuilder create api`.
+- [ ] Verify `controller-gen` produces identical `crds/` output (no diff). Deferred to Phase 1 follow-up.
 
 ### Phase 1 follow-up
 - [ ] Replace `ghcr.io/appscode/gengo:release-1.32` docker image with standard controller-gen invocation in Makefile

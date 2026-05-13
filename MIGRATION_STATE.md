@@ -33,9 +33,27 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` pending
 - [ ] Verify: run `make gen-crds` and confirm `git diff crds/` is empty against the previous docker-generated output. If non-empty, bump `CONTROLLER_TOOLS_VERSION` to match the version the legacy docker image ships.
 - [ ] Regenerate `zz_generated.deepcopy.go` with `controller-gen object` — same toolchain swap, deferred.
 
-### Phase 5 cleanup (BLOCKED until operator no longer imports them)
+### Phase 5 cleanup (BLOCKED — see consumer audit below)
 - [ ] Delete `client/clientset`, `client/listers`, `client/informers`
 - [ ] Drop client/lister/informer codegen targets from Makefile
+
+#### Consumer audit (`grep -r kubevault.dev/apimachinery/client ...`)
+
+Local repos that still import `kubevault.dev/apimachinery/client/...` and would break if the trees are deleted:
+
+| Repo | Role |
+|---|---|
+| `kubevault.dev/operator` (`pkg/controller/*.go`, `pkg/admission/*.go`, `pkg/cmds/*`, `pkg/server/*`) | This repo's own legacy code — gone when Phase 5 lands here. |
+| `kubevault.dev/cli` (`pkg/cmds/*`, `pkg/generate/*`) | Generates manifests for vault engines/roles using the typed clientset. Largest external consumer (~15 files). Needs porting to controller-runtime client before client/ can be deleted. |
+| `kubedb.dev/schema-manager` (`pkg/server/server.go`, `test/e2e/suite_test.go`) | Imports the clientset to talk to kubevault CRs. |
+| `kubedb.dev/webhook-server` (`pkg/server/server.go`) | Same. |
+| `go.bytebuilders.dev/catalog-manager` (`pkg/cmds/run.go`) | Same. |
+| `github.com/tamalsaha/{resource-listing-summary,schema-manager-demo}` (`main.go`) | Small one-off demos. |
+
+Recommended sequence:
+1. Migrate `kubevault.dev/cli` to the controller-runtime client (separate project).
+2. Migrate the three downstream daemons (`schema-manager`, `webhook-server`, `catalog-manager`).
+3. Then delete `client/clientset`, `client/listers`, `client/informers` here.
 
 ## Notes
 - Hub/spoke conversion in `apis/kubevault/v1alpha1/conversion.go` (hand-written 517-line file converting v1alpha1 ↔ v1alpha2). Untouched in Phase 1.

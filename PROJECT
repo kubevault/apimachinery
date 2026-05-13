@@ -1,0 +1,172 @@
+# PROJECT metadata for kubevault.dev/apimachinery — the API types module.
+#
+# This repo is types-only: there are no controllers or webhooks defined
+# here. The reconcilers and admission webhook handlers live in the
+# kubevault.dev/operator repo, which references these types and carries
+# its own PROJECT file.
+#
+# All 6 API groups are namespaced; types are split across kubevault (with
+# v1alpha1 spoke and v1alpha2 hub), catalog, config, engine, ops, policy.
+# The kubevault group is the only one with multiple versions; conversion
+# from v1alpha1 to v1alpha2 (and back) is hand-written in
+# apis/kubevault/v1alpha1/conversion.go.
+domain: kubevault.com
+layout:
+- go.kubebuilder.io/v4
+multigroup: true
+projectName: apimachinery
+repo: kubevault.dev/apimachinery
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: catalog
+  kind: VaultServerVersion
+  path: kubevault.dev/apimachinery/apis/catalog/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: config
+  kind: VaultServerConfiguration
+  path: kubevault.dev/apimachinery/apis/config/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: SecretEngine
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: SecretAccessRequest
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: SecretRoleBinding
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: AWSRole
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: AzureRole
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: GCPRole
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: PKIRole
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: PostgresRole
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: MySQLRole
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: MariaDBRole
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: MongoDBRole
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: RedisRole
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: engine
+  kind: ElasticsearchRole
+  path: kubevault.dev/apimachinery/apis/engine/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: kubevault
+  kind: VaultServer
+  path: kubevault.dev/apimachinery/apis/kubevault/v1alpha2
+  version: v1alpha2
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: ops
+  kind: VaultOpsRequest
+  path: kubevault.dev/apimachinery/apis/ops/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: policy
+  kind: VaultPolicy
+  path: kubevault.dev/apimachinery/apis/policy/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kubevault.com
+  group: policy
+  kind: VaultPolicyBinding
+  path: kubevault.dev/apimachinery/apis/policy/v1alpha1
+  version: v1alpha1
+version: "3"

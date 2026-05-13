@@ -24,6 +24,15 @@ CRD_OPTIONS          ?= "crd:generateEmbeddedObjectMeta=true,allowDangerousTypes
 CODE_GENERATOR_IMAGE ?= ghcr.io/appscode/gengo:release-1.32
 API_GROUPS           ?= kubevault:v1alpha1 kubevault:v1alpha2 catalog:v1alpha1 config:v1alpha1 policy:v1alpha1 engine:v1alpha1 ops:v1alpha1
 
+# Local controller-gen used by `gen-crds` (kubebuilder convention). Build it
+# on demand via `go install` to avoid pulling the gengo docker image just to
+# regenerate CRD manifests. Pin to the version that matches
+# controller-runtime's marker grammar (kept in sync with the vendored
+# sigs.k8s.io/controller-runtime release).
+CONTROLLER_TOOLS_VERSION ?= v0.16.5
+LOCALBIN                 := $(CURDIR)/bin
+CONTROLLER_GEN           := $(LOCALBIN)/controller-gen
+
 # Where to push the docker image.
 REGISTRY ?= kubevault
 
@@ -198,22 +207,22 @@ openapi-%:
 			--output-package "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*)" \
 			--report-filename .config/api-rules/violation_exceptions.list
 
-# Generate CRD manifests
+# Install controller-gen locally if missing or version-mismatched.
+.PHONY: controller-gen
+controller-gen: $(CONTROLLER_GEN)
+$(CONTROLLER_GEN):
+	@mkdir -p $(LOCALBIN)
+	@if [ ! -x "$(CONTROLLER_GEN)" ] || ! $(CONTROLLER_GEN) --version 2>/dev/null | grep -q "$(CONTROLLER_TOOLS_VERSION)"; then \
+		echo "Installing controller-gen $(CONTROLLER_TOOLS_VERSION) to $(LOCALBIN)"; \
+		GOBIN=$(LOCALBIN) go install sigs.k8s.io/controller-tools/cmd/controller-gen@$(CONTROLLER_TOOLS_VERSION); \
+	fi
+
+# Generate CRD manifests using the local controller-gen. Replaces the
+# legacy `docker run ghcr.io/appscode/gengo:... controller-gen` invocation.
 .PHONY: gen-crds
-gen-crds:
-	@echo "Generating CRD manifests"
-	@docker run --rm                        \
-		-u $$(id -u):$$(id -g)              \
-		-v /tmp:/.cache                     \
-		-v $$(pwd):$(DOCKER_REPO_ROOT)      \
-		-w $(DOCKER_REPO_ROOT)              \
-	    --env HTTP_PROXY=$(HTTP_PROXY)      \
-	    --env HTTPS_PROXY=$(HTTPS_PROXY)    \
-		$(CODE_GENERATOR_IMAGE)             \
-		controller-gen                      \
-			$(CRD_OPTIONS)                  \
-			paths="./apis/..."              \
-			output:crd:artifacts:config=crds
+gen-crds: controller-gen
+	@echo "Generating CRD manifests with $(CONTROLLER_GEN)"
+	@$(CONTROLLER_GEN) $(CRD_OPTIONS) paths="./apis/..." output:crd:artifacts:config=crds
 
 crds_to_patch := kubevault.com_vaultservers.yaml
 

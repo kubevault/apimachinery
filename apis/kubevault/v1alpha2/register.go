@@ -56,6 +56,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 	scheme.AddKnownTypes(SchemeGroupVersion,
 		&VaultServer{},
 		&VaultServerList{},
+		&VaultAgent{},
+		&VaultAgentList{},
 	)
 
 	scheme.AddKnownTypes(SchemeGroupVersion,

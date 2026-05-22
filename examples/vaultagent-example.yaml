@@ -1,0 +1,41 @@
+apiVersion: kubevault.com/v1alpha2
+kind: VaultAgent
+metadata:
+  name: hub-vault-agent
+  namespace: spoke-ns
+spec:
+  # Hub vault connection details
+  hubVaultRef:
+    name: vault3
+    namespace: demo
+    address: "http://10.2.0.88:30820"
+    grpcPort: 50053
+  
+  # Unique identifier for this spoke cluster
+  spokeName: "spoke-cluster-1"
+  
+  # Optional: Custom spoke-agent image
+  # image: "ghcr.io/kubevault/spoke-agent:v1.0.0"
+  
+  # Optional: TLS configuration (for production)
+  # tls:
+  #   enabled: true
+  #   caSecret: vault-grpc-ca
+  #   certSecret: spoke1-grpc-cert
+  
+  # Optional: Auto-reconnect settings
+  reconnect:
+    enabled: true
+    backoffSeconds: 5
+    maxBackoffSeconds: 300
+  
+  # Optional: Pod template for customization
+  # podTemplate:
+  #   spec:
+  #     resources:
+  #       requests:
+  #         cpu: 100m
+  #         memory: 128Mi
+  #       limits:
+  #         cpu: 200m
+  #         memory: 256Mi

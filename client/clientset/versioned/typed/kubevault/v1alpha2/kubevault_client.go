@@ -21,20 +21,24 @@ package v1alpha2
 import (
 	"net/http"
 
+	rest "k8s.io/client-go/rest"
 	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 	"kubevault.dev/apimachinery/client/clientset/versioned/scheme"
-
-	rest "k8s.io/client-go/rest"
 )
 
 type KubevaultV1alpha2Interface interface {
 	RESTClient() rest.Interface
+	VaultAgentsGetter
 	VaultServersGetter
 }
 
 // KubevaultV1alpha2Client is used to interact with features provided by the kubevault.com group.
 type KubevaultV1alpha2Client struct {
 	restClient rest.Interface
+}
+
+func (c *KubevaultV1alpha2Client) VaultAgents(namespace string) VaultAgentInterface {
+	return newVaultAgents(c, namespace)
 }
 
 func (c *KubevaultV1alpha2Client) VaultServers(namespace string) VaultServerInterface {

@@ -19,14 +19,17 @@ limitations under the License.
 package fake
 
 import (
-	v1alpha2 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha2"
-
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
+	v1alpha2 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha2"
 )
 
 type FakeKubevaultV1alpha2 struct {
 	*testing.Fake
+}
+
+func (c *FakeKubevaultV1alpha2) VaultAgents(namespace string) v1alpha2.VaultAgentInterface {
+	return &FakeVaultAgents{c, namespace}
 }
 
 func (c *FakeKubevaultV1alpha2) VaultServers(namespace string) v1alpha2.VaultServerInterface {

@@ -22,15 +22,14 @@ import (
 	"context"
 	time "time"
 
-	kubevaultv1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
-	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
-	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
-	v1alpha2 "kubevault.dev/apimachinery/client/listers/kubevault/v1alpha2"
-
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"
 	cache "k8s.io/client-go/tools/cache"
+	kubevaultv1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
+	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
+	v1alpha2 "kubevault.dev/apimachinery/client/listers/kubevault/v1alpha2"
 )
 
 // VaultServerInformer provides access to a shared informer and lister for

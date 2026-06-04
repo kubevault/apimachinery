@@ -7,7 +7,7 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.87.1
-	go.bytebuilders.dev/audit v0.0.51
+	go.bytebuilders.dev/audit v0.0.52
 	go.bytebuilders.dev/license-verifier/kubernetes v0.15.0
 	gomodules.xyz/pointer v0.1.0
 	gomodules.xyz/runtime v0.3.0

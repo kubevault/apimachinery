@@ -82,6 +82,9 @@ github.com/docker/distribution/registry/client/auth/challenge
 ## explicit; go 1.21
 github.com/docker/docker-credential-helpers/client
 github.com/docker/docker-credential-helpers/credentials
+# github.com/docker/go-units v0.5.0
+## explicit
+github.com/docker/go-units
 # github.com/emicklei/go-restful/v3 v3.13.0
 ## explicit; go 1.13
 github.com/emicklei/go-restful/v3
@@ -280,8 +283,8 @@ github.com/jonboulle/clockwork
 # github.com/json-iterator/go v1.1.12
 ## explicit; go 1.12
 github.com/json-iterator/go
-# github.com/klauspost/compress v1.18.2
-## explicit; go 1.23
+# github.com/klauspost/compress v1.18.5
+## explicit; go 1.24
 github.com/klauspost/compress
 github.com/klauspost/compress/flate
 github.com/klauspost/compress/fse
@@ -318,13 +321,13 @@ github.com/modern-go/reflect2
 # github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822
 ## explicit
 github.com/munnerz/goautoneg
-# github.com/nats-io/nats.go v1.49.0
-## explicit; go 1.24.0
+# github.com/nats-io/nats.go v1.52.0
+## explicit; go 1.25.0
 github.com/nats-io/nats.go
 github.com/nats-io/nats.go/encoders/builtin
 github.com/nats-io/nats.go/internal/parser
 github.com/nats-io/nats.go/util
-# github.com/nats-io/nkeys v0.4.12
+# github.com/nats-io/nkeys v0.4.15
 ## explicit; go 1.24.0
 github.com/nats-io/nkeys
 # github.com/nats-io/nuid v1.0.1
@@ -423,11 +426,11 @@ github.com/yudai/golcs
 # github.com/zeebo/xxh3 v1.0.2
 ## explicit; go 1.17
 github.com/zeebo/xxh3
-# go.bytebuilders.dev/audit v0.0.50
+# go.bytebuilders.dev/audit v0.0.51
 ## explicit; go 1.25.0
 go.bytebuilders.dev/audit/api/v1
 go.bytebuilders.dev/audit/lib
-# go.bytebuilders.dev/license-proxyserver v0.0.26
+# go.bytebuilders.dev/license-proxyserver v0.1.1
 ## explicit; go 1.25.0
 go.bytebuilders.dev/license-proxyserver/apis/proxyserver
 go.bytebuilders.dev/license-proxyserver/apis/proxyserver/v1alpha1
@@ -561,7 +564,7 @@ go.yaml.in/yaml/v2
 # go.yaml.in/yaml/v3 v3.0.4
 ## explicit; go 1.16
 go.yaml.in/yaml/v3
-# golang.org/x/crypto v0.50.0
+# golang.org/x/crypto v0.52.0
 ## explicit; go 1.25.0
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blake2b
@@ -581,7 +584,7 @@ golang.org/x/crypto/scrypt
 ## explicit; go 1.20
 golang.org/x/exp/constraints
 golang.org/x/exp/slices
-# golang.org/x/net v0.53.0
+# golang.org/x/net v0.55.0
 ## explicit; go 1.25.0
 golang.org/x/net/context
 golang.org/x/net/http/httpguts
@@ -603,17 +606,17 @@ golang.org/x/oauth2/internal
 ## explicit; go 1.25.0
 golang.org/x/sync/errgroup
 golang.org/x/sync/singleflight
-# golang.org/x/sys v0.43.0
+# golang.org/x/sys v0.45.0
 ## explicit; go 1.25.0
 golang.org/x/sys/cpu
 golang.org/x/sys/plan9
 golang.org/x/sys/unix
 golang.org/x/sys/windows
 golang.org/x/sys/windows/registry
-# golang.org/x/term v0.42.0
+# golang.org/x/term v0.43.0
 ## explicit; go 1.25.0
 golang.org/x/term
-# golang.org/x/text v0.36.0
+# golang.org/x/text v0.37.0
 ## explicit; go 1.25.0
 golang.org/x/text/cases
 golang.org/x/text/feature/plural
@@ -1570,11 +1573,22 @@ kmodules.xyz/monitoring-agent-api/api/v1
 ## explicit; go 1.24.0
 kmodules.xyz/offshoot-api/api/v1
 kmodules.xyz/offshoot-api/api/v2
-# kmodules.xyz/resource-metadata v0.42.4
-## explicit; go 1.25
+# kmodules.xyz/resource-metadata v0.46.1
+## explicit; go 1.25.0
 kmodules.xyz/resource-metadata/apis/core/v1alpha1
 kmodules.xyz/resource-metadata/apis/identity/v1alpha1
+kmodules.xyz/resource-metadata/apis/management
+kmodules.xyz/resource-metadata/apis/management/v1alpha1
+kmodules.xyz/resource-metadata/apis/meta
+kmodules.xyz/resource-metadata/apis/meta/v1alpha1
+kmodules.xyz/resource-metadata/apis/node
+kmodules.xyz/resource-metadata/apis/node/v1alpha1
 kmodules.xyz/resource-metadata/apis/shared
+kmodules.xyz/resource-metadata/apis/ui
+kmodules.xyz/resource-metadata/apis/ui/v1alpha1
+kmodules.xyz/resource-metadata/client/clientset/versioned/scheme
+kmodules.xyz/resource-metadata/client/clientset/versioned/typed/identity/v1alpha1
+kmodules.xyz/resource-metadata/crds
 kmodules.xyz/resource-metadata/pkg/identity
 # kmodules.xyz/resource-metrics v0.34.0
 ## explicit; go 1.24.0
@@ -1667,6 +1681,7 @@ sigs.k8s.io/structured-merge-diff/v6/value
 sigs.k8s.io/yaml
 # x-helm.dev/apimachinery v0.0.18
 ## explicit; go 1.24.0
+x-helm.dev/apimachinery/apis/charts/v1alpha1
 x-helm.dev/apimachinery/apis/releases/v1alpha1
 x-helm.dev/apimachinery/apis/shared
 x-helm.dev/apimachinery/crds

@@ -53,11 +53,46 @@ spec:
             type: object
           spec:
             properties:
+              bootstrap:
+                description: |-
+                  Bootstrap configures the automated `bao agent join` flow. When set, the
+                  spoke-agent pod runs a join init container that exchanges the bootstrap
+                  token for mTLS client credentials before the long-running agent starts.
+                  Exactly one of Bootstrap or TLS.CertSecret (pre-provisioned credentials)
+                  should be used.
+                properties:
+                  joinSecretRef:
+                    description: |-
+                      JoinSecretRef references a Secret with the join parameters:
+                       - token:       hub bootstrap token (<id>.<secret>)
+                       - hubCertHash: "sha256:<hex>" SPKI pin of the spoke-CA
+                       - caBundle:    optional PEM CA bundle for the hub Vault API endpoint
+                    properties:
+                      name:
+                        default: ""
+                        description: |-
+                          Name of the referent.
+                          This field is effectively required, but due to backwards compatibility is
+                          allowed to be empty. Instances of this type with an empty value here are
+                          almost certainly wrong.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                        type: string
+                    type: object
+                    x-kubernetes-map-type: atomic
+                required:
+                - joinSecretRef
+                type: object
               hubVaultRef:
                 description: HubVaultRef references the hub VaultServer
                 properties:
                   address:
                     description: Address is the hub vault URL (e.g., http://10.2.0.88:30820)
+                    type: string
+                  caBundle:
+                    description: |-
+                      CABundle is the PEM bundle used to verify the hub Vault API endpoint.
+                      Takes precedence over the caBundle key of bootstrap.joinSecretRef.
+                    format: byte
                     type: string
                   grpcPort:
                     default: 50053
@@ -6333,6 +6368,11 @@ spec:
                 required:
                 - name
                 type: object
+              certExpiry:
+                description: CertExpiry of the current spoke client certificate, if
+                  known.
+                format: date-time
+                type: string
               conditions:
                 description: Conditions represent the latest available observations
                   of the VaultAgent's state

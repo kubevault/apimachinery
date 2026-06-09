@@ -75,6 +75,23 @@ type VaultAgentSpec struct {
 	// PodTemplate is an optional configuration for the spoke-agent pod
 	// +optional
 	PodTemplate ofst.PodTemplateSpec `json:"podTemplate,omitempty"`
+
+	// Bootstrap configures the automated `bao agent join` flow. When set, the
+	// spoke-agent pod runs a join init container that exchanges the bootstrap
+	// token for mTLS client credentials before the long-running agent starts.
+	// Exactly one of Bootstrap or TLS.CertSecret (pre-provisioned credentials)
+	// should be used.
+	// +optional
+	Bootstrap *AgentBootstrapConfig `json:"bootstrap,omitempty"`
+}
+
+// AgentBootstrapConfig configures the automated `bao agent join` trust bootstrap.
+type AgentBootstrapConfig struct {
+	// JoinSecretRef references a Secret with the join parameters:
+	//  - token:       hub bootstrap token (<id>.<secret>)
+	//  - hubCertHash: "sha256:<hex>" SPKI pin of the spoke-CA
+	//  - caBundle:    optional PEM CA bundle for the hub Vault API endpoint
+	JoinSecretRef core.LocalObjectReference `json:"joinSecretRef"`
 }
 
 // HubVaultReference contains information to connect to hub vault
@@ -92,6 +109,11 @@ type HubVaultReference struct {
 	// +optional
 	// +kubebuilder:default=50053
 	GRPCPort int32 `json:"grpcPort,omitempty"`
+
+	// CABundle is the PEM bundle used to verify the hub Vault API endpoint.
+	// Takes precedence over the caBundle key of bootstrap.joinSecretRef.
+	// +optional
+	CABundle []byte `json:"caBundle,omitempty"`
 }
 
 // VaultAgentTLSConfig contains TLS configuration for spoke-agent
@@ -171,6 +193,10 @@ type VaultAgentStatus struct {
 	// PodName is the name of the spoke-agent pod
 	// +optional
 	PodName string `json:"podName,omitempty"`
+
+	// CertExpiry of the current spoke client certificate, if known.
+	// +optional
+	CertExpiry *metav1.Time `json:"certExpiry,omitempty"`
 
 	// Conditions represent the latest available observations of the VaultAgent's state
 	// +optional

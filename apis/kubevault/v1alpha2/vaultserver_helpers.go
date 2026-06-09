@@ -83,6 +83,69 @@ func (v VaultServer) AppBindingName() string {
 	return v.Name
 }
 
+// SpokeAgentName is the shared name for per-cluster spoke agent resources on
+// the hub: the ServiceAccount and its token Secret in the managed cluster
+// namespace, and the ManifestWork. It embeds the VaultServer namespace and
+// name because those hub resources live outside the VaultServer namespace.
+func (v VaultServer) SpokeAgentName() string {
+	return meta_util.NameWithPrefix("kv", fmt.Sprintf("%s-%s-agent", v.Namespace, v.Name))
+}
+
+// SpokeAgentJoinSecretName is the per-cluster Secret (hub copy lives in the
+// managed cluster namespace, spoke copy in the agent namespace) holding the
+// bootstrap token, the spoke-CA SPKI pin, and the Vault API CA bundle.
+func (v VaultServer) SpokeAgentJoinSecretName() string {
+	return meta_util.NameWithSuffix(v.SpokeAgentName(), "join")
+}
+
+// SpokeAgentHubTokenSecretName is the spoke-side Secret carrying the hub
+// ServiceAccount JWT used for kubernetes-auth logins against the hub Vault.
+func (v VaultServer) SpokeAgentHubTokenSecretName() string {
+	return meta_util.NameWithSuffix(v.SpokeAgentName(), "hub-token")
+}
+
+// SpokeAgentResourceName is the name of the VaultAgent and AppBinding created
+// on the managed cluster.
+func (v VaultServer) SpokeAgentResourceName() string {
+	return meta_util.NameWithSuffix(v.Name, "agent")
+}
+
+// SpokeAgentAppBindingName is the AppBinding created on the managed cluster
+// that points back at the hub VaultServer.
+func (v VaultServer) SpokeAgentAppBindingName() string {
+	return meta_util.NameWithSuffix(v.SpokeAgentResourceName(), "hub-vault")
+}
+
+// PolicyNameForSpoke is the VaultPolicy / VaultPolicyBinding name (in the
+// VaultServer namespace) for one managed cluster.
+func (v VaultServer) PolicyNameForSpoke(cluster string) string {
+	return meta_util.NameWithSuffix(v.Name, "spoke-"+cluster)
+}
+
+// VaultRoleNameForSpoke is the Vault kubernetes-auth role bound to the spoke's
+// hub ServiceAccount; referenced by the spoke AppBinding parameters.vaultRole.
+func (v VaultServer) VaultRoleNameForSpoke(cluster string) string {
+	return fmt.Sprintf("spoke-%s-%s", cluster, v.Name)
+}
+
+// SpokeAgentNamespace is the namespace on the managed cluster where the
+// VaultAgent and its companion resources are created.
+func (v VaultServer) SpokeAgentNamespace() string {
+	if v.Spec.AgentTemplate != nil && v.Spec.AgentTemplate.Namespace != "" {
+		return v.Spec.AgentTemplate.Namespace
+	}
+	return v.Namespace
+}
+
+// SpokeAgentLabels are stamped on hub-side per-cluster resources to map them
+// back to the owning VaultServer (cross-namespace owner refs are not allowed).
+func (v VaultServer) SpokeAgentLabels() map[string]string {
+	return map[string]string{
+		apis.LabelVaultServerName:      v.Name,
+		apis.LabelVaultServerNamespace: v.Namespace,
+	}
+}
+
 func (v VaultServer) OffshootSelectors() map[string]string {
 	return map[string]string{
 		meta_util.NameLabelKey:      v.ResourceFQN(),

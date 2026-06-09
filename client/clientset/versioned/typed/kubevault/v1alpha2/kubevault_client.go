@@ -21,9 +21,10 @@ package v1alpha2
 import (
 	"net/http"
 
-	rest "k8s.io/client-go/rest"
 	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 	"kubevault.dev/apimachinery/client/clientset/versioned/scheme"
+
+	rest "k8s.io/client-go/rest"
 )
 
 type KubevaultV1alpha2Interface interface {

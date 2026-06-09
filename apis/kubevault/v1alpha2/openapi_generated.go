@@ -25376,6 +25376,12 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultAgentSpec(ref common.Refer
 							Format:      "",
 						},
 					},
+					"tokenSecretRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "TokenSecretRef references a secret containing vault token for authentication Secret data:\n - token: <vault-token>",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
 					"image": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Image is the spoke-agent container image",
@@ -25407,7 +25413,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultAgentSpec(ref common.Refer
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.HubVaultReference", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ReconnectConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultAgentTLSConfig"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.HubVaultReference", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ReconnectConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultAgentTLSConfig"},
 	}
 }
 

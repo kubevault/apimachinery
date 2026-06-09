@@ -53,6 +53,12 @@ type VaultAgentSpec struct {
 	// SpokeName is the unique identifier for this spoke cluster
 	SpokeName string `json:"spokeName"`
 
+	// TokenSecretRef references a secret containing vault token for authentication
+	// Secret data:
+	//  - token: <vault-token>
+	// +optional
+	TokenSecretRef *core.LocalObjectReference `json:"tokenSecretRef,omitempty"`
+
 	// Image is the spoke-agent container image
 	// +optional
 	Image string `json:"image,omitempty"`

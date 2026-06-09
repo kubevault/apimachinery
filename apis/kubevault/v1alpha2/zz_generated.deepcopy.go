@@ -849,6 +849,11 @@ func (in *VaultAgentList) DeepCopyObject() runtime.Object {
 func (in *VaultAgentSpec) DeepCopyInto(out *VaultAgentSpec) {
 	*out = *in
 	out.HubVaultRef = in.HubVaultRef
+	if in.TokenSecretRef != nil {
+		in, out := &in.TokenSecretRef, &out.TokenSecretRef
+		*out = new(v1.LocalObjectReference)
+		**out = **in
+	}
 	if in.TLS != nil {
 		in, out := &in.TLS, &out.TLS
 		*out = new(VaultAgentTLSConfig)

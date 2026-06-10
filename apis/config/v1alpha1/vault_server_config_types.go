@@ -72,7 +72,44 @@ type VaultServerConfiguration struct {
 	// Unsealer configuration for vault
 	// +optional
 	Unsealer *kubevaultv1alpha2.UnsealerSpec `json:"unsealer,omitempty"`
+
+	// VaultType indicates how this AppBinding reaches the VaultServer:
+	// Local (in-cluster vault, the default when absent) or RemoteAgent
+	// (a hub vault accessed from a spoke cluster via the OpenBao spoke agent).
+	// Consumers must read this through GetVaultDeployment, which also
+	// normalizes the legacy value "remote".
+	// +optional
+	VaultType VaultDeploymentType `json:"vaultType,omitempty"`
+
+	// SpokeName is the spoke cluster identity registered with the hub's
+	// agent backend. Required when VaultType is RemoteAgent. The secret
+	// engine controllers use it to route database mounts through the
+	// hub's remote-<db>-plugin proxies.
+	// +optional
+	SpokeName string `json:"spokeName,omitempty"`
 }
+
+// VaultDeploymentType distinguishes a locally reachable VaultServer from a
+// hub VaultServer reached through the OpenBao spoke agent.
+// +kubebuilder:validation:Enum=Local;RemoteAgent
+type VaultDeploymentType string
+
+const (
+	// VaultDeploymentLocal marks an AppBinding pointing at an in-cluster
+	// (or directly reachable) VaultServer. Database secret engines use the
+	// built-in <db>-database-plugin family.
+	VaultDeploymentLocal VaultDeploymentType = "Local"
+
+	// VaultDeploymentRemoteAgent marks an AppBinding authored for a spoke
+	// cluster that reaches a hub VaultServer. Database secret engines must
+	// use the remote-<db>-plugin family so the hub proxies plugin calls to
+	// the spoke agent.
+	VaultDeploymentRemoteAgent VaultDeploymentType = "RemoteAgent"
+
+	// vaultDeploymentLegacyRemote is the pre-enum wire value written by
+	// older operators; normalized to VaultDeploymentRemoteAgent on read.
+	vaultDeploymentLegacyRemote VaultDeploymentType = "remote"
+)
 
 // KubernetesAuthConfiguration contains necessary information for
 // performing Kubernetes authentication to the Vault server.

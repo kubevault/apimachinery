@@ -73,37 +73,37 @@ type VaultServerConfiguration struct {
 	// +optional
 	Unsealer *kubevaultv1alpha2.UnsealerSpec `json:"unsealer,omitempty"`
 
-	// VaultType indicates how this AppBinding reaches the VaultServer:
+	// DeploymentMode indicates how this AppBinding reaches the VaultServer:
 	// Local (in-cluster vault, the default when absent) or RemoteAgent
 	// (a hub vault accessed from a spoke cluster via the OpenBao spoke agent).
-	// Consumers must read this through GetVaultDeployment.
+	// Consumers must read this through GetVaultDeploymentMode.
 	// +optional
-	VaultType VaultDeploymentType `json:"vaultType,omitempty"`
+	DeploymentMode DeploymentMode `json:"deploymentMode,omitempty"`
 
 	// SpokeName is the spoke cluster identity registered with the hub's
-	// agent backend. Required when VaultType is RemoteAgent. The secret
+	// agent backend. Required when DeploymentMode is RemoteAgent. The secret
 	// engine controllers use it to route database mounts through the
 	// hub's remote-<db>-plugin proxies.
 	// +optional
 	SpokeName string `json:"spokeName,omitempty"`
 }
 
-// VaultDeploymentType distinguishes a locally reachable VaultServer from a
+// DeploymentMode distinguishes a locally reachable VaultServer from a
 // hub VaultServer reached through the OpenBao spoke agent.
 // +kubebuilder:validation:Enum=Local;RemoteAgent
-type VaultDeploymentType string
+type DeploymentMode string
 
 const (
-	// VaultDeploymentLocal marks an AppBinding pointing at an in-cluster
+	// DeploymentModeLocal marks an AppBinding pointing at an in-cluster
 	// (or directly reachable) VaultServer. Database secret engines use the
 	// built-in <db>-database-plugin family.
-	VaultDeploymentLocal VaultDeploymentType = "Local"
+	DeploymentModeLocal DeploymentMode = "Local"
 
-	// VaultDeploymentRemoteAgent marks an AppBinding authored for a spoke
+	// DeploymentModeRemoteAgent marks an AppBinding authored for a spoke
 	// cluster that reaches a hub VaultServer. Database secret engines must
 	// use the remote-<db>-plugin family so the hub proxies plugin calls to
 	// the spoke agent.
-	VaultDeploymentRemoteAgent VaultDeploymentType = "RemoteAgent"
+	DeploymentModeRemoteAgent DeploymentMode = "RemoteAgent"
 )
 
 // KubernetesAuthConfiguration contains necessary information for

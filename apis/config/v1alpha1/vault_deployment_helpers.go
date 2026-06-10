@@ -23,26 +23,26 @@ import (
 	appcat "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1"
 )
 
-// GetVaultDeployment is the single sanctioned way to determine whether a
+// GetVaultDeploymentMode is the single sanctioned way to determine whether a
 // Vault AppBinding points at a Local vault or a hub vault reached through
 // the OpenBao spoke agent (RemoteAgent). It returns the deployment type
 // and, for RemoteAgent, the spoke name.
 //
 // Rules:
-//   - missing parameters, or parameters without vaultType => Local
-//   - vaultType "Local"                                   => Local
-//   - vaultType "RemoteAgent"                             => RemoteAgent;
+//   - missing parameters, or parameters without deploymentMode => Local
+//   - deploymentMode "Local"                                   => Local
+//   - deploymentMode "RemoteAgent"                             => RemoteAgent;
 //     spokeName must be present, otherwise an error is returned
 //   - any other value                                     => error
 //
 // The `vault-type: remote` AppBinding label is a list-filter convenience
 // only and must never be used for routing decisions.
-func GetVaultDeployment(ab *appcat.AppBinding) (VaultDeploymentType, string, error) {
+func GetVaultDeploymentMode(ab *appcat.AppBinding) (DeploymentMode, string, error) {
 	if ab == nil {
 		return "", "", fmt.Errorf("AppBinding is nil")
 	}
 	if ab.Spec.Parameters == nil || len(ab.Spec.Parameters.Raw) == 0 {
-		return VaultDeploymentLocal, "", nil
+		return DeploymentModeLocal, "", nil
 	}
 
 	var cfg VaultServerConfiguration
@@ -50,15 +50,15 @@ func GetVaultDeployment(ab *appcat.AppBinding) (VaultDeploymentType, string, err
 		return "", "", fmt.Errorf("failed to parse parameters of AppBinding %s/%s: %w", ab.Namespace, ab.Name, err)
 	}
 
-	switch cfg.VaultType {
-	case "", VaultDeploymentLocal:
-		return VaultDeploymentLocal, "", nil
-	case VaultDeploymentRemoteAgent:
+	switch cfg.DeploymentMode {
+	case "", DeploymentModeLocal:
+		return DeploymentModeLocal, "", nil
+	case DeploymentModeRemoteAgent:
 		if cfg.SpokeName == "" {
-			return "", "", fmt.Errorf("AppBinding %s/%s has vaultType %q but no spokeName", ab.Namespace, ab.Name, cfg.VaultType)
+			return "", "", fmt.Errorf("AppBinding %s/%s has deploymentMode %q but no spokeName", ab.Namespace, ab.Name, cfg.DeploymentMode)
 		}
-		return VaultDeploymentRemoteAgent, cfg.SpokeName, nil
+		return DeploymentModeRemoteAgent, cfg.SpokeName, nil
 	default:
-		return "", "", fmt.Errorf("AppBinding %s/%s has unknown vaultType %q", ab.Namespace, ab.Name, cfg.VaultType)
+		return "", "", fmt.Errorf("AppBinding %s/%s has unknown deploymentMode %q", ab.Namespace, ab.Name, cfg.DeploymentMode)
 	}
 }

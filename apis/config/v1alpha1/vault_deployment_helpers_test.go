@@ -33,54 +33,54 @@ func appBindingWithParams(params string) *appcat.AppBinding {
 	return ab
 }
 
-func TestGetVaultDeployment(t *testing.T) {
+func TestGetVaultDeploymentMode(t *testing.T) {
 	tests := []struct {
 		name      string
 		params    string
-		wantType  VaultDeploymentType
+		wantType  DeploymentMode
 		wantSpoke string
 		wantErr   bool
 	}{
 		{
 			name:     "no parameters means local",
 			params:   "",
-			wantType: VaultDeploymentLocal,
+			wantType: DeploymentModeLocal,
 		},
 		{
-			name:     "parameters without vaultType means local",
+			name:     "parameters without deploymentMode means local",
 			params:   `{"apiVersion":"config.kubevault.com/v1alpha1","kind":"VaultServerConfiguration","path":"kubernetes"}`,
-			wantType: VaultDeploymentLocal,
+			wantType: DeploymentModeLocal,
 		},
 		{
 			name:     "explicit Local",
-			params:   `{"vaultType":"Local"}`,
-			wantType: VaultDeploymentLocal,
+			params:   `{"deploymentMode":"Local"}`,
+			wantType: DeploymentModeLocal,
 		},
 		{
 			name:      "RemoteAgent with spokeName",
-			params:    `{"vaultType":"RemoteAgent","spokeName":"cluster-1"}`,
-			wantType:  VaultDeploymentRemoteAgent,
+			params:    `{"deploymentMode":"RemoteAgent","spokeName":"cluster-1"}`,
+			wantType:  DeploymentModeRemoteAgent,
 			wantSpoke: "cluster-1",
 		},
 		{
 			name:    "legacy remote value rejected",
-			params:  `{"vaultType":"remote","spokeName":"cluster-1"}`,
+			params:  `{"deploymentMode":"remote","spokeName":"cluster-1"}`,
 			wantErr: true,
 		},
 		{
 			name:    "RemoteAgent without spokeName fails",
-			params:  `{"vaultType":"RemoteAgent"}`,
+			params:  `{"deploymentMode":"RemoteAgent"}`,
 			wantErr: true,
 		},
 		{
-			name:    "unknown vaultType fails",
-			params:  `{"vaultType":"Hybrid"}`,
+			name:    "unknown deploymentMode fails",
+			params:  `{"deploymentMode":"Hybrid"}`,
 			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			typ, spoke, err := GetVaultDeployment(appBindingWithParams(tt.params))
+			typ, spoke, err := GetVaultDeploymentMode(appBindingWithParams(tt.params))
 			if (err != nil) != tt.wantErr {
 				t.Fatalf("err = %v, wantErr = %v", err, tt.wantErr)
 			}

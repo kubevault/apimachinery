@@ -1321,6 +1321,7 @@ func autoConvert_v1alpha1_VaultServerStatus_To_v1alpha2_VaultServerStatus(in *Va
 	out.UpdatedNodes = *(*[]string)(unsafe.Pointer(&in.UpdatedNodes))
 	out.Conditions = *(*[]apiv1.Condition)(unsafe.Pointer(&in.Conditions))
 	out.AuthMethodStatus = *(*[]v1alpha2.AuthMethodStatus)(unsafe.Pointer(&in.AuthMethodStatus))
+	out.AgentPlacement = (*v1alpha2.AgentPlacementStatus)(unsafe.Pointer(in.AgentPlacement))
 	return nil
 }
 
@@ -1341,6 +1342,7 @@ func autoConvert_v1alpha2_VaultServerStatus_To_v1alpha1_VaultServerStatus(in *v1
 	out.UpdatedNodes = *(*[]string)(unsafe.Pointer(&in.UpdatedNodes))
 	out.Conditions = *(*[]apiv1.Condition)(unsafe.Pointer(&in.Conditions))
 	out.AuthMethodStatus = *(*[]AuthMethodStatus)(unsafe.Pointer(&in.AuthMethodStatus))
+	out.AgentPlacement = (*AgentPlacementStatus)(unsafe.Pointer(in.AgentPlacement))
 	return nil
 }
 

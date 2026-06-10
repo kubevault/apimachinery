@@ -10483,6 +10483,56 @@ spec:
             type: object
           status:
             properties:
+              agentPlacement:
+                description: |-
+                  AgentPlacement summarizes spoke agent rollout when the (v1alpha2)
+                  spec.agentPlacementRef is set. Mirrored here so VaultServerStatus
+                  round-trips losslessly through the v1alpha1 API.
+                properties:
+                  applied:
+                    description: Applied is the number of clusters whose ManifestWork
+                      has condition Applied=True.
+                    format: int32
+                    type: integer
+                  clusters:
+                    description: Clusters holds per-cluster detail.
+                    items:
+                      description: |-
+                        SpokeClusterStatus is the per managed cluster rollout state.
+                        Kept layout-identical to v1alpha2.SpokeClusterStatus for conversion.
+                      properties:
+                        clusterName:
+                          description: ClusterName is the ManagedCluster name.
+                          type: string
+                        phase:
+                          description: |-
+                            Phase mirrors the spoke VaultAgent phase (Pending|Connected|Disconnected|Error)
+                            plus hub-side values (WorkApplied, WorkProgressing, WorkDegraded).
+                          type: string
+                        tokenExpiry:
+                          description: TokenExpiry is when the current bootstrap token
+                            for this spoke expires.
+                          format: date-time
+                          type: string
+                      required:
+                      - clusterName
+                      type: object
+                    type: array
+                  placement:
+                    description: Placement is the resolved Placement name.
+                    type: string
+                  ready:
+                    description: |-
+                      Ready is the number of clusters whose VaultAgent reports phase Connected
+                      (scraped via ManifestWork status feedback).
+                    format: int32
+                    type: integer
+                  selected:
+                    description: Selected is the number of clusters currently listed
+                      in the PlacementDecisions.
+                    format: int32
+                    type: integer
+                type: object
               authMethodStatus:
                 description: Status of the vault auth methods
                 items:

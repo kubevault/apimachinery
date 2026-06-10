@@ -63,10 +63,9 @@ func TestGetVaultDeployment(t *testing.T) {
 			wantSpoke: "cluster-1",
 		},
 		{
-			name:      "legacy remote value normalized",
-			params:    `{"vaultType":"remote","spokeName":"cluster-1"}`,
-			wantType:  VaultDeploymentRemoteAgent,
-			wantSpoke: "cluster-1",
+			name:    "legacy remote value rejected",
+			params:  `{"vaultType":"remote","spokeName":"cluster-1"}`,
+			wantErr: true,
 		},
 		{
 			name:    "RemoteAgent without spokeName fails",

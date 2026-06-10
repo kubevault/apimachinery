@@ -25,13 +25,13 @@ import (
 
 // GetVaultDeployment is the single sanctioned way to determine whether a
 // Vault AppBinding points at a Local vault or a hub vault reached through
-// the OpenBao spoke agent (RemoteAgent). It returns the normalized
-// deployment type and, for RemoteAgent, the spoke name.
+// the OpenBao spoke agent (RemoteAgent). It returns the deployment type
+// and, for RemoteAgent, the spoke name.
 //
 // Rules:
 //   - missing parameters, or parameters without vaultType => Local
 //   - vaultType "Local"                                   => Local
-//   - vaultType "RemoteAgent" or legacy "remote"          => RemoteAgent;
+//   - vaultType "RemoteAgent"                             => RemoteAgent;
 //     spokeName must be present, otherwise an error is returned
 //   - any other value                                     => error
 //
@@ -53,7 +53,7 @@ func GetVaultDeployment(ab *appcat.AppBinding) (VaultDeploymentType, string, err
 	switch cfg.VaultType {
 	case "", VaultDeploymentLocal:
 		return VaultDeploymentLocal, "", nil
-	case VaultDeploymentRemoteAgent, vaultDeploymentLegacyRemote:
+	case VaultDeploymentRemoteAgent:
 		if cfg.SpokeName == "" {
 			return "", "", fmt.Errorf("AppBinding %s/%s has vaultType %q but no spokeName", ab.Namespace, ab.Name, cfg.VaultType)
 		}

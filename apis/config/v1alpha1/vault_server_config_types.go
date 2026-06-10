@@ -76,8 +76,7 @@ type VaultServerConfiguration struct {
 	// VaultType indicates how this AppBinding reaches the VaultServer:
 	// Local (in-cluster vault, the default when absent) or RemoteAgent
 	// (a hub vault accessed from a spoke cluster via the OpenBao spoke agent).
-	// Consumers must read this through GetVaultDeployment, which also
-	// normalizes the legacy value "remote".
+	// Consumers must read this through GetVaultDeployment.
 	// +optional
 	VaultType VaultDeploymentType `json:"vaultType,omitempty"`
 
@@ -105,10 +104,6 @@ const (
 	// use the remote-<db>-plugin family so the hub proxies plugin calls to
 	// the spoke agent.
 	VaultDeploymentRemoteAgent VaultDeploymentType = "RemoteAgent"
-
-	// vaultDeploymentLegacyRemote is the pre-enum wire value written by
-	// older operators; normalized to VaultDeploymentRemoteAgent on read.
-	vaultDeploymentLegacyRemote VaultDeploymentType = "remote"
 )
 
 // KubernetesAuthConfiguration contains necessary information for

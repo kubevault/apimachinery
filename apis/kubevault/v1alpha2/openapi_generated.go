@@ -452,6 +452,8 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec":                             schema_kmodulesxyz_offshoot_api_api_v1_ServiceTemplateSpec(ref),
 		"kmodules.xyz/offshoot-api/api/v1.Volume":                                          schema_kmodulesxyz_offshoot_api_api_v1_Volume(ref),
 		"kmodules.xyz/offshoot-api/api/v1.VolumeSource":                                    schema_kmodulesxyz_offshoot_api_api_v1_VolumeSource(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AgentBootstrapConfig":          schema_apimachinery_apis_kubevault_v1alpha2_AgentBootstrapConfig(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AgentPlacementStatus":          schema_apimachinery_apis_kubevault_v1alpha2_AgentPlacementStatus(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AllowedSecretEngines":          schema_apimachinery_apis_kubevault_v1alpha2_AllowedSecretEngines(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethod":                    schema_apimachinery_apis_kubevault_v1alpha2_AuthMethod(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethodStatus":              schema_apimachinery_apis_kubevault_v1alpha2_AuthMethodStatus(ref),
@@ -478,6 +480,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ReconnectConfig":               schema_apimachinery_apis_kubevault_v1alpha2_ReconnectConfig(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.S3Spec":                        schema_apimachinery_apis_kubevault_v1alpha2_S3Spec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SecretEngineNamespaces":        schema_apimachinery_apis_kubevault_v1alpha2_SecretEngineNamespaces(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SpokeClusterStatus":            schema_apimachinery_apis_kubevault_v1alpha2_SpokeClusterStatus(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SwiftSpec":                     schema_apimachinery_apis_kubevault_v1alpha2_SwiftSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.TLSPolicy":                     schema_apimachinery_apis_kubevault_v1alpha2_TLSPolicy(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.UnsealerSpec":                  schema_apimachinery_apis_kubevault_v1alpha2_UnsealerSpec(ref),
@@ -486,6 +489,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultAgentSpec":                schema_apimachinery_apis_kubevault_v1alpha2_VaultAgentSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultAgentStatus":              schema_apimachinery_apis_kubevault_v1alpha2_VaultAgentStatus(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultAgentTLSConfig":           schema_apimachinery_apis_kubevault_v1alpha2_VaultAgentTLSConfig(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultAgentTemplate":            schema_apimachinery_apis_kubevault_v1alpha2_VaultAgentTemplate(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultServer":                   schema_apimachinery_apis_kubevault_v1alpha2_VaultServer(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultServerList":               schema_apimachinery_apis_kubevault_v1alpha2_VaultServerList(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultServerSpec":               schema_apimachinery_apis_kubevault_v1alpha2_VaultServerSpec(ref),
@@ -23507,6 +23511,86 @@ func schema_kmodulesxyz_offshoot_api_api_v1_VolumeSource(ref common.ReferenceCal
 	}
 }
 
+func schema_apimachinery_apis_kubevault_v1alpha2_AgentBootstrapConfig(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "AgentBootstrapConfig configures the automated `bao agent join` trust bootstrap.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"joinSecretRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "JoinSecretRef references a Secret with the join parameters:\n - token:       hub bootstrap token (<id>.<secret>)\n - hubCertHash: \"sha256:<hex>\" SPKI pin of the spoke-CA\n - caBundle:    optional PEM CA bundle for the hub Vault API endpoint",
+							Default:     map[string]interface{}{},
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+				},
+				Required: []string{"joinSecretRef"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
+	}
+}
+
+func schema_apimachinery_apis_kubevault_v1alpha2_AgentPlacementStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "AgentPlacementStatus summarizes the rollout of spoke agents to managed clusters.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"placement": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Placement is the resolved Placement name.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"selected": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Selected is the number of clusters currently listed in the PlacementDecisions.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"applied": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Applied is the number of clusters whose ManifestWork has condition Applied=True.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"ready": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Ready is the number of clusters whose VaultAgent reports phase Connected (scraped via ManifestWork status feedback).",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"clusters": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Clusters holds per-cluster detail.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SpokeClusterStatus"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SpokeClusterStatus"},
+	}
+}
+
 func schema_apimachinery_apis_kubevault_v1alpha2_AllowedSecretEngines(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -24336,6 +24420,13 @@ func schema_apimachinery_apis_kubevault_v1alpha2_HubVaultReference(ref common.Re
 							Format:      "int32",
 						},
 					},
+					"caBundle": {
+						SchemaProps: spec.SchemaProps{
+							Description: "CABundle is the PEM bundle used to verify the hub Vault API endpoint. Takes precedence over the caBundle key of bootstrap.joinSecretRef.",
+							Type:        []string{"string"},
+							Format:      "byte",
+						},
+					},
 				},
 				Required: []string{"name", "namespace", "address"},
 			},
@@ -25082,6 +25173,43 @@ func schema_apimachinery_apis_kubevault_v1alpha2_SecretEngineNamespaces(ref comm
 	}
 }
 
+func schema_apimachinery_apis_kubevault_v1alpha2_SpokeClusterStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "SpokeClusterStatus is the per managed cluster rollout state.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"clusterName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterName is the ManagedCluster name.",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"phase": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Phase mirrors the spoke VaultAgent phase (Pending|Connected|Disconnected|Error) plus hub-side values (WorkApplied, WorkProgressing, WorkDegraded).",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"tokenExpiry": {
+						SchemaProps: spec.SchemaProps{
+							Description: "TokenExpiry is when the current bootstrap token for this spoke expires.",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.Time"),
+						},
+					},
+				},
+				Required: []string{"clusterName"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.Time"},
+	}
+}
+
 func schema_apimachinery_apis_kubevault_v1alpha2_SwiftSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -25408,12 +25536,18 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultAgentSpec(ref common.Refer
 							Ref:         ref("kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec"),
 						},
 					},
+					"bootstrap": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Bootstrap configures the automated `bao agent join` flow. When set, the spoke-agent pod runs a join init container that exchanges the bootstrap token for mTLS client credentials before the long-running agent starts. Exactly one of Bootstrap or TLS.CertSecret (pre-provisioned credentials) should be used.",
+							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AgentBootstrapConfig"),
+						},
+					},
 				},
 				Required: []string{"hubVaultRef", "spokeName"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.HubVaultReference", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ReconnectConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultAgentTLSConfig"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AgentBootstrapConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.HubVaultReference", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ReconnectConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultAgentTLSConfig"},
 	}
 }
 
@@ -25454,6 +25588,12 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultAgentStatus(ref common.Ref
 							Description: "PodName is the name of the spoke-agent pod",
 							Type:        []string{"string"},
 							Format:      "",
+						},
+					},
+					"certExpiry": {
+						SchemaProps: spec.SchemaProps{
+							Description: "CertExpiry of the current spoke client certificate, if known.",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.Time"),
 						},
 					},
 					"conditions": {
@@ -25509,6 +25649,48 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultAgentTLSConfig(ref common.
 		},
 		Dependencies: []string{
 			"k8s.io/api/core/v1.LocalObjectReference"},
+	}
+}
+
+func schema_apimachinery_apis_kubevault_v1alpha2_VaultAgentTemplate(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "VaultAgentTemplate is the subset of VaultAgentSpec a hub admin may pre-set for placement-driven spoke agent deployments.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"namespace": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Namespace on the managed cluster where the VaultAgent and its companion resources are created. Defaults to the VaultServer's namespace.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"image": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Image overrides the spoke-agent container image.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"podTemplate": {
+						SchemaProps: spec.SchemaProps{
+							Description: "PodTemplate is an optional configuration for the spoke-agent pods.",
+							Default:     map[string]interface{}{},
+							Ref:         ref("kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec"),
+						},
+					},
+					"bootstrapTokenTTL": {
+						SchemaProps: spec.SchemaProps{
+							Description: "BootstrapTokenTTL controls the TTL of hub bootstrap tokens minted per spoke (and therefore their rotation period). Default 24h, minimum 1h.",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.Duration"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.Duration", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec"},
 	}
 }
 
@@ -25733,12 +25915,24 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultServerSpec(ref common.Refe
 							Ref:         ref("kmodules.xyz/client-go/api/v1.HealthCheckSpec"),
 						},
 					},
+					"agentPlacementRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "AgentPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1) in the same namespace as the VaultServer. When set, the operator deploys a VaultAgent to every managed cluster selected by the Placement, using one ManifestWork per cluster. Requires the OCM hub CRDs (Placement, PlacementDecision, ManifestWork) to be installed; the field is ignored with a warning condition otherwise.",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+					"agentTemplate": {
+						SchemaProps: spec.SchemaProps{
+							Description: "AgentTemplate customizes the VaultAgents stamped out for clusters selected by AgentPlacementRef. Per-cluster fields (spokeName, hubVaultRef, join material) are filled in by the operator.",
+							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultAgentTemplate"),
+						},
+					},
 				},
 				Required: []string{"version", "backend"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference", "k8s.io/api/core/v1.VolumeSource", "kmodules.xyz/client-go/api/v1.HealthCheckSpec", "kmodules.xyz/client-go/api/v1.TLSConfig", "kmodules.xyz/monitoring-agent-api/api/v1.AgentSpec", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AllowedSecretEngines", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethod", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.BackendStorageSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.NamedServiceTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.UnsealerSpec"},
+			"k8s.io/api/core/v1.LocalObjectReference", "k8s.io/api/core/v1.VolumeSource", "kmodules.xyz/client-go/api/v1.HealthCheckSpec", "kmodules.xyz/client-go/api/v1.TLSConfig", "kmodules.xyz/monitoring-agent-api/api/v1.AgentSpec", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AllowedSecretEngines", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethod", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.BackendStorageSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.NamedServiceTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.UnsealerSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultAgentTemplate"},
 	}
 }
 
@@ -25833,11 +26027,17 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultServerStatus(ref common.Re
 							},
 						},
 					},
+					"agentPlacement": {
+						SchemaProps: spec.SchemaProps{
+							Description: "AgentPlacement summarizes spoke agent rollout when spec.agentPlacementRef is set.",
+							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AgentPlacementStatus"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.Condition", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethodStatus", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultStatus"},
+			"kmodules.xyz/client-go/api/v1.Condition", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AgentPlacementStatus", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethodStatus", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultStatus"},
 	}
 }
 

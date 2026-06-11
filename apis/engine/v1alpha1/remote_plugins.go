@@ -35,6 +35,7 @@ const (
 	RemoteIgniteDatabasePlugin     = "remote-ignite-plugin"
 	RemoteKafkaDatabasePlugin      = "remote-kafka-plugin"
 	RemoteMemcachedDatabasePlugin  = "remote-memcached-plugin"
+	RemoteMilvusDatabasePlugin     = "remote-milvus-plugin"
 )
 
 // RemoteDatabasePlugin maps a database engine kind to the hub-side proxy
@@ -69,7 +70,9 @@ func RemoteDatabasePlugin(engineKind string) (string, error) {
 		return RemoteKafkaDatabasePlugin, nil
 	case "memcached":
 		return RemoteMemcachedDatabasePlugin, nil
+	case "milvus":
+		return RemoteMilvusDatabasePlugin, nil
 	default:
-		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey, db2, documentdb, druid, hanadb, hazelcast, ignite, kafka, memcached", engineKind)
+		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey, db2, documentdb, druid, hanadb, hazelcast, ignite, kafka, memcached, milvus", engineKind)
 	}
 }

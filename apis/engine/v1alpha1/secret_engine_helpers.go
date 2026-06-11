@@ -97,6 +97,8 @@ func (se SecretEngine) GetSecretEngineType() api.SecretEngineType {
 		return api.SecretEngineTypeDocumentDB
 	case seSpec.Druid != nil:
 		return api.SecretEngineTypeDruid
+	case seSpec.HanaDB != nil:
+		return api.SecretEngineTypeHanaDB
 	case seSpec.KV != nil:
 		return api.SecretEngineTypeKV
 	case seSpec.PKI != nil:

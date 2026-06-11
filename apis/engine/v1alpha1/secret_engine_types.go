@@ -89,6 +89,51 @@ type SecretEngineConfiguration struct {
 	KV            *KVConfiguration            `json:"kv,omitempty"`
 	Elasticsearch *ElasticsearchConfiguration `json:"elasticsearch,omitempty"`
 	PKI           *PKIConfiguration           `json:"pki,omitempty"`
+	Kafka         *KafkaConfiguration         `json:"kafka,omitempty"`
+}
+
+// KafkaConfiguration defines an Apache Kafka app configuration. The
+// OpenBao `kafka-database-plugin` (sigilr/openbao#15) writes SCRAM
+// user records via the franz-go AdminClient, so the connection
+// payload uses `brokers` (a comma-separated broker list) rather than
+// `connection_url`. Kafka is dynamic: NewUser/UpdateUser/DeleteUser are
+// all supported. ACLs are not yet implemented — the `acls` field on
+// the role JSON is reserved and must currently be empty.
+// https://kafka.apache.org/documentation/#security_sasl_scram
+type KafkaConfiguration struct {
+	// Specifies the Kafka cluster appbinding reference. The AppBinding
+	// URL is the broker CSV (e.g. `broker1:9092,broker2:9092`) and the
+	// referenced Secret contributes username/password for the SASL
+	// principal used to manage SCRAM user records.
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for kafka: kafka-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Mechanism is the SASL mechanism written into the Kafka SCRAM record.
+	// Valid values: SCRAM-SHA-256 (default), SCRAM-SHA-512. PLAIN is rejected
+	// by the plugin.
+	// +optional
+	Mechanism string `json:"mechanism,omitempty"`
+
+	// UseTLS dials the brokers over TLS.
+	// +optional
+	UseTLS bool `json:"useTLS,omitempty"`
+
+	// Insecure disables TLS certificate verification when UseTLS is true.
+	// Useful for clusters fronted by self-signed certificates; not
+	// recommended in production.
+	// +kubebuilder:default:=false
+	// +optional
+	Insecure bool `json:"insecure,omitempty"`
 }
 
 // https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-root

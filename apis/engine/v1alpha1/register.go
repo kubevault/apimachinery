@@ -101,6 +101,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&MilvusRoleList{},
 		&MSSQLServerRole{},
 		&MSSQLServerRoleList{},
+		&Neo4jRole{},
+		&Neo4jRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

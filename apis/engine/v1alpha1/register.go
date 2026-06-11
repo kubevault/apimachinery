@@ -91,6 +91,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&HanaDBRoleList{},
 		&HazelcastRole{},
 		&HazelcastRoleList{},
+		&IgniteRole{},
+		&IgniteRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

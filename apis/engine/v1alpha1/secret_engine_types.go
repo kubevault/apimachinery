@@ -89,6 +89,40 @@ type SecretEngineConfiguration struct {
 	KV            *KVConfiguration            `json:"kv,omitempty"`
 	Elasticsearch *ElasticsearchConfiguration `json:"elasticsearch,omitempty"`
 	PKI           *PKIConfiguration           `json:"pki,omitempty"`
+	Qdrant        *QdrantConfiguration        `json:"qdrant,omitempty"`
+}
+
+// QdrantConfiguration defines a Qdrant app configuration. The OpenBao
+// `qdrant-database-plugin` is static-credentials-only: Qdrant loads
+// its API key from the `QDRANT__SERVICE__API_KEY` environment variable
+// at server startup and exposes no runtime user-management API, so the
+// plugin verifies the configured API key against the `/readyz`
+// endpoint (key sent in the `api-key` header) and treats NewUser as
+// unsupported. Use static-roles for credential rotation.
+// https://github.com/sigilr/openbao/pull/17
+type QdrantConfiguration struct {
+	// Specifies the Qdrant database appbinding reference. The
+	// AppBinding's URL is forwarded as the Qdrant HTTP endpoint
+	// (`url=`); the secret's `password` (or `api_key`) field is
+	// forwarded as the Qdrant API key (`api_key=`).
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for qdrant: qdrant-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Insecure disables TLS verification when probing the Qdrant
+	// HTTP endpoint. Not recommended in production.
+	// +kubebuilder:default:=false
+	// +optional
+	Insecure bool `json:"insecure,omitempty"`
 }
 
 // https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-root

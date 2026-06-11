@@ -89,6 +89,42 @@ type SecretEngineConfiguration struct {
 	KV            *KVConfiguration            `json:"kv,omitempty"`
 	Elasticsearch *ElasticsearchConfiguration `json:"elasticsearch,omitempty"`
 	PKI           *PKIConfiguration           `json:"pki,omitempty"`
+	Solr          *SolrConfiguration          `json:"solr,omitempty"`
+}
+
+// SolrConfiguration defines an Apache Solr app configuration. The
+// OpenBao `solr-database-plugin` (sigilr/openbao#11) provisions
+// credentials via Solr's Security Plugin API (Basic Auth Plugin user
+// + Rule-Based Authorization role bindings), so the connection
+// payload uses `url` (Solr HTTP endpoint) rather than a
+// connection_url. Solr is dynamic: NewUser/UpdateUser/DeleteUser
+// are all supported.
+// https://solr.apache.org/guide/solr/latest/deployment-guide/authentication-and-authorization-plugins.html
+type SolrConfiguration struct {
+	// Specifies the Solr database appbinding reference. The
+	// AppBinding URL points at the Solr HTTP endpoint
+	// (e.g. `http://solr.demo.svc:8983`); the secret contributes
+	// username/password used to authenticate against Solr's
+	// Security Plugin API.
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for solr: solr-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Insecure disables TLS verification when talking to the Solr
+	// HTTP endpoint. Useful for dev clusters with self-signed
+	// certificates; not recommended in production.
+	// +kubebuilder:default:=false
+	// +optional
+	Insecure bool `json:"insecure,omitempty"`
 }
 
 // https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-root

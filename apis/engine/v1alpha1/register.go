@@ -81,6 +81,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&RedisRoleList{},
 		&PKIRole{},
 		&PKIRoleList{},
+		&DocumentDBRole{},
+		&DocumentDBRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

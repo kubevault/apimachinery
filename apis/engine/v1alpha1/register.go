@@ -109,6 +109,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&QdrantRoleList{},
 		&RabbitMQRole{},
 		&RabbitMQRoleList{},
+		&SolrRole{},
+		&SolrRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

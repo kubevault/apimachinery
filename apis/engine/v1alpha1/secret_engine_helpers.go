@@ -121,6 +121,8 @@ func (se SecretEngine) GetSecretEngineType() api.SecretEngineType {
 		return api.SecretEngineTypeRabbitMQ
 	case seSpec.Solr != nil:
 		return api.SecretEngineTypeSolr
+	case seSpec.Weaviate != nil:
+		return api.SecretEngineTypeWeaviate
 	case seSpec.KV != nil:
 		return api.SecretEngineTypeKV
 	case seSpec.PKI != nil:

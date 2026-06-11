@@ -91,6 +91,8 @@ func (se SecretEngine) GetSecretEngineType() api.SecretEngineType {
 		return api.SecretEngineTypePostgres
 	case seSpec.MariaDB != nil:
 		return api.SecretEngineTypeMariaDB
+	case seSpec.Ignite != nil:
+		return api.SecretEngineTypeIgnite
 	case seSpec.KV != nil:
 		return api.SecretEngineTypeKV
 	case seSpec.PKI != nil:

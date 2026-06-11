@@ -23,10 +23,11 @@ import "fmt"
 // operations over mTLS gRPC to the in-process built-in plugin running on
 // the named spoke.
 const (
-	RemotePostgresDatabasePlugin = "remote-postgres-plugin"
-	RemoteMySQLDatabasePlugin    = "remote-mysql-plugin"
-	RemoteRedisDatabasePlugin    = "remote-redis-plugin"
-	RemoteValkeyDatabasePlugin   = "remote-valkey-plugin"
+	RemotePostgresDatabasePlugin  = "remote-postgres-plugin"
+	RemoteMySQLDatabasePlugin     = "remote-mysql-plugin"
+	RemoteRedisDatabasePlugin     = "remote-redis-plugin"
+	RemoteValkeyDatabasePlugin    = "remote-valkey-plugin"
+	RemoteMemcachedDatabasePlugin = "remote-memcached-plugin"
 )
 
 // RemoteDatabasePlugin maps a database engine kind to the hub-side proxy
@@ -45,7 +46,9 @@ func RemoteDatabasePlugin(engineKind string) (string, error) {
 		return RemoteRedisDatabasePlugin, nil
 	case "valkey":
 		return RemoteValkeyDatabasePlugin, nil
+	case "memcached":
+		return RemoteMemcachedDatabasePlugin, nil
 	default:
-		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey", engineKind)
+		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey, memcached", engineKind)
 	}
 }

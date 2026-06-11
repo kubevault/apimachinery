@@ -315,7 +315,7 @@ type AllowedSecretEngines struct {
 	SecretEngines []SecretEngineType `json:"secretEngines,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=kv;pki;aws;azure;gcp;postgres;mongodb;mysql;mariadb;elasticsearch;redis;db2;documentdb;druid;hanadb;hazelcast;ignite
+// +kubebuilder:validation:Enum=kv;pki;aws;azure;gcp;postgres;mongodb;mysql;mariadb;elasticsearch;redis;db2;documentdb;druid;hanadb;hazelcast;ignite;kafka
 type SecretEngineType string
 
 const (
@@ -336,6 +336,7 @@ const (
 	SecretEngineTypeHanaDB        SecretEngineType = "hanadb"
 	SecretEngineTypeHazelcast     SecretEngineType = "hazelcast"
 	SecretEngineTypeIgnite        SecretEngineType = "ignite"
+	SecretEngineTypeKafka         SecretEngineType = "kafka"
 )
 
 // FromNamespaces specifies namespace from which Secret Engines may be attached to a

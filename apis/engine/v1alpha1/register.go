@@ -93,6 +93,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&HazelcastRoleList{},
 		&IgniteRole{},
 		&IgniteRoleList{},
+		&KafkaRole{},
+		&KafkaRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

@@ -102,6 +102,7 @@ type SecretEngineConfiguration struct {
 	Neo4j         *Neo4jConfiguration         `json:"neo4j,omitempty"`
 	Oracle        *OracleConfiguration        `json:"oracle,omitempty"`
 	Qdrant        *QdrantConfiguration        `json:"qdrant,omitempty"`
+	RabbitMQ      *RabbitMQConfiguration      `json:"rabbitmq,omitempty"`
 }
 
 // DB2Configuration defines an IBM Db2 app configuration. The OpenBao

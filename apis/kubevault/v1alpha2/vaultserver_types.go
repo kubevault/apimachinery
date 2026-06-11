@@ -315,7 +315,7 @@ type AllowedSecretEngines struct {
 	SecretEngines []SecretEngineType `json:"secretEngines,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=kv;pki;aws;azure;gcp;postgres;mongodb;mysql;mariadb;elasticsearch;redis;db2;documentdb;druid;hanadb;hazelcast;ignite;kafka;memcached;milvus;mssqlserver;neo4j;oracle;qdrant;rabbitmq;solr;weaviate
+// +kubebuilder:validation:Enum=kv;pki;aws;azure;gcp;postgres;mongodb;mysql;mariadb;elasticsearch;redis;db2;documentdb;druid;hanadb;hazelcast;ignite;kafka;memcached;milvus;mssqlserver;neo4j;oracle;qdrant;rabbitmq;solr;weaviate;zookeeper
 type SecretEngineType string
 
 const (
@@ -346,6 +346,7 @@ const (
 	SecretEngineTypeRabbitMQ      SecretEngineType = "rabbitmq"
 	SecretEngineTypeSolr          SecretEngineType = "solr"
 	SecretEngineTypeWeaviate      SecretEngineType = "weaviate"
+	SecretEngineTypeZooKeeper     SecretEngineType = "zookeeper"
 )
 
 // FromNamespaces specifies namespace from which Secret Engines may be attached to a

@@ -105,6 +105,7 @@ type SecretEngineConfiguration struct {
 	RabbitMQ      *RabbitMQConfiguration      `json:"rabbitmq,omitempty"`
 	Solr          *SolrConfiguration          `json:"solr,omitempty"`
 	Weaviate      *WeaviateConfiguration      `json:"weaviate,omitempty"`
+	ZooKeeper     *ZooKeeperConfiguration     `json:"zookeeper,omitempty"`
 }
 
 // DB2Configuration defines an IBM Db2 app configuration. The OpenBao
@@ -584,6 +585,41 @@ type WeaviateConfiguration struct {
 
 	// Insecure disables TLS verification when probing the Weaviate
 	// HTTP endpoint. Not recommended in production.
+	// +kubebuilder:default:=false
+	// +optional
+	Insecure bool `json:"insecure,omitempty"`
+}
+
+// ZooKeeperConfiguration defines an Apache ZooKeeper app configuration.
+// The OpenBao `zookeeper-database-plugin` is static-credentials-only:
+// ZooKeeper has no runtime user-management API for SASL/digest
+// principals — they are loaded from server-side `jaas.conf` at
+// startup — so the plugin opens a TCP connection and sends the
+// 4-letter word `ruok` (a healthy node replies `imok`) to verify
+// reachability and returns "dynamic credentials are not supported"
+// for NewUser. Use static-roles for credential rotation.
+// https://github.com/sigilr/openbao/pull/21
+type ZooKeeperConfiguration struct {
+	// Specifies the ZooKeeper database appbinding reference. The
+	// AppBinding's URL is forwarded as the ZooKeeper TCP endpoint
+	// (`url=`); the secret contributes Basic Auth credentials when
+	// present (forwarded for symmetry with other plugins; the
+	// `ruok` healthcheck does not authenticate).
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for zookeeper: zookeeper-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Insecure disables TLS verification when probing the ZooKeeper
+	// TCP endpoint. Not recommended in production.
 	// +kubebuilder:default:=false
 	// +optional
 	Insecure bool `json:"insecure,omitempty"`

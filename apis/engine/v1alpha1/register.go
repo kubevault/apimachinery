@@ -113,6 +113,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&SolrRoleList{},
 		&WeaviateRole{},
 		&WeaviateRoleList{},
+		&ZooKeeperRole{},
+		&ZooKeeperRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

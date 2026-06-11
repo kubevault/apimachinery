@@ -123,6 +123,8 @@ func (se SecretEngine) GetSecretEngineType() api.SecretEngineType {
 		return api.SecretEngineTypeSolr
 	case seSpec.Weaviate != nil:
 		return api.SecretEngineTypeWeaviate
+	case seSpec.ZooKeeper != nil:
+		return api.SecretEngineTypeZooKeeper
 	case seSpec.KV != nil:
 		return api.SecretEngineTypeKV
 	case seSpec.PKI != nil:

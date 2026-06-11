@@ -93,6 +93,8 @@ func (se SecretEngine) GetSecretEngineType() api.SecretEngineType {
 		return api.SecretEngineTypeMariaDB
 	case seSpec.DB2 != nil:
 		return api.SecretEngineTypeDB2
+	case seSpec.DocumentDB != nil:
+		return api.SecretEngineTypeDocumentDB
 	case seSpec.KV != nil:
 		return api.SecretEngineTypeKV
 	case seSpec.PKI != nil:

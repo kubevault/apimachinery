@@ -89,6 +89,54 @@ type SecretEngineConfiguration struct {
 	KV            *KVConfiguration            `json:"kv,omitempty"`
 	Elasticsearch *ElasticsearchConfiguration `json:"elasticsearch,omitempty"`
 	PKI           *PKIConfiguration           `json:"pki,omitempty"`
+	MSSQLServer   *MSSQLServerConfiguration   `json:"mssqlserver,omitempty"`
+}
+
+// MSSQLServerConfiguration defines a Microsoft SQL Server app
+// configuration. The OpenBao `mssql-database-plugin` (sigilr/openbao#5)
+// was ported from pre-BUSL HashiCorp Vault and is a dynamic
+// SQL-statement based plugin (postgres-style): the connection payload is
+// the SQL Server DSN (`connection_url`) plus pool-tuning knobs and the
+// MSSQL-specific `contained_db` toggle.
+// https://www.vaultproject.io/api/secret/databases/mssql.html
+type MSSQLServerConfiguration struct {
+	// Specifies the SQL Server database appbinding reference. The
+	// AppBinding URL is the SQL Server DSN
+	// (`sqlserver://<user>:<pass>@<host>:1433`); the secret contributes
+	// username/password.
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for mssqlserver: mssql-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Specifies the maximum number of open connections to the database.
+	// +optional
+	MaxOpenConnections int64 `json:"maxOpenConnections,omitempty"`
+
+	// Specifies the maximum number of idle connections to the database.
+	// A zero uses the value of max_open_connections and a negative value disables idle connections.
+	// If larger than max_open_connections it will be reduced to be equal.
+	// +optional
+	MaxIdleConnections int64 `json:"maxIdleConnections,omitempty"`
+
+	// Specifies the maximum amount of time a connection may be reused.
+	// If <= 0s connections are reused forever.
+	// +optional
+	MaxConnectionLifetime string `json:"maxConnectionLifetime,omitempty"`
+
+	// ContainedDB enables SQL Server contained-database authentication mode
+	// (CREATE USER ... WITH PASSWORD against the user database). Defaults to
+	// false (logins on the master DB).
+	// +optional
+	ContainedDB bool `json:"containedDB,omitempty"`
 }
 
 // https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-root

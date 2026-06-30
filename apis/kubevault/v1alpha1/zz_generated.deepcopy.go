@@ -569,6 +569,10 @@ func (in *SpokeClusterStatus) DeepCopyInto(out *SpokeClusterStatus) {
 		in, out := &in.TokenExpiry, &out.TokenExpiry
 		*out = (*in).DeepCopy()
 	}
+	if in.CertExpiry != nil {
+		in, out := &in.CertExpiry, &out.CertExpiry
+		*out = (*in).DeepCopy()
+	}
 	return
 }
 

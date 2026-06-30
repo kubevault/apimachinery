@@ -10501,6 +10501,13 @@ spec:
                         SpokeClusterStatus is the per managed cluster rollout state.
                         Kept layout-identical to v1alpha2.SpokeClusterStatus for conversion.
                       properties:
+                        certExpiry:
+                          description: |-
+                            CertExpiry is when this spoke's mTLS client certificate expires, as
+                            observed by the hub agent backend (agent/spokes). Nil when unknown — the
+                            spoke is not connected, or the hub captured no verified peer cert.
+                          format: date-time
+                          type: string
                         clusterName:
                           description: ClusterName is the ManagedCluster name.
                           type: string
@@ -27946,6 +27953,13 @@ spec:
                       description: SpokeClusterStatus is the per managed cluster rollout
                         state.
                       properties:
+                        certExpiry:
+                          description: |-
+                            CertExpiry is when this spoke's mTLS client certificate expires, as
+                            observed by the hub agent backend (agent/spokes). Nil when unknown — the
+                            spoke is not connected, or the hub captured no verified peer cert.
+                          format: date-time
+                          type: string
                         clusterName:
                           description: ClusterName is the ManagedCluster name.
                           type: string

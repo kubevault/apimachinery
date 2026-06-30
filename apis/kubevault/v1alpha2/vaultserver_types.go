@@ -269,6 +269,12 @@ type SpokeClusterStatus struct {
 	// TokenExpiry is when the current bootstrap token for this spoke expires.
 	// +optional
 	TokenExpiry *metav1.Time `json:"tokenExpiry,omitempty"`
+
+	// CertExpiry is when this spoke's mTLS client certificate expires, as
+	// observed by the hub agent backend (agent/spokes). Nil when unknown — the
+	// spoke is not connected, or the hub captured no verified peer cert.
+	// +optional
+	CertExpiry *metav1.Time `json:"certExpiry,omitempty"`
 }
 
 // AllowedSecretEngines defines which Secret Engines may be attached to this Listener.

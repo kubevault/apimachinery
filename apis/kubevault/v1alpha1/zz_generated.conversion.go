@@ -1123,6 +1123,7 @@ func autoConvert_v1alpha1_SpokeClusterStatus_To_v1alpha2_SpokeClusterStatus(in *
 	out.ClusterName = in.ClusterName
 	out.Phase = in.Phase
 	out.TokenExpiry = (*metav1.Time)(unsafe.Pointer(in.TokenExpiry))
+	out.CertExpiry = (*metav1.Time)(unsafe.Pointer(in.CertExpiry))
 	return nil
 }
 
@@ -1135,6 +1136,7 @@ func autoConvert_v1alpha2_SpokeClusterStatus_To_v1alpha1_SpokeClusterStatus(in *
 	out.ClusterName = in.ClusterName
 	out.Phase = in.Phase
 	out.TokenExpiry = (*metav1.Time)(unsafe.Pointer(in.TokenExpiry))
+	out.CertExpiry = (*metav1.Time)(unsafe.Pointer(in.CertExpiry))
 	return nil
 }
 

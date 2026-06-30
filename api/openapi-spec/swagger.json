@@ -15178,6 +15178,10 @@
         "clusterName"
       ],
       "properties": {
+        "certExpiry": {
+          "description": "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub agent backend (agent/spokes). Nil when unknown — the spoke is not connected, or the hub captured no verified peer cert.",
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time"
+        },
         "clusterName": {
           "description": "ClusterName is the ManagedCluster name.",
           "type": "string",
@@ -16439,6 +16443,10 @@
         "clusterName"
       ],
       "properties": {
+        "certExpiry": {
+          "description": "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub agent backend (agent/spokes). Nil when unknown — the spoke is not connected, or the hub captured no verified peer cert.",
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time"
+        },
         "clusterName": {
           "description": "ClusterName is the ManagedCluster name.",
           "type": "string",

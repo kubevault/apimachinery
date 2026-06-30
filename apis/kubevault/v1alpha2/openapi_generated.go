@@ -25201,6 +25201,12 @@ func schema_apimachinery_apis_kubevault_v1alpha2_SpokeClusterStatus(ref common.R
 							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.Time"),
 						},
 					},
+					"certExpiry": {
+						SchemaProps: spec.SchemaProps{
+							Description: "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub agent backend (agent/spokes). Nil when unknown — the spoke is not connected, or the hub captured no verified peer cert.",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.Time"),
+						},
+					},
 				},
 				Required: []string{"clusterName"},
 			},

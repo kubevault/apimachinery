@@ -29,12 +29,17 @@ import (
 
 type KubevaultV1alpha2Interface interface {
 	RESTClient() rest.Interface
+	VaultAgentsGetter
 	VaultServersGetter
 }
 
 // KubevaultV1alpha2Client is used to interact with features provided by the kubevault.com group.
 type KubevaultV1alpha2Client struct {
 	restClient rest.Interface
+}
+
+func (c *KubevaultV1alpha2Client) VaultAgents(namespace string) VaultAgentInterface {
+	return newVaultAgents(c, namespace)
 }
 
 func (c *KubevaultV1alpha2Client) VaultServers(namespace string) VaultServerInterface {

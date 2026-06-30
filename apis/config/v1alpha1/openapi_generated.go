@@ -23647,6 +23647,20 @@ func schema_apimachinery_apis_config_v1alpha1_VaultServerConfiguration(ref commo
 							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.UnsealerSpec"),
 						},
 					},
+					"deploymentMode": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DeploymentMode indicates how this AppBinding reaches the VaultServer: Local (in-cluster vault, the default when absent) or RemoteAgent (a hub vault accessed from a spoke cluster via the OpenBao spoke agent). Consumers must read this through GetVaultDeploymentMode.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"spokeName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "SpokeName is the spoke cluster identity registered with the hub's agent backend. Required when DeploymentMode is RemoteAgent. The secret engine controllers use it to route database mounts through the hub's remote-<db>-plugin proxies.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 				},
 			},
 		},

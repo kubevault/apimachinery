@@ -140,6 +140,42 @@ type VaultServerSpec struct {
 	// +optional
 	// +kubebuilder:default={periodSeconds: 10, timeoutSeconds: 10, failureThreshold: 1}
 	HealthChecker kmapi.HealthCheckSpec `json:"healthChecker"`
+
+	// AgentPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1)
+	// in the same namespace as the VaultServer. When set, the operator deploys a VaultAgent to
+	// every managed cluster selected by the Placement, using one ManifestWork per cluster.
+	// Requires the OCM hub CRDs (Placement, PlacementDecision, ManifestWork) to be installed;
+	// the field is ignored with a warning condition otherwise.
+	// +optional
+	AgentPlacementRef *core.LocalObjectReference `json:"agentPlacementRef,omitempty"`
+
+	// AgentTemplate customizes the VaultAgents stamped out for clusters selected by
+	// AgentPlacementRef. Per-cluster fields (spokeName, hubVaultRef, join material)
+	// are filled in by the operator.
+	// +optional
+	AgentTemplate *VaultAgentTemplate `json:"agentTemplate,omitempty"`
+}
+
+// VaultAgentTemplate is the subset of VaultAgentSpec a hub admin may pre-set for
+// placement-driven spoke agent deployments.
+type VaultAgentTemplate struct {
+	// Namespace on the managed cluster where the VaultAgent and its companion
+	// resources are created. Defaults to the VaultServer's namespace.
+	// +optional
+	Namespace string `json:"namespace,omitempty"`
+
+	// Image overrides the spoke-agent container image.
+	// +optional
+	Image string `json:"image,omitempty"`
+
+	// PodTemplate is an optional configuration for the spoke-agent pods.
+	// +optional
+	PodTemplate ofst.PodTemplateSpec `json:"podTemplate,omitempty"`
+
+	// BootstrapTokenTTL controls the TTL of hub bootstrap tokens minted per spoke
+	// (and therefore their rotation period). Default 24h, minimum 1h.
+	// +optional
+	BootstrapTokenTTL *metav1.Duration `json:"bootstrapTokenTTL,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -190,6 +226,55 @@ type VaultServerStatus struct {
 	// Status of the vault auth methods
 	// +optional
 	AuthMethodStatus []AuthMethodStatus `json:"authMethodStatus,omitempty"`
+
+	// AgentPlacement summarizes spoke agent rollout when spec.agentPlacementRef is set.
+	// +optional
+	AgentPlacement *AgentPlacementStatus `json:"agentPlacement,omitempty"`
+}
+
+// AgentPlacementStatus summarizes the rollout of spoke agents to managed clusters.
+type AgentPlacementStatus struct {
+	// Placement is the resolved Placement name.
+	// +optional
+	Placement string `json:"placement,omitempty"`
+
+	// Selected is the number of clusters currently listed in the PlacementDecisions.
+	// +optional
+	Selected int32 `json:"selected,omitempty"`
+
+	// Applied is the number of clusters whose ManifestWork has condition Applied=True.
+	// +optional
+	Applied int32 `json:"applied,omitempty"`
+
+	// Ready is the number of clusters whose VaultAgent reports phase Connected
+	// (scraped via ManifestWork status feedback).
+	// +optional
+	Ready int32 `json:"ready,omitempty"`
+
+	// Clusters holds per-cluster detail.
+	// +optional
+	Clusters []SpokeClusterStatus `json:"clusters,omitempty"`
+}
+
+// SpokeClusterStatus is the per managed cluster rollout state.
+type SpokeClusterStatus struct {
+	// ClusterName is the ManagedCluster name.
+	ClusterName string `json:"clusterName"`
+
+	// Phase mirrors the spoke VaultAgent phase (Pending|Connected|Disconnected|Error)
+	// plus hub-side values (WorkApplied, WorkProgressing, WorkDegraded).
+	// +optional
+	Phase string `json:"phase,omitempty"`
+
+	// TokenExpiry is when the current bootstrap token for this spoke expires.
+	// +optional
+	TokenExpiry *metav1.Time `json:"tokenExpiry,omitempty"`
+
+	// CertExpiry is when this spoke's mTLS client certificate expires, as
+	// observed by the hub agent backend (agent/spokes). Nil when unknown — the
+	// spoke is not connected, or the hub captured no verified peer cert.
+	// +optional
+	CertExpiry *metav1.Time `json:"certExpiry,omitempty"`
 }
 
 // AllowedSecretEngines defines which Secret Engines may be attached to this Listener.

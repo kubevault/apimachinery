@@ -23,6 +23,7 @@ import (
 
 	tl "gomodules.xyz/testing"
 	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	appcat "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1"
 	"sigs.k8s.io/yaml"
 )
@@ -69,6 +70,54 @@ func TestConvert_v1alpha1_VaultServer_To_v1alpha2_VaultServer(t *testing.T) {
 				return
 			}
 		})
+	}
+}
+
+// TestConvert_VaultServerStatus_RoundTrip verifies VaultServerStatus stays in
+// sync between the API versions, including the OCM agent placement summary.
+func TestConvert_VaultServerStatus_RoundTrip(t *testing.T) {
+	now := metav1.Now()
+	v2Status := v1alpha2.VaultServerStatus{
+		ObservedGeneration: 7,
+		Phase:              v1alpha2.VaultServerPhase("Ready"),
+		Initialized:        true,
+		ServiceName:        "vault",
+		ClientPort:         8200,
+		VaultStatus: v1alpha2.VaultStatus{
+			Active:   "vault-0",
+			Standby:  []string{"vault-1"},
+			Unsealed: []string{"vault-0", "vault-1"},
+		},
+		UpdatedNodes: []string{"vault-0"},
+		AgentPlacement: &v1alpha2.AgentPlacementStatus{
+			Placement: "db-spokes",
+			Selected:  2,
+			Applied:   2,
+			Ready:     1,
+			Clusters: []v1alpha2.SpokeClusterStatus{
+				{ClusterName: "c1", Phase: "Connected", TokenExpiry: &now},
+				{ClusterName: "c2", Phase: "WorkApplied"},
+			},
+		},
+	}
+
+	var v1Status VaultServerStatus
+	if err := Convert_v1alpha2_VaultServerStatus_To_v1alpha1_VaultServerStatus(&v2Status, &v1Status, nil); err != nil {
+		t.Fatal(err)
+	}
+	if v1Status.AgentPlacement == nil ||
+		v1Status.AgentPlacement.Placement != "db-spokes" ||
+		len(v1Status.AgentPlacement.Clusters) != 2 ||
+		v1Status.AgentPlacement.Clusters[0].TokenExpiry == nil {
+		t.Fatalf("agentPlacement not preserved in v1alpha1: %+v", v1Status.AgentPlacement)
+	}
+
+	var v2Result v1alpha2.VaultServerStatus
+	if err := Convert_v1alpha1_VaultServerStatus_To_v1alpha2_VaultServerStatus(&v1Status, &v2Result, nil); err != nil {
+		t.Fatal(err)
+	}
+	if err := tl.Diff(v2Status, v2Result); err != nil {
+		t.Error(err)
 	}
 }
 

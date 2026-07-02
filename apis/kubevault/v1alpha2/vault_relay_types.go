@@ -53,6 +53,14 @@ type VaultRelaySpec struct {
 	// SpokeName is the unique identifier for this spoke cluster
 	SpokeName string `json:"spokeName"`
 
+	// IsolateTenants opts this spoke into per-tenant OpenBao namespace isolation against
+	// the hub. Hub-managed (placement-driven) spokes inherit this from the hub
+	// VaultServer.spec.isolateTenants automatically; a standalone VaultRelay sets it
+	// explicitly. It is stamped into the hub AppBinding's VaultServerConfiguration
+	// (design/tenant-namespace-hub-spoke-design.md §5.1). Default false.
+	// +optional
+	IsolateTenants bool `json:"isolateTenants,omitempty"`
+
 	// TokenSecretRef references a secret containing vault token for authentication
 	// Secret data:
 	//  - token: <vault-token>

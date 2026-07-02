@@ -59,6 +59,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&VaultServerList{},
 		&VaultRelay{},
 		&VaultRelayList{},
+		&SpokeTenantNamespaces{},
+		&SpokeTenantNamespacesList{},
 	)
 
 	scheme.AddKnownTypes(

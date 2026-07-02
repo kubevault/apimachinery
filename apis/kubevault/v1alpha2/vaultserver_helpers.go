@@ -125,7 +125,7 @@ func (v VaultServer) PolicyNameForSpoke(cluster string) string {
 // VaultRoleNameForSpoke is the Vault kubernetes-auth role bound to the spoke's
 // hub ServiceAccount; referenced by the spoke AppBinding parameters.vaultRole.
 func (v VaultServer) VaultRoleNameForSpoke(cluster string) string {
-	return fmt.Sprintf("spoke-%s-%s", cluster, v.Name)
+	return fmt.Sprintf("k8s-%s-%s", cluster, v.Name)
 }
 
 // SpokeAgentNamespace is the namespace on the managed cluster where the

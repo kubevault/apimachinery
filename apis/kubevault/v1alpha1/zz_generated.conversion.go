@@ -1382,6 +1382,7 @@ func autoConvert_v1alpha2_VaultServerSpec_To_v1alpha1_VaultServerSpec(in *v1alph
 	out.AllowedSecretEngines = (*AllowedSecretEngines)(unsafe.Pointer(in.AllowedSecretEngines))
 	// WARNING: in.HealthChecker requires manual conversion: does not exist in peer-type
 	out.ExposePrimary = in.ExposePrimary
+	// WARNING: in.IsolateTenants requires manual conversion: does not exist in peer-type
 	// WARNING: in.RelayPlacementRef requires manual conversion: does not exist in peer-type
 	// WARNING: in.RelayTemplate requires manual conversion: does not exist in peer-type
 	return nil

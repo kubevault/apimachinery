@@ -25928,6 +25928,13 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultServerSpec(ref common.Refe
 							Format:      "",
 						},
 					},
+					"isolateTenants": {
+						SchemaProps: spec.SchemaProps{
+							Description: "IsolateTenants is the master opt-in for per-tenant OpenBao namespace isolation. When true (and the backend is namespace-capable, i.e. OpenBao / Vault Enterprise), SecretEngines on this server whose referenced database lives in a client-org namespace are provisioned in a matching OpenBao namespace keyed on the org-id, and an explicit SecretEngine.spec.namespace is also honored. When false (the default), everything stays in the root namespace and any SecretEngine.spec.namespace is rejected. Enabling this on a running server is safe: existing mounts are never moved on their own (migration is admin-authorized). See design/tenant-namespace-design.md.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
 					"relayPlacementRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "RelayPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1) in the same namespace as the VaultServer. When set, the operator deploys a VaultRelay to every managed cluster selected by the Placement, using one ManifestWork per cluster. Requires the OCM hub CRDs (Placement, PlacementDecision, ManifestWork) to be installed; the field is ignored with a warning condition otherwise.",

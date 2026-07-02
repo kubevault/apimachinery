@@ -21,4 +21,14 @@ const (
 	SecretEnginePhaseProcessing SecretEnginePhase = "Processing"
 
 	ConditionCertificateSigned = "CertificateSigned"
+
+	// Tenant-isolation condition types on SecretEngine (see design/tenant-namespace-design.md).
+	// TenantNamespaceUnresolved is set when the database's namespace carries the client-org
+	// label but no (or an invalid) org-id annotation; the engine is not mounted and the
+	// request is requeued so org data never lands in the shared root tree.
+	TenantNamespaceUnresolved = "TenantNamespaceUnresolved"
+	// TenantMigrationPending is set when the desired OpenBao namespace differs from the one
+	// already recorded in status.effectiveNamespace; the operator does not move a live mount
+	// on its own and waits for an admin-authorized migration.
+	TenantMigrationPending = "TenantMigrationPending"
 )

@@ -14600,6 +14600,17 @@ spec:
                     format: int32
                     type: integer
                 type: object
+              isolateTenants:
+                description: |-
+                  IsolateTenants is the master opt-in for per-tenant OpenBao namespace isolation.
+                  When true (and the backend is namespace-capable, i.e. OpenBao / Vault Enterprise),
+                  SecretEngines on this server whose referenced database lives in a client-org
+                  namespace are provisioned in a matching OpenBao namespace keyed on the org-id, and
+                  an explicit SecretEngine.spec.namespace is also honored. When false (the default),
+                  everything stays in the root namespace and any SecretEngine.spec.namespace is rejected.
+                  Enabling this on a running server is safe: existing mounts are never moved on their own
+                  (migration is admin-authorized). See design/tenant-namespace-design.md.
+                type: boolean
               monitor:
                 description: Monitor is used monitor database instance
                 properties:

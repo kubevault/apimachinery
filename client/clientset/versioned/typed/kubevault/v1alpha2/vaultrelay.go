@@ -39,9 +39,9 @@ type VaultRelaysGetter interface {
 
 // VaultRelayInterface has methods to work with VaultRelay resources.
 type VaultRelayInterface interface {
-	Create(ctx context.Context, vaultAgent *v1alpha2.VaultRelay, opts v1.CreateOptions) (*v1alpha2.VaultRelay, error)
-	Update(ctx context.Context, vaultAgent *v1alpha2.VaultRelay, opts v1.UpdateOptions) (*v1alpha2.VaultRelay, error)
-	UpdateStatus(ctx context.Context, vaultAgent *v1alpha2.VaultRelay, opts v1.UpdateOptions) (*v1alpha2.VaultRelay, error)
+	Create(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.CreateOptions) (*v1alpha2.VaultRelay, error)
+	Update(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (*v1alpha2.VaultRelay, error)
+	UpdateStatus(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (*v1alpha2.VaultRelay, error)
 	Delete(ctx context.Context, name string, opts v1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error
 	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha2.VaultRelay, error)
@@ -51,22 +51,22 @@ type VaultRelayInterface interface {
 	VaultRelayExpansion
 }
 
-// vaultAgents implements VaultRelayInterface
-type vaultAgents struct {
+// vaultRelays implements VaultRelayInterface
+type vaultRelays struct {
 	client rest.Interface
 	ns     string
 }
 
 // newVaultRelays returns a VaultRelays
-func newVaultRelays(c *KubevaultV1alpha2Client, namespace string) *vaultAgents {
-	return &vaultAgents{
+func newVaultRelays(c *KubevaultV1alpha2Client, namespace string) *vaultRelays {
+	return &vaultRelays{
 		client: c.RESTClient(),
 		ns:     namespace,
 	}
 }
 
-// Get takes name of the vaultAgent, and returns the corresponding vaultAgent object, and an error if there is any.
-func (c *vaultAgents) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha2.VaultRelay, err error) {
+// Get takes name of the vaultRelay, and returns the corresponding vaultRelay object, and an error if there is any.
+func (c *vaultRelays) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha2.VaultRelay, err error) {
 	result = &v1alpha2.VaultRelay{}
 	err = c.client.Get().
 		Namespace(c.ns).
@@ -79,7 +79,7 @@ func (c *vaultAgents) Get(ctx context.Context, name string, options v1.GetOption
 }
 
 // List takes label and field selectors, and returns the list of VaultRelays that match those selectors.
-func (c *vaultAgents) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha2.VaultRelayList, err error) {
+func (c *vaultRelays) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha2.VaultRelayList, err error) {
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -95,8 +95,8 @@ func (c *vaultAgents) List(ctx context.Context, opts v1.ListOptions) (result *v1
 	return
 }
 
-// Watch returns a watch.Interface that watches the requested vaultAgents.
-func (c *vaultAgents) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
+// Watch returns a watch.Interface that watches the requested vaultRelays.
+func (c *vaultRelays) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -110,28 +110,28 @@ func (c *vaultAgents) Watch(ctx context.Context, opts v1.ListOptions) (watch.Int
 		Watch(ctx)
 }
 
-// Create takes the representation of a vaultAgent and creates it.  Returns the server's representation of the vaultAgent, and an error, if there is any.
-func (c *vaultAgents) Create(ctx context.Context, vaultAgent *v1alpha2.VaultRelay, opts v1.CreateOptions) (result *v1alpha2.VaultRelay, err error) {
+// Create takes the representation of a vaultRelay and creates it.  Returns the server's representation of the vaultRelay, and an error, if there is any.
+func (c *vaultRelays) Create(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.CreateOptions) (result *v1alpha2.VaultRelay, err error) {
 	result = &v1alpha2.VaultRelay{}
 	err = c.client.Post().
 		Namespace(c.ns).
 		Resource("vaultrelays").
 		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(vaultAgent).
+		Body(vaultRelay).
 		Do(ctx).
 		Into(result)
 	return
 }
 
-// Update takes the representation of a vaultAgent and updates it. Returns the server's representation of the vaultAgent, and an error, if there is any.
-func (c *vaultAgents) Update(ctx context.Context, vaultAgent *v1alpha2.VaultRelay, opts v1.UpdateOptions) (result *v1alpha2.VaultRelay, err error) {
+// Update takes the representation of a vaultRelay and updates it. Returns the server's representation of the vaultRelay, and an error, if there is any.
+func (c *vaultRelays) Update(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (result *v1alpha2.VaultRelay, err error) {
 	result = &v1alpha2.VaultRelay{}
 	err = c.client.Put().
 		Namespace(c.ns).
 		Resource("vaultrelays").
-		Name(vaultAgent.Name).
+		Name(vaultRelay.Name).
 		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(vaultAgent).
+		Body(vaultRelay).
 		Do(ctx).
 		Into(result)
 	return
@@ -139,22 +139,22 @@ func (c *vaultAgents) Update(ctx context.Context, vaultAgent *v1alpha2.VaultRela
 
 // UpdateStatus was generated because the type contains a Status member.
 // Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *vaultAgents) UpdateStatus(ctx context.Context, vaultAgent *v1alpha2.VaultRelay, opts v1.UpdateOptions) (result *v1alpha2.VaultRelay, err error) {
+func (c *vaultRelays) UpdateStatus(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (result *v1alpha2.VaultRelay, err error) {
 	result = &v1alpha2.VaultRelay{}
 	err = c.client.Put().
 		Namespace(c.ns).
 		Resource("vaultrelays").
-		Name(vaultAgent.Name).
+		Name(vaultRelay.Name).
 		SubResource("status").
 		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(vaultAgent).
+		Body(vaultRelay).
 		Do(ctx).
 		Into(result)
 	return
 }
 
-// Delete takes name of the vaultAgent and deletes it. Returns an error if one occurs.
-func (c *vaultAgents) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
+// Delete takes name of the vaultRelay and deletes it. Returns an error if one occurs.
+func (c *vaultRelays) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	return c.client.Delete().
 		Namespace(c.ns).
 		Resource("vaultrelays").
@@ -165,7 +165,7 @@ func (c *vaultAgents) Delete(ctx context.Context, name string, opts v1.DeleteOpt
 }
 
 // DeleteCollection deletes a collection of objects.
-func (c *vaultAgents) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
+func (c *vaultRelays) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
 	var timeout time.Duration
 	if listOpts.TimeoutSeconds != nil {
 		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
@@ -180,8 +180,8 @@ func (c *vaultAgents) DeleteCollection(ctx context.Context, opts v1.DeleteOption
 		Error()
 }
 
-// Patch applies the patch and returns the patched vaultAgent.
-func (c *vaultAgents) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha2.VaultRelay, err error) {
+// Patch applies the patch and returns the patched vaultRelay.
+func (c *vaultRelays) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha2.VaultRelay, err error) {
 	result = &v1alpha2.VaultRelay{}
 	err = c.client.Patch(pt).
 		Namespace(c.ns).

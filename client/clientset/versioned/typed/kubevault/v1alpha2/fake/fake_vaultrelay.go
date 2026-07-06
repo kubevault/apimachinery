@@ -40,7 +40,7 @@ var vaultrelaysResource = v1alpha2.SchemeGroupVersion.WithResource("vaultrelays"
 
 var vaultrelaysKind = v1alpha2.SchemeGroupVersion.WithKind("VaultRelay")
 
-// Get takes name of the vaultAgent, and returns the corresponding vaultAgent object, and an error if there is any.
+// Get takes name of the vaultRelay, and returns the corresponding vaultRelay object, and an error if there is any.
 func (c *FakeVaultRelays) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha2.VaultRelay, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewGetAction(vaultrelaysResource, c.ns, name), &v1alpha2.VaultRelay{})
@@ -73,17 +73,17 @@ func (c *FakeVaultRelays) List(ctx context.Context, opts v1.ListOptions) (result
 	return list, err
 }
 
-// Watch returns a watch.Interface that watches the requested vaultAgents.
+// Watch returns a watch.Interface that watches the requested vaultRelays.
 func (c *FakeVaultRelays) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
 		InvokesWatch(testing.NewWatchAction(vaultrelaysResource, c.ns, opts))
 
 }
 
-// Create takes the representation of a vaultAgent and creates it.  Returns the server's representation of the vaultAgent, and an error, if there is any.
-func (c *FakeVaultRelays) Create(ctx context.Context, vaultAgent *v1alpha2.VaultRelay, opts v1.CreateOptions) (result *v1alpha2.VaultRelay, err error) {
+// Create takes the representation of a vaultRelay and creates it.  Returns the server's representation of the vaultRelay, and an error, if there is any.
+func (c *FakeVaultRelays) Create(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.CreateOptions) (result *v1alpha2.VaultRelay, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(vaultrelaysResource, c.ns, vaultAgent), &v1alpha2.VaultRelay{})
+		Invokes(testing.NewCreateAction(vaultrelaysResource, c.ns, vaultRelay), &v1alpha2.VaultRelay{})
 
 	if obj == nil {
 		return nil, err
@@ -91,10 +91,10 @@ func (c *FakeVaultRelays) Create(ctx context.Context, vaultAgent *v1alpha2.Vault
 	return obj.(*v1alpha2.VaultRelay), err
 }
 
-// Update takes the representation of a vaultAgent and updates it. Returns the server's representation of the vaultAgent, and an error, if there is any.
-func (c *FakeVaultRelays) Update(ctx context.Context, vaultAgent *v1alpha2.VaultRelay, opts v1.UpdateOptions) (result *v1alpha2.VaultRelay, err error) {
+// Update takes the representation of a vaultRelay and updates it. Returns the server's representation of the vaultRelay, and an error, if there is any.
+func (c *FakeVaultRelays) Update(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (result *v1alpha2.VaultRelay, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(vaultrelaysResource, c.ns, vaultAgent), &v1alpha2.VaultRelay{})
+		Invokes(testing.NewUpdateAction(vaultrelaysResource, c.ns, vaultRelay), &v1alpha2.VaultRelay{})
 
 	if obj == nil {
 		return nil, err
@@ -104,9 +104,9 @@ func (c *FakeVaultRelays) Update(ctx context.Context, vaultAgent *v1alpha2.Vault
 
 // UpdateStatus was generated because the type contains a Status member.
 // Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeVaultRelays) UpdateStatus(ctx context.Context, vaultAgent *v1alpha2.VaultRelay, opts v1.UpdateOptions) (*v1alpha2.VaultRelay, error) {
+func (c *FakeVaultRelays) UpdateStatus(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (*v1alpha2.VaultRelay, error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(vaultrelaysResource, "status", c.ns, vaultAgent), &v1alpha2.VaultRelay{})
+		Invokes(testing.NewUpdateSubresourceAction(vaultrelaysResource, "status", c.ns, vaultRelay), &v1alpha2.VaultRelay{})
 
 	if obj == nil {
 		return nil, err
@@ -114,7 +114,7 @@ func (c *FakeVaultRelays) UpdateStatus(ctx context.Context, vaultAgent *v1alpha2
 	return obj.(*v1alpha2.VaultRelay), err
 }
 
-// Delete takes name of the vaultAgent and deletes it. Returns an error if one occurs.
+// Delete takes name of the vaultRelay and deletes it. Returns an error if one occurs.
 func (c *FakeVaultRelays) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
 		Invokes(testing.NewDeleteActionWithOptions(vaultrelaysResource, c.ns, name, opts), &v1alpha2.VaultRelay{})
@@ -130,7 +130,7 @@ func (c *FakeVaultRelays) DeleteCollection(ctx context.Context, opts v1.DeleteOp
 	return err
 }
 
-// Patch applies the patch and returns the patched vaultAgent.
+// Patch applies the patch and returns the patched vaultRelay.
 func (c *FakeVaultRelays) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha2.VaultRelay, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewPatchSubresourceAction(vaultrelaysResource, c.ns, name, pt, data, subresources...), &v1alpha2.VaultRelay{})

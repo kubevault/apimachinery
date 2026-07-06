@@ -40,7 +40,7 @@ type VaultRelayInformer interface {
 	Lister() v1alpha2.VaultRelayLister
 }
 
-type vaultAgentInformer struct {
+type vaultRelayInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 	namespace        string
@@ -78,14 +78,14 @@ func NewFilteredVaultRelayInformer(client versioned.Interface, namespace string,
 	)
 }
 
-func (f *vaultAgentInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+func (f *vaultRelayInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
 	return NewFilteredVaultRelayInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *vaultAgentInformer) Informer() cache.SharedIndexInformer {
+func (f *vaultRelayInformer) Informer() cache.SharedIndexInformer {
 	return f.factory.InformerFor(&kubevaultv1alpha2.VaultRelay{}, f.defaultInformer)
 }
 
-func (f *vaultAgentInformer) Lister() v1alpha2.VaultRelayLister {
+func (f *vaultRelayInformer) Lister() v1alpha2.VaultRelayLister {
 	return v1alpha2.NewVaultRelayLister(f.Informer().GetIndexer())
 }

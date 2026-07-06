@@ -43,7 +43,7 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 
 // VaultRelays returns a VaultRelayInformer.
 func (v *version) VaultRelays() VaultRelayInformer {
-	return &vaultAgentInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+	return &vaultRelayInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // VaultServers returns a VaultServerInformer.

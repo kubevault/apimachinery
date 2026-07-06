@@ -37,18 +37,18 @@ type VaultRelayLister interface {
 	VaultRelayListerExpansion
 }
 
-// vaultAgentLister implements the VaultRelayLister interface.
-type vaultAgentLister struct {
+// vaultRelayLister implements the VaultRelayLister interface.
+type vaultRelayLister struct {
 	indexer cache.Indexer
 }
 
 // NewVaultRelayLister returns a new VaultRelayLister.
 func NewVaultRelayLister(indexer cache.Indexer) VaultRelayLister {
-	return &vaultAgentLister{indexer: indexer}
+	return &vaultRelayLister{indexer: indexer}
 }
 
 // List lists all VaultRelays in the indexer.
-func (s *vaultAgentLister) List(selector labels.Selector) (ret []*v1alpha2.VaultRelay, err error) {
+func (s *vaultRelayLister) List(selector labels.Selector) (ret []*v1alpha2.VaultRelay, err error) {
 	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
 		ret = append(ret, m.(*v1alpha2.VaultRelay))
 	})
@@ -56,8 +56,8 @@ func (s *vaultAgentLister) List(selector labels.Selector) (ret []*v1alpha2.Vault
 }
 
 // VaultRelays returns an object that can list and get VaultRelays.
-func (s *vaultAgentLister) VaultRelays(namespace string) VaultRelayNamespaceLister {
-	return vaultAgentNamespaceLister{indexer: s.indexer, namespace: namespace}
+func (s *vaultRelayLister) VaultRelays(namespace string) VaultRelayNamespaceLister {
+	return vaultRelayNamespaceLister{indexer: s.indexer, namespace: namespace}
 }
 
 // VaultRelayNamespaceLister helps list and get VaultRelays.
@@ -72,15 +72,15 @@ type VaultRelayNamespaceLister interface {
 	VaultRelayNamespaceListerExpansion
 }
 
-// vaultAgentNamespaceLister implements the VaultRelayNamespaceLister
+// vaultRelayNamespaceLister implements the VaultRelayNamespaceLister
 // interface.
-type vaultAgentNamespaceLister struct {
+type vaultRelayNamespaceLister struct {
 	indexer   cache.Indexer
 	namespace string
 }
 
 // List lists all VaultRelays in the indexer for a given namespace.
-func (s vaultAgentNamespaceLister) List(selector labels.Selector) (ret []*v1alpha2.VaultRelay, err error) {
+func (s vaultRelayNamespaceLister) List(selector labels.Selector) (ret []*v1alpha2.VaultRelay, err error) {
 	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
 		ret = append(ret, m.(*v1alpha2.VaultRelay))
 	})
@@ -88,7 +88,7 @@ func (s vaultAgentNamespaceLister) List(selector labels.Selector) (ret []*v1alph
 }
 
 // Get retrieves the VaultRelay from the indexer for a given namespace and name.
-func (s vaultAgentNamespaceLister) Get(name string) (*v1alpha2.VaultRelay, error) {
+func (s vaultRelayNamespaceLister) Get(name string) (*v1alpha2.VaultRelay, error) {
 	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
 	if err != nil {
 		return nil, err

@@ -1,7 +1,7 @@
 apiVersion: kubevault.com/v1alpha2
 kind: VaultRelay
 metadata:
-  name: hub-vault-agent
+  name: hub-vault-relay
   namespace: spoke-ns
 spec:
   # Hub vault connection details

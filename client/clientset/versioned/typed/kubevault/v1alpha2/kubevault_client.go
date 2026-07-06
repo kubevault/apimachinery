@@ -29,7 +29,7 @@ import (
 
 type KubevaultV1alpha2Interface interface {
 	RESTClient() rest.Interface
-	VaultAgentsGetter
+	VaultRelaysGetter
 	VaultServersGetter
 }
 
@@ -38,8 +38,8 @@ type KubevaultV1alpha2Client struct {
 	restClient rest.Interface
 }
 
-func (c *KubevaultV1alpha2Client) VaultAgents(namespace string) VaultAgentInterface {
-	return newVaultAgents(c, namespace)
+func (c *KubevaultV1alpha2Client) VaultRelays(namespace string) VaultRelayInterface {
+	return newVaultRelays(c, namespace)
 }
 
 func (c *KubevaultV1alpha2Client) VaultServers(namespace string) VaultServerInterface {

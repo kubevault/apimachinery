@@ -26,37 +26,37 @@ import (
 	meta_util "kmodules.xyz/client-go/meta"
 )
 
-func (*VaultAgent) Hub() {}
+func (*VaultRelay) Hub() {}
 
-func (va VaultAgent) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
-	return crds.MustCustomResourceDefinition(SchemeGroupVersion.WithResource(ResourceVaultAgents))
+func (va VaultRelay) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
+	return crds.MustCustomResourceDefinition(SchemeGroupVersion.WithResource(ResourceVaultRelays))
 }
 
-func (va VaultAgent) ResourceFQN() string {
-	return fmt.Sprintf("%s.%s", ResourceVaultAgents, kubevault.GroupName)
+func (va VaultRelay) ResourceFQN() string {
+	return fmt.Sprintf("%s.%s", ResourceVaultRelays, kubevault.GroupName)
 }
 
-func (va VaultAgent) GetKey() string {
+func (va VaultRelay) GetKey() string {
 	return va.Namespace + "/" + va.Name
 }
 
-func (va VaultAgent) OffshootName() string {
+func (va VaultRelay) OffshootName() string {
 	return va.Name
 }
 
-func (va VaultAgent) ServiceAccountName() string {
+func (va VaultRelay) ServiceAccountName() string {
 	return va.Name
 }
 
-func (va VaultAgent) PodName() string {
+func (va VaultRelay) PodName() string {
 	return meta_util.NameWithSuffix(va.Name, "agent")
 }
 
-func (va VaultAgent) AppBindingName() string {
+func (va VaultRelay) AppBindingName() string {
 	return meta_util.NameWithSuffix(va.Name, "hub-vault")
 }
 
-func (va VaultAgent) OffshootSelectors() map[string]string {
+func (va VaultRelay) OffshootSelectors() map[string]string {
 	return map[string]string{
 		meta_util.NameLabelKey:      va.ResourceFQN(),
 		meta_util.InstanceLabelKey:  va.Name,
@@ -64,16 +64,16 @@ func (va VaultAgent) OffshootSelectors() map[string]string {
 	}
 }
 
-func (va VaultAgent) OffshootLabels() map[string]string {
+func (va VaultRelay) OffshootLabels() map[string]string {
 	return meta_util.FilterKeys("kubevault.com", va.OffshootSelectors(), va.Labels)
 }
 
-func (va VaultAgent) IsValid() error {
+func (va VaultRelay) IsValid() error {
 	return nil
 }
 
 // GetGRPCPort returns the gRPC port with default value
-func (va VaultAgent) GetGRPCPort() int32 {
+func (va VaultRelay) GetGRPCPort() int32 {
 	if va.Spec.HubVaultRef.GRPCPort == 0 {
 		return 50053
 	}
@@ -81,15 +81,15 @@ func (va VaultAgent) GetGRPCPort() int32 {
 }
 
 // GetImage returns the spoke-agent image with default value
-func (va VaultAgent) GetImage() string {
+func (va VaultRelay) GetImage() string {
 	if va.Spec.Image == "" {
 		return "ghcr.io/kubevault/spoke-agent:latest"
 	}
 	return va.Spec.Image
 }
 
-// SetDefaults sets default values for VaultAgent
-func (va *VaultAgent) SetDefaults() {
+// SetDefaults sets default values for VaultRelay
+func (va *VaultRelay) SetDefaults() {
 	if va.Spec.HubVaultRef.GRPCPort == 0 {
 		va.Spec.HubVaultRef.GRPCPort = 50053
 	}

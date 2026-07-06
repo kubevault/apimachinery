@@ -89,7 +89,7 @@ func TestConvert_VaultServerStatus_RoundTrip(t *testing.T) {
 			Unsealed: []string{"vault-0", "vault-1"},
 		},
 		UpdatedNodes: []string{"vault-0"},
-		AgentPlacement: &v1alpha2.AgentPlacementStatus{
+		RelayPlacement: &v1alpha2.RelayPlacementStatus{
 			Placement: "db-spokes",
 			Selected:  2,
 			Applied:   2,
@@ -105,11 +105,11 @@ func TestConvert_VaultServerStatus_RoundTrip(t *testing.T) {
 	if err := Convert_v1alpha2_VaultServerStatus_To_v1alpha1_VaultServerStatus(&v2Status, &v1Status, nil); err != nil {
 		t.Fatal(err)
 	}
-	if v1Status.AgentPlacement == nil ||
-		v1Status.AgentPlacement.Placement != "db-spokes" ||
-		len(v1Status.AgentPlacement.Clusters) != 2 ||
-		v1Status.AgentPlacement.Clusters[0].TokenExpiry == nil {
-		t.Fatalf("agentPlacement not preserved in v1alpha1: %+v", v1Status.AgentPlacement)
+	if v1Status.RelayPlacement == nil ||
+		v1Status.RelayPlacement.Placement != "db-spokes" ||
+		len(v1Status.RelayPlacement.Clusters) != 2 ||
+		v1Status.RelayPlacement.Clusters[0].TokenExpiry == nil {
+		t.Fatalf("relayPlacement not preserved in v1alpha1: %+v", v1Status.RelayPlacement)
 	}
 
 	var v2Result v1alpha2.VaultServerStatus

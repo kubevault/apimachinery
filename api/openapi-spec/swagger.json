@@ -14408,8 +14408,8 @@
         }
       }
     },
-    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AgentPlacementStatus": {
-      "description": "AgentPlacementStatus summarizes the rollout of spoke agents to managed clusters. Kept layout-identical to v1alpha2.AgentPlacementStatus for conversion.",
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.RelayPlacementStatus": {
+      "description": "RelayPlacementStatus summarizes the rollout of spoke relays to managed clusters. Kept layout-identical to v1alpha2.RelayPlacementStatus for conversion.",
       "type": "object",
       "properties": {
         "applied": {
@@ -14430,7 +14430,7 @@
           "type": "string"
         },
         "ready": {
-          "description": "Ready is the number of clusters whose VaultAgent reports phase Connected (scraped via ManifestWork status feedback).",
+          "description": "Ready is the number of clusters whose VaultRelay reports phase Connected (scraped via ManifestWork status feedback).",
           "type": "integer",
           "format": "int32"
         },
@@ -15179,7 +15179,7 @@
       ],
       "properties": {
         "certExpiry": {
-          "description": "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub agent backend (agent/spokes). Nil when unknown — the spoke is not connected, or the hub captured no verified peer cert.",
+          "description": "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub relay backend (relay/spokes). Nil when unknown — the spoke is not connected, or the hub captured no verified peer cert.",
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time"
         },
         "clusterName": {
@@ -15188,7 +15188,7 @@
           "default": ""
         },
         "phase": {
-          "description": "Phase mirrors the spoke VaultAgent phase (Pending|Connected|Disconnected|Error) plus hub-side values (WorkApplied, WorkProgressing, WorkDegraded).",
+          "description": "Phase mirrors the spoke VaultRelay phase (Pending|Connected|Disconnected|Error) plus hub-side values (WorkApplied, WorkProgressing, WorkDegraded).",
           "type": "string"
         },
         "tokenExpiry": {
@@ -15441,9 +15441,9 @@
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha1.VaultServerStatus": {
       "type": "object",
       "properties": {
-        "agentPlacement": {
-          "description": "AgentPlacement summarizes spoke agent rollout when the (v1alpha2) spec.agentPlacementRef is set. Mirrored here so VaultServerStatus round-trips losslessly through the v1alpha1 API.",
-          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.AgentPlacementStatus"
+        "relayPlacement": {
+          "description": "RelayPlacement summarizes spoke relay rollout when the (v1alpha2) spec.relayPlacementRef is set. Mirrored here so VaultServerStatus round-trips losslessly through the v1alpha1 API.",
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.RelayPlacementStatus"
         },
         "authMethodStatus": {
           "description": "Status of the vault auth methods",
@@ -15531,8 +15531,8 @@
         }
       }
     },
-    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AgentPlacementStatus": {
-      "description": "AgentPlacementStatus summarizes the rollout of spoke agents to managed clusters.",
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.RelayPlacementStatus": {
+      "description": "RelayPlacementStatus summarizes the rollout of spoke relays to managed clusters.",
       "type": "object",
       "properties": {
         "applied": {
@@ -15553,7 +15553,7 @@
           "type": "string"
         },
         "ready": {
-          "description": "Ready is the number of clusters whose VaultAgent reports phase Connected (scraped via ManifestWork status feedback).",
+          "description": "Ready is the number of clusters whose VaultRelay reports phase Connected (scraped via ManifestWork status feedback).",
           "type": "integer",
           "format": "int32"
         },
@@ -16444,7 +16444,7 @@
       ],
       "properties": {
         "certExpiry": {
-          "description": "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub agent backend (agent/spokes). Nil when unknown — the spoke is not connected, or the hub captured no verified peer cert.",
+          "description": "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub relay backend (relay/spokes). Nil when unknown — the spoke is not connected, or the hub captured no verified peer cert.",
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time"
         },
         "clusterName": {
@@ -16453,7 +16453,7 @@
           "default": ""
         },
         "phase": {
-          "description": "Phase mirrors the spoke VaultAgent phase (Pending|Connected|Disconnected|Error) plus hub-side values (WorkApplied, WorkProgressing, WorkDegraded).",
+          "description": "Phase mirrors the spoke VaultRelay phase (Pending|Connected|Disconnected|Error) plus hub-side values (WorkApplied, WorkProgressing, WorkDegraded).",
           "type": "string"
         },
         "tokenExpiry": {
@@ -16553,8 +16553,8 @@
         }
       }
     },
-    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultAgentTemplate": {
-      "description": "VaultAgentTemplate is the subset of VaultAgentSpec a hub admin may pre-set for placement-driven spoke agent deployments.",
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultRelayTemplate": {
+      "description": "VaultRelayTemplate is the subset of VaultRelaySpec a hub admin may pre-set for placement-driven spoke relay deployments.",
       "type": "object",
       "properties": {
         "bootstrapTokenTTL": {
@@ -16566,7 +16566,7 @@
           "type": "string"
         },
         "namespace": {
-          "description": "Namespace on the managed cluster where the VaultAgent and its companion resources are created. Defaults to the VaultServer's namespace.",
+          "description": "Namespace on the managed cluster where the VaultRelay and its companion resources are created. Defaults to the VaultServer's namespace.",
           "type": "string"
         },
         "podTemplate": {
@@ -16646,13 +16646,13 @@
         "backend"
       ],
       "properties": {
-        "agentPlacementRef": {
-          "description": "AgentPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1) in the same namespace as the VaultServer. When set, the operator deploys a VaultAgent to every managed cluster selected by the Placement, using one ManifestWork per cluster. Requires the OCM hub CRDs (Placement, PlacementDecision, ManifestWork) to be installed; the field is ignored with a warning condition otherwise.",
+        "relayPlacementRef": {
+          "description": "RelayPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1) in the same namespace as the VaultServer. When set, the operator deploys a VaultRelay to every managed cluster selected by the Placement, using one ManifestWork per cluster. Requires the OCM hub CRDs (Placement, PlacementDecision, ManifestWork) to be installed; the field is ignored with a warning condition otherwise.",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
-        "agentTemplate": {
-          "description": "AgentTemplate customizes the VaultAgents stamped out for clusters selected by AgentPlacementRef. Per-cluster fields (spokeName, hubVaultRef, join material) are filled in by the operator.",
-          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultAgentTemplate"
+        "relayTemplate": {
+          "description": "RelayTemplate customizes the VaultRelays stamped out for clusters selected by RelayPlacementRef. Per-cluster fields (spokeName, hubVaultRef, join material) are filled in by the operator.",
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultRelayTemplate"
         },
         "allowedSecretEngines": {
           "description": "AllowedSecretEngines defines the types of Secret Engines that MAY be attached to a Listener and the trusted namespaces where those Route resources MAY be present.\n\nAlthough a client request may match multiple route rules, only one rule may ultimately receive the request. Matching precedence MUST be determined in order of the following criteria:\n\n* The most specific match as defined by the Route type. * The oldest Route based on creation timestamp. For example, a Route with\n  a creation timestamp of \"2020-09-08 01:02:03\" is given precedence over\n  a Route with a creation timestamp of \"2020-09-08 01:02:04\".\n* If everything else is equivalent, the Route appearing first in\n  alphabetical order (namespace/name) should be given precedence. For\n  example, foo/bar is given precedence over foo/baz.\n\nAll valid rules within a Route attached to this Listener should be implemented. Invalid Route rules can be ignored (sometimes that will mean the full Route). If a Route rule transitions from valid to invalid, support for that Route rule should be dropped to ensure consistency. For example, even if a filter specified by a Route rule is invalid, the rest of the rules within that Route should still be supported.\n\nSupport: Core",
@@ -16736,9 +16736,9 @@
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.VaultServerStatus": {
       "type": "object",
       "properties": {
-        "agentPlacement": {
-          "description": "AgentPlacement summarizes spoke agent rollout when spec.agentPlacementRef is set.",
-          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AgentPlacementStatus"
+        "relayPlacement": {
+          "description": "RelayPlacement summarizes spoke relay rollout when spec.relayPlacementRef is set.",
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.RelayPlacementStatus"
         },
         "authMethodStatus": {
           "description": "Status of the vault auth methods",

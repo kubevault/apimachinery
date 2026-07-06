@@ -92,17 +92,17 @@ const (
 	VaultHealthCheckPaused = "HealthCheckPaused"
 	RaftLeaderHealthy      = "RaftLeaderHealthy"
 
-	// OCM spoke agent placement constants
-	VaultServerAgentPlacementResolved    = "AgentPlacementResolved"
-	VaultServerAgentHubInitialized       = "AgentHubInitialized"
-	VaultServerAgentManifestWorksApplied = "AgentManifestWorksApplied"
-	VaultServerAgentsReady               = "AgentsReady"
+	// OCM spoke relay placement constants
+	VaultServerRelayPlacementResolved    = "RelayPlacementResolved"
+	VaultServerRelayHubInitialized       = "RelayHubInitialized"
+	VaultServerRelayManifestWorksApplied = "RelayManifestWorksApplied"
+	VaultServerRelaysReady               = "RelaysReady"
 )
 
 const (
-	// SpokeAgentFinalizer guards hub-side cleanup of per-cluster spoke agent
+	// SpokeRelayFinalizer guards hub-side cleanup of per-cluster spoke relay
 	// resources (ManifestWorks, ServiceAccounts, bootstrap tokens).
-	SpokeAgentFinalizer = "kubevault.com/spoke-agents"
+	SpokeRelayFinalizer = "kubevault.com/spoke-agents"
 
 	// ManagedByHubLabelValue marks resources authored on the hub and delivered
 	// to managed clusters via ManifestWork. Spoke-side controllers must not
@@ -117,8 +117,8 @@ const (
 )
 
 const (
-	// VaultAgentGRPCProxyPort is the hub-side gRPC proxy port used by spoke agents.
-	VaultAgentGRPCProxyPort = 50053
+	// VaultRelayGRPCProxyPort is the hub-side gRPC proxy port used by spoke relays.
+	VaultRelayGRPCProxyPort = 50053
 )
 
 const (

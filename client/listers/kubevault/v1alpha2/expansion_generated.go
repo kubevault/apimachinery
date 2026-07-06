@@ -18,13 +18,13 @@ limitations under the License.
 
 package v1alpha2
 
-// VaultAgentListerExpansion allows custom methods to be added to
-// VaultAgentLister.
-type VaultAgentListerExpansion interface{}
+// VaultRelayListerExpansion allows custom methods to be added to
+// VaultRelayLister.
+type VaultRelayListerExpansion interface{}
 
-// VaultAgentNamespaceListerExpansion allows custom methods to be added to
-// VaultAgentNamespaceLister.
-type VaultAgentNamespaceListerExpansion interface{}
+// VaultRelayNamespaceListerExpansion allows custom methods to be added to
+// VaultRelayNamespaceLister.
+type VaultRelayNamespaceListerExpansion interface{}
 
 // VaultServerListerExpansion allows custom methods to be added to
 // VaultServerLister.

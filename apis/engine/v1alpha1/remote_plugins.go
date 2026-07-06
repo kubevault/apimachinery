@@ -30,7 +30,7 @@ const (
 )
 
 // RemoteDatabasePlugin maps a database engine kind to the hub-side proxy
-// plugin used when the Vault AppBinding is of deployment type RemoteAgent.
+// plugin used when the Vault AppBinding is of deployment type RemoteRelay.
 // Engine kinds without a remote plugin (mongodb, elasticsearch) return an
 // error so misconfigurations fail loudly instead of silently writing a
 // local plugin name into a hub mount.
@@ -46,6 +46,6 @@ func RemoteDatabasePlugin(engineKind string) (string, error) {
 	case "valkey":
 		return RemoteValkeyDatabasePlugin, nil
 	default:
-		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke agent; supported: postgres, mysql, mariadb, redis, valkey", engineKind)
+		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey", engineKind)
 	}
 }

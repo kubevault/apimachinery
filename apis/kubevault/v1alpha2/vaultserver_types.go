@@ -141,25 +141,25 @@ type VaultServerSpec struct {
 	// +kubebuilder:default={periodSeconds: 10, timeoutSeconds: 10, failureThreshold: 1}
 	HealthChecker kmapi.HealthCheckSpec `json:"healthChecker"`
 
-	// AgentPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1)
-	// in the same namespace as the VaultServer. When set, the operator deploys a VaultAgent to
+	// RelayPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1)
+	// in the same namespace as the VaultServer. When set, the operator deploys a VaultRelay to
 	// every managed cluster selected by the Placement, using one ManifestWork per cluster.
 	// Requires the OCM hub CRDs (Placement, PlacementDecision, ManifestWork) to be installed;
 	// the field is ignored with a warning condition otherwise.
 	// +optional
-	AgentPlacementRef *core.LocalObjectReference `json:"agentPlacementRef,omitempty"`
+	RelayPlacementRef *core.LocalObjectReference `json:"relayPlacementRef,omitempty"`
 
-	// AgentTemplate customizes the VaultAgents stamped out for clusters selected by
-	// AgentPlacementRef. Per-cluster fields (spokeName, hubVaultRef, join material)
+	// RelayTemplate customizes the VaultRelays stamped out for clusters selected by
+	// RelayPlacementRef. Per-cluster fields (spokeName, hubVaultRef, join material)
 	// are filled in by the operator.
 	// +optional
-	AgentTemplate *VaultAgentTemplate `json:"agentTemplate,omitempty"`
+	RelayTemplate *VaultRelayTemplate `json:"relayTemplate,omitempty"`
 }
 
-// VaultAgentTemplate is the subset of VaultAgentSpec a hub admin may pre-set for
-// placement-driven spoke agent deployments.
-type VaultAgentTemplate struct {
-	// Namespace on the managed cluster where the VaultAgent and its companion
+// VaultRelayTemplate is the subset of VaultRelaySpec a hub admin may pre-set for
+// placement-driven spoke relay deployments.
+type VaultRelayTemplate struct {
+	// Namespace on the managed cluster where the VaultRelay and its companion
 	// resources are created. Defaults to the VaultServer's namespace.
 	// +optional
 	Namespace string `json:"namespace,omitempty"`
@@ -227,13 +227,13 @@ type VaultServerStatus struct {
 	// +optional
 	AuthMethodStatus []AuthMethodStatus `json:"authMethodStatus,omitempty"`
 
-	// AgentPlacement summarizes spoke agent rollout when spec.agentPlacementRef is set.
+	// RelayPlacement summarizes spoke relay rollout when spec.relayPlacementRef is set.
 	// +optional
-	AgentPlacement *AgentPlacementStatus `json:"agentPlacement,omitempty"`
+	RelayPlacement *RelayPlacementStatus `json:"relayPlacement,omitempty"`
 }
 
-// AgentPlacementStatus summarizes the rollout of spoke agents to managed clusters.
-type AgentPlacementStatus struct {
+// RelayPlacementStatus summarizes the rollout of spoke relays to managed clusters.
+type RelayPlacementStatus struct {
 	// Placement is the resolved Placement name.
 	// +optional
 	Placement string `json:"placement,omitempty"`
@@ -246,7 +246,7 @@ type AgentPlacementStatus struct {
 	// +optional
 	Applied int32 `json:"applied,omitempty"`
 
-	// Ready is the number of clusters whose VaultAgent reports phase Connected
+	// Ready is the number of clusters whose VaultRelay reports phase Connected
 	// (scraped via ManifestWork status feedback).
 	// +optional
 	Ready int32 `json:"ready,omitempty"`
@@ -261,7 +261,7 @@ type SpokeClusterStatus struct {
 	// ClusterName is the ManagedCluster name.
 	ClusterName string `json:"clusterName"`
 
-	// Phase mirrors the spoke VaultAgent phase (Pending|Connected|Disconnected|Error)
+	// Phase mirrors the spoke VaultRelay phase (Pending|Connected|Disconnected|Error)
 	// plus hub-side values (WorkApplied, WorkProgressing, WorkDegraded).
 	// +optional
 	Phase string `json:"phase,omitempty"`
@@ -271,7 +271,7 @@ type SpokeClusterStatus struct {
 	TokenExpiry *metav1.Time `json:"tokenExpiry,omitempty"`
 
 	// CertExpiry is when this spoke's mTLS client certificate expires, as
-	// observed by the hub agent backend (agent/spokes). Nil when unknown — the
+	// observed by the hub relay backend (relay/spokes). Nil when unknown — the
 	// spoke is not connected, or the hub captured no verified peer cert.
 	// +optional
 	CertExpiry *metav1.Time `json:"certExpiry,omitempty"`

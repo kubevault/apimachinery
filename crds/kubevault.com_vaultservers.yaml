@@ -10483,10 +10483,10 @@ spec:
             type: object
           status:
             properties:
-              agentPlacement:
+              relayPlacement:
                 description: |-
-                  AgentPlacement summarizes spoke agent rollout when the (v1alpha2)
-                  spec.agentPlacementRef is set. Mirrored here so VaultServerStatus
+                  RelayPlacement summarizes spoke relay rollout when the (v1alpha2)
+                  spec.relayPlacementRef is set. Mirrored here so VaultServerStatus
                   round-trips losslessly through the v1alpha1 API.
                 properties:
                   applied:
@@ -10504,7 +10504,7 @@ spec:
                         certExpiry:
                           description: |-
                             CertExpiry is when this spoke's mTLS client certificate expires, as
-                            observed by the hub agent backend (agent/spokes). Nil when unknown — the
+                            observed by the hub relay backend (relay/spokes). Nil when unknown — the
                             spoke is not connected, or the hub captured no verified peer cert.
                           format: date-time
                           type: string
@@ -10513,7 +10513,7 @@ spec:
                           type: string
                         phase:
                           description: |-
-                            Phase mirrors the spoke VaultAgent phase (Pending|Connected|Disconnected|Error)
+                            Phase mirrors the spoke VaultRelay phase (Pending|Connected|Disconnected|Error)
                             plus hub-side values (WorkApplied, WorkProgressing, WorkDegraded).
                           type: string
                         tokenExpiry:
@@ -10530,7 +10530,7 @@ spec:
                     type: string
                   ready:
                     description: |-
-                      Ready is the number of clusters whose VaultAgent reports phase Connected
+                      Ready is the number of clusters whose VaultRelay reports phase Connected
                       (scraped via ManifestWork status feedback).
                     format: int32
                     type: integer
@@ -10732,10 +10732,10 @@ spec:
             type: object
           spec:
             properties:
-              agentPlacementRef:
+              relayPlacementRef:
                 description: |-
-                  AgentPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1)
-                  in the same namespace as the VaultServer. When set, the operator deploys a VaultAgent to
+                  RelayPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1)
+                  in the same namespace as the VaultServer. When set, the operator deploys a VaultRelay to
                   every managed cluster selected by the Placement, using one ManifestWork per cluster.
                   Requires the OCM hub CRDs (Placement, PlacementDecision, ManifestWork) to be installed;
                   the field is ignored with a warning condition otherwise.
@@ -10751,10 +10751,10 @@ spec:
                     type: string
                 type: object
                 x-kubernetes-map-type: atomic
-              agentTemplate:
+              relayTemplate:
                 description: |-
-                  AgentTemplate customizes the VaultAgents stamped out for clusters selected by
-                  AgentPlacementRef. Per-cluster fields (spokeName, hubVaultRef, join material)
+                  RelayTemplate customizes the VaultRelays stamped out for clusters selected by
+                  RelayPlacementRef. Per-cluster fields (spokeName, hubVaultRef, join material)
                   are filled in by the operator.
                 properties:
                   bootstrapTokenTTL:
@@ -10767,7 +10767,7 @@ spec:
                     type: string
                   namespace:
                     description: |-
-                      Namespace on the managed cluster where the VaultAgent and its companion
+                      Namespace on the managed cluster where the VaultRelay and its companion
                       resources are created. Defaults to the VaultServer's namespace.
                     type: string
                   podTemplate:
@@ -27938,8 +27938,8 @@ spec:
             type: object
           status:
             properties:
-              agentPlacement:
-                description: AgentPlacement summarizes spoke agent rollout when spec.agentPlacementRef
+              relayPlacement:
+                description: RelayPlacement summarizes spoke relay rollout when spec.relayPlacementRef
                   is set.
                 properties:
                   applied:
@@ -27956,7 +27956,7 @@ spec:
                         certExpiry:
                           description: |-
                             CertExpiry is when this spoke's mTLS client certificate expires, as
-                            observed by the hub agent backend (agent/spokes). Nil when unknown — the
+                            observed by the hub relay backend (relay/spokes). Nil when unknown — the
                             spoke is not connected, or the hub captured no verified peer cert.
                           format: date-time
                           type: string
@@ -27965,7 +27965,7 @@ spec:
                           type: string
                         phase:
                           description: |-
-                            Phase mirrors the spoke VaultAgent phase (Pending|Connected|Disconnected|Error)
+                            Phase mirrors the spoke VaultRelay phase (Pending|Connected|Disconnected|Error)
                             plus hub-side values (WorkApplied, WorkProgressing, WorkDegraded).
                           type: string
                         tokenExpiry:
@@ -27982,7 +27982,7 @@ spec:
                     type: string
                   ready:
                     description: |-
-                      Ready is the number of clusters whose VaultAgent reports phase Connected
+                      Ready is the number of clusters whose VaultRelay reports phase Connected
                       (scraped via ManifestWork status feedback).
                     format: int32
                     type: integer

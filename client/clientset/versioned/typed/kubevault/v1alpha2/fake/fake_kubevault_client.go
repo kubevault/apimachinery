@@ -29,8 +29,8 @@ type FakeKubevaultV1alpha2 struct {
 	*testing.Fake
 }
 
-func (c *FakeKubevaultV1alpha2) VaultAgents(namespace string) v1alpha2.VaultAgentInterface {
-	return &FakeVaultAgents{c, namespace}
+func (c *FakeKubevaultV1alpha2) VaultRelays(namespace string) v1alpha2.VaultRelayInterface {
+	return &FakeVaultRelays{c, namespace}
 }
 
 func (c *FakeKubevaultV1alpha2) VaultServers(namespace string) v1alpha2.VaultServerInterface {

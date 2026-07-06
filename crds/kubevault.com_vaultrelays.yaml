@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app.kubernetes.io/name: kubevault
-  name: vaultagents.kubevault.com
+  name: vaultrelays.kubevault.com
 spec:
   group: kubevault.com
   names:
@@ -12,12 +12,12 @@ spec:
     - vault
     - appscode
     - all
-    kind: VaultAgent
-    listKind: VaultAgentList
-    plural: vaultagents
+    kind: VaultRelay
+    listKind: VaultRelayList
+    plural: vaultrelays
     shortNames:
     - va
-    singular: vaultagent
+    singular: vaultrelay
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -55,7 +55,7 @@ spec:
             properties:
               bootstrap:
                 description: |-
-                  Bootstrap configures the automated `bao agent join` flow. When set, the
+                  Bootstrap configures the automated `bao relay join` flow. When set, the
                   spoke-agent pod runs a join init container that exchanges the bootstrap
                   token for mTLS client credentials before the long-running agent starts.
                   Exactly one of Bootstrap or TLS.CertSecret (pre-provisioned credentials)
@@ -6375,7 +6375,7 @@ spec:
                 type: string
               conditions:
                 description: Conditions represent the latest available observations
-                  of the VaultAgent's state
+                  of the VaultRelay's state
                 items:
                   description: Condition defines an observation of a object operational
                     state.
@@ -6436,7 +6436,7 @@ spec:
                 format: int64
                 type: integer
               phase:
-                description: Phase indicates the current state of the VaultAgent
+                description: Phase indicates the current state of the VaultRelay
                 enum:
                 - Pending
                 - Connected

@@ -452,8 +452,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec":                             schema_kmodulesxyz_offshoot_api_api_v1_ServiceTemplateSpec(ref),
 		"kmodules.xyz/offshoot-api/api/v1.Volume":                                          schema_kmodulesxyz_offshoot_api_api_v1_Volume(ref),
 		"kmodules.xyz/offshoot-api/api/v1.VolumeSource":                                    schema_kmodulesxyz_offshoot_api_api_v1_VolumeSource(ref),
-		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayBootstrapConfig":          schema_apimachinery_apis_kubevault_v1alpha2_RelayBootstrapConfig(ref),
-		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayPlacementStatus":          schema_apimachinery_apis_kubevault_v1alpha2_RelayPlacementStatus(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AllowedSecretEngines":          schema_apimachinery_apis_kubevault_v1alpha2_AllowedSecretEngines(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethod":                    schema_apimachinery_apis_kubevault_v1alpha2_AuthMethod(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethodStatus":              schema_apimachinery_apis_kubevault_v1alpha2_AuthMethodStatus(ref),
@@ -478,6 +476,8 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.PostgreSQLSpec":                schema_apimachinery_apis_kubevault_v1alpha2_PostgreSQLSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RaftSpec":                      schema_apimachinery_apis_kubevault_v1alpha2_RaftSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ReconnectConfig":               schema_apimachinery_apis_kubevault_v1alpha2_ReconnectConfig(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayBootstrapConfig":          schema_apimachinery_apis_kubevault_v1alpha2_RelayBootstrapConfig(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayPlacementStatus":          schema_apimachinery_apis_kubevault_v1alpha2_RelayPlacementStatus(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.S3Spec":                        schema_apimachinery_apis_kubevault_v1alpha2_S3Spec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SecretEngineNamespaces":        schema_apimachinery_apis_kubevault_v1alpha2_SecretEngineNamespaces(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SpokeClusterStatus":            schema_apimachinery_apis_kubevault_v1alpha2_SpokeClusterStatus(ref),
@@ -23511,86 +23511,6 @@ func schema_kmodulesxyz_offshoot_api_api_v1_VolumeSource(ref common.ReferenceCal
 	}
 }
 
-func schema_apimachinery_apis_kubevault_v1alpha2_RelayBootstrapConfig(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "RelayBootstrapConfig configures the automated `bao relay join` trust bootstrap.",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"joinSecretRef": {
-						SchemaProps: spec.SchemaProps{
-							Description: "JoinSecretRef references a Secret with the join parameters:\n - token:       hub bootstrap token (<id>.<secret>)\n - hubCertHash: \"sha256:<hex>\" SPKI pin of the spoke-CA\n - caBundle:    optional PEM CA bundle for the hub Vault API endpoint",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
-						},
-					},
-				},
-				Required: []string{"joinSecretRef"},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
-	}
-}
-
-func schema_apimachinery_apis_kubevault_v1alpha2_RelayPlacementStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "RelayPlacementStatus summarizes the rollout of spoke relays to managed clusters.",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"placement": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Placement is the resolved Placement name.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"selected": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Selected is the number of clusters currently listed in the PlacementDecisions.",
-							Type:        []string{"integer"},
-							Format:      "int32",
-						},
-					},
-					"applied": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Applied is the number of clusters whose ManifestWork has condition Applied=True.",
-							Type:        []string{"integer"},
-							Format:      "int32",
-						},
-					},
-					"ready": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Ready is the number of clusters whose VaultRelay reports phase Connected (scraped via ManifestWork status feedback).",
-							Type:        []string{"integer"},
-							Format:      "int32",
-						},
-					},
-					"clusters": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Clusters holds per-cluster detail.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SpokeClusterStatus"),
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SpokeClusterStatus"},
-	}
-}
-
 func schema_apimachinery_apis_kubevault_v1alpha2_AllowedSecretEngines(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -25080,6 +25000,86 @@ func schema_apimachinery_apis_kubevault_v1alpha2_ReconnectConfig(ref common.Refe
 	}
 }
 
+func schema_apimachinery_apis_kubevault_v1alpha2_RelayBootstrapConfig(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "RelayBootstrapConfig configures the automated `bao relay join` trust bootstrap.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"joinSecretRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "JoinSecretRef references a Secret with the join parameters:\n - token:       hub bootstrap token (<id>.<secret>)\n - hubCertHash: \"sha256:<hex>\" SPKI pin of the spoke-CA\n - caBundle:    optional PEM CA bundle for the hub Vault API endpoint",
+							Default:     map[string]interface{}{},
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+				},
+				Required: []string{"joinSecretRef"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
+	}
+}
+
+func schema_apimachinery_apis_kubevault_v1alpha2_RelayPlacementStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "RelayPlacementStatus summarizes the rollout of spoke relays to managed clusters.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"placement": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Placement is the resolved Placement name.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"selected": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Selected is the number of clusters currently listed in the PlacementDecisions.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"applied": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Applied is the number of clusters whose ManifestWork has condition Applied=True.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"ready": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Ready is the number of clusters whose VaultRelay reports phase Connected (scraped via ManifestWork status feedback).",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"clusters": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Clusters holds per-cluster detail.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SpokeClusterStatus"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SpokeClusterStatus"},
+	}
+}
+
 func schema_apimachinery_apis_kubevault_v1alpha2_S3Spec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -25553,7 +25553,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultRelaySpec(ref common.Refer
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayBootstrapConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.HubVaultReference", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ReconnectConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultRelayTLSConfig"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.HubVaultReference", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ReconnectConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayBootstrapConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultRelayTLSConfig"},
 	}
 }
 
@@ -26043,7 +26043,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultServerStatus(ref common.Re
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.Condition", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayPlacementStatus", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethodStatus", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultStatus"},
+			"kmodules.xyz/client-go/api/v1.Condition", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethodStatus", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayPlacementStatus", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultStatus"},
 	}
 }
 

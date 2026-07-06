@@ -16562,7 +16562,7 @@
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration"
         },
         "image": {
-          "description": "Image overrides the spoke-agent container image.",
+          "description": "Image overrides the spoke-relay container image.",
           "type": "string"
         },
         "namespace": {
@@ -16570,7 +16570,7 @@
           "type": "string"
         },
         "podTemplate": {
-          "description": "PodTemplate is an optional configuration for the spoke-agent pods.",
+          "description": "PodTemplate is an optional configuration for the spoke-relay pods.",
           "default": {},
           "$ref": "#/definitions/xyz.kmodules.offshoot-api.api.v1.PodTemplateSpec"
         }

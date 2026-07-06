@@ -56,8 +56,8 @@ spec:
               bootstrap:
                 description: |-
                   Bootstrap configures the automated `bao relay join` flow. When set, the
-                  spoke-agent pod runs a join init container that exchanges the bootstrap
-                  token for mTLS client credentials before the long-running agent starts.
+                  spoke-relay pod runs a join init container that exchanges the bootstrap
+                  token for mTLS client credentials before the long-running relay starts.
                   Exactly one of Bootstrap or TLS.CertSecret (pre-provisioned credentials)
                   should be used.
                 properties:
@@ -111,10 +111,10 @@ spec:
                 - namespace
                 type: object
               image:
-                description: Image is the spoke-agent container image
+                description: Image is the spoke-relay container image
                 type: string
               podTemplate:
-                description: PodTemplate is an optional configuration for the spoke-agent
+                description: PodTemplate is an optional configuration for the spoke-relay
                   pod
                 properties:
                   controller:
@@ -6444,7 +6444,7 @@ spec:
                 - Error
                 type: string
               podName:
-                description: PodName is the name of the spoke-agent pod
+                description: PodName is the name of the spoke-relay pod
                 type: string
             type: object
         type: object

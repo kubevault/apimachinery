@@ -164,11 +164,11 @@ type VaultRelayTemplate struct {
 	// +optional
 	Namespace string `json:"namespace,omitempty"`
 
-	// Image overrides the spoke-agent container image.
+	// Image overrides the spoke-relay container image.
 	// +optional
 	Image string `json:"image,omitempty"`
 
-	// PodTemplate is an optional configuration for the spoke-agent pods.
+	// PodTemplate is an optional configuration for the spoke-relay pods.
 	// +optional
 	PodTemplate ofst.PodTemplateSpec `json:"podTemplate,omitempty"`
 

@@ -102,7 +102,7 @@ const (
 const (
 	// SpokeRelayFinalizer guards hub-side cleanup of per-cluster spoke relay
 	// resources (ManifestWorks, ServiceAccounts, bootstrap tokens).
-	SpokeRelayFinalizer = "kubevault.com/spoke-agents"
+	SpokeRelayFinalizer = "kubevault.com/spoke-relays"
 
 	// ManagedByHubLabelValue marks resources authored on the hub and delivered
 	// to managed clusters via ManifestWork. Spoke-side controllers must not

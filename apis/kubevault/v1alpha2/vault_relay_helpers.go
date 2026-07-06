@@ -80,10 +80,10 @@ func (va VaultRelay) GetGRPCPort() int32 {
 	return va.Spec.HubVaultRef.GRPCPort
 }
 
-// GetImage returns the spoke-agent image with default value
+// GetImage returns the spoke-relay image with default value
 func (va VaultRelay) GetImage() string {
 	if va.Spec.Image == "" {
-		return "ghcr.io/kubevault/spoke-agent:latest"
+		return "ghcr.io/kubevault/spoke-relay:latest"
 	}
 	return va.Spec.Image
 }

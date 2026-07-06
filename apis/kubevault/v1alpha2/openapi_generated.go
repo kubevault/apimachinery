@@ -452,7 +452,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec":                             schema_kmodulesxyz_offshoot_api_api_v1_ServiceTemplateSpec(ref),
 		"kmodules.xyz/offshoot-api/api/v1.Volume":                                          schema_kmodulesxyz_offshoot_api_api_v1_Volume(ref),
 		"kmodules.xyz/offshoot-api/api/v1.VolumeSource":                                    schema_kmodulesxyz_offshoot_api_api_v1_VolumeSource(ref),
-		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AgentBootstrapConfig":          schema_apimachinery_apis_kubevault_v1alpha2_AgentBootstrapConfig(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayBootstrapConfig":          schema_apimachinery_apis_kubevault_v1alpha2_RelayBootstrapConfig(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayPlacementStatus":          schema_apimachinery_apis_kubevault_v1alpha2_RelayPlacementStatus(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AllowedSecretEngines":          schema_apimachinery_apis_kubevault_v1alpha2_AllowedSecretEngines(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethod":                    schema_apimachinery_apis_kubevault_v1alpha2_AuthMethod(ref),
@@ -23511,11 +23511,11 @@ func schema_kmodulesxyz_offshoot_api_api_v1_VolumeSource(ref common.ReferenceCal
 	}
 }
 
-func schema_apimachinery_apis_kubevault_v1alpha2_AgentBootstrapConfig(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_apimachinery_apis_kubevault_v1alpha2_RelayBootstrapConfig(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "AgentBootstrapConfig configures the automated `bao relay join` trust bootstrap.",
+				Description: "RelayBootstrapConfig configures the automated `bao relay join` trust bootstrap.",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"joinSecretRef": {
@@ -25518,7 +25518,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultRelaySpec(ref common.Refer
 					},
 					"image": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Image is the spoke-agent container image",
+							Description: "Image is the spoke-relay container image",
 							Type:        []string{"string"},
 							Format:      "",
 						},
@@ -25537,15 +25537,15 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultRelaySpec(ref common.Refer
 					},
 					"podTemplate": {
 						SchemaProps: spec.SchemaProps{
-							Description: "PodTemplate is an optional configuration for the spoke-agent pod",
+							Description: "PodTemplate is an optional configuration for the spoke-relay pod",
 							Default:     map[string]interface{}{},
 							Ref:         ref("kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec"),
 						},
 					},
 					"bootstrap": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Bootstrap configures the automated `bao relay join` flow. When set, the spoke-agent pod runs a join init container that exchanges the bootstrap token for mTLS client credentials before the long-running agent starts. Exactly one of Bootstrap or TLS.CertSecret (pre-provisioned credentials) should be used.",
-							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AgentBootstrapConfig"),
+							Description: "Bootstrap configures the automated `bao relay join` flow. When set, the spoke-relay pod runs a join init container that exchanges the bootstrap token for mTLS client credentials before the long-running relay starts. Exactly one of Bootstrap or TLS.CertSecret (pre-provisioned credentials) should be used.",
+							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayBootstrapConfig"),
 						},
 					},
 				},
@@ -25553,7 +25553,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultRelaySpec(ref common.Refer
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AgentBootstrapConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.HubVaultReference", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ReconnectConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultRelayTLSConfig"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayBootstrapConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.HubVaultReference", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ReconnectConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultRelayTLSConfig"},
 	}
 }
 
@@ -25591,7 +25591,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultRelayStatus(ref common.Ref
 					},
 					"podName": {
 						SchemaProps: spec.SchemaProps{
-							Description: "PodName is the name of the spoke-agent pod",
+							Description: "PodName is the name of the spoke-relay pod",
 							Type:        []string{"string"},
 							Format:      "",
 						},
@@ -25628,7 +25628,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultRelayTLSConfig(ref common.
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "VaultRelayTLSConfig contains TLS configuration for spoke-agent",
+				Description: "VaultRelayTLSConfig contains TLS configuration for spoke-relay",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"enabled": {
@@ -25674,14 +25674,14 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultRelayTemplate(ref common.R
 					},
 					"image": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Image overrides the spoke-agent container image.",
+							Description: "Image overrides the spoke-relay container image.",
 							Type:        []string{"string"},
 							Format:      "",
 						},
 					},
 					"podTemplate": {
 						SchemaProps: spec.SchemaProps{
-							Description: "PodTemplate is an optional configuration for the spoke-agent pods.",
+							Description: "PodTemplate is an optional configuration for the spoke-relay pods.",
 							Default:     map[string]interface{}{},
 							Ref:         ref("kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec"),
 						},

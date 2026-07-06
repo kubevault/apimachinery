@@ -10763,7 +10763,7 @@ spec:
                       (and therefore their rotation period). Default 24h, minimum 1h.
                     type: string
                   image:
-                    description: Image overrides the spoke-agent container image.
+                    description: Image overrides the spoke-relay container image.
                     type: string
                   namespace:
                     description: |-
@@ -10772,7 +10772,7 @@ spec:
                     type: string
                   podTemplate:
                     description: PodTemplate is an optional configuration for the
-                      spoke-agent pods.
+                      spoke-relay pods.
                     properties:
                       controller:
                         description: |-

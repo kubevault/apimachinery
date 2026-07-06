@@ -59,7 +59,7 @@ type VaultRelaySpec struct {
 	// +optional
 	TokenSecretRef *core.LocalObjectReference `json:"tokenSecretRef,omitempty"`
 
-	// Image is the spoke-agent container image
+	// Image is the spoke-relay container image
 	// +optional
 	Image string `json:"image,omitempty"`
 
@@ -72,21 +72,21 @@ type VaultRelaySpec struct {
 	// +kubebuilder:default={enabled: true, backoffSeconds: 5, maxBackoffSeconds: 300}
 	Reconnect *ReconnectConfig `json:"reconnect,omitempty"`
 
-	// PodTemplate is an optional configuration for the spoke-agent pod
+	// PodTemplate is an optional configuration for the spoke-relay pod
 	// +optional
 	PodTemplate ofst.PodTemplateSpec `json:"podTemplate,omitempty"`
 
 	// Bootstrap configures the automated `bao relay join` flow. When set, the
-	// spoke-agent pod runs a join init container that exchanges the bootstrap
-	// token for mTLS client credentials before the long-running agent starts.
+	// spoke-relay pod runs a join init container that exchanges the bootstrap
+	// token for mTLS client credentials before the long-running relay starts.
 	// Exactly one of Bootstrap or TLS.CertSecret (pre-provisioned credentials)
 	// should be used.
 	// +optional
-	Bootstrap *AgentBootstrapConfig `json:"bootstrap,omitempty"`
+	Bootstrap *RelayBootstrapConfig `json:"bootstrap,omitempty"`
 }
 
-// AgentBootstrapConfig configures the automated `bao relay join` trust bootstrap.
-type AgentBootstrapConfig struct {
+// RelayBootstrapConfig configures the automated `bao relay join` trust bootstrap.
+type RelayBootstrapConfig struct {
 	// JoinSecretRef references a Secret with the join parameters:
 	//  - token:       hub bootstrap token (<id>.<secret>)
 	//  - hubCertHash: "sha256:<hex>" SPKI pin of the spoke-CA
@@ -116,7 +116,7 @@ type HubVaultReference struct {
 	CABundle []byte `json:"caBundle,omitempty"`
 }
 
-// VaultRelayTLSConfig contains TLS configuration for spoke-agent
+// VaultRelayTLSConfig contains TLS configuration for spoke-relay
 type VaultRelayTLSConfig struct {
 	// Enabled indicates whether TLS is enabled
 	// +optional
@@ -190,7 +190,7 @@ type VaultRelayStatus struct {
 	// +optional
 	AppBindingRef *kmapi.ObjectReference `json:"appBindingRef,omitempty"`
 
-	// PodName is the name of the spoke-agent pod
+	// PodName is the name of the spoke-relay pod
 	// +optional
 	PodName string `json:"podName,omitempty"`
 

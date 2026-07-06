@@ -25,7 +25,7 @@ const (
 	VaultUnsealerContainerName = "vault-unsealer"
 	VaultInitContainerName     = "vault-config"
 	VaultExporterContainerName = "vault-exporter"
-	VaultAgentContainerName    = "spoke-agent"
+	VaultRelayContainerName    = "spoke-relay"
 )
 
 // +kubebuilder:validation:Enum=Initializing;Unsealing;Sealed;Ready;NotReady;Critical

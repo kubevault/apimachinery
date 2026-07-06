@@ -184,16 +184,16 @@ type VaultServerStatus struct {
 	// +optional
 	AuthMethodStatus []AuthMethodStatus `json:"authMethodStatus,omitempty"`
 
-	// AgentPlacement summarizes spoke agent rollout when the (v1alpha2)
-	// spec.agentPlacementRef is set. Mirrored here so VaultServerStatus
+	// RelayPlacement summarizes spoke relay rollout when the (v1alpha2)
+	// spec.relayPlacementRef is set. Mirrored here so VaultServerStatus
 	// round-trips losslessly through the v1alpha1 API.
 	// +optional
-	AgentPlacement *AgentPlacementStatus `json:"agentPlacement,omitempty"`
+	RelayPlacement *RelayPlacementStatus `json:"relayPlacement,omitempty"`
 }
 
-// AgentPlacementStatus summarizes the rollout of spoke agents to managed clusters.
-// Kept layout-identical to v1alpha2.AgentPlacementStatus for conversion.
-type AgentPlacementStatus struct {
+// RelayPlacementStatus summarizes the rollout of spoke relays to managed clusters.
+// Kept layout-identical to v1alpha2.RelayPlacementStatus for conversion.
+type RelayPlacementStatus struct {
 	// Placement is the resolved Placement name.
 	// +optional
 	Placement string `json:"placement,omitempty"`
@@ -206,7 +206,7 @@ type AgentPlacementStatus struct {
 	// +optional
 	Applied int32 `json:"applied,omitempty"`
 
-	// Ready is the number of clusters whose VaultAgent reports phase Connected
+	// Ready is the number of clusters whose VaultRelay reports phase Connected
 	// (scraped via ManifestWork status feedback).
 	// +optional
 	Ready int32 `json:"ready,omitempty"`
@@ -222,7 +222,7 @@ type SpokeClusterStatus struct {
 	// ClusterName is the ManagedCluster name.
 	ClusterName string `json:"clusterName"`
 
-	// Phase mirrors the spoke VaultAgent phase (Pending|Connected|Disconnected|Error)
+	// Phase mirrors the spoke VaultRelay phase (Pending|Connected|Disconnected|Error)
 	// plus hub-side values (WorkApplied, WorkProgressing, WorkDegraded).
 	// +optional
 	Phase string `json:"phase,omitempty"`
@@ -232,7 +232,7 @@ type SpokeClusterStatus struct {
 	TokenExpiry *metav1.Time `json:"tokenExpiry,omitempty"`
 
 	// CertExpiry is when this spoke's mTLS client certificate expires, as
-	// observed by the hub agent backend (agent/spokes). Nil when unknown — the
+	// observed by the hub relay backend (relay/spokes). Nil when unknown — the
 	// spoke is not connected, or the hub captured no verified peer cert.
 	// +optional
 	CertExpiry *metav1.Time `json:"certExpiry,omitempty"`

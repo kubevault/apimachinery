@@ -25,13 +25,13 @@ import (
 
 // GetVaultDeploymentMode is the single sanctioned way to determine whether a
 // Vault AppBinding points at a Local vault or a hub vault reached through
-// the OpenBao spoke agent (RemoteAgent). It returns the deployment type
-// and, for RemoteAgent, the spoke name.
+// the OpenBao spoke relay (RemoteRelay). It returns the deployment type
+// and, for RemoteRelay, the spoke name.
 //
 // Rules:
 //   - missing parameters, or parameters without deploymentMode => Local
 //   - deploymentMode "Local"                                   => Local
-//   - deploymentMode "RemoteAgent"                             => RemoteAgent;
+//   - deploymentMode "RemoteRelay"                             => RemoteRelay;
 //     spokeName must be present, otherwise an error is returned
 //   - any other value                                     => error
 //
@@ -53,11 +53,11 @@ func GetVaultDeploymentMode(ab *appcat.AppBinding) (DeploymentMode, string, erro
 	switch cfg.DeploymentMode {
 	case "", DeploymentModeLocal:
 		return DeploymentModeLocal, "", nil
-	case DeploymentModeRemoteAgent:
+	case DeploymentModeRemoteRelay:
 		if cfg.SpokeName == "" {
 			return "", "", fmt.Errorf("AppBinding %s/%s has deploymentMode %q but no spokeName", ab.Namespace, ab.Name, cfg.DeploymentMode)
 		}
-		return DeploymentModeRemoteAgent, cfg.SpokeName, nil
+		return DeploymentModeRemoteRelay, cfg.SpokeName, nil
 	default:
 		return "", "", fmt.Errorf("AppBinding %s/%s has unknown deploymentMode %q", ab.Namespace, ab.Name, cfg.DeploymentMode)
 	}

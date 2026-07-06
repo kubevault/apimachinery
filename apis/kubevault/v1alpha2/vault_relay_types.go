@@ -24,9 +24,9 @@ import (
 )
 
 const (
-	ResourceKindVaultAgent = "VaultAgent"
-	ResourceVaultAgent     = "vaultagent"
-	ResourceVaultAgents    = "vaultagents"
+	ResourceKindVaultRelay = "VaultRelay"
+	ResourceVaultRelay     = "vaultrelay"
+	ResourceVaultRelays    = "vaultrelays"
 )
 
 // +genclient
@@ -34,19 +34,19 @@ const (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // +kubebuilder:object:root=true
-// +kubebuilder:resource:path=vaultagents,singular=vaultagent,shortName=va,categories={vault,appscode,all}
+// +kubebuilder:resource:path=vaultrelays,singular=vaultrelay,shortName=va,categories={vault,appscode,all}
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Spoke",type="string",JSONPath=".spec.spokeName"
 // +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"
 // +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
-type VaultAgent struct {
+type VaultRelay struct {
 	metav1.TypeMeta   `json:",inline,omitempty"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VaultAgentSpec   `json:"spec,omitempty"`
-	Status            VaultAgentStatus `json:"status,omitempty"`
+	Spec              VaultRelaySpec   `json:"spec,omitempty"`
+	Status            VaultRelayStatus `json:"status,omitempty"`
 }
 
-type VaultAgentSpec struct {
+type VaultRelaySpec struct {
 	// HubVaultRef references the hub VaultServer
 	HubVaultRef HubVaultReference `json:"hubVaultRef"`
 
@@ -59,34 +59,34 @@ type VaultAgentSpec struct {
 	// +optional
 	TokenSecretRef *core.LocalObjectReference `json:"tokenSecretRef,omitempty"`
 
-	// Image is the spoke-agent container image
+	// Image is the spoke-relay container image
 	// +optional
 	Image string `json:"image,omitempty"`
 
 	// TLS configuration for gRPC connection
 	// +optional
-	TLS *VaultAgentTLSConfig `json:"tls,omitempty"`
+	TLS *VaultRelayTLSConfig `json:"tls,omitempty"`
 
 	// Reconnect settings for automatic reconnection
 	// +optional
 	// +kubebuilder:default={enabled: true, backoffSeconds: 5, maxBackoffSeconds: 300}
 	Reconnect *ReconnectConfig `json:"reconnect,omitempty"`
 
-	// PodTemplate is an optional configuration for the spoke-agent pod
+	// PodTemplate is an optional configuration for the spoke-relay pod
 	// +optional
 	PodTemplate ofst.PodTemplateSpec `json:"podTemplate,omitempty"`
 
-	// Bootstrap configures the automated `bao agent join` flow. When set, the
-	// spoke-agent pod runs a join init container that exchanges the bootstrap
-	// token for mTLS client credentials before the long-running agent starts.
+	// Bootstrap configures the automated `bao relay join` flow. When set, the
+	// spoke-relay pod runs a join init container that exchanges the bootstrap
+	// token for mTLS client credentials before the long-running relay starts.
 	// Exactly one of Bootstrap or TLS.CertSecret (pre-provisioned credentials)
 	// should be used.
 	// +optional
-	Bootstrap *AgentBootstrapConfig `json:"bootstrap,omitempty"`
+	Bootstrap *RelayBootstrapConfig `json:"bootstrap,omitempty"`
 }
 
-// AgentBootstrapConfig configures the automated `bao agent join` trust bootstrap.
-type AgentBootstrapConfig struct {
+// RelayBootstrapConfig configures the automated `bao relay join` trust bootstrap.
+type RelayBootstrapConfig struct {
 	// JoinSecretRef references a Secret with the join parameters:
 	//  - token:       hub bootstrap token (<id>.<secret>)
 	//  - hubCertHash: "sha256:<hex>" SPKI pin of the spoke-CA
@@ -116,8 +116,8 @@ type HubVaultReference struct {
 	CABundle []byte `json:"caBundle,omitempty"`
 }
 
-// VaultAgentTLSConfig contains TLS configuration for spoke-agent
-type VaultAgentTLSConfig struct {
+// VaultRelayTLSConfig contains TLS configuration for spoke-relay
+type VaultRelayTLSConfig struct {
 	// Enabled indicates whether TLS is enabled
 	// +optional
 	Enabled bool `json:"enabled,omitempty"`
@@ -157,30 +157,30 @@ type ReconnectConfig struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true
 
-type VaultAgentList struct {
+type VaultRelayList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []VaultAgent `json:"items,omitempty"`
+	Items           []VaultRelay `json:"items,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Pending;Connected;Disconnected;Error
-type VaultAgentPhase string
+type VaultRelayPhase string
 
 const (
-	VaultAgentPhasePending      VaultAgentPhase = "Pending"
-	VaultAgentPhaseConnected    VaultAgentPhase = "Connected"
-	VaultAgentPhaseDisconnected VaultAgentPhase = "Disconnected"
-	VaultAgentPhaseError        VaultAgentPhase = "Error"
+	VaultRelayPhasePending      VaultRelayPhase = "Pending"
+	VaultRelayPhaseConnected    VaultRelayPhase = "Connected"
+	VaultRelayPhaseDisconnected VaultRelayPhase = "Disconnected"
+	VaultRelayPhaseError        VaultRelayPhase = "Error"
 )
 
-type VaultAgentStatus struct {
+type VaultRelayStatus struct {
 	// ObservedGeneration is the most recent generation observed
 	// +optional
 	ObservedGeneration int64 `json:"observedGeneration,omitempty"`
 
-	// Phase indicates the current state of the VaultAgent
+	// Phase indicates the current state of the VaultRelay
 	// +optional
-	Phase VaultAgentPhase `json:"phase,omitempty"`
+	Phase VaultRelayPhase `json:"phase,omitempty"`
 
 	// LastHeartbeat is the timestamp of the last successful heartbeat
 	// +optional
@@ -190,7 +190,7 @@ type VaultAgentStatus struct {
 	// +optional
 	AppBindingRef *kmapi.ObjectReference `json:"appBindingRef,omitempty"`
 
-	// PodName is the name of the spoke-agent pod
+	// PodName is the name of the spoke-relay pod
 	// +optional
 	PodName string `json:"podName,omitempty"`
 
@@ -198,7 +198,7 @@ type VaultAgentStatus struct {
 	// +optional
 	CertExpiry *metav1.Time `json:"certExpiry,omitempty"`
 
-	// Conditions represent the latest available observations of the VaultAgent's state
+	// Conditions represent the latest available observations of the VaultRelay's state
 	// +optional
 	Conditions []kmapi.Condition `json:"conditions,omitempty"`
 }

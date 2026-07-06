@@ -74,14 +74,14 @@ type VaultServerConfiguration struct {
 	Unsealer *kubevaultv1alpha2.UnsealerSpec `json:"unsealer,omitempty"`
 
 	// DeploymentMode indicates how this AppBinding reaches the VaultServer:
-	// Local (in-cluster vault, the default when absent) or RemoteAgent
-	// (a hub vault accessed from a spoke cluster via the OpenBao spoke agent).
+	// Local (in-cluster vault, the default when absent) or RemoteRelay
+	// (a hub vault accessed from a spoke cluster via the OpenBao spoke relay).
 	// Consumers must read this through GetVaultDeploymentMode.
 	// +optional
 	DeploymentMode DeploymentMode `json:"deploymentMode,omitempty"`
 
 	// SpokeName is the spoke cluster identity registered with the hub's
-	// agent backend. Required when DeploymentMode is RemoteAgent. The secret
+	// relay backend. Required when DeploymentMode is RemoteRelay. The secret
 	// engine controllers use it to route database mounts through the
 	// hub's remote-<db>-plugin proxies.
 	// +optional
@@ -89,8 +89,8 @@ type VaultServerConfiguration struct {
 }
 
 // DeploymentMode distinguishes a locally reachable VaultServer from a
-// hub VaultServer reached through the OpenBao spoke agent.
-// +kubebuilder:validation:Enum=Local;RemoteAgent
+// hub VaultServer reached through the OpenBao spoke relay.
+// +kubebuilder:validation:Enum=Local;RemoteRelay
 type DeploymentMode string
 
 const (
@@ -99,11 +99,11 @@ const (
 	// built-in <db>-database-plugin family.
 	DeploymentModeLocal DeploymentMode = "Local"
 
-	// DeploymentModeRemoteAgent marks an AppBinding authored for a spoke
+	// DeploymentModeRemoteRelay marks an AppBinding authored for a spoke
 	// cluster that reaches a hub VaultServer. Database secret engines must
 	// use the remote-<db>-plugin family so the hub proxies plugin calls to
-	// the spoke agent.
-	DeploymentModeRemoteAgent DeploymentMode = "RemoteAgent"
+	// the spoke relay.
+	DeploymentModeRemoteRelay DeploymentMode = "RemoteRelay"
 )
 
 // KubernetesAuthConfiguration contains necessary information for

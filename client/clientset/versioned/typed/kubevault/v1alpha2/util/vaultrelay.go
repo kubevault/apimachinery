@@ -34,19 +34,19 @@ import (
 	kutil "kmodules.xyz/client-go"
 )
 
-func CreateOrPatchVaultAgent(
+func CreateOrPatchVaultRelay(
 	ctx context.Context,
 	c cs.KubevaultV1alpha2Interface,
 	meta metav1.ObjectMeta,
-	transform func(alert *api.VaultAgent) *api.VaultAgent,
+	transform func(alert *api.VaultRelay) *api.VaultRelay,
 	opts metav1.PatchOptions,
-) (*api.VaultAgent, kutil.VerbType, error) {
-	cur, err := c.VaultAgents(meta.Namespace).Get(ctx, meta.Name, metav1.GetOptions{})
+) (*api.VaultRelay, kutil.VerbType, error) {
+	cur, err := c.VaultRelays(meta.Namespace).Get(ctx, meta.Name, metav1.GetOptions{})
 	if kerr.IsNotFound(err) {
-		klog.V(3).Infof("Creating VaultAgent %s/%s.", meta.Namespace, meta.Name)
-		out, err := c.VaultAgents(meta.Namespace).Create(ctx, transform(&api.VaultAgent{
+		klog.V(3).Infof("Creating VaultRelay %s/%s.", meta.Namespace, meta.Name)
+		out, err := c.VaultRelays(meta.Namespace).Create(ctx, transform(&api.VaultRelay{
 			TypeMeta: metav1.TypeMeta{
-				Kind:       api.ResourceKindVaultAgent,
+				Kind:       api.ResourceKindVaultRelay,
 				APIVersion: api.SchemeGroupVersion.String(),
 			},
 			ObjectMeta: meta,
@@ -58,25 +58,25 @@ func CreateOrPatchVaultAgent(
 	} else if err != nil {
 		return nil, kutil.VerbUnchanged, err
 	}
-	return PatchVaultAgent(ctx, c, cur, transform, opts)
+	return PatchVaultRelay(ctx, c, cur, transform, opts)
 }
 
-func PatchVaultAgent(
+func PatchVaultRelay(
 	ctx context.Context,
 	c cs.KubevaultV1alpha2Interface,
-	cur *api.VaultAgent,
-	transform func(*api.VaultAgent) *api.VaultAgent,
+	cur *api.VaultRelay,
+	transform func(*api.VaultRelay) *api.VaultRelay,
 	opts metav1.PatchOptions,
-) (*api.VaultAgent, kutil.VerbType, error) {
-	return PatchVaultAgentObject(ctx, c, cur, transform(cur.DeepCopy()), opts)
+) (*api.VaultRelay, kutil.VerbType, error) {
+	return PatchVaultRelayObject(ctx, c, cur, transform(cur.DeepCopy()), opts)
 }
 
-func PatchVaultAgentObject(
+func PatchVaultRelayObject(
 	ctx context.Context,
 	c cs.KubevaultV1alpha2Interface,
-	cur, mod *api.VaultAgent,
+	cur, mod *api.VaultRelay,
 	opts metav1.PatchOptions,
-) (*api.VaultAgent, kutil.VerbType, error) {
+) (*api.VaultRelay, kutil.VerbType, error) {
 	curJson, err := json.Marshal(cur)
 	if err != nil {
 		return nil, kutil.VerbUnchanged, err
@@ -94,46 +94,46 @@ func PatchVaultAgentObject(
 	if len(patch) == 0 || string(patch) == "{}" {
 		return cur, kutil.VerbUnchanged, nil
 	}
-	klog.V(3).Infof("Patching VaultAgent %s/%s with %s.", cur.Namespace, cur.Name, string(patch))
-	out, err := c.VaultAgents(cur.Namespace).Patch(ctx, cur.Name, types.MergePatchType, patch, opts)
+	klog.V(3).Infof("Patching VaultRelay %s/%s with %s.", cur.Namespace, cur.Name, string(patch))
+	out, err := c.VaultRelays(cur.Namespace).Patch(ctx, cur.Name, types.MergePatchType, patch, opts)
 	return out, kutil.VerbPatched, err
 }
 
-func TryUpdateVaultAgent(
+func TryUpdateVaultRelay(
 	ctx context.Context,
 	c cs.KubevaultV1alpha2Interface,
 	meta metav1.ObjectMeta,
-	transform func(*api.VaultAgent) *api.VaultAgent,
+	transform func(*api.VaultRelay) *api.VaultRelay,
 	opts metav1.UpdateOptions,
-) (result *api.VaultAgent, err error) {
+) (result *api.VaultRelay, err error) {
 	attempt := 0
 	err = wait.PollUntilContextTimeout(context.Background(), kutil.RetryInterval, kutil.RetryTimeout, true, func(ctx context.Context) (bool, error) {
 		attempt++
-		cur, e2 := c.VaultAgents(meta.Namespace).Get(ctx, meta.Name, metav1.GetOptions{})
+		cur, e2 := c.VaultRelays(meta.Namespace).Get(ctx, meta.Name, metav1.GetOptions{})
 		if kerr.IsNotFound(e2) {
 			return false, e2
 		} else if e2 == nil {
-			result, e2 = c.VaultAgents(cur.Namespace).Update(ctx, transform(cur.DeepCopy()), opts)
+			result, e2 = c.VaultRelays(cur.Namespace).Update(ctx, transform(cur.DeepCopy()), opts)
 			return e2 == nil, nil
 		}
-		klog.Errorf("Attempt %d failed to update VaultAgent %s/%s due to %v.", attempt, cur.Namespace, cur.Name, e2)
+		klog.Errorf("Attempt %d failed to update VaultRelay %s/%s due to %v.", attempt, cur.Namespace, cur.Name, e2)
 		return false, nil
 	})
 	if err != nil {
-		err = errors.Errorf("failed to update VaultAgent %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
+		err = errors.Errorf("failed to update VaultRelay %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}
 	return
 }
 
-func UpdateVaultAgentStatus(
+func UpdateVaultRelayStatus(
 	ctx context.Context,
 	c cs.KubevaultV1alpha2Interface,
 	meta metav1.ObjectMeta,
-	transform func(*api.VaultAgentStatus) *api.VaultAgentStatus,
+	transform func(*api.VaultRelayStatus) *api.VaultRelayStatus,
 	opts metav1.UpdateOptions,
-) (result *api.VaultAgent, err error) {
-	apply := func(x *api.VaultAgent) *api.VaultAgent {
-		out := &api.VaultAgent{
+) (result *api.VaultRelay, err error) {
+	apply := func(x *api.VaultRelay) *api.VaultRelay {
+		out := &api.VaultRelay{
 			TypeMeta:   x.TypeMeta,
 			ObjectMeta: x.ObjectMeta,
 			Spec:       x.Spec,
@@ -143,16 +143,16 @@ func UpdateVaultAgentStatus(
 	}
 
 	attempt := 0
-	cur, err := c.VaultAgents(meta.Namespace).Get(ctx, meta.Name, metav1.GetOptions{})
+	cur, err := c.VaultRelays(meta.Namespace).Get(ctx, meta.Name, metav1.GetOptions{})
 	if err != nil {
 		return nil, err
 	}
 	err = wait.PollUntilContextTimeout(context.Background(), kutil.RetryInterval, kutil.RetryTimeout, true, func(ctx context.Context) (bool, error) {
 		attempt++
 		var e2 error
-		result, e2 = c.VaultAgents(meta.Namespace).UpdateStatus(ctx, apply(cur), opts)
+		result, e2 = c.VaultRelays(meta.Namespace).UpdateStatus(ctx, apply(cur), opts)
 		if kerr.IsConflict(e2) {
-			latest, e3 := c.VaultAgents(meta.Namespace).Get(ctx, meta.Name, metav1.GetOptions{})
+			latest, e3 := c.VaultRelays(meta.Namespace).Get(ctx, meta.Name, metav1.GetOptions{})
 			switch {
 			case e3 == nil:
 				cur = latest
@@ -168,7 +168,7 @@ func UpdateVaultAgentStatus(
 		return e2 == nil, nil
 	})
 	if err != nil {
-		err = fmt.Errorf("failed to update status of VaultAgent %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
+		err = fmt.Errorf("failed to update status of VaultRelay %s/%s after %d attempts due to %v", meta.Namespace, meta.Name, attempt, err)
 	}
 	return
 }

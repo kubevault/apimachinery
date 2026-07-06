@@ -95,8 +95,8 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Kubevault().V1alpha1().VaultServers().Informer()}, nil
 
 		// Group=kubevault.com, Version=v1alpha2
-	case v1alpha2.SchemeGroupVersion.WithResource("vaultagents"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Kubevault().V1alpha2().VaultAgents().Informer()}, nil
+	case v1alpha2.SchemeGroupVersion.WithResource("vaultrelays"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Kubevault().V1alpha2().VaultRelays().Informer()}, nil
 	case v1alpha2.SchemeGroupVersion.WithResource("vaultservers"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Kubevault().V1alpha2().VaultServers().Informer()}, nil
 

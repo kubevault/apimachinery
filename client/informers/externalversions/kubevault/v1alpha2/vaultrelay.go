@@ -33,59 +33,59 @@ import (
 	cache "k8s.io/client-go/tools/cache"
 )
 
-// VaultAgentInformer provides access to a shared informer and lister for
-// VaultAgents.
-type VaultAgentInformer interface {
+// VaultRelayInformer provides access to a shared informer and lister for
+// VaultRelays.
+type VaultRelayInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha2.VaultAgentLister
+	Lister() v1alpha2.VaultRelayLister
 }
 
-type vaultAgentInformer struct {
+type vaultRelayInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 	namespace        string
 }
 
-// NewVaultAgentInformer constructs a new informer for VaultAgent type.
+// NewVaultRelayInformer constructs a new informer for VaultRelay type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewVaultAgentInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredVaultAgentInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewVaultRelayInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredVaultRelayInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredVaultAgentInformer constructs a new informer for VaultAgent type.
+// NewFilteredVaultRelayInformer constructs a new informer for VaultRelay type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredVaultAgentInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredVaultRelayInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubevaultV1alpha2().VaultAgents(namespace).List(context.TODO(), options)
+				return client.KubevaultV1alpha2().VaultRelays(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubevaultV1alpha2().VaultAgents(namespace).Watch(context.TODO(), options)
+				return client.KubevaultV1alpha2().VaultRelays(namespace).Watch(context.TODO(), options)
 			},
 		},
-		&kubevaultv1alpha2.VaultAgent{},
+		&kubevaultv1alpha2.VaultRelay{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *vaultAgentInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredVaultAgentInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *vaultRelayInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredVaultRelayInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *vaultAgentInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&kubevaultv1alpha2.VaultAgent{}, f.defaultInformer)
+func (f *vaultRelayInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&kubevaultv1alpha2.VaultRelay{}, f.defaultInformer)
 }
 
-func (f *vaultAgentInformer) Lister() v1alpha2.VaultAgentLister {
-	return v1alpha2.NewVaultAgentLister(f.Informer().GetIndexer())
+func (f *vaultRelayInformer) Lister() v1alpha2.VaultRelayLister {
+	return v1alpha2.NewVaultRelayLister(f.Informer().GetIndexer())
 }

@@ -1,7 +1,7 @@
 apiVersion: kubevault.com/v1alpha2
-kind: VaultAgent
+kind: VaultRelay
 metadata:
-  name: hub-vault-agent
+  name: hub-vault-relay
   namespace: spoke-ns
 spec:
   # Hub vault connection details
@@ -14,8 +14,8 @@ spec:
   # Unique identifier for this spoke cluster
   spokeName: "spoke-cluster-1"
   
-  # Optional: Custom spoke-agent image
-  # image: "ghcr.io/kubevault/spoke-agent:v1.0.0"
+  # Optional: Custom spoke-relay image
+  # image: "ghcr.io/kubevault/spoke-relay:v1.0.0"
   
   # Optional: TLS configuration (for production)
   # tls:

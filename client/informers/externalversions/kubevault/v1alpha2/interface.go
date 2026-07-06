@@ -24,8 +24,8 @@ import (
 
 // Interface provides access to all the informers in this group version.
 type Interface interface {
-	// VaultAgents returns a VaultAgentInformer.
-	VaultAgents() VaultAgentInformer
+	// VaultRelays returns a VaultRelayInformer.
+	VaultRelays() VaultRelayInformer
 	// VaultServers returns a VaultServerInformer.
 	VaultServers() VaultServerInformer
 }
@@ -41,9 +41,9 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 	return &version{factory: f, namespace: namespace, tweakListOptions: tweakListOptions}
 }
 
-// VaultAgents returns a VaultAgentInformer.
-func (v *version) VaultAgents() VaultAgentInformer {
-	return &vaultAgentInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+// VaultRelays returns a VaultRelayInformer.
+func (v *version) VaultRelays() VaultRelayInformer {
+	return &vaultRelayInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // VaultServers returns a VaultServerInformer.

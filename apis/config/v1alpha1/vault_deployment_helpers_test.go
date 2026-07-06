@@ -57,9 +57,9 @@ func TestGetVaultDeploymentMode(t *testing.T) {
 			wantType: DeploymentModeLocal,
 		},
 		{
-			name:      "RemoteAgent with spokeName",
-			params:    `{"deploymentMode":"RemoteAgent","spokeName":"cluster-1"}`,
-			wantType:  DeploymentModeRemoteAgent,
+			name:      "RemoteRelay with spokeName",
+			params:    `{"deploymentMode":"RemoteRelay","spokeName":"cluster-1"}`,
+			wantType:  DeploymentModeRemoteRelay,
 			wantSpoke: "cluster-1",
 		},
 		{
@@ -68,8 +68,8 @@ func TestGetVaultDeploymentMode(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name:    "RemoteAgent without spokeName fails",
-			params:  `{"deploymentMode":"RemoteAgent"}`,
+			name:    "RemoteRelay without spokeName fails",
+			params:  `{"deploymentMode":"RemoteRelay"}`,
 			wantErr: true,
 		},
 		{

@@ -34,7 +34,7 @@ const (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // +kubebuilder:object:root=true
-// +kubebuilder:resource:path=vaultrelays,singular=vaultrelay,shortName=vr,categories={vault,appscode,all}
+// +kubebuilder:resource:path=vaultrelays,singular=vaultrelay,shortName=va,categories={vault,appscode,all}
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Spoke",type="string",JSONPath=".spec.spokeName"
 // +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"

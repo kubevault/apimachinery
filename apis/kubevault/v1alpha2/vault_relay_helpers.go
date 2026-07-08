@@ -28,74 +28,74 @@ import (
 
 func (*VaultRelay) Hub() {}
 
-func (va VaultRelay) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
+func (vr VaultRelay) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
 	return crds.MustCustomResourceDefinition(SchemeGroupVersion.WithResource(ResourceVaultRelays))
 }
 
-func (va VaultRelay) ResourceFQN() string {
+func (vr VaultRelay) ResourceFQN() string {
 	return fmt.Sprintf("%s.%s", ResourceVaultRelays, kubevault.GroupName)
 }
 
-func (va VaultRelay) GetKey() string {
-	return va.Namespace + "/" + va.Name
+func (vr VaultRelay) GetKey() string {
+	return vr.Namespace + "/" + vr.Name
 }
 
-func (va VaultRelay) OffshootName() string {
-	return va.Name
+func (vr VaultRelay) OffshootName() string {
+	return vr.Name
 }
 
-func (va VaultRelay) ServiceAccountName() string {
-	return va.Name
+func (vr VaultRelay) ServiceAccountName() string {
+	return vr.Name
 }
 
-func (va VaultRelay) PodName() string {
-	return meta_util.NameWithSuffix(va.Name, "agent")
+func (vr VaultRelay) PodName() string {
+	return meta_util.NameWithSuffix(vr.Name, "relay")
 }
 
-func (va VaultRelay) AppBindingName() string {
-	return meta_util.NameWithSuffix(va.Name, "hub-vault")
+func (vr VaultRelay) AppBindingName() string {
+	return meta_util.NameWithSuffix(vr.Name, "hub-vault")
 }
 
-func (va VaultRelay) OffshootSelectors() map[string]string {
+func (vr VaultRelay) OffshootSelectors() map[string]string {
 	return map[string]string{
-		meta_util.NameLabelKey:      va.ResourceFQN(),
-		meta_util.InstanceLabelKey:  va.Name,
+		meta_util.NameLabelKey:      vr.ResourceFQN(),
+		meta_util.InstanceLabelKey:  vr.Name,
 		meta_util.ManagedByLabelKey: kubevault.GroupName,
 	}
 }
 
-func (va VaultRelay) OffshootLabels() map[string]string {
-	return meta_util.FilterKeys("kubevault.com", va.OffshootSelectors(), va.Labels)
+func (vr VaultRelay) OffshootLabels() map[string]string {
+	return meta_util.FilterKeys("kubevault.com", vr.OffshootSelectors(), vr.Labels)
 }
 
-func (va VaultRelay) IsValid() error {
+func (vr VaultRelay) IsValid() error {
 	return nil
 }
 
 // GetGRPCPort returns the gRPC port with default value
-func (va VaultRelay) GetGRPCPort() int32 {
-	if va.Spec.HubVaultRef.GRPCPort == 0 {
+func (vr VaultRelay) GetGRPCPort() int32 {
+	if vr.Spec.HubVaultRef.GRPCPort == 0 {
 		return 50053
 	}
-	return va.Spec.HubVaultRef.GRPCPort
+	return vr.Spec.HubVaultRef.GRPCPort
 }
 
 // GetImage returns the spoke-relay image with default value
-func (va VaultRelay) GetImage() string {
-	if va.Spec.Image == "" {
+func (vr VaultRelay) GetImage() string {
+	if vr.Spec.Image == "" {
 		return "ghcr.io/kubevault/spoke-relay:latest"
 	}
-	return va.Spec.Image
+	return vr.Spec.Image
 }
 
 // SetDefaults sets default values for VaultRelay
-func (va *VaultRelay) SetDefaults() {
-	if va.Spec.HubVaultRef.GRPCPort == 0 {
-		va.Spec.HubVaultRef.GRPCPort = 50053
+func (vr *VaultRelay) SetDefaults() {
+	if vr.Spec.HubVaultRef.GRPCPort == 0 {
+		vr.Spec.HubVaultRef.GRPCPort = 50053
 	}
 
-	if va.Spec.Reconnect == nil {
-		va.Spec.Reconnect = &ReconnectConfig{
+	if vr.Spec.Reconnect == nil {
+		vr.Spec.Reconnect = &ReconnectConfig{
 			Enabled:           true,
 			BackoffSeconds:    5,
 			MaxBackoffSeconds: 300,

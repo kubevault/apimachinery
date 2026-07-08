@@ -74,7 +74,7 @@ func TestConvert_v1alpha1_VaultServer_To_v1alpha2_VaultServer(t *testing.T) {
 }
 
 // TestConvert_VaultServerStatus_RoundTrip verifies VaultServerStatus stays in
-// sync between the API versions, including the OCM agent placement summary.
+// sync between the API versions, including the OCM relay placement summary.
 func TestConvert_VaultServerStatus_RoundTrip(t *testing.T) {
 	now := metav1.Now()
 	v2Status := v1alpha2.VaultServerStatus{

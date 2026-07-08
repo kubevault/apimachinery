@@ -88,11 +88,11 @@ func (v VaultServer) AppBindingName() string {
 // namespace, and the ManifestWork. It embeds the VaultServer namespace and
 // name because those hub resources live outside the VaultServer namespace.
 func (v VaultServer) SpokeRelayName() string {
-	return meta_util.NameWithPrefix("kv", fmt.Sprintf("%s-%s-agent", v.Namespace, v.Name))
+	return meta_util.NameWithPrefix("kv", fmt.Sprintf("%s-%s-relay", v.Namespace, v.Name))
 }
 
 // SpokeRelayJoinSecretName is the per-cluster Secret (hub copy lives in the
-// managed cluster namespace, spoke copy in the agent namespace) holding the
+// managed cluster namespace, spoke copy in the relay namespace) holding the
 // bootstrap token, the spoke-CA SPKI pin, and the Vault API CA bundle.
 func (v VaultServer) SpokeRelayJoinSecretName() string {
 	return meta_util.NameWithSuffix(v.SpokeRelayName(), "join")
@@ -107,7 +107,7 @@ func (v VaultServer) SpokeRelayHubTokenSecretName() string {
 // SpokeRelayResourceName is the name of the VaultRelay and AppBinding created
 // on the managed cluster.
 func (v VaultServer) SpokeRelayResourceName() string {
-	return meta_util.NameWithSuffix(v.Name, "agent")
+	return meta_util.NameWithSuffix(v.Name, "relay")
 }
 
 // SpokeRelayAppBindingName is the AppBinding created on the managed cluster

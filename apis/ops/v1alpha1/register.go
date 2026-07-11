@@ -52,12 +52,14 @@ func Resource(resource string) schema.GroupResource {
 }
 
 func addKnownTypes(scheme *runtime.Scheme) error {
-	scheme.AddKnownTypes(SchemeGroupVersion,
+	scheme.AddKnownTypes(
+		SchemeGroupVersion,
 		&VaultOpsRequest{},
 		&VaultOpsRequestList{},
 	)
 
-	scheme.AddKnownTypes(SchemeGroupVersion,
+	scheme.AddKnownTypes(
+		SchemeGroupVersion,
 		&metav1.Status{},
 	)
 	metav1.AddToGroupVersion(scheme, SchemeGroupVersion)

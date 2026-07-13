@@ -122,6 +122,21 @@ const (
 )
 
 const (
+	// VaultPodRoleLabelKey is maintained by the operator on every vault pod and
+	// reflects the node's HA role as reported by /v1/sys/health. The
+	// client-facing vault Service selects role=primary for raft-backed servers
+	// so client traffic (and the spoke gRPC proxy) always lands on the raft
+	// leader instead of round-robining across standbys.
+	VaultPodRoleLabelKey = "kubevault.com/role"
+
+	// VaultPodRolePrimary marks the unsealed active (leader) node.
+	VaultPodRolePrimary = "primary"
+
+	// VaultPodRoleStandby marks unsealed standby nodes.
+	VaultPodRoleStandby = "standby"
+)
+
+const (
 	ResourceKindStatefulSet = "StatefulSet"
 )
 

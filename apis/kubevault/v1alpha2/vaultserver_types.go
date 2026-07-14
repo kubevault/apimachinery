@@ -205,8 +205,8 @@ const (
 
 	// ClientTrafficPrimaryOnly sends client traffic only to the active node,
 	// giving strict read-after-write through a single node. Requires a version
-	// with Kubernetes service registration AND an HA-capable storage backend
-	// (see section 7).
+	// with Kubernetes service registration AND an HA-capable storage backend; the
+	// admission webhook rejects it otherwise.
 	ClientTrafficPrimaryOnly ClientTrafficPolicy = "PrimaryOnly"
 )
 

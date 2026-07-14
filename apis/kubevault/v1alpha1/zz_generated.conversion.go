@@ -25,14 +25,13 @@ import (
 	time "time"
 	unsafe "unsafe"
 
-	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
-
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	conversion "k8s.io/apimachinery/pkg/conversion"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	apiv1 "kmodules.xyz/client-go/api/v1"
 	monitoringagentapiapiv1 "kmodules.xyz/monitoring-agent-api/api/v1"
+	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 )
 
 func init() {
@@ -1341,7 +1340,7 @@ func autoConvert_v1alpha1_VaultServerSpec_To_v1alpha2_VaultServerSpec(in *VaultS
 	out.Halted = in.Halted
 	out.TerminationPolicy = v1alpha2.TerminationPolicy(in.TerminationPolicy)
 	out.AllowedSecretEngines = (*v1alpha2.AllowedSecretEngines)(unsafe.Pointer(in.AllowedSecretEngines))
-	out.ClientTrafficPolicy = v1alpha2.ClientTrafficPolicy(in.ClientTrafficPolicy)
+	out.ExposePrimary = in.ExposePrimary
 	return nil
 }
 
@@ -1381,7 +1380,7 @@ func autoConvert_v1alpha2_VaultServerSpec_To_v1alpha1_VaultServerSpec(in *v1alph
 	out.TerminationPolicy = TerminationPolicy(in.TerminationPolicy)
 	out.AllowedSecretEngines = (*AllowedSecretEngines)(unsafe.Pointer(in.AllowedSecretEngines))
 	// WARNING: in.HealthChecker requires manual conversion: does not exist in peer-type
-	out.ClientTrafficPolicy = ClientTrafficPolicy(in.ClientTrafficPolicy)
+	out.ExposePrimary = in.ExposePrimary
 	// WARNING: in.RelayPlacementRef requires manual conversion: does not exist in peer-type
 	// WARNING: in.RelayTemplate requires manual conversion: does not exist in peer-type
 	return nil

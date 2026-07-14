@@ -68,9 +68,9 @@ const (
 	VaultServerServiceVault    ServiceAlias = "vault"
 	VaultServerServiceStats    ServiceAlias = "stats"
 	// VaultServerServicePrimary is the client Service that selects only the active
-	// (leader) node. The operator creates it only when spec.clientTrafficPolicy is
-	// PrimaryOnly; consumers that need strict read-after-write bind to it, while the
-	// vault Service keeps selecting all nodes.
+	// (leader) node. The operator creates it only when spec.exposePrimary is true;
+	// consumers that need strict read-after-write bind to it, while the vault
+	// Service keeps selecting all nodes.
 	VaultServerServicePrimary ServiceAlias = "primary"
 )
 

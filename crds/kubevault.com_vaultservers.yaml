@@ -1466,23 +1466,6 @@ spec:
                     - credentialSecret
                     type: object
                 type: object
-              clientTrafficPolicy:
-                default: AllNodes
-                description: |-
-                  ClientTrafficPolicy controls which nodes the client-facing Service selects.
-                  Set PrimaryOnly when clients require strict read-after-write consistency and
-                  cannot tolerate reading from a lagging standby. Requires an HA-capable storage
-                  backend.
-
-                  PrimaryOnly trades availability for consistency, and the cost is not only paid
-                  when a node fails. Every leadership transfer leaves the Service with no
-                  endpoints until a new leader is elected, so the Vault API is briefly down during
-                  each version upgrade, node drain, and eviction, not just during an outage. Reads
-                  also stop spreading across standbys. See design/primary-service-routing.md.
-                enum:
-                - AllNodes
-                - PrimaryOnly
-                type: string
               configSecret:
                 description: |-
                   ConfigSecret is an optional field to provide extra configuration for vault.
@@ -3399,6 +3382,16 @@ spec:
                       type: object
                   type: object
                 type: array
+              exposePrimary:
+                description: |-
+                  ExposePrimary, when true, makes the operator create an additional
+                  <vault-name>-primary Service pinned to the active (leader) node, alongside the
+                  always-all-nodes <vault-name> Service, for clients that need strict
+                  read-after-write consistency. Mirrored from v1alpha2 so the field survives a
+                  v1alpha2 -> v1alpha1 -> v1alpha2 conversion round-trip without being reset,
+                  the same way VaultServerStatus is kept in sync across versions. Defaults to
+                  false. See design/primary-service-routing.md.
+                type: boolean
               halted:
                 description: Indicates that the vault server is halted and all offshoot
                   Kubernetes resources except PVCs are deleted.
@@ -10686,8 +10679,9 @@ spec:
                     description: |-
                       PodName of the active (leader) Vault node. The active node is unsealed and
                       every write is committed there. Standby nodes serve reads and forward
-                      writes to it. The client Service points at this node alone only when
-                      spec.clientTrafficPolicy is PrimaryOnly; by default it points at all nodes.
+                      writes to it. The <vault-name>-primary Service, created when
+                      spec.exposePrimary is true, points at this node alone; the <vault-name>
+                      Service always points at all nodes.
                       Empty while no node is active, for example during a leader election.
                     type: string
                   sealed:
@@ -12637,23 +12631,6 @@ spec:
                     - container
                     type: object
                 type: object
-              clientTrafficPolicy:
-                default: AllNodes
-                description: |-
-                  ClientTrafficPolicy controls which nodes the client-facing Service selects.
-                  Set PrimaryOnly when clients require strict read-after-write consistency and
-                  cannot tolerate reading from a lagging standby. Requires an HA-capable storage
-                  backend.
-
-                  PrimaryOnly trades availability for consistency, and the cost is not only paid
-                  when a node fails. Every leadership transfer leaves the Service with no
-                  endpoints until a new leader is elected, so the Vault API is briefly down during
-                  each version upgrade, node drain, and eviction, not just during an outage. Reads
-                  also stop spreading across standbys. See design/primary-service-routing.md.
-                enum:
-                - AllNodes
-                - PrimaryOnly
-                type: string
               configSecret:
                 description: |-
                   ConfigSecret is an optional field to provide extra configuration for vault.
@@ -14570,6 +14547,20 @@ spec:
                       type: object
                   type: object
                 type: array
+              exposePrimary:
+                description: |-
+                  ExposePrimary, when true, makes the operator create an additional
+                  <vault-name>-primary Service whose selector narrows to the active (leader)
+                  node, alongside the always-all-nodes <vault-name> Service. A client that
+                  requires strict read-after-write consistency, and cannot tolerate reading from
+                  a lagging standby, binds to the primary Service; everything else, including the
+                  default AppBinding, keeps using the all-nodes Service and is unaffected.
+
+                  Requires an HA-capable storage backend and a supported distribution; the
+                  admission webhook rejects it otherwise. The primary Service has no endpoints
+                  during a leader election (the brief window with no active node), which is the
+                  cost of the guarantee. Defaults to false. See design/primary-service-routing.md.
+                type: boolean
               halted:
                 description: Indicates that the vault server is halted and all offshoot
                   Kubernetes resources except PVCs are deleted.
@@ -28167,8 +28158,9 @@ spec:
                     description: |-
                       PodName of the active (leader) Vault node. The active node is unsealed and
                       every write is committed there. Standby nodes serve reads and forward
-                      writes to it. The client Service points at this node alone only when
-                      spec.clientTrafficPolicy is PrimaryOnly; by default it points at all nodes.
+                      writes to it. The <vault-name>-primary Service, created when
+                      spec.exposePrimary is true, points at this node alone; the <vault-name>
+                      Service always points at all nodes.
                       Empty while no node is active, for example during a leader election.
                     type: string
                   sealed:

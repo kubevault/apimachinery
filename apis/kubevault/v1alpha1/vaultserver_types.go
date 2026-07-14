@@ -134,38 +134,16 @@ type VaultServerSpec struct {
 	// +optional
 	AllowedSecretEngines *AllowedSecretEngines `json:"allowedSecretEngines,omitempty"`
 
-	// ClientTrafficPolicy controls which nodes the client-facing Service selects.
-	// Set PrimaryOnly when clients require strict read-after-write consistency and
-	// cannot tolerate reading from a lagging standby. Requires an HA-capable storage
-	// backend.
-	//
-	// PrimaryOnly trades availability for consistency, and the cost is not only paid
-	// when a node fails. Every leadership transfer leaves the Service with no
-	// endpoints until a new leader is elected, so the Vault API is briefly down during
-	// each version upgrade, node drain, and eviction, not just during an outage. Reads
-	// also stop spreading across standbys. See design/primary-service-routing.md.
+	// ExposePrimary, when true, makes the operator create an additional
+	// <vault-name>-primary Service pinned to the active (leader) node, alongside the
+	// always-all-nodes <vault-name> Service, for clients that need strict
+	// read-after-write consistency. Mirrored from v1alpha2 so the field survives a
+	// v1alpha2 -> v1alpha1 -> v1alpha2 conversion round-trip without being reset,
+	// the same way VaultServerStatus is kept in sync across versions. Defaults to
+	// false. See design/primary-service-routing.md.
 	// +optional
-	// +kubebuilder:default=AllNodes
-	ClientTrafficPolicy ClientTrafficPolicy `json:"clientTrafficPolicy,omitempty"`
+	ExposePrimary bool `json:"exposePrimary,omitempty"`
 }
-
-// ClientTrafficPolicy selects which vault nodes receive client traffic through
-// the client-facing Service. Mirrored from v1alpha2 so the field survives a
-// v1alpha2 -> v1alpha1 -> v1alpha2 conversion round-trip without being reset to
-// the default, the same way VaultServerStatus is kept in sync across versions.
-// +kubebuilder:validation:Enum=AllNodes;PrimaryOnly
-type ClientTrafficPolicy string
-
-const (
-	// ClientTrafficAllNodes sends client traffic to every ready vault node.
-	// Standbys serve reads and transparently forward writes to the leader.
-	// This is the default.
-	ClientTrafficAllNodes ClientTrafficPolicy = "AllNodes"
-
-	// ClientTrafficPrimaryOnly sends client traffic only to the active node,
-	// giving strict read-after-write through a single node.
-	ClientTrafficPrimaryOnly ClientTrafficPolicy = "PrimaryOnly"
-)
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true
@@ -344,8 +322,9 @@ type SecretEngineNamespaces struct {
 type VaultStatus struct {
 	// PodName of the active (leader) Vault node. The active node is unsealed and
 	// every write is committed there. Standby nodes serve reads and forward
-	// writes to it. The client Service points at this node alone only when
-	// spec.clientTrafficPolicy is PrimaryOnly; by default it points at all nodes.
+	// writes to it. The <vault-name>-primary Service, created when
+	// spec.exposePrimary is true, points at this node alone; the <vault-name>
+	// Service always points at all nodes.
 	// Empty while no node is active, for example during a leader election.
 	// +optional
 	Active string `json:"active,omitempty"`

@@ -25921,10 +25921,10 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultServerSpec(ref common.Refe
 							Ref:         ref("kmodules.xyz/client-go/api/v1.HealthCheckSpec"),
 						},
 					},
-					"clientTrafficPolicy": {
+					"exposePrimary": {
 						SchemaProps: spec.SchemaProps{
-							Description: "ClientTrafficPolicy controls which nodes the client-facing Service selects. Set PrimaryOnly when clients require strict read-after-write consistency and cannot tolerate reading from a lagging standby. Requires an HA-capable storage backend.\n\nPrimaryOnly trades availability for consistency, and the cost is not only paid when a node fails. Every leadership transfer leaves the Service with no endpoints until a new leader is elected, so the Vault API is briefly down during each version upgrade, node drain, and eviction, not just during an outage. Reads also stop spreading across standbys. See design/primary-service-routing.md.",
-							Type:        []string{"string"},
+							Description: "ExposePrimary, when true, makes the operator create an additional <vault-name>-primary Service whose selector narrows to the active (leader) node, alongside the always-all-nodes <vault-name> Service. A client that requires strict read-after-write consistency, and cannot tolerate reading from a lagging standby, binds to the primary Service; everything else, including the default AppBinding, keeps using the all-nodes Service and is unaffected.\n\nRequires an HA-capable storage backend and a supported distribution; the admission webhook rejects it otherwise. The primary Service has no endpoints during a leader election (the brief window with no active node), which is the cost of the guarantee. Defaults to false. See design/primary-service-routing.md.",
+							Type:        []string{"boolean"},
 							Format:      "",
 						},
 					},
@@ -26062,7 +26062,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultStatus(ref common.Referenc
 				Properties: map[string]spec.Schema{
 					"active": {
 						SchemaProps: spec.SchemaProps{
-							Description: "PodName of the active (leader) Vault node. The active node is unsealed and every write is committed there. Standby nodes serve reads and forward writes to it. The client Service points at this node alone only when spec.clientTrafficPolicy is PrimaryOnly; by default it points at all nodes. Empty while no node is active, for example during a leader election.",
+							Description: "PodName of the active (leader) Vault node. The active node is unsealed and every write is committed there. Standby nodes serve reads and forward writes to it. The <vault-name>-primary Service, created when spec.exposePrimary is true, points at this node alone; the <vault-name> Service always points at all nodes. Empty while no node is active, for example during a leader election.",
 							Type:        []string{"string"},
 							Format:      "",
 						},

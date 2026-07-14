@@ -35,3 +35,5 @@ _testmain.go
 
 .terraform
 *.tfstate*
+
+.DS_Store

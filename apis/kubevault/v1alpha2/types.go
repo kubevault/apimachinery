@@ -60,13 +60,18 @@ const (
 	TerminationPolicyDoNotTerminate TerminationPolicy = "DoNotTerminate"
 )
 
-// +kubebuilder:validation:Enum=internal;vault;stats
+// +kubebuilder:validation:Enum=internal;vault;stats;primary
 type ServiceAlias string
 
 const (
 	VaultServerServiceInternal ServiceAlias = "internal"
 	VaultServerServiceVault    ServiceAlias = "vault"
 	VaultServerServiceStats    ServiceAlias = "stats"
+	// VaultServerServicePrimary is the client Service that selects only the active
+	// (leader) node. The operator creates it only when spec.clientTrafficPolicy is
+	// PrimaryOnly; consumers that need strict read-after-write bind to it, while the
+	// vault Service keeps selecting all nodes.
+	VaultServerServicePrimary ServiceAlias = "primary"
 )
 
 type NamedServiceTemplateSpec struct {

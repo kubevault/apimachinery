@@ -10029,6 +10029,7 @@ spec:
                       - internal
                       - vault
                       - stats
+                      - primary
                       type: string
                     metadata:
                       description: |-
@@ -27459,6 +27460,7 @@ spec:
                       - internal
                       - vault
                       - stats
+                      - primary
                       type: string
                     metadata:
                       description: |-

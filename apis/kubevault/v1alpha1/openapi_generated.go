@@ -25229,6 +25229,13 @@ func schema_apimachinery_apis_kubevault_v1alpha1_VaultServerSpec(ref common.Refe
 							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha1.AllowedSecretEngines"),
 						},
 					},
+					"clientTrafficPolicy": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClientTrafficPolicy controls which nodes the client-facing Service selects. Set PrimaryOnly when clients require strict read-after-write consistency and cannot tolerate reading from a lagging standby. Requires an HA-capable storage backend.\n\nPrimaryOnly trades availability for consistency, and the cost is not only paid when a node fails. Every leadership transfer leaves the Service with no endpoints until a new leader is elected, so the Vault API is briefly down during each version upgrade, node drain, and eviction, not just during an outage. Reads also stop spreading across standbys. See design/primary-service-routing.md.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 				},
 				Required: []string{"version", "backend"},
 			},
@@ -25351,7 +25358,7 @@ func schema_apimachinery_apis_kubevault_v1alpha1_VaultStatus(ref common.Referenc
 				Properties: map[string]spec.Schema{
 					"active": {
 						SchemaProps: spec.SchemaProps{
-							Description: "PodName of the active Vault node. Active node is unsealed. Only active node can serve requests. Vault service only points to the active node.",
+							Description: "PodName of the active (leader) Vault node. The active node is unsealed and every write is committed there. Standby nodes serve reads and forward writes to it. The client Service points at this node alone only when spec.clientTrafficPolicy is PrimaryOnly; by default it points at all nodes. Empty while no node is active, for example during a leader election.",
 							Type:        []string{"string"},
 							Format:      "",
 						},

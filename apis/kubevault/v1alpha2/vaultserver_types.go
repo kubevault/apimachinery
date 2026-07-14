@@ -141,6 +141,20 @@ type VaultServerSpec struct {
 	// +kubebuilder:default={periodSeconds: 10, timeoutSeconds: 10, failureThreshold: 1}
 	HealthChecker kmapi.HealthCheckSpec `json:"healthChecker"`
 
+	// ClientTrafficPolicy controls which nodes the client-facing Service selects.
+	// Set PrimaryOnly when clients require strict read-after-write consistency and
+	// cannot tolerate reading from a lagging standby. Requires an HA-capable storage
+	// backend.
+	//
+	// PrimaryOnly trades availability for consistency, and the cost is not only paid
+	// when a node fails. Every leadership transfer leaves the Service with no
+	// endpoints until a new leader is elected, so the Vault API is briefly down during
+	// each version upgrade, node drain, and eviction, not just during an outage. Reads
+	// also stop spreading across standbys. See design/primary-service-routing.md.
+	// +optional
+	// +kubebuilder:default=AllNodes
+	ClientTrafficPolicy ClientTrafficPolicy `json:"clientTrafficPolicy,omitempty"`
+
 	// RelayPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1)
 	// in the same namespace as the VaultServer. When set, the operator deploys a VaultRelay to
 	// every managed cluster selected by the Placement, using one ManifestWork per cluster.
@@ -177,6 +191,24 @@ type VaultRelayTemplate struct {
 	// +optional
 	BootstrapTokenTTL *metav1.Duration `json:"bootstrapTokenTTL,omitempty"`
 }
+
+// ClientTrafficPolicy selects which vault nodes receive client traffic through
+// the client-facing Service.
+// +kubebuilder:validation:Enum=AllNodes;PrimaryOnly
+type ClientTrafficPolicy string
+
+const (
+	// ClientTrafficAllNodes sends client traffic to every ready vault node.
+	// Standbys serve reads and transparently forward writes to the leader.
+	// This is the default.
+	ClientTrafficAllNodes ClientTrafficPolicy = "AllNodes"
+
+	// ClientTrafficPrimaryOnly sends client traffic only to the active node,
+	// giving strict read-after-write through a single node. Requires a version
+	// with Kubernetes service registration AND an HA-capable storage backend
+	// (see section 7).
+	ClientTrafficPrimaryOnly ClientTrafficPolicy = "PrimaryOnly"
+)
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true

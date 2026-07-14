@@ -15179,7 +15179,7 @@
       ],
       "properties": {
         "certExpiry": {
-          "description": "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub relay backend (relay/spokes). Nil when unknown — the spoke is not connected, or the hub captured no verified peer cert.",
+          "description": "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub relay backend (relay/spokes). Nil when unknown: the spoke is not connected, or the hub captured no verified peer cert.",
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time"
         },
         "clusterName": {
@@ -15381,6 +15381,10 @@
           "default": {},
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha1.BackendStorageSpec"
         },
+        "clientTrafficPolicy": {
+          "description": "ClientTrafficPolicy controls which nodes the client-facing Service selects. Set PrimaryOnly when clients require strict read-after-write consistency and cannot tolerate reading from a lagging standby. Requires an HA-capable storage backend.\n\nPrimaryOnly trades availability for consistency, and the cost is not only paid when a node fails. Every leadership transfer leaves the Service with no endpoints until a new leader is elected, so the Vault API is briefly down during each version upgrade, node drain, and eviction, not just during an outage. Reads also stop spreading across standbys. See design/primary-service-routing.md.",
+          "type": "string"
+        },
         "configSecret": {
           "description": "ConfigSecret is an optional field to provide extra configuration for vault. This secret contain extra config for vault File name should be 'vault.hcl'. If specified, this file will be appended to the controller configuration file.",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
@@ -15502,7 +15506,7 @@
       "type": "object",
       "properties": {
         "active": {
-          "description": "PodName of the active Vault node. Active node is unsealed. Only active node can serve requests. Vault service only points to the active node.",
+          "description": "PodName of the active (leader) Vault node. The active node is unsealed and every write is committed there. Standby nodes serve reads and forward writes to it. The client Service points at this node alone only when spec.clientTrafficPolicy is PrimaryOnly; by default it points at all nodes. Empty while no node is active, for example during a leader election.",
           "type": "string"
         },
         "sealed": {
@@ -16444,7 +16448,7 @@
       ],
       "properties": {
         "certExpiry": {
-          "description": "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub relay backend (relay/spokes). Nil when unknown — the spoke is not connected, or the hub captured no verified peer cert.",
+          "description": "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub relay backend (relay/spokes). Nil when unknown: the spoke is not connected, or the hub captured no verified peer cert.",
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time"
         },
         "clusterName": {
@@ -16663,6 +16667,10 @@
           "default": {},
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.BackendStorageSpec"
         },
+        "clientTrafficPolicy": {
+          "description": "ClientTrafficPolicy controls which nodes the client-facing Service selects. Set PrimaryOnly when clients require strict read-after-write consistency and cannot tolerate reading from a lagging standby. Requires an HA-capable storage backend.\n\nPrimaryOnly trades availability for consistency, and the cost is not only paid when a node fails. Every leadership transfer leaves the Service with no endpoints until a new leader is elected, so the Vault API is briefly down during each version upgrade, node drain, and eviction, not just during an outage. Reads also stop spreading across standbys. See design/primary-service-routing.md.",
+          "type": "string"
+        },
         "configSecret": {
           "description": "ConfigSecret is an optional field to provide extra configuration for vault. This secret contain extra config for vault File name should be 'vault.hcl'. If specified, this file will be appended to the controller configuration file.",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
@@ -16797,7 +16805,7 @@
       "type": "object",
       "properties": {
         "active": {
-          "description": "PodName of the active Vault node. Active node is unsealed. Only active node can serve requests. Vault service only points to the active node.",
+          "description": "PodName of the active (leader) Vault node. The active node is unsealed and every write is committed there. Standby nodes serve reads and forward writes to it. The client Service points at this node alone only when spec.clientTrafficPolicy is PrimaryOnly; by default it points at all nodes. Empty while no node is active, for example during a leader election.",
           "type": "string"
         },
         "sealed": {

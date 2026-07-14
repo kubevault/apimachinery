@@ -1466,6 +1466,23 @@ spec:
                     - credentialSecret
                     type: object
                 type: object
+              clientTrafficPolicy:
+                default: AllNodes
+                description: |-
+                  ClientTrafficPolicy controls which nodes the client-facing Service selects.
+                  Set PrimaryOnly when clients require strict read-after-write consistency and
+                  cannot tolerate reading from a lagging standby. Requires an HA-capable storage
+                  backend.
+
+                  PrimaryOnly trades availability for consistency, and the cost is not only paid
+                  when a node fails. Every leadership transfer leaves the Service with no
+                  endpoints until a new leader is elected, so the Vault API is briefly down during
+                  each version upgrade, node drain, and eviction, not just during an outage. Reads
+                  also stop spreading across standbys. See design/primary-service-routing.md.
+                enum:
+                - AllNodes
+                - PrimaryOnly
+                type: string
               configSecret:
                 description: |-
                   ConfigSecret is an optional field to provide extra configuration for vault.
@@ -10614,7 +10631,7 @@ spec:
                         certExpiry:
                           description: |-
                             CertExpiry is when this spoke's mTLS client certificate expires, as
-                            observed by the hub relay backend (relay/spokes). Nil when unknown — the
+                            observed by the hub relay backend (relay/spokes). Nil when unknown: the
                             spoke is not connected, or the hub captured no verified peer cert.
                           format: date-time
                           type: string
@@ -10666,9 +10683,11 @@ spec:
                 properties:
                   active:
                     description: |-
-                      PodName of the active Vault node. Active node is unsealed.
-                      Only active node can serve requests.
-                      Vault service only points to the active node.
+                      PodName of the active (leader) Vault node. The active node is unsealed and
+                      every write is committed there. Standby nodes serve reads and forward
+                      writes to it. The client Service points at this node alone only when
+                      spec.clientTrafficPolicy is PrimaryOnly; by default it points at all nodes.
+                      Empty while no node is active, for example during a leader election.
                     type: string
                   sealed:
                     description: |-
@@ -12617,6 +12636,23 @@ spec:
                     - container
                     type: object
                 type: object
+              clientTrafficPolicy:
+                default: AllNodes
+                description: |-
+                  ClientTrafficPolicy controls which nodes the client-facing Service selects.
+                  Set PrimaryOnly when clients require strict read-after-write consistency and
+                  cannot tolerate reading from a lagging standby. Requires an HA-capable storage
+                  backend.
+
+                  PrimaryOnly trades availability for consistency, and the cost is not only paid
+                  when a node fails. Every leadership transfer leaves the Service with no
+                  endpoints until a new leader is elected, so the Vault API is briefly down during
+                  each version upgrade, node drain, and eviction, not just during an outage. Reads
+                  also stop spreading across standbys. See design/primary-service-routing.md.
+                enum:
+                - AllNodes
+                - PrimaryOnly
+                type: string
               configSecret:
                 description: |-
                   ConfigSecret is an optional field to provide extra configuration for vault.
@@ -28075,7 +28111,7 @@ spec:
                         certExpiry:
                           description: |-
                             CertExpiry is when this spoke's mTLS client certificate expires, as
-                            observed by the hub relay backend (relay/spokes). Nil when unknown — the
+                            observed by the hub relay backend (relay/spokes). Nil when unknown: the
                             spoke is not connected, or the hub captured no verified peer cert.
                           format: date-time
                           type: string
@@ -28127,9 +28163,11 @@ spec:
                 properties:
                   active:
                     description: |-
-                      PodName of the active Vault node. Active node is unsealed.
-                      Only active node can serve requests.
-                      Vault service only points to the active node.
+                      PodName of the active (leader) Vault node. The active node is unsealed and
+                      every write is committed there. Standby nodes serve reads and forward
+                      writes to it. The client Service points at this node alone only when
+                      spec.clientTrafficPolicy is PrimaryOnly; by default it points at all nodes.
+                      Empty while no node is active, for example during a leader election.
                     type: string
                   sealed:
                     description: |-

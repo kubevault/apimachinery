@@ -92,6 +92,26 @@ const (
 	VaultHealthCheckPaused = "HealthCheckPaused"
 	RaftLeaderHealthy      = "RaftLeaderHealthy"
 
+	// ClientTrafficPinned latches the client-facing Service to the active
+	// (leader) node when spec.clientTrafficPolicy is PrimaryOnly. It is set True
+	// once the operator observes at least one vault pod carrying the active-node
+	// label, at which point GetService narrows the Service selector to that
+	// label. It is one-way: once True it stays True until the policy returns to
+	// AllNodes, so a leader election that momentarily leaves no pod labelled
+	// never widens the Service back to the standbys (which would serve stale
+	// reads). False with reason NoActiveNodeLabelled means PrimaryOnly is set but
+	// no pod is labelled while a node is unsealed and ready: the pin did not take
+	// effect, and the cluster is still serving every node. See
+	// design/primary-service-routing.md.
+	ClientTrafficPinned = "ClientTrafficPinned"
+
+	// NoActiveNodeLabelled is the reason on ClientTrafficPinned=False: the policy
+	// is PrimaryOnly but no vault pod carries the active-node label while a node
+	// is unsealed and ready. The usual cause is the vault ServiceAccount missing
+	// the pods get,patch grant, which the webhook cannot catch. It is the only
+	// signal a user gets that the pin silently failed to turn on.
+	NoActiveNodeLabelled = "NoActiveNodeLabelled"
+
 	// OCM spoke relay placement constants
 	VaultServerRelayPlacementResolved    = "RelayPlacementResolved"
 	VaultServerRelayHubInitialized       = "RelayHubInitialized"

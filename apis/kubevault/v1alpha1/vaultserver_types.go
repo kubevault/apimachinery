@@ -232,7 +232,7 @@ type SpokeClusterStatus struct {
 	TokenExpiry *metav1.Time `json:"tokenExpiry,omitempty"`
 
 	// CertExpiry is when this spoke's mTLS client certificate expires, as
-	// observed by the hub relay backend (relay/spokes). Nil when unknown — the
+	// observed by the hub relay backend (relay/spokes). Nil when unknown: the
 	// spoke is not connected, or the hub captured no verified peer cert.
 	// +optional
 	CertExpiry *metav1.Time `json:"certExpiry,omitempty"`

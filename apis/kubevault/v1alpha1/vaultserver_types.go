@@ -310,9 +310,11 @@ type SecretEngineNamespaces struct {
 }
 
 type VaultStatus struct {
-	// PodName of the active Vault node. Active node is unsealed.
-	// Only active node can serve requests.
-	// Vault service only points to the active node.
+	// PodName of the active (leader) Vault node. The active node is unsealed and
+	// every write is committed there. Standby nodes serve reads and forward
+	// writes to it. The client Service points at this node alone only when
+	// spec.clientTrafficPolicy is PrimaryOnly; by default it points at all nodes.
+	// Empty while no node is active, for example during a leader election.
 	// +optional
 	Active string `json:"active,omitempty"`
 

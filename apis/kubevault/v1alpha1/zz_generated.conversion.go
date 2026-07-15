@@ -25,13 +25,14 @@ import (
 	time "time"
 	unsafe "unsafe"
 
+	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	conversion "k8s.io/apimachinery/pkg/conversion"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	apiv1 "kmodules.xyz/client-go/api/v1"
 	monitoringagentapiapiv1 "kmodules.xyz/monitoring-agent-api/api/v1"
-	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 )
 
 func init() {

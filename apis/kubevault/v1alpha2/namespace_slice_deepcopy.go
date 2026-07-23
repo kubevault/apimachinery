@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Hand-written deepcopy for SpokeTenantNamespaces. Kept out of zz_generated.deepcopy.go
+// Hand-written deepcopy for NamespaceSlice. Kept out of zz_generated.deepcopy.go
 // so it survives a `make gen` (which will regenerate the canonical copies); the generator
 // produces identical functions, so removing this file after codegen is a no-op.
 
@@ -25,26 +25,26 @@ import (
 )
 
 // DeepCopyInto copies the receiver into out.
-func (in *SpokeTenantNamespaces) DeepCopyInto(out *SpokeTenantNamespaces) {
+func (in *NamespaceSlice) DeepCopyInto(out *NamespaceSlice) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
-	out.Spec = in.Spec
-	in.Status.DeepCopyInto(&out.Status)
+	in.Spec.DeepCopyInto(&out.Spec)
+	out.Status = in.Status
 }
 
 // DeepCopy returns a deep copy of the receiver.
-func (in *SpokeTenantNamespaces) DeepCopy() *SpokeTenantNamespaces {
+func (in *NamespaceSlice) DeepCopy() *NamespaceSlice {
 	if in == nil {
 		return nil
 	}
-	out := new(SpokeTenantNamespaces)
+	out := new(NamespaceSlice)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyObject returns a runtime.Object deep copy of the receiver.
-func (in *SpokeTenantNamespaces) DeepCopyObject() runtime.Object {
+func (in *NamespaceSlice) DeepCopyObject() runtime.Object {
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
@@ -52,47 +52,84 @@ func (in *SpokeTenantNamespaces) DeepCopyObject() runtime.Object {
 }
 
 // DeepCopyInto copies the receiver into out.
-func (in *SpokeTenantNamespacesSpec) DeepCopyInto(out *SpokeTenantNamespacesSpec) {
+func (in *NamespaceSliceSpec) DeepCopyInto(out *NamespaceSliceSpec) {
 	*out = *in
 	out.HubVaultRef = in.HubVaultRef
+	if in.Namespaces != nil {
+		out.Namespaces = make([]NamespaceSliceEntry, len(in.Namespaces))
+		for i := range in.Namespaces {
+			in.Namespaces[i].DeepCopyInto(&out.Namespaces[i])
+		}
+	}
 }
 
 // DeepCopy returns a deep copy of the receiver.
-func (in *SpokeTenantNamespacesSpec) DeepCopy() *SpokeTenantNamespacesSpec {
+func (in *NamespaceSliceSpec) DeepCopy() *NamespaceSliceSpec {
 	if in == nil {
 		return nil
 	}
-	out := new(SpokeTenantNamespacesSpec)
+	out := new(NamespaceSliceSpec)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto copies the receiver into out.
-func (in *SpokeTenantNamespacesStatus) DeepCopyInto(out *SpokeTenantNamespacesStatus) {
+func (in *NamespaceSliceEntry) DeepCopyInto(out *NamespaceSliceEntry) {
 	*out = *in
-	if in.OrgIDs != nil {
-		out.OrgIDs = make([]string, len(in.OrgIDs))
-		copy(out.OrgIDs, in.OrgIDs)
-	}
+	in.Conditions.DeepCopyInto(&out.Conditions)
 }
 
 // DeepCopy returns a deep copy of the receiver.
-func (in *SpokeTenantNamespacesStatus) DeepCopy() *SpokeTenantNamespacesStatus {
+func (in *NamespaceSliceEntry) DeepCopy() *NamespaceSliceEntry {
 	if in == nil {
 		return nil
 	}
-	out := new(SpokeTenantNamespacesStatus)
+	out := new(NamespaceSliceEntry)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto copies the receiver into out.
-func (in *SpokeTenantNamespacesList) DeepCopyInto(out *SpokeTenantNamespacesList) {
+func (in *NamespaceSliceConditions) DeepCopyInto(out *NamespaceSliceConditions) {
+	*out = *in
+	if in.Ready != nil {
+		out.Ready = new(bool)
+		*out.Ready = *in.Ready
+	}
+}
+
+// DeepCopy returns a deep copy of the receiver.
+func (in *NamespaceSliceConditions) DeepCopy() *NamespaceSliceConditions {
+	if in == nil {
+		return nil
+	}
+	out := new(NamespaceSliceConditions)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto copies the receiver into out.
+func (in *NamespaceSliceStatus) DeepCopyInto(out *NamespaceSliceStatus) {
+	*out = *in
+}
+
+// DeepCopy returns a deep copy of the receiver.
+func (in *NamespaceSliceStatus) DeepCopy() *NamespaceSliceStatus {
+	if in == nil {
+		return nil
+	}
+	out := new(NamespaceSliceStatus)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto copies the receiver into out.
+func (in *NamespaceSliceList) DeepCopyInto(out *NamespaceSliceList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
-		out.Items = make([]SpokeTenantNamespaces, len(in.Items))
+		out.Items = make([]NamespaceSlice, len(in.Items))
 		for i := range in.Items {
 			in.Items[i].DeepCopyInto(&out.Items[i])
 		}
@@ -100,17 +137,17 @@ func (in *SpokeTenantNamespacesList) DeepCopyInto(out *SpokeTenantNamespacesList
 }
 
 // DeepCopy returns a deep copy of the receiver.
-func (in *SpokeTenantNamespacesList) DeepCopy() *SpokeTenantNamespacesList {
+func (in *NamespaceSliceList) DeepCopy() *NamespaceSliceList {
 	if in == nil {
 		return nil
 	}
-	out := new(SpokeTenantNamespacesList)
+	out := new(NamespaceSliceList)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyObject returns a runtime.Object deep copy of the receiver.
-func (in *SpokeTenantNamespacesList) DeepCopyObject() runtime.Object {
+func (in *NamespaceSliceList) DeepCopyObject() runtime.Object {
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}

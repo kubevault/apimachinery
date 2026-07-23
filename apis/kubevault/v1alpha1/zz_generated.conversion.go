@@ -1341,6 +1341,7 @@ func autoConvert_v1alpha1_VaultServerSpec_To_v1alpha2_VaultServerSpec(in *VaultS
 	out.Halted = in.Halted
 	out.TerminationPolicy = v1alpha2.TerminationPolicy(in.TerminationPolicy)
 	out.AllowedSecretEngines = (*v1alpha2.AllowedSecretEngines)(unsafe.Pointer(in.AllowedSecretEngines))
+	out.ExposePrimary = in.ExposePrimary
 	return nil
 }
 
@@ -1380,6 +1381,7 @@ func autoConvert_v1alpha2_VaultServerSpec_To_v1alpha1_VaultServerSpec(in *v1alph
 	out.TerminationPolicy = TerminationPolicy(in.TerminationPolicy)
 	out.AllowedSecretEngines = (*AllowedSecretEngines)(unsafe.Pointer(in.AllowedSecretEngines))
 	// WARNING: in.HealthChecker requires manual conversion: does not exist in peer-type
+	out.ExposePrimary = in.ExposePrimary
 	// WARNING: in.RelayPlacementRef requires manual conversion: does not exist in peer-type
 	// WARNING: in.RelayTemplate requires manual conversion: does not exist in peer-type
 	return nil

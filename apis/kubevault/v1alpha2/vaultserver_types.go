@@ -141,6 +141,20 @@ type VaultServerSpec struct {
 	// +kubebuilder:default={periodSeconds: 10, timeoutSeconds: 10, failureThreshold: 1}
 	HealthChecker kmapi.HealthCheckSpec `json:"healthChecker"`
 
+	// ExposePrimary, when true, makes the operator create an additional
+	// <vault-name>-primary Service whose selector narrows to the active (leader)
+	// node, alongside the always-all-nodes <vault-name> Service. A client that
+	// requires strict read-after-write consistency, and cannot tolerate reading from
+	// a lagging standby, binds to the primary Service; everything else, including the
+	// default AppBinding, keeps using the all-nodes Service and is unaffected.
+	//
+	// Requires an HA-capable storage backend and a supported distribution; the
+	// admission webhook rejects it otherwise. The primary Service has no endpoints
+	// during a leader election (the brief window with no active node), which is the
+	// cost of the guarantee. Defaults to false. See design/primary-service-routing.md.
+	// +optional
+	ExposePrimary bool `json:"exposePrimary,omitempty"`
+
 	// RelayPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1)
 	// in the same namespace as the VaultServer. When set, the operator deploys a VaultRelay to
 	// every managed cluster selected by the Placement, using one ManifestWork per cluster.
@@ -271,7 +285,7 @@ type SpokeClusterStatus struct {
 	TokenExpiry *metav1.Time `json:"tokenExpiry,omitempty"`
 
 	// CertExpiry is when this spoke's mTLS client certificate expires, as
-	// observed by the hub relay backend (relay/spokes). Nil when unknown — the
+	// observed by the hub relay backend (relay/spokes). Nil when unknown: the
 	// spoke is not connected, or the hub captured no verified peer cert.
 	// +optional
 	CertExpiry *metav1.Time `json:"certExpiry,omitempty"`
@@ -350,9 +364,12 @@ type SecretEngineNamespaces struct {
 }
 
 type VaultStatus struct {
-	// PodName of the active Vault node. Active node is unsealed.
-	// Only active node can serve requests.
-	// Vault service only points to the active node.
+	// PodName of the active (leader) Vault node. The active node is unsealed and
+	// every write is committed there. Standby nodes serve reads and forward
+	// writes to it. The <vault-name>-primary Service, created when
+	// spec.exposePrimary is true, points at this node alone; the <vault-name>
+	// Service always points at all nodes.
+	// Empty while no node is active, for example during a leader election.
 	// +optional
 	Active string `json:"active,omitempty"`
 

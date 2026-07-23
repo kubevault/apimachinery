@@ -133,6 +133,16 @@ type VaultServerSpec struct {
 	// +kubebuilder:default={namespaces:{from: Same}}
 	// +optional
 	AllowedSecretEngines *AllowedSecretEngines `json:"allowedSecretEngines,omitempty"`
+
+	// ExposePrimary, when true, makes the operator create an additional
+	// <vault-name>-primary Service pinned to the active (leader) node, alongside the
+	// always-all-nodes <vault-name> Service, for clients that need strict
+	// read-after-write consistency. Mirrored from v1alpha2 so the field survives a
+	// v1alpha2 -> v1alpha1 -> v1alpha2 conversion round-trip without being reset,
+	// the same way VaultServerStatus is kept in sync across versions. Defaults to
+	// false. See design/primary-service-routing.md.
+	// +optional
+	ExposePrimary bool `json:"exposePrimary,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -232,7 +242,7 @@ type SpokeClusterStatus struct {
 	TokenExpiry *metav1.Time `json:"tokenExpiry,omitempty"`
 
 	// CertExpiry is when this spoke's mTLS client certificate expires, as
-	// observed by the hub relay backend (relay/spokes). Nil when unknown — the
+	// observed by the hub relay backend (relay/spokes). Nil when unknown: the
 	// spoke is not connected, or the hub captured no verified peer cert.
 	// +optional
 	CertExpiry *metav1.Time `json:"certExpiry,omitempty"`
@@ -310,9 +320,12 @@ type SecretEngineNamespaces struct {
 }
 
 type VaultStatus struct {
-	// PodName of the active Vault node. Active node is unsealed.
-	// Only active node can serve requests.
-	// Vault service only points to the active node.
+	// PodName of the active (leader) Vault node. The active node is unsealed and
+	// every write is committed there. Standby nodes serve reads and forward
+	// writes to it. The <vault-name>-primary Service, created when
+	// spec.exposePrimary is true, points at this node alone; the <vault-name>
+	// Service always points at all nodes.
+	// Empty while no node is active, for example during a leader election.
 	// +optional
 	Active string `json:"active,omitempty"`
 

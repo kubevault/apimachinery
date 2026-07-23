@@ -25203,7 +25203,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_SpokeClusterStatus(ref common.R
 					},
 					"certExpiry": {
 						SchemaProps: spec.SchemaProps{
-							Description: "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub relay backend (relay/spokes). Nil when unknown — the spoke is not connected, or the hub captured no verified peer cert.",
+							Description: "CertExpiry is when this spoke's mTLS client certificate expires, as observed by the hub relay backend (relay/spokes). Nil when unknown: the spoke is not connected, or the hub captured no verified peer cert.",
 							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.Time"),
 						},
 					},
@@ -25921,6 +25921,13 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultServerSpec(ref common.Refe
 							Ref:         ref("kmodules.xyz/client-go/api/v1.HealthCheckSpec"),
 						},
 					},
+					"exposePrimary": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ExposePrimary, when true, makes the operator create an additional <vault-name>-primary Service whose selector narrows to the active (leader) node, alongside the always-all-nodes <vault-name> Service. A client that requires strict read-after-write consistency, and cannot tolerate reading from a lagging standby, binds to the primary Service; everything else, including the default AppBinding, keeps using the all-nodes Service and is unaffected.\n\nRequires an HA-capable storage backend and a supported distribution; the admission webhook rejects it otherwise. The primary Service has no endpoints during a leader election (the brief window with no active node), which is the cost of the guarantee. Defaults to false. See design/primary-service-routing.md.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
 					"relayPlacementRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "RelayPlacementRef points to an OCM Placement object (cluster.open-cluster-management.io/v1beta1) in the same namespace as the VaultServer. When set, the operator deploys a VaultRelay to every managed cluster selected by the Placement, using one ManifestWork per cluster. Requires the OCM hub CRDs (Placement, PlacementDecision, ManifestWork) to be installed; the field is ignored with a warning condition otherwise.",
@@ -26055,7 +26062,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultStatus(ref common.Referenc
 				Properties: map[string]spec.Schema{
 					"active": {
 						SchemaProps: spec.SchemaProps{
-							Description: "PodName of the active Vault node. Active node is unsealed. Only active node can serve requests. Vault service only points to the active node.",
+							Description: "PodName of the active (leader) Vault node. The active node is unsealed and every write is committed there. Standby nodes serve reads and forward writes to it. The <vault-name>-primary Service, created when spec.exposePrimary is true, points at this node alone; the <vault-name> Service always points at all nodes. Empty while no node is active, for example during a leader election.",
 							Type:        []string{"string"},
 							Format:      "",
 						},

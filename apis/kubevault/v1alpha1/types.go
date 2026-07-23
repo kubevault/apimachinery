@@ -59,13 +59,16 @@ const (
 	TerminationPolicyDoNotTerminate TerminationPolicy = "DoNotTerminate"
 )
 
-// +kubebuilder:validation:Enum=internal;vault;stats
+// +kubebuilder:validation:Enum=internal;vault;stats;primary
 type ServiceAlias string
 
 const (
 	VaultServerServiceInternal ServiceAlias = "internal"
 	VaultServerServiceVault    ServiceAlias = "vault"
 	VaultServerServiceStats    ServiceAlias = "stats"
+	// VaultServerServicePrimary mirrors the v1alpha2 alias so the value survives a
+	// conversion round-trip; see the v1alpha2 definition for its meaning.
+	VaultServerServicePrimary ServiceAlias = "primary"
 )
 
 type NamedServiceTemplateSpec struct {

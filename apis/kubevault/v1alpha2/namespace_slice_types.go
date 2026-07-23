@@ -27,16 +27,6 @@ const (
 	ResourceNamespaceSlices    = "namespaceslices"
 )
 
-// +genclient
-// +k8s:openapi-gen=true
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// +kubebuilder:object:root=true
-// +kubebuilder:resource:path=namespaceslices,singular=namespaceslice,shortName=nss,categories={vault,appscode,all}
-// +kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="NamespaceCount",type="integer",JSONPath=".status.namespaceCount"
-// +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
-
 // NamespaceSlice is a shard of the OpenBao namespaces a KubeVault operator needs
 // provisioned, following the Kubernetes EndpointSlice pattern: a large set is split
 // across multiple NamespaceSlice objects, each grouped back to the owning VaultServer
@@ -48,6 +38,16 @@ const (
 // deduplicated, validated set, sharded if large. The hub reads the slice(s) and
 // idempotently creates each namespace; the spoke never creates hub namespaces itself
 // (design/tenant-namespace-design.md §7.2).
+
+// +genclient
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// +kubebuilder:object:root=true
+// +kubebuilder:resource:path=namespaceslices,singular=namespaceslice,shortName=nss,categories={vault,appscode,all}
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="NamespaceCount",type="integer",JSONPath=".status.namespaceCount"
+// +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
 type NamespaceSlice struct {
 	metav1.TypeMeta   `json:",inline,omitempty"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

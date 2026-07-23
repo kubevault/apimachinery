@@ -29,6 +29,7 @@ import (
 
 type KubevaultV1alpha2Interface interface {
 	RESTClient() rest.Interface
+	NamespaceSlicesGetter
 	VaultRelaysGetter
 	VaultServersGetter
 }
@@ -36,6 +37,10 @@ type KubevaultV1alpha2Interface interface {
 // KubevaultV1alpha2Client is used to interact with features provided by the kubevault.com group.
 type KubevaultV1alpha2Client struct {
 	restClient rest.Interface
+}
+
+func (c *KubevaultV1alpha2Client) NamespaceSlices(namespace string) NamespaceSliceInterface {
+	return newNamespaceSlices(c, namespace)
 }
 
 func (c *KubevaultV1alpha2Client) VaultRelays(namespace string) VaultRelayInterface {

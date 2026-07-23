@@ -24843,8 +24843,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_NamespaceSlice(ref common.Refer
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "NamespaceSlice is a shard of the OpenBao namespaces a KubeVault operator needs provisioned, following the Kubernetes EndpointSlice pattern: a large set is split across multiple NamespaceSlice objects, each grouped back to the owning VaultServer through the kubevault.com/vaultserver-name + kubevault.com/vaultserver-namespace labels (cross-namespace owner references are not allowed, so labels associate them).\n\nIn the hub-spoke model, the KubeVault operator on a managed (spoke) cluster records here the OpenBao org namespaces its client-org databases require on the hub — the deduplicated, validated set, sharded if large. The hub reads the slice(s) and idempotently creates each namespace; the spoke never creates hub namespaces itself (design/tenant-namespace-design.md §7.2).",
-				Type:        []string{"object"},
+				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
 					"kind": {
 						SchemaProps: spec.SchemaProps{

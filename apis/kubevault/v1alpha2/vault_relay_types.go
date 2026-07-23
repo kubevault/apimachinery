@@ -57,7 +57,7 @@ type VaultRelaySpec struct {
 	// the hub. Hub-managed (placement-driven) spokes inherit this from the hub
 	// VaultServer.spec.isolateTenants automatically; a standalone VaultRelay sets it
 	// explicitly. It is stamped into the hub AppBinding's VaultServerConfiguration
-	// (design/tenant-namespace-hub-spoke-design.md §5.1). Default false.
+	// (design/tenant-namespace-design.md §5.2). Default false.
 	// +optional
 	IsolateTenants bool `json:"isolateTenants,omitempty"`
 

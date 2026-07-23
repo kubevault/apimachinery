@@ -47,7 +47,7 @@ const (
 // here the OpenBao org namespaces its client-org databases require on the hub — the
 // deduplicated, validated set, sharded if large. The hub reads the slice(s) and
 // idempotently creates each namespace; the spoke never creates hub namespaces itself
-// (design/tenant-namespace-hub-spoke-design.md §5.3).
+// (design/tenant-namespace-design.md §7.2).
 type NamespaceSlice struct {
 	metav1.TypeMeta   `json:",inline,omitempty"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

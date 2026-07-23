@@ -88,10 +88,10 @@ type VaultServerConfiguration struct {
 	SpokeName string `json:"spokeName,omitempty"`
 
 	// IsolateTenants propagates the hub VaultServer's spec.isolateTenants master gate
-	// down to a spoke (RemoteAgent) AppBinding. The spoke has no hub VaultServer CR to
+	// down to a spoke (RemoteRelay) AppBinding. The spoke has no hub VaultServer CR to
 	// read, so this carries the gate: when true, a spoke SecretEngine whose database's
 	// namespace is a client-org derives a per-org OpenBao namespace on the hub
-	// (design/tenant-namespace-hub-spoke-design.md §5.1-5.2). Default false.
+	// (design/tenant-namespace-design.md §5.1-5.2). Default false.
 	// +optional
 	IsolateTenants bool `json:"isolateTenants,omitempty"`
 }

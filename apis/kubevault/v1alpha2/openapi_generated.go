@@ -24843,7 +24843,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_NamespaceSlice(ref common.Refer
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "NamespaceSlice is a shard of the OpenBao namespaces a KubeVault operator needs provisioned, following the Kubernetes EndpointSlice pattern: a large set is split across multiple NamespaceSlice objects, each grouped back to the owning VaultServer through the kubevault.com/vaultserver-name + kubevault.com/vaultserver-namespace labels (cross-namespace owner references are not allowed, so labels associate them).\n\nIn the hub-spoke model, the KubeVault operator on a managed (spoke) cluster records here the OpenBao org namespaces its client-org databases require on the hub — the deduplicated, validated set, sharded if large. The hub reads the slice(s) and idempotently creates each namespace; the spoke never creates hub namespaces itself (design/tenant-namespace-hub-spoke-design.md §5.3).",
+				Description: "NamespaceSlice is a shard of the OpenBao namespaces a KubeVault operator needs provisioned, following the Kubernetes EndpointSlice pattern: a large set is split across multiple NamespaceSlice objects, each grouped back to the owning VaultServer through the kubevault.com/vaultserver-name + kubevault.com/vaultserver-namespace labels (cross-namespace owner references are not allowed, so labels associate them).\n\nIn the hub-spoke model, the KubeVault operator on a managed (spoke) cluster records here the OpenBao org namespaces its client-org databases require on the hub — the deduplicated, validated set, sharded if large. The hub reads the slice(s) and idempotently creates each namespace; the spoke never creates hub namespaces itself (design/tenant-namespace-design.md §7.2).",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"kind": {
@@ -24999,7 +24999,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_NamespaceSliceSpec(ref common.R
 				Properties: map[string]spec.Schema{
 					"hubVaultRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "HubVaultRef identifies the hub VaultServer (the RemoteRelay AppBinding on this spoke) whose namespaces this slice tracks. Optional for non-spoke uses.",
+							Description: "HubVaultRef identifies the hub VaultServer whose namespaces this slice tracks — the same VaultServer the kubevault.com/vaultserver-name + -namespace labels group this slice to, so the ref and the labels always agree. It is set by the hub (which owns those labels); the spoke fills only spec.namespaces. Optional for non-spoke uses.",
 							Default:     map[string]interface{}{},
 							Ref:         ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
 						},
@@ -25739,7 +25739,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultRelaySpec(ref common.Refer
 					},
 					"isolateTenants": {
 						SchemaProps: spec.SchemaProps{
-							Description: "IsolateTenants opts this spoke into per-tenant OpenBao namespace isolation against the hub. Hub-managed (placement-driven) spokes inherit this from the hub VaultServer.spec.isolateTenants automatically; a standalone VaultRelay sets it explicitly. It is stamped into the hub AppBinding's VaultServerConfiguration (design/tenant-namespace-hub-spoke-design.md §5.1). Default false.",
+							Description: "IsolateTenants opts this spoke into per-tenant OpenBao namespace isolation against the hub. Hub-managed (placement-driven) spokes inherit this from the hub VaultServer.spec.isolateTenants automatically; a standalone VaultRelay sets it explicitly. It is stamped into the hub AppBinding's VaultServerConfiguration (design/tenant-namespace-design.md §5.2). Default false.",
 							Type:        []string{"boolean"},
 							Format:      "",
 						},

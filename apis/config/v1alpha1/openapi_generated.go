@@ -23661,6 +23661,13 @@ func schema_apimachinery_apis_config_v1alpha1_VaultServerConfiguration(ref commo
 							Format:      "",
 						},
 					},
+					"isolateTenants": {
+						SchemaProps: spec.SchemaProps{
+							Description: "IsolateTenants propagates the hub VaultServer's spec.isolateTenants master gate down to a spoke (RemoteAgent) AppBinding. The spoke has no hub VaultServer CR to read, so this carries the gate: when true, a spoke SecretEngine whose database's namespace is a client-org derives a per-org OpenBao namespace on the hub (design/tenant-namespace-hub-spoke-design.md §5.1-5.2). Default false.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
 				},
 			},
 		},

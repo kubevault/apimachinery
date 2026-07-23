@@ -48,6 +48,7 @@ spec:
               APIVersion defines the versioned schema of this representation of an object.
               Servers should convert recognized schemas to the latest internal value, and
               may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
             description: |-
@@ -55,6 +56,7 @@ spec:
               Servers may infer this from the endpoint the client submits requests to.
               Cannot be updated.
               In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -66,14 +68,21 @@ spec:
                   spoke) whose namespaces this slice tracks. Optional for non-spoke uses.
                 properties:
                   name:
-                    default: ""
+                    description: |-
+                      Name of the referent.
+                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                     type: string
                   namespace:
+                    description: |-
+                      Namespace of the referent.
+                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
                     type: string
+                required:
+                - name
                 type: object
               namespaces:
-                description: Namespaces is this slice's shard of required OpenBao namespaces,
-                  keyed on name.
+                description: Namespaces is this slice's shard of required OpenBao
+                  namespaces, keyed on name.
                 items:
                   description: |-
                     NamespaceSliceEntry is one required OpenBao namespace — the analogue of a single

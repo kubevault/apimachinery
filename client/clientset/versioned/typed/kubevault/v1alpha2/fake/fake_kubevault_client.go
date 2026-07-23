@@ -29,6 +29,10 @@ type FakeKubevaultV1alpha2 struct {
 	*testing.Fake
 }
 
+func (c *FakeKubevaultV1alpha2) NamespaceSlices(namespace string) v1alpha2.NamespaceSliceInterface {
+	return &FakeNamespaceSlices{c, namespace}
+}
+
 func (c *FakeKubevaultV1alpha2) VaultRelays(namespace string) v1alpha2.VaultRelayInterface {
 	return &FakeVaultRelays{c, namespace}
 }

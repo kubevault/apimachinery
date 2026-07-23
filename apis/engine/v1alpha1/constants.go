@@ -31,4 +31,10 @@ const (
 	// already recorded in status.effectiveNamespace; the operator does not move a live mount
 	// on its own and waits for an admin-authorized migration.
 	TenantMigrationPending = "TenantMigrationPending"
+
+	// TenantNamespacePendingHub is set on a spoke (RemoteRelay) SecretEngine whose derived
+	// org namespace does not yet exist on the hub. The spoke cannot create hub namespaces;
+	// it requeues until the hub creates sys/namespaces/<org-id>
+	// (design/tenant-namespace-design.md §7.2).
+	TenantNamespacePendingHub = "TenantNamespacePendingHub"
 )

@@ -86,6 +86,14 @@ type VaultServerConfiguration struct {
 	// hub's remote-<db>-plugin proxies.
 	// +optional
 	SpokeName string `json:"spokeName,omitempty"`
+
+	// IsolateTenants propagates the hub VaultServer's spec.isolateTenants master gate
+	// down to a spoke (RemoteRelay) AppBinding. The spoke has no hub VaultServer CR to
+	// read, so this carries the gate: when true, a spoke SecretEngine whose database's
+	// namespace is a client-org derives a per-org OpenBao namespace on the hub
+	// (design/tenant-namespace-design.md §5.1-5.2). Default false.
+	// +optional
+	IsolateTenants bool `json:"isolateTenants,omitempty"`
 }
 
 // DeploymentMode distinguishes a locally reachable VaultServer from a

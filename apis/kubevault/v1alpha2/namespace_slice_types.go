@@ -56,8 +56,10 @@ type NamespaceSlice struct {
 }
 
 type NamespaceSliceSpec struct {
-	// HubVaultRef identifies the hub VaultServer (the RemoteRelay AppBinding on this
-	// spoke) whose namespaces this slice tracks. Optional for non-spoke uses.
+	// HubVaultRef identifies the hub VaultServer whose namespaces this slice tracks —
+	// the same VaultServer the kubevault.com/vaultserver-name + -namespace labels group
+	// this slice to, so the ref and the labels always agree. It is set by the hub (which
+	// owns those labels); the spoke fills only spec.namespaces. Optional for non-spoke uses.
 	// +optional
 	HubVaultRef kmapi.ObjectReference `json:"hubVaultRef,omitempty"`
 

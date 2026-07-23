@@ -119,6 +119,15 @@ const (
 	VaultServerRelayHubInitialized       = "RelayHubInitialized"
 	VaultServerRelayManifestWorksApplied = "RelayManifestWorksApplied"
 	VaultServerRelaysReady               = "RelaysReady"
+
+	// Tenant-isolation constants (see design/tenant-namespace-design.md).
+	// VaultServerTenantIsolationReady is set when spec.isolateTenants is on and the
+	// backend is confirmed namespace-capable (OpenBao / Vault Enterprise).
+	VaultServerTenantIsolationReady = "TenantIsolationReady"
+	// VaultServerTenantIsolationUnsupported is set when spec.isolateTenants is on but
+	// the backend does not support namespaces; isolation is inert and SecretEngines
+	// resolve to the root namespace.
+	VaultServerTenantIsolationUnsupported = "TenantIsolationUnsupported"
 )
 
 const (
@@ -141,6 +150,19 @@ const (
 const (
 	// VaultRelayGRPCProxyPort is the hub-side gRPC proxy port used by spoke relays.
 	VaultRelayGRPCProxyPort = 50053
+
+	// AnnotationMigrateNamespace authorizes a one-time, lease-dropping move of a single
+	// already-provisioned SecretEngine to its newly-desired OpenBao namespace. Set the
+	// value to "true" on the SecretEngine; the operator clears it after migrating.
+	// See design/tenant-namespace-design.md §5.2.
+	AnnotationMigrateNamespace = "kubevault.com/migrate-namespace"
+
+	// AnnotationMigrateVaultSecrets authorizes bulk migration of every SecretEngine whose
+	// database lives in a client-org Namespace and whose spec.vaultRef matches one of the
+	// listed Vault-server AppBindings. The value is a JSON array of AppBinding refs in
+	// "namespace/name" form, e.g. ["kv/vault","kv/vault-2"]. Set on the client-org
+	// Namespace; the operator prunes processed refs (removing the annotation once empty).
+	AnnotationMigrateVaultSecrets = "kubevault.com/migrate-vault-secrets"
 )
 
 const (

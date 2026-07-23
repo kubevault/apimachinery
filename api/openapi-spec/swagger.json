@@ -14275,6 +14275,10 @@
             "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.Condition"
           }
         },
+        "effectiveNamespace": {
+          "description": "EffectiveNamespace is the OpenBao namespace this secret engine is actually provisioned in (empty means the root namespace). It is the single source of truth that every dependent {db}Role inherits, and the sticky anchor that prevents an accidental re-mount when the desired namespace changes — migration to a new namespace is admin-authorized. See design/tenant-namespace-design.md §5.2.",
+          "type": "string"
+        },
         "observedGeneration": {
           "type": "integer",
           "format": "int64"
@@ -16692,6 +16696,10 @@
           "default": {},
           "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.HealthCheckSpec"
         },
+        "isolateTenants": {
+          "description": "IsolateTenants is the master opt-in for per-tenant OpenBao namespace isolation. When true (and the backend is namespace-capable, i.e. OpenBao / Vault Enterprise), SecretEngines on this server whose referenced database lives in a client-org namespace are provisioned in a matching OpenBao namespace keyed on the org-id, and an explicit SecretEngine.spec.namespace is also honored. When false (the default), everything stays in the root namespace and any SecretEngine.spec.namespace is rejected. Enabling this on a running server is safe: existing mounts are never moved on their own (migration is admin-authorized). See design/tenant-namespace-design.md.",
+          "type": "boolean"
+        },
         "monitor": {
           "description": "Monitor is used monitor database instance",
           "$ref": "#/definitions/xyz.kmodules.monitoring-agent-api.api.v1.AgentSpec"
@@ -17222,6 +17230,10 @@
         "name": {
           "description": "Name of the role",
           "type": "string"
+        },
+        "noDefaultPolicy": {
+          "description": "NoDefaultPolicy, when true, sets token_no_default_policy on the kubernetes auth role so tokens issued for it do not receive Vault's built-in `default` policy — only the policies explicitly bound. Used to minimize the token surface for machine identities such as spoke agents (design/tenant-namespace-design.md §11.5).",
+          "type": "boolean"
         },
         "path": {
           "description": "Specifies the path where kubernetes auth is enabled default : kubernetes",

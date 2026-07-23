@@ -18,6 +18,14 @@ limitations under the License.
 
 package v1alpha2
 
+// NamespaceSliceListerExpansion allows custom methods to be added to
+// NamespaceSliceLister.
+type NamespaceSliceListerExpansion interface{}
+
+// NamespaceSliceNamespaceListerExpansion allows custom methods to be added to
+// NamespaceSliceNamespaceLister.
+type NamespaceSliceNamespaceListerExpansion interface{}
+
 // VaultRelayListerExpansion allows custom methods to be added to
 // VaultRelayLister.
 type VaultRelayListerExpansion interface{}

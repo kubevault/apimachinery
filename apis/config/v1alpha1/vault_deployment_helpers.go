@@ -62,3 +62,19 @@ func GetVaultDeploymentMode(ab *appcat.AppBinding) (DeploymentMode, string, erro
 		return "", "", fmt.Errorf("AppBinding %s/%s has unknown deploymentMode %q", ab.Namespace, ab.Name, cfg.DeploymentMode)
 	}
 }
+
+// GetIsolateTenants reads the propagated spec.isolateTenants master gate from a spoke
+// (RemoteRelay) AppBinding's VaultServerConfiguration. Returns false for a nil/absent or
+// unparseable configuration — the safe default (tenant isolation off). This is how a
+// spoke, which has no hub VaultServer CR, learns the gate
+// (design/tenant-namespace-design.md §5.2).
+func GetIsolateTenants(ab *appcat.AppBinding) bool {
+	if ab == nil || ab.Spec.Parameters == nil || len(ab.Spec.Parameters.Raw) == 0 {
+		return false
+	}
+	var cfg VaultServerConfiguration
+	if err := json.Unmarshal(ab.Spec.Parameters.Raw, &cfg); err != nil {
+		return false
+	}
+	return cfg.IsolateTenants
+}

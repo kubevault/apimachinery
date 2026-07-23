@@ -18,6 +18,8 @@ limitations under the License.
 
 package v1alpha2
 
+type NamespaceSliceExpansion interface{}
+
 type VaultRelayExpansion interface{}
 
 type VaultServerExpansion interface{}

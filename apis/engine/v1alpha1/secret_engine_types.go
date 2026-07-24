@@ -89,6 +89,7 @@ type SecretEngineConfiguration struct {
 	KV            *KVConfiguration            `json:"kv,omitempty"`
 	Elasticsearch *ElasticsearchConfiguration `json:"elasticsearch,omitempty"`
 	PKI           *PKIConfiguration           `json:"pki,omitempty"`
+	Milvus        *MilvusConfiguration        `json:"milvus,omitempty"`
 }
 
 // https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-root

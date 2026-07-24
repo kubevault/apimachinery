@@ -89,6 +89,46 @@ type SecretEngineConfiguration struct {
 	KV            *KVConfiguration            `json:"kv,omitempty"`
 	Elasticsearch *ElasticsearchConfiguration `json:"elasticsearch,omitempty"`
 	PKI           *PKIConfiguration           `json:"pki,omitempty"`
+	Oracle        *OracleConfiguration        `json:"oracle,omitempty"`
+}
+
+// OracleConfiguration defines an Oracle Database app configuration. The
+// OpenBao `oracle-database-plugin` (sigilr/openbao#6) uses the pure-Go
+// `sijms/go-ora/v2` driver and is a dynamic SQL-statement based plugin
+// (postgres-style): the connection payload is the Oracle DSN
+// (`connection_url`) plus pool-tuning knobs.
+// https://docs.oracle.com/en/database/
+type OracleConfiguration struct {
+	// Specifies the Oracle database appbinding reference. The AppBinding
+	// URL is the Oracle DSN (e.g. `oracle://<user>:<pass>@<host>:1521/<service>`);
+	// the secret contributes username/password.
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for oracle: oracle-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Specifies the maximum number of open connections to the database.
+	// +optional
+	MaxOpenConnections int64 `json:"maxOpenConnections,omitempty"`
+
+	// Specifies the maximum number of idle connections to the database.
+	// A zero uses the value of max_open_connections and a negative value disables idle connections.
+	// If larger than max_open_connections it will be reduced to be equal.
+	// +optional
+	MaxIdleConnections int64 `json:"maxIdleConnections,omitempty"`
+
+	// Specifies the maximum amount of time a connection may be reused.
+	// If <= 0s connections are reused forever.
+	// +optional
+	MaxConnectionLifetime string `json:"maxConnectionLifetime,omitempty"`
 }
 
 // https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-root

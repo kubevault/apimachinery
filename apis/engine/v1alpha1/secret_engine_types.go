@@ -89,6 +89,53 @@ type SecretEngineConfiguration struct {
 	KV            *KVConfiguration            `json:"kv,omitempty"`
 	Elasticsearch *ElasticsearchConfiguration `json:"elasticsearch,omitempty"`
 	PKI           *PKIConfiguration           `json:"pki,omitempty"`
+	Druid         *DruidConfiguration         `json:"druid,omitempty"`
+}
+
+// DruidConfiguration defines an Apache Druid app configuration. The
+// OpenBao `druid-database-plugin` (sigilr/openbao#12) provisions
+// credentials via Druid's BasicSecurity coordinator API
+// (authenticator user + role bindings), so the connection payload
+// uses `url` (Druid coordinator REST endpoint) rather than a
+// connection_url. Druid is dynamic: NewUser/UpdateUser/DeleteUser
+// are all supported.
+// https://druid.apache.org/docs/latest/operations/security-overview/
+type DruidConfiguration struct {
+	// Specifies the Druid database appbinding reference. The
+	// AppBinding URL points at the Druid coordinator REST endpoint
+	// (e.g. `http://druid-coordinator.demo.svc:8081`); the secret
+	// contributes username/password used to authenticate against
+	// Druid's BasicSecurity coordinator API.
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for druid: druid-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Authenticator is the Druid BasicSecurity authenticator that will hold
+	// dynamically issued credentials. Defaults to MyBasicMetadataAuthenticator
+	// (Druid's Quick Start name).
+	// +optional
+	Authenticator string `json:"authenticator,omitempty"`
+
+	// Authorizer is the Druid BasicSecurity authorizer that holds the roles
+	// referenced by creationStatements. Defaults to MyBasicMetadataAuthorizer.
+	// +optional
+	Authorizer string `json:"authorizer,omitempty"`
+
+	// Insecure disables TLS verification when talking to the Druid
+	// coordinator. Useful for the Druid Quick Start which ships with
+	// a self-signed certificate; not recommended in production.
+	// +kubebuilder:default:=false
+	// +optional
+	Insecure bool `json:"insecure,omitempty"`
 }
 
 // https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-root

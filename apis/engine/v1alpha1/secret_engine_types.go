@@ -89,6 +89,46 @@ type SecretEngineConfiguration struct {
 	KV            *KVConfiguration            `json:"kv,omitempty"`
 	Elasticsearch *ElasticsearchConfiguration `json:"elasticsearch,omitempty"`
 	PKI           *PKIConfiguration           `json:"pki,omitempty"`
+	DocumentDB    *DocumentDBConfiguration    `json:"documentdb,omitempty"`
+}
+
+// DocumentDBConfiguration defines a DocumentDB app configuration. The
+// OpenBao `documentdb-database-plugin` (sigilr/openbao#9) reuses the
+// mongo-driver to talk to a DocumentDB gateway over the MongoDB wire
+// protocol, so the connection payload is mongo-shape (`connection_url`
+// + username/password). DocumentDB is dynamic: NewUser/UpdateUser/
+// DeleteUser are all supported.
+// https://github.com/documentdb/documentdb
+type DocumentDBConfiguration struct {
+	// Specifies the DocumentDB database appbinding reference. The
+	// AppBinding URL is a mongo URI (e.g.
+	// `mongodb://docdb.demo.svc:10260/?tls=true&tlsInsecure=true`); the
+	// secret contributes username/password.
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for documentdb: documentdb-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Specifies the MongoDB-style write concern. Set for the entirety of
+	// the session, maintained for the lifecycle of the plugin process.
+	// +optional
+	WriteConcern string `json:"writeConcern,omitempty"`
+
+	// Insecure disables TLS verification when talking to the DocumentDB
+	// gateway. Useful for the documentdb/documentdb docker quickstart
+	// which ships with a self-signed certificate; not recommended in
+	// production.
+	// +kubebuilder:default:=false
+	// +optional
+	Insecure bool `json:"insecure,omitempty"`
 }
 
 // https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-root

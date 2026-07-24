@@ -27,6 +27,7 @@ const (
 	RemoteMySQLDatabasePlugin    = "remote-mysql-plugin"
 	RemoteRedisDatabasePlugin    = "remote-redis-plugin"
 	RemoteValkeyDatabasePlugin   = "remote-valkey-plugin"
+	RemoteKafkaDatabasePlugin    = "remote-kafka-plugin"
 )
 
 // RemoteDatabasePlugin maps a database engine kind to the hub-side proxy
@@ -45,7 +46,9 @@ func RemoteDatabasePlugin(engineKind string) (string, error) {
 		return RemoteRedisDatabasePlugin, nil
 	case "valkey":
 		return RemoteValkeyDatabasePlugin, nil
+	case "kafka":
+		return RemoteKafkaDatabasePlugin, nil
 	default:
-		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey", engineKind)
+		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey, kafka", engineKind)
 	}
 }

@@ -26096,14 +26096,14 @@ func schema_apimachinery_apis_engine_v1alpha1_RoleStatus(ref common.ReferenceCal
 					},
 					"observedGeneration": {
 						SchemaProps: spec.SchemaProps{
-							Description: "ObservedGeneration is the most recent generation observed for this MySQLRole. It corresponds to the MySQLRole's generation, which is updated on mutation by the API Server.",
+							Description: "ObservedGeneration is the most recent generation observed for this role. It corresponds to the roles's generation, which is updated on mutation by the API Server.",
 							Type:        []string{"integer"},
 							Format:      "int64",
 						},
 					},
 					"conditions": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Represents the latest available observations of a MySQLRole current state.",
+							Description: "Represents the latest available observations of a role's current state.",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{

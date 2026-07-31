@@ -13998,7 +13998,7 @@
       "type": "object",
       "properties": {
         "conditions": {
-          "description": "Represents the latest available observations of a MySQLRole current state.",
+          "description": "Represents the latest available observations of a role's current state.",
           "type": "array",
           "items": {
             "default": {},
@@ -14006,7 +14006,7 @@
           }
         },
         "observedGeneration": {
-          "description": "ObservedGeneration is the most recent generation observed for this MySQLRole. It corresponds to the MySQLRole's generation, which is updated on mutation by the API Server.",
+          "description": "ObservedGeneration is the most recent generation observed for this role. It corresponds to the roles's generation, which is updated on mutation by the API Server.",
           "type": "integer",
           "format": "int64"
         },

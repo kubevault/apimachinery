@@ -80,10 +80,10 @@ func (vr VaultRelay) GetGRPCPort() int32 {
 	return vr.Spec.HubVaultRef.GRPCPort
 }
 
-// GetImage returns the spoke-relay image with default value
-func (vr VaultRelay) GetImage() string {
+// GetImage returns the configured spoke-relay image, falling back to image.
+func (vr VaultRelay) GetImage(image string) string {
 	if vr.Spec.Image == "" {
-		return "ghcr.io/kubevault/spoke-relay:latest"
+		return image
 	}
 	return vr.Spec.Image
 }

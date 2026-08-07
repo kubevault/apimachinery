@@ -94,6 +94,7 @@ type SecretEngineConfiguration struct {
 	Druid         *DruidConfiguration         `json:"druid,omitempty"`
 	HanaDB        *HanaDBConfiguration        `json:"hanadb,omitempty"`
 	Hazelcast     *HazelcastConfiguration     `json:"hazelcast,omitempty"`
+	Ignite        *IgniteConfiguration        `json:"ignite,omitempty"`
 }
 
 // DB2Configuration defines an IBM Db2 app configuration. The OpenBao
@@ -277,6 +278,37 @@ type HazelcastConfiguration struct {
 
 	// Insecure disables TLS verification when talking to the Hazelcast
 	// member health endpoint. Not recommended in production.
+	// +kubebuilder:default:=false
+	// +optional
+	Insecure bool `json:"insecure,omitempty"`
+}
+
+// IgniteConfiguration defines an Apache Ignite app configuration. The OpenBao
+// `ignite-database-plugin` (sigilr/openbao#14) executes dynamic SQL DDL
+// (`CREATE USER` / `ALTER USER` / `DROP USER`) over Ignite's REST API
+// (`cmd=qryfldexe`). The connection payload is the Ignite REST endpoint
+// (`url`) plus Basic Auth username/password sourced from the AppBinding
+// secret. Pool-tuning knobs are intentionally omitted because the REST API
+// does not expose them.
+// https://ignite.apache.org/docs/latest/security/authentication
+type IgniteConfiguration struct {
+	// Specifies the Ignite database appbinding reference. The AppBinding URL
+	// is the Ignite REST endpoint (e.g. `http://ignite.demo.svc:8080`); the
+	// secret contributes username/password.
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for ignite: ignite-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Insecure skips TLS verification when calling the Ignite REST endpoint.
 	// +kubebuilder:default:=false
 	// +optional
 	Insecure bool `json:"insecure,omitempty"`

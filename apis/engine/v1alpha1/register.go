@@ -103,6 +103,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&MSSQLServerRoleList{},
 		&Neo4jRole{},
 		&Neo4jRoleList{},
+		&OracleRole{},
+		&OracleRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

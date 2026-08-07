@@ -97,6 +97,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&KafkaRoleList{},
 		&MemcachedRole{},
 		&MemcachedRoleList{},
+		&MilvusRole{},
+		&MilvusRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

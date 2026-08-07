@@ -97,6 +97,7 @@ type SecretEngineConfiguration struct {
 	Ignite        *IgniteConfiguration        `json:"ignite,omitempty"`
 	Kafka         *KafkaConfiguration         `json:"kafka,omitempty"`
 	Memcached     *MemcachedConfiguration     `json:"memcached,omitempty"`
+	Milvus        *MilvusConfiguration        `json:"milvus,omitempty"`
 }
 
 // DB2Configuration defines an IBM Db2 app configuration. The OpenBao

@@ -89,6 +89,36 @@ type SecretEngineConfiguration struct {
 	KV            *KVConfiguration            `json:"kv,omitempty"`
 	Elasticsearch *ElasticsearchConfiguration `json:"elasticsearch,omitempty"`
 	PKI           *PKIConfiguration           `json:"pki,omitempty"`
+	DB2           *DB2Configuration           `json:"db2,omitempty"`
+}
+
+// DB2Configuration defines an IBM Db2 app configuration. The OpenBao
+// `db2-database-plugin` is static-credentials-only: it pings the Db2
+// REST endpoint to verify reachability and treats NewUser as
+// unsupported. Use static-roles for credential rotation.
+// https://github.com/sigilr/openbao/pull/19
+type DB2Configuration struct {
+	// Specifies the Db2 database appbinding reference. The AppBinding's
+	// URL is forwarded as the Db2 REST endpoint (`url=`); the secret
+	// contributes Basic Auth credentials when present.
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for db2: db2-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Insecure disables TLS verification when talking to the Db2 REST
+	// endpoint. Not recommended in production.
+	// +kubebuilder:default:=false
+	// +optional
+	Insecure bool `json:"insecure,omitempty"`
 }
 
 // https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-root

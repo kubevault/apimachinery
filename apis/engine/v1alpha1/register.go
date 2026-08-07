@@ -83,6 +83,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&PKIRoleList{},
 		&DB2Role{},
 		&DB2RoleList{},
+		&DocumentDBRole{},
+		&DocumentDBRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

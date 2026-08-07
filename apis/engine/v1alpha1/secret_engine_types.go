@@ -99,6 +99,7 @@ type SecretEngineConfiguration struct {
 	Memcached     *MemcachedConfiguration     `json:"memcached,omitempty"`
 	Milvus        *MilvusConfiguration        `json:"milvus,omitempty"`
 	MSSQLServer   *MSSQLServerConfiguration   `json:"mssqlserver,omitempty"`
+	Neo4j         *Neo4jConfiguration         `json:"neo4j,omitempty"`
 }
 
 // DB2Configuration defines an IBM Db2 app configuration. The OpenBao

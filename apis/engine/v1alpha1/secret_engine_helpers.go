@@ -105,6 +105,8 @@ func (se SecretEngine) GetSecretEngineType() api.SecretEngineType {
 		return api.SecretEngineTypeIgnite
 	case seSpec.Kafka != nil:
 		return api.SecretEngineTypeKafka
+	case seSpec.Memcached != nil:
+		return api.SecretEngineTypeMemcached
 	case seSpec.KV != nil:
 		return api.SecretEngineTypeKV
 	case seSpec.PKI != nil:

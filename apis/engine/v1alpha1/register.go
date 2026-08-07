@@ -95,6 +95,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&IgniteRoleList{},
 		&KafkaRole{},
 		&KafkaRoleList{},
+		&MemcachedRole{},
+		&MemcachedRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

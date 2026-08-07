@@ -104,6 +104,7 @@ type SecretEngineConfiguration struct {
 	Qdrant        *QdrantConfiguration        `json:"qdrant,omitempty"`
 	RabbitMQ      *RabbitMQConfiguration      `json:"rabbitmq,omitempty"`
 	Solr          *SolrConfiguration          `json:"solr,omitempty"`
+	Weaviate      *WeaviateConfiguration      `json:"weaviate,omitempty"`
 }
 
 // DB2Configuration defines an IBM Db2 app configuration. The OpenBao
@@ -549,6 +550,40 @@ type SolrConfiguration struct {
 	// Insecure disables TLS verification when talking to the Solr
 	// HTTP endpoint. Useful for dev clusters with self-signed
 	// certificates; not recommended in production.
+	// +kubebuilder:default:=false
+	// +optional
+	Insecure bool `json:"insecure,omitempty"`
+}
+
+// WeaviateConfiguration defines a Weaviate app configuration. The OpenBao
+// `weaviate-database-plugin` is static-credentials-only: Weaviate loads
+// its API keys from the `AUTHENTICATION_APIKEY_ALLOWED_KEYS` environment
+// variable at server startup and exposes no runtime user-management API,
+// so the plugin verifies the configured API key against the
+// `/v1/.well-known/ready` endpoint (key sent as a Bearer token) and
+// treats NewUser as unsupported. Use static-roles for credential
+// rotation.
+// https://github.com/sigilr/openbao/pull/18
+type WeaviateConfiguration struct {
+	// Specifies the Weaviate database appbinding reference. The
+	// AppBinding's URL is forwarded as the Weaviate HTTP endpoint
+	// (`url=`); the secret's `password` field is forwarded as the
+	// Weaviate API key (`api_key=`).
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for weaviate: weaviate-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+
+	// Insecure disables TLS verification when probing the Weaviate
+	// HTTP endpoint. Not recommended in production.
 	// +kubebuilder:default:=false
 	// +optional
 	Insecure bool `json:"insecure,omitempty"`

@@ -79,8 +79,6 @@ func (se SecretEngine) GetSecretEngineType() api.SecretEngineType {
 		return api.SecretEngineTypeAzure
 	case seSpec.DB2 != nil:
 		return api.SecretEngineTypeDB2
-	case seSpec.DocumentDB != nil:
-		return api.SecretEngineTypeDocumentDB
 	case seSpec.Druid != nil:
 		return api.SecretEngineTypeDruid
 	case seSpec.Elasticsearch != nil:

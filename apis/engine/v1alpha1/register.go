@@ -83,8 +83,6 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&PKIRoleList{},
 		&DB2Role{},
 		&DB2RoleList{},
-		&DocumentDBRole{},
-		&DocumentDBRoleList{},
 		&DruidRole{},
 		&DruidRoleList{},
 		&HanaDBRole{},

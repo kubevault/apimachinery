@@ -31,6 +31,7 @@ const (
 	RemoteDocumentDBDatabasePlugin = "remote-documentdb-plugin"
 	RemoteDruidDatabasePlugin      = "remote-druid-plugin"
 	RemoteHanaDBDatabasePlugin     = "remote-hana-plugin"
+	RemoteHazelcastDatabasePlugin  = "remote-hazelcast-plugin"
 )
 
 // RemoteDatabasePlugin maps a database engine kind to the hub-side proxy
@@ -57,7 +58,9 @@ func RemoteDatabasePlugin(engineKind string) (string, error) {
 		return RemoteDruidDatabasePlugin, nil
 	case "hanadb":
 		return RemoteHanaDBDatabasePlugin, nil
+	case "hazelcast":
+		return RemoteHazelcastDatabasePlugin, nil
 	default:
-		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey, db2, documentdb, druid, hanadb", engineKind)
+		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey, db2, documentdb, druid, hanadb, hazelcast", engineKind)
 	}
 }

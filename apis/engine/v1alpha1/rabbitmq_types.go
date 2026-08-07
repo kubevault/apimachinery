@@ -89,7 +89,7 @@ type RabbitMQRoleList struct {
 // RabbitMQConfiguration defines a RabbitMQ app configuration. The
 // OpenBao `rabbitmq-database-plugin` (sigilr/openbao#8) provisions
 // credentials via the RabbitMQ Management HTTP API (using
-// rabbit-hole/v3), so the connection payload uses `connection_url`
+// rabbit-hole/v3), so the connection payload uses `connection_uri`
 // (the RabbitMQ management HTTP base URL, e.g.
 // `http://rabbitmq.demo.svc:15672`). Authentication is HTTP Basic Auth
 // (username + password from the AppBinding secret). RabbitMQ is

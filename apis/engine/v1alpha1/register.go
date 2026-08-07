@@ -87,6 +87,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&DocumentDBRoleList{},
 		&DruidRole{},
 		&DruidRoleList{},
+		&HanaDBRole{},
+		&HanaDBRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

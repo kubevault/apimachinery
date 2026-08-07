@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app.kubernetes.io/name: kubevault
-  name: gcproles.engine.kubevault.com
+  name: mssqlserverroles.engine.kubevault.com
 spec:
   group: engine.kubevault.com
   names:
@@ -12,10 +12,10 @@ spec:
     - vault
     - appscode
     - all
-    kind: GCPRole
-    listKind: GCPRoleList
-    plural: gcproles
-    singular: gcprole
+    kind: MSSQLServerRole
+    listKind: MSSQLServerRoleList
+    plural: mssqlserverroles
+    singular: mssqlserverrole
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -48,25 +48,44 @@ spec:
             type: object
           spec:
             description: |-
-              GCPRoleSpec contains connection information, GCP role info, etc
-              More info: https://www.vaultproject.io/api/secret/gcp/index.html#parameters
+              MSSQLServerRoleSpec describes a dynamic-role binding against the
+              Microsoft SQL Server database secret engine. The OpenBao
+              `mssql-database-plugin` (sigilr/openbao#5) was ported from pre-BUSL
+              HashiCorp Vault and is a SQL-statement based dynamic plugin
+              (postgres-style): each entry in `creationStatements` is a T-SQL
+              statement executed in sequence to mint a SQL Server login.
             properties:
-              bindings:
+              creationStatements:
                 description: |-
-                  Bindings configuration string (expects HCL or JSON format in raw
-                  or base64-encoded string)
-                type: string
-              path:
+                  CreationStatements is the list of T-SQL statements run to create a
+                  dynamic SQL Server login. Placeholders: {{name}}, {{password}}.
+                items:
+                  type: string
+                type: array
+              defaultTTL:
                 description: |-
-                  Path defines the path of the Google Cloud secret engine
-                  default: gcp
-                  More info: https://www.vaultproject.io/docs/auth/gcp.html#via-the-cli-helper
+                  Specifies the TTL for the leases associated with this role.
+                  Accepts time suffixed strings ("1h") or an integer number of seconds.
+                  Defaults to system/engine default TTL time
                 type: string
-              project:
+              maxTTL:
                 description: |-
-                  Name of the GCP project that this roleset's service account will belong to.
-                  Cannot be updated.
+                  Specifies the maximum TTL for the leases associated with this role.
+                  Accepts time suffixed strings ("1h") or an integer number of seconds.
+                  Defaults to system/engine default TTL time.
                 type: string
+              revocationStatements:
+                description: Specifies the database statements to be executed to revoke
+                  a user.
+                items:
+                  type: string
+                type: array
+              rollbackStatements:
+                description: Specifies the database statements to be executed rollback
+                  a create operation in the event of an error.
+                items:
+                  type: string
+                type: array
               secretEngineRef:
                 description: SecretEngineRef is the name of a Secret Engine
                 properties:
@@ -81,25 +100,9 @@ spec:
                     type: string
                 type: object
                 x-kubernetes-map-type: atomic
-              secretType:
-                description: Specifies the type of secret generated for this role
-                  set
-                enum:
-                - access_token
-                - service_account_key
-                type: string
-              tokenScopes:
-                description: |-
-                  List of OAuth scopes to assign to access_token secrets generated
-                  under this role set (access_token role sets only)
-                items:
-                  type: string
-                type: array
             required:
-            - bindings
-            - project
+            - creationStatements
             - secretEngineRef
-            - secretType
             type: object
           status:
             properties:

@@ -99,6 +99,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&MemcachedRoleList{},
 		&MilvusRole{},
 		&MilvusRoleList{},
+		&MSSQLServerRole{},
+		&MSSQLServerRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

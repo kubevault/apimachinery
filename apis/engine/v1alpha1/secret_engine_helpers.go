@@ -109,6 +109,8 @@ func (se SecretEngine) GetSecretEngineType() api.SecretEngineType {
 		return api.SecretEngineTypeMemcached
 	case seSpec.Milvus != nil:
 		return api.SecretEngineTypeMilvus
+	case seSpec.MSSQLServer != nil:
+		return api.SecretEngineTypeMSSQLServer
 	case seSpec.KV != nil:
 		return api.SecretEngineTypeKV
 	case seSpec.PKI != nil:

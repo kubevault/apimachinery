@@ -23,19 +23,20 @@ import "fmt"
 // operations over mTLS gRPC to the in-process built-in plugin running on
 // the named spoke.
 const (
-	RemotePostgresDatabasePlugin   = "remote-postgres-plugin"
-	RemoteMySQLDatabasePlugin      = "remote-mysql-plugin"
-	RemoteRedisDatabasePlugin      = "remote-redis-plugin"
-	RemoteValkeyDatabasePlugin     = "remote-valkey-plugin"
-	RemoteDB2DatabasePlugin        = "remote-db2-plugin"
-	RemoteDocumentDBDatabasePlugin = "remote-documentdb-plugin"
-	RemoteDruidDatabasePlugin      = "remote-druid-plugin"
-	RemoteHanaDBDatabasePlugin     = "remote-hana-plugin"
-	RemoteHazelcastDatabasePlugin  = "remote-hazelcast-plugin"
-	RemoteIgniteDatabasePlugin     = "remote-ignite-plugin"
-	RemoteKafkaDatabasePlugin      = "remote-kafka-plugin"
-	RemoteMemcachedDatabasePlugin  = "remote-memcached-plugin"
-	RemoteMilvusDatabasePlugin     = "remote-milvus-plugin"
+	RemotePostgresDatabasePlugin    = "remote-postgres-plugin"
+	RemoteMySQLDatabasePlugin       = "remote-mysql-plugin"
+	RemoteRedisDatabasePlugin       = "remote-redis-plugin"
+	RemoteValkeyDatabasePlugin      = "remote-valkey-plugin"
+	RemoteDB2DatabasePlugin         = "remote-db2-plugin"
+	RemoteDocumentDBDatabasePlugin  = "remote-documentdb-plugin"
+	RemoteDruidDatabasePlugin       = "remote-druid-plugin"
+	RemoteHanaDBDatabasePlugin      = "remote-hana-plugin"
+	RemoteHazelcastDatabasePlugin   = "remote-hazelcast-plugin"
+	RemoteIgniteDatabasePlugin      = "remote-ignite-plugin"
+	RemoteKafkaDatabasePlugin       = "remote-kafka-plugin"
+	RemoteMemcachedDatabasePlugin   = "remote-memcached-plugin"
+	RemoteMilvusDatabasePlugin      = "remote-milvus-plugin"
+	RemoteMSSQLServerDatabasePlugin = "remote-mssql-plugin"
 )
 
 // RemoteDatabasePlugin maps a database engine kind to the hub-side proxy
@@ -72,7 +73,9 @@ func RemoteDatabasePlugin(engineKind string) (string, error) {
 		return RemoteMemcachedDatabasePlugin, nil
 	case "milvus":
 		return RemoteMilvusDatabasePlugin, nil
+	case "mssqlserver":
+		return RemoteMSSQLServerDatabasePlugin, nil
 	default:
-		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey, db2, documentdb, druid, hanadb, hazelcast, ignite, kafka, memcached, milvus", engineKind)
+		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey, db2, documentdb, druid, hanadb, hazelcast, ignite, kafka, memcached, milvus, mssqlserver", engineKind)
 	}
 }

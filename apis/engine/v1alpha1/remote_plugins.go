@@ -41,6 +41,7 @@ const (
 	RemoteOracleDatabasePlugin      = "remote-oracle-plugin"
 	RemoteQdrantDatabasePlugin      = "remote-qdrant-plugin"
 	RemoteRabbitMQDatabasePlugin    = "remote-rabbitmq-plugin"
+	RemoteSolrDatabasePlugin        = "remote-solr-plugin"
 )
 
 // RemoteDatabasePlugin maps a database engine kind to the hub-side proxy
@@ -87,7 +88,9 @@ func RemoteDatabasePlugin(engineKind string) (string, error) {
 		return RemoteQdrantDatabasePlugin, nil
 	case "rabbitmq":
 		return RemoteRabbitMQDatabasePlugin, nil
+	case "solr":
+		return RemoteSolrDatabasePlugin, nil
 	default:
-		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey, db2, documentdb, druid, hanadb, hazelcast, ignite, kafka, memcached, milvus, mssqlserver, neo4j, oracle, qdrant, rabbitmq", engineKind)
+		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey, db2, documentdb, druid, hanadb, hazelcast, ignite, kafka, memcached, milvus, mssqlserver, neo4j, oracle, qdrant, rabbitmq, solr", engineKind)
 	}
 }

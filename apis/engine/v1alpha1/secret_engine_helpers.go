@@ -115,6 +115,8 @@ func (se SecretEngine) GetSecretEngineType() api.SecretEngineType {
 		return api.SecretEngineTypeNeo4j
 	case seSpec.Oracle != nil:
 		return api.SecretEngineTypeOracle
+	case seSpec.Qdrant != nil:
+		return api.SecretEngineTypeQdrant
 	case seSpec.KV != nil:
 		return api.SecretEngineTypeKV
 	case seSpec.PKI != nil:

@@ -105,6 +105,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&Neo4jRoleList{},
 		&OracleRole{},
 		&OracleRoleList{},
+		&QdrantRole{},
+		&QdrantRoleList{},
 	)
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,

@@ -29,3 +29,7 @@ func (v VaultServerVersion) CustomResourceDefinition() *apiextensions.CustomReso
 func (v VaultServerVersion) GetKey() string {
 	return v.Name
 }
+
+func (d Distro) IsOpenBaoDerivative() bool {
+	return d == DistroOpenBao || d == DistroSigilr
+}

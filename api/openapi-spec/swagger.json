@@ -16569,10 +16569,6 @@
           "description": "BootstrapTokenTTL controls the TTL of hub bootstrap tokens minted per spoke (and therefore their rotation period). Default 24h, minimum 1h.",
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration"
         },
-        "image": {
-          "description": "Image overrides the spoke-relay container image.",
-          "type": "string"
-        },
         "namespace": {
           "description": "Namespace on the managed cluster where the VaultRelay and its companion resources are created. Defaults to the VaultServer's namespace.",
           "type": "string"

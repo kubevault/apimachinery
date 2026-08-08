@@ -10865,6 +10865,7 @@ spec:
                       - mariadb
                       - elasticsearch
                       - redis
+                      - rabbitmq
                       type: string
                     type: array
                 type: object

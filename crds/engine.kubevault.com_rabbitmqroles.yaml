@@ -100,7 +100,7 @@ spec:
           status:
             properties:
               conditions:
-                description: Represents the latest available observations of a RabbitMQRole
+                description: Represents the latest available observations of a MySQLRole
                   current state.
                 items:
                   description: Condition defines an observation of a object operational
@@ -154,8 +154,8 @@ spec:
                 type: array
               observedGeneration:
                 description: |-
-                  ObservedGeneration is the most recent generation observed for this RabbitMQRole. It corresponds to the
-                  RabbitMQRole's generation, which is updated on mutation by the API Server.
+                  ObservedGeneration is the most recent generation observed for this MySQLRole. It corresponds to the
+                  MySQLRole's generation, which is updated on mutation by the API Server.
                 format: int64
                 type: integer
               phase:

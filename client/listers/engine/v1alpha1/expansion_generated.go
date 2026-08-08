@@ -34,6 +34,22 @@ type AzureRoleListerExpansion interface{}
 // AzureRoleNamespaceLister.
 type AzureRoleNamespaceListerExpansion interface{}
 
+// DB2RoleListerExpansion allows custom methods to be added to
+// DB2RoleLister.
+type DB2RoleListerExpansion interface{}
+
+// DB2RoleNamespaceListerExpansion allows custom methods to be added to
+// DB2RoleNamespaceLister.
+type DB2RoleNamespaceListerExpansion interface{}
+
+// DruidRoleListerExpansion allows custom methods to be added to
+// DruidRoleLister.
+type DruidRoleListerExpansion interface{}
+
+// DruidRoleNamespaceListerExpansion allows custom methods to be added to
+// DruidRoleNamespaceLister.
+type DruidRoleNamespaceListerExpansion interface{}
+
 // ElasticsearchRoleListerExpansion allows custom methods to be added to
 // ElasticsearchRoleLister.
 type ElasticsearchRoleListerExpansion interface{}
@@ -50,6 +66,46 @@ type GCPRoleListerExpansion interface{}
 // GCPRoleNamespaceLister.
 type GCPRoleNamespaceListerExpansion interface{}
 
+// HanaDBRoleListerExpansion allows custom methods to be added to
+// HanaDBRoleLister.
+type HanaDBRoleListerExpansion interface{}
+
+// HanaDBRoleNamespaceListerExpansion allows custom methods to be added to
+// HanaDBRoleNamespaceLister.
+type HanaDBRoleNamespaceListerExpansion interface{}
+
+// HazelcastRoleListerExpansion allows custom methods to be added to
+// HazelcastRoleLister.
+type HazelcastRoleListerExpansion interface{}
+
+// HazelcastRoleNamespaceListerExpansion allows custom methods to be added to
+// HazelcastRoleNamespaceLister.
+type HazelcastRoleNamespaceListerExpansion interface{}
+
+// IgniteRoleListerExpansion allows custom methods to be added to
+// IgniteRoleLister.
+type IgniteRoleListerExpansion interface{}
+
+// IgniteRoleNamespaceListerExpansion allows custom methods to be added to
+// IgniteRoleNamespaceLister.
+type IgniteRoleNamespaceListerExpansion interface{}
+
+// KafkaRoleListerExpansion allows custom methods to be added to
+// KafkaRoleLister.
+type KafkaRoleListerExpansion interface{}
+
+// KafkaRoleNamespaceListerExpansion allows custom methods to be added to
+// KafkaRoleNamespaceLister.
+type KafkaRoleNamespaceListerExpansion interface{}
+
+// MSSQLServerRoleListerExpansion allows custom methods to be added to
+// MSSQLServerRoleLister.
+type MSSQLServerRoleListerExpansion interface{}
+
+// MSSQLServerRoleNamespaceListerExpansion allows custom methods to be added to
+// MSSQLServerRoleNamespaceLister.
+type MSSQLServerRoleNamespaceListerExpansion interface{}
+
 // MariaDBRoleListerExpansion allows custom methods to be added to
 // MariaDBRoleLister.
 type MariaDBRoleListerExpansion interface{}
@@ -57,6 +113,22 @@ type MariaDBRoleListerExpansion interface{}
 // MariaDBRoleNamespaceListerExpansion allows custom methods to be added to
 // MariaDBRoleNamespaceLister.
 type MariaDBRoleNamespaceListerExpansion interface{}
+
+// MemcachedRoleListerExpansion allows custom methods to be added to
+// MemcachedRoleLister.
+type MemcachedRoleListerExpansion interface{}
+
+// MemcachedRoleNamespaceListerExpansion allows custom methods to be added to
+// MemcachedRoleNamespaceLister.
+type MemcachedRoleNamespaceListerExpansion interface{}
+
+// MilvusRoleListerExpansion allows custom methods to be added to
+// MilvusRoleLister.
+type MilvusRoleListerExpansion interface{}
+
+// MilvusRoleNamespaceListerExpansion allows custom methods to be added to
+// MilvusRoleNamespaceLister.
+type MilvusRoleNamespaceListerExpansion interface{}
 
 // MongoDBRoleListerExpansion allows custom methods to be added to
 // MongoDBRoleLister.
@@ -74,6 +146,22 @@ type MySQLRoleListerExpansion interface{}
 // MySQLRoleNamespaceLister.
 type MySQLRoleNamespaceListerExpansion interface{}
 
+// Neo4jRoleListerExpansion allows custom methods to be added to
+// Neo4jRoleLister.
+type Neo4jRoleListerExpansion interface{}
+
+// Neo4jRoleNamespaceListerExpansion allows custom methods to be added to
+// Neo4jRoleNamespaceLister.
+type Neo4jRoleNamespaceListerExpansion interface{}
+
+// OracleRoleListerExpansion allows custom methods to be added to
+// OracleRoleLister.
+type OracleRoleListerExpansion interface{}
+
+// OracleRoleNamespaceListerExpansion allows custom methods to be added to
+// OracleRoleNamespaceLister.
+type OracleRoleNamespaceListerExpansion interface{}
+
 // PKIRoleListerExpansion allows custom methods to be added to
 // PKIRoleLister.
 type PKIRoleListerExpansion interface{}
@@ -89,6 +177,22 @@ type PostgresRoleListerExpansion interface{}
 // PostgresRoleNamespaceListerExpansion allows custom methods to be added to
 // PostgresRoleNamespaceLister.
 type PostgresRoleNamespaceListerExpansion interface{}
+
+// QdrantRoleListerExpansion allows custom methods to be added to
+// QdrantRoleLister.
+type QdrantRoleListerExpansion interface{}
+
+// QdrantRoleNamespaceListerExpansion allows custom methods to be added to
+// QdrantRoleNamespaceLister.
+type QdrantRoleNamespaceListerExpansion interface{}
+
+// RabbitMQRoleListerExpansion allows custom methods to be added to
+// RabbitMQRoleLister.
+type RabbitMQRoleListerExpansion interface{}
+
+// RabbitMQRoleNamespaceListerExpansion allows custom methods to be added to
+// RabbitMQRoleNamespaceLister.
+type RabbitMQRoleNamespaceListerExpansion interface{}
 
 // RedisRoleListerExpansion allows custom methods to be added to
 // RedisRoleLister.
@@ -121,3 +225,27 @@ type SecretRoleBindingListerExpansion interface{}
 // SecretRoleBindingNamespaceListerExpansion allows custom methods to be added to
 // SecretRoleBindingNamespaceLister.
 type SecretRoleBindingNamespaceListerExpansion interface{}
+
+// SolrRoleListerExpansion allows custom methods to be added to
+// SolrRoleLister.
+type SolrRoleListerExpansion interface{}
+
+// SolrRoleNamespaceListerExpansion allows custom methods to be added to
+// SolrRoleNamespaceLister.
+type SolrRoleNamespaceListerExpansion interface{}
+
+// WeaviateRoleListerExpansion allows custom methods to be added to
+// WeaviateRoleLister.
+type WeaviateRoleListerExpansion interface{}
+
+// WeaviateRoleNamespaceListerExpansion allows custom methods to be added to
+// WeaviateRoleNamespaceLister.
+type WeaviateRoleNamespaceListerExpansion interface{}
+
+// ZooKeeperRoleListerExpansion allows custom methods to be added to
+// ZooKeeperRoleLister.
+type ZooKeeperRoleListerExpansion interface{}
+
+// ZooKeeperRoleNamespaceListerExpansion allows custom methods to be added to
+// ZooKeeperRoleNamespaceLister.
+type ZooKeeperRoleNamespaceListerExpansion interface{}

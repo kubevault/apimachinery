@@ -28,20 +28,46 @@ type Interface interface {
 	AWSRoles() AWSRoleInformer
 	// AzureRoles returns a AzureRoleInformer.
 	AzureRoles() AzureRoleInformer
+	// DB2Roles returns a DB2RoleInformer.
+	DB2Roles() DB2RoleInformer
+	// DruidRoles returns a DruidRoleInformer.
+	DruidRoles() DruidRoleInformer
 	// ElasticsearchRoles returns a ElasticsearchRoleInformer.
 	ElasticsearchRoles() ElasticsearchRoleInformer
 	// GCPRoles returns a GCPRoleInformer.
 	GCPRoles() GCPRoleInformer
+	// HanaDBRoles returns a HanaDBRoleInformer.
+	HanaDBRoles() HanaDBRoleInformer
+	// HazelcastRoles returns a HazelcastRoleInformer.
+	HazelcastRoles() HazelcastRoleInformer
+	// IgniteRoles returns a IgniteRoleInformer.
+	IgniteRoles() IgniteRoleInformer
+	// KafkaRoles returns a KafkaRoleInformer.
+	KafkaRoles() KafkaRoleInformer
+	// MSSQLServerRoles returns a MSSQLServerRoleInformer.
+	MSSQLServerRoles() MSSQLServerRoleInformer
 	// MariaDBRoles returns a MariaDBRoleInformer.
 	MariaDBRoles() MariaDBRoleInformer
+	// MemcachedRoles returns a MemcachedRoleInformer.
+	MemcachedRoles() MemcachedRoleInformer
+	// MilvusRoles returns a MilvusRoleInformer.
+	MilvusRoles() MilvusRoleInformer
 	// MongoDBRoles returns a MongoDBRoleInformer.
 	MongoDBRoles() MongoDBRoleInformer
 	// MySQLRoles returns a MySQLRoleInformer.
 	MySQLRoles() MySQLRoleInformer
+	// Neo4jRoles returns a Neo4jRoleInformer.
+	Neo4jRoles() Neo4jRoleInformer
+	// OracleRoles returns a OracleRoleInformer.
+	OracleRoles() OracleRoleInformer
 	// PKIRoles returns a PKIRoleInformer.
 	PKIRoles() PKIRoleInformer
 	// PostgresRoles returns a PostgresRoleInformer.
 	PostgresRoles() PostgresRoleInformer
+	// QdrantRoles returns a QdrantRoleInformer.
+	QdrantRoles() QdrantRoleInformer
+	// RabbitMQRoles returns a RabbitMQRoleInformer.
+	RabbitMQRoles() RabbitMQRoleInformer
 	// RedisRoles returns a RedisRoleInformer.
 	RedisRoles() RedisRoleInformer
 	// SecretAccessRequests returns a SecretAccessRequestInformer.
@@ -50,6 +76,12 @@ type Interface interface {
 	SecretEngines() SecretEngineInformer
 	// SecretRoleBindings returns a SecretRoleBindingInformer.
 	SecretRoleBindings() SecretRoleBindingInformer
+	// SolrRoles returns a SolrRoleInformer.
+	SolrRoles() SolrRoleInformer
+	// WeaviateRoles returns a WeaviateRoleInformer.
+	WeaviateRoles() WeaviateRoleInformer
+	// ZooKeeperRoles returns a ZooKeeperRoleInformer.
+	ZooKeeperRoles() ZooKeeperRoleInformer
 }
 
 type version struct {
@@ -73,6 +105,16 @@ func (v *version) AzureRoles() AzureRoleInformer {
 	return &azureRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
+// DB2Roles returns a DB2RoleInformer.
+func (v *version) DB2Roles() DB2RoleInformer {
+	return &dB2RoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// DruidRoles returns a DruidRoleInformer.
+func (v *version) DruidRoles() DruidRoleInformer {
+	return &druidRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
 // ElasticsearchRoles returns a ElasticsearchRoleInformer.
 func (v *version) ElasticsearchRoles() ElasticsearchRoleInformer {
 	return &elasticsearchRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
@@ -83,9 +125,44 @@ func (v *version) GCPRoles() GCPRoleInformer {
 	return &gCPRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
+// HanaDBRoles returns a HanaDBRoleInformer.
+func (v *version) HanaDBRoles() HanaDBRoleInformer {
+	return &hanaDBRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// HazelcastRoles returns a HazelcastRoleInformer.
+func (v *version) HazelcastRoles() HazelcastRoleInformer {
+	return &hazelcastRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// IgniteRoles returns a IgniteRoleInformer.
+func (v *version) IgniteRoles() IgniteRoleInformer {
+	return &igniteRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// KafkaRoles returns a KafkaRoleInformer.
+func (v *version) KafkaRoles() KafkaRoleInformer {
+	return &kafkaRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// MSSQLServerRoles returns a MSSQLServerRoleInformer.
+func (v *version) MSSQLServerRoles() MSSQLServerRoleInformer {
+	return &mSSQLServerRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
 // MariaDBRoles returns a MariaDBRoleInformer.
 func (v *version) MariaDBRoles() MariaDBRoleInformer {
 	return &mariaDBRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// MemcachedRoles returns a MemcachedRoleInformer.
+func (v *version) MemcachedRoles() MemcachedRoleInformer {
+	return &memcachedRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// MilvusRoles returns a MilvusRoleInformer.
+func (v *version) MilvusRoles() MilvusRoleInformer {
+	return &milvusRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // MongoDBRoles returns a MongoDBRoleInformer.
@@ -98,6 +175,16 @@ func (v *version) MySQLRoles() MySQLRoleInformer {
 	return &mySQLRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
+// Neo4jRoles returns a Neo4jRoleInformer.
+func (v *version) Neo4jRoles() Neo4jRoleInformer {
+	return &neo4jRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// OracleRoles returns a OracleRoleInformer.
+func (v *version) OracleRoles() OracleRoleInformer {
+	return &oracleRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
 // PKIRoles returns a PKIRoleInformer.
 func (v *version) PKIRoles() PKIRoleInformer {
 	return &pKIRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
@@ -106,6 +193,16 @@ func (v *version) PKIRoles() PKIRoleInformer {
 // PostgresRoles returns a PostgresRoleInformer.
 func (v *version) PostgresRoles() PostgresRoleInformer {
 	return &postgresRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// QdrantRoles returns a QdrantRoleInformer.
+func (v *version) QdrantRoles() QdrantRoleInformer {
+	return &qdrantRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// RabbitMQRoles returns a RabbitMQRoleInformer.
+func (v *version) RabbitMQRoles() RabbitMQRoleInformer {
+	return &rabbitMQRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // RedisRoles returns a RedisRoleInformer.
@@ -126,4 +223,19 @@ func (v *version) SecretEngines() SecretEngineInformer {
 // SecretRoleBindings returns a SecretRoleBindingInformer.
 func (v *version) SecretRoleBindings() SecretRoleBindingInformer {
 	return &secretRoleBindingInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// SolrRoles returns a SolrRoleInformer.
+func (v *version) SolrRoles() SolrRoleInformer {
+	return &solrRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// WeaviateRoles returns a WeaviateRoleInformer.
+func (v *version) WeaviateRoles() WeaviateRoleInformer {
+	return &weaviateRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// ZooKeeperRoles returns a ZooKeeperRoleInformer.
+func (v *version) ZooKeeperRoles() ZooKeeperRoleInformer {
+	return &zooKeeperRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }

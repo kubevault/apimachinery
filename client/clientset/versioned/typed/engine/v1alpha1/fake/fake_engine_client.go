@@ -37,6 +37,14 @@ func (c *FakeEngineV1alpha1) AzureRoles(namespace string) v1alpha1.AzureRoleInte
 	return &FakeAzureRoles{c, namespace}
 }
 
+func (c *FakeEngineV1alpha1) DB2Roles(namespace string) v1alpha1.DB2RoleInterface {
+	return &FakeDB2Roles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) DruidRoles(namespace string) v1alpha1.DruidRoleInterface {
+	return &FakeDruidRoles{c, namespace}
+}
+
 func (c *FakeEngineV1alpha1) ElasticsearchRoles(namespace string) v1alpha1.ElasticsearchRoleInterface {
 	return &FakeElasticsearchRoles{c, namespace}
 }
@@ -45,8 +53,36 @@ func (c *FakeEngineV1alpha1) GCPRoles(namespace string) v1alpha1.GCPRoleInterfac
 	return &FakeGCPRoles{c, namespace}
 }
 
+func (c *FakeEngineV1alpha1) HanaDBRoles(namespace string) v1alpha1.HanaDBRoleInterface {
+	return &FakeHanaDBRoles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) HazelcastRoles(namespace string) v1alpha1.HazelcastRoleInterface {
+	return &FakeHazelcastRoles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) IgniteRoles(namespace string) v1alpha1.IgniteRoleInterface {
+	return &FakeIgniteRoles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) KafkaRoles(namespace string) v1alpha1.KafkaRoleInterface {
+	return &FakeKafkaRoles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) MSSQLServerRoles(namespace string) v1alpha1.MSSQLServerRoleInterface {
+	return &FakeMSSQLServerRoles{c, namespace}
+}
+
 func (c *FakeEngineV1alpha1) MariaDBRoles(namespace string) v1alpha1.MariaDBRoleInterface {
 	return &FakeMariaDBRoles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) MemcachedRoles(namespace string) v1alpha1.MemcachedRoleInterface {
+	return &FakeMemcachedRoles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) MilvusRoles(namespace string) v1alpha1.MilvusRoleInterface {
+	return &FakeMilvusRoles{c, namespace}
 }
 
 func (c *FakeEngineV1alpha1) MongoDBRoles(namespace string) v1alpha1.MongoDBRoleInterface {
@@ -57,12 +93,28 @@ func (c *FakeEngineV1alpha1) MySQLRoles(namespace string) v1alpha1.MySQLRoleInte
 	return &FakeMySQLRoles{c, namespace}
 }
 
+func (c *FakeEngineV1alpha1) Neo4jRoles(namespace string) v1alpha1.Neo4jRoleInterface {
+	return &FakeNeo4jRoles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) OracleRoles(namespace string) v1alpha1.OracleRoleInterface {
+	return &FakeOracleRoles{c, namespace}
+}
+
 func (c *FakeEngineV1alpha1) PKIRoles(namespace string) v1alpha1.PKIRoleInterface {
 	return &FakePKIRoles{c, namespace}
 }
 
 func (c *FakeEngineV1alpha1) PostgresRoles(namespace string) v1alpha1.PostgresRoleInterface {
 	return &FakePostgresRoles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) QdrantRoles(namespace string) v1alpha1.QdrantRoleInterface {
+	return &FakeQdrantRoles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) RabbitMQRoles(namespace string) v1alpha1.RabbitMQRoleInterface {
+	return &FakeRabbitMQRoles{c, namespace}
 }
 
 func (c *FakeEngineV1alpha1) RedisRoles(namespace string) v1alpha1.RedisRoleInterface {
@@ -79,6 +131,18 @@ func (c *FakeEngineV1alpha1) SecretEngines(namespace string) v1alpha1.SecretEngi
 
 func (c *FakeEngineV1alpha1) SecretRoleBindings(namespace string) v1alpha1.SecretRoleBindingInterface {
 	return &FakeSecretRoleBindings{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) SolrRoles(namespace string) v1alpha1.SolrRoleInterface {
+	return &FakeSolrRoles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) WeaviateRoles(namespace string) v1alpha1.WeaviateRoleInterface {
+	return &FakeWeaviateRoles{c, namespace}
+}
+
+func (c *FakeEngineV1alpha1) ZooKeeperRoles(namespace string) v1alpha1.ZooKeeperRoleInterface {
+	return &FakeZooKeeperRoles{c, namespace}
 }
 
 // RESTClient returns a RESTClient that is used to communicate

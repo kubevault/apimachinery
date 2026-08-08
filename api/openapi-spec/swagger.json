@@ -13045,6 +13045,74 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.DB2Configuration": {
+      "description": "DB2Configuration defines an IBM Db2 app configuration. The OpenBao `db2-database-plugin` is static-credentials-only: it pings the Db2 REST endpoint to verify reachability and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/19",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the Db2 database appbinding reference. The AppBinding's URL is forwarded as the Db2 REST endpoint (`url=`); the secret contributes Basic Auth credentials when present.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS verification when talking to the Db2 REST endpoint. Not recommended in production.",
+          "type": "boolean"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for db2: db2-database-plugin",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.DruidConfiguration": {
+      "description": "DruidConfiguration defines an Apache Druid app configuration. The OpenBao `druid-database-plugin` (sigilr/openbao#12) provisions credentials via Druid's BasicSecurity coordinator API (authenticator user + role bindings), so the connection payload uses `url` (Druid coordinator REST endpoint) rather than a connection_url. Druid is dynamic: NewUser/UpdateUser/DeleteUser are all supported. https://druid.apache.org/docs/latest/operations/security-overview/",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "authenticator": {
+          "description": "Authenticator is the Druid BasicSecurity authenticator that will hold dynamically issued credentials. Defaults to MyBasicMetadataAuthenticator (Druid's Quick Start name).",
+          "type": "string"
+        },
+        "authorizer": {
+          "description": "Authorizer is the Druid BasicSecurity authorizer that holds the roles referenced by creationStatements. Defaults to MyBasicMetadataAuthorizer.",
+          "type": "string"
+        },
+        "databaseRef": {
+          "description": "Specifies the Druid database appbinding reference. The AppBinding URL points at the Druid coordinator REST endpoint (e.g. `http://druid-coordinator.demo.svc:8081`); the secret contributes username/password used to authenticate against Druid's BasicSecurity coordinator API.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS verification when talking to the Druid coordinator. Useful for the Druid Quick Start which ships with a self-signed certificate; not recommended in production.",
+          "type": "boolean"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for druid: druid-database-plugin",
+          "type": "string"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.engine.v1alpha1.ElasticsearchConfiguration": {
       "description": "ElasticsearchConfiguration defines a Elasticsearch app configuration. https://www.vaultproject.io/api-docs/secret/databases/elasticdb",
       "type": "object",
@@ -13239,6 +13307,106 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.HanaDBConfiguration": {
+      "description": "HanaDBConfiguration defines a SAP HANA app configuration. The OpenBao `hana-database-plugin` (sigilr/openbao#3) was ported from pre-BUSL HashiCorp Vault and is a dynamic SQL-statement based plugin (postgres-style): the connection payload is the HANA DSN (`connection_url`) plus pool-tuning knobs. https://www.vaultproject.io/api/secret/databases/hanadb.html",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the HANA database appbinding reference. The AppBinding URL is the HANA DSN (e.g. `hdb://\u003chost\u003e:\u003cport\u003e`); the secret contributes username/password.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "maxConnectionLifetime": {
+          "description": "Specifies the maximum amount of time a connection may be reused. If \u003c= 0s connections are reused forever.",
+          "type": "string"
+        },
+        "maxIdleConnections": {
+          "description": "Specifies the maximum number of idle connections to the database. A zero uses the value of max_open_connections and a negative value disables idle connections. If larger than max_open_connections it will be reduced to be equal.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "maxOpenConnections": {
+          "description": "Specifies the maximum number of open connections to the database.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for hanadb: hana-database-plugin",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.HazelcastConfiguration": {
+      "description": "HazelcastConfiguration defines a Hazelcast app configuration. The OpenBao `hazelcast-database-plugin` is static-credentials-only: Hazelcast OSS has no runtime user-management API (auth is configured in member XML at startup), so the plugin pings `/hazelcast/health/ready` with Basic Auth to verify reachability and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/20",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the Hazelcast database appbinding reference. The AppBinding's URL is forwarded as the Hazelcast member health endpoint (`url=`); the secret contributes Basic Auth credentials when present.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS verification when talking to the Hazelcast member health endpoint. Not recommended in production.",
+          "type": "boolean"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for hazelcast: hazelcast-database-plugin",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.IgniteConfiguration": {
+      "description": "IgniteConfiguration defines an Apache Ignite app configuration. The OpenBao `ignite-database-plugin` (sigilr/openbao#14) executes dynamic SQL DDL (`CREATE USER` / `ALTER USER` / `DROP USER`) over Ignite's REST API (`cmd=qryfldexe`). The connection payload is the Ignite REST endpoint (`url`) plus Basic Auth username/password sourced from the AppBinding secret. Pool-tuning knobs are intentionally omitted because the REST API does not expose them. https://ignite.apache.org/docs/latest/security/authentication",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the Ignite database appbinding reference. The AppBinding URL is the Ignite REST endpoint (e.g. `http://ignite.demo.svc:8080`); the secret contributes username/password.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure skips TLS verification when calling the Ignite REST endpoint.",
+          "type": "boolean"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for ignite: ignite-database-plugin",
+          "type": "string"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.engine.v1alpha1.KVConfiguration": {
       "description": "KVConfiguration defines a Key-Value engine configuration",
       "type": "object",
@@ -13260,6 +13428,44 @@
           "description": "The version of the KV engine to enable. Defaults to \"1\", can be either \"1\" or \"2\"",
           "type": "integer",
           "format": "int64"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.KafkaConfiguration": {
+      "description": "KafkaConfiguration defines an Apache Kafka app configuration. The OpenBao `kafka-database-plugin` (sigilr/openbao#15) writes SCRAM user records via the franz-go AdminClient, so the connection payload uses `brokers` (a comma-separated broker list) rather than `connection_url`. Kafka is dynamic: NewUser/UpdateUser/DeleteUser are all supported. ACLs are not yet implemented — the `acls` field on the role JSON is reserved and must currently be empty. https://kafka.apache.org/documentation/#security_sasl_scram",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the Kafka cluster appbinding reference. The AppBinding URL is the broker CSV (e.g. `broker1:9092,broker2:9092`) and the referenced Secret contributes username/password for the SASL principal used to manage SCRAM user records.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS certificate verification when UseTLS is true. Useful for clusters fronted by self-signed certificates; not recommended in production.",
+          "type": "boolean"
+        },
+        "mechanism": {
+          "description": "Mechanism is the SASL mechanism written into the Kafka SCRAM record. Valid values: SCRAM-SHA-256 (default), SCRAM-SHA-512. PLAIN is rejected by the plugin.",
+          "type": "string"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for kafka: kafka-database-plugin",
+          "type": "string"
+        },
+        "useTLS": {
+          "description": "UseTLS dials the brokers over TLS.",
+          "type": "boolean"
         }
       }
     },
@@ -13301,6 +13507,50 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MSSQLServerConfiguration": {
+      "description": "MSSQLServerConfiguration defines a Microsoft SQL Server app configuration. The OpenBao `mssql-database-plugin` (sigilr/openbao#5) was ported from pre-BUSL HashiCorp Vault and is a dynamic SQL-statement based plugin (postgres-style): the connection payload is the SQL Server DSN (`connection_url`) plus pool-tuning knobs and the MSSQL-specific `contained_db` toggle. https://www.vaultproject.io/api/secret/databases/mssql.html",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "containedDB": {
+          "description": "ContainedDB enables SQL Server contained-database authentication mode (CREATE USER ... WITH PASSWORD against the user database). Defaults to false (logins on the master DB).",
+          "type": "boolean"
+        },
+        "databaseRef": {
+          "description": "Specifies the SQL Server database appbinding reference. The AppBinding URL is the SQL Server DSN (`sqlserver://\u003cuser\u003e:\u003cpass\u003e@\u003chost\u003e:1433`); the secret contributes username/password.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "maxConnectionLifetime": {
+          "description": "Specifies the maximum amount of time a connection may be reused. If \u003c= 0s connections are reused forever.",
+          "type": "string"
+        },
+        "maxIdleConnections": {
+          "description": "Specifies the maximum number of idle connections to the database. A zero uses the value of max_open_connections and a negative value disables idle connections. If larger than max_open_connections it will be reduced to be equal.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "maxOpenConnections": {
+          "description": "Specifies the maximum number of open connections to the database.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for mssqlserver: mssql-database-plugin",
+          "type": "string"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.engine.v1alpha1.MariaDBConfiguration": {
       "description": "MariaDBConfiguration defines a MariaDB app configuration. https://www.vaultproject.io/api/secret/databases/index.html https://www.vaultproject.io/api/secret/databases/mysql-maria.html#configure-connection",
       "type": "object",
@@ -13337,6 +13587,70 @@
         },
         "pluginName": {
           "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for mysql: mysql-database-plugin",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MemcachedConfiguration": {
+      "description": "MemcachedConfiguration defines a Memcached app configuration. The OpenBao `memcached-database-plugin` is static-credentials-only: Memcached loads SASL credentials from a static auth file at server startup and exposes no runtime user-management API, so the plugin pings the Memcached TCP endpoint (and optionally completes a TLS handshake) to verify reachability and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/16",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the Memcached database appbinding reference. The AppBinding's URL is forwarded as the Memcached TCP endpoint (`url=`); the secret contributes Basic Auth credentials when present.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS verification when probing the Memcached TCP endpoint. Not recommended in production.",
+          "type": "boolean"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for memcached: memcached-database-plugin",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MilvusConfiguration": {
+      "description": "MilvusConfiguration defines a Milvus app configuration. The OpenBao `milvus-database-plugin` (sigilr/openbao#13) provisions credentials via Milvus's HTTP RESTful API v2 user-management endpoints (Create User + Grant Role), so the connection payload uses `url` (Milvus HTTP endpoint) rather than a connection_url. Authentication can be HTTP Basic Auth (username/password from the AppBinding secret) OR a Bearer token from a `token` key on the secret (Zilliz Cloud style). Milvus is dynamic: NewUser/UpdateUser/DeleteUser are all supported. https://milvus.io/docs/users_and_roles.md",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the Milvus database appbinding reference. The AppBinding URL points at the Milvus HTTP endpoint (e.g. `http://milvus.demo.svc:19530`); the secret contributes either username/password (HTTP Basic) or a `token` key (Bearer / Zilliz Cloud) used to authenticate against Milvus's user-management API.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "dbName": {
+          "description": "DBName is forwarded as the dbName request header on every API call.",
+          "type": "string"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS verification when talking to Milvus. Useful for the Milvus standalone quickstart which ships with a self-signed certificate; not recommended in production.",
+          "type": "boolean"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for milvus: milvus-database-plugin",
           "type": "string"
         }
       }
@@ -13614,6 +13928,76 @@
           "description": "SecretEngineRef is the name of a Secret Engine",
           "default": {},
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.Neo4jConfiguration": {
+      "description": "Neo4jConfiguration defines a Neo4j app configuration. The OpenBao `neo4j-database-plugin` (sigilr/openbao#10) provisions credentials as native Neo4j users created with Cypher's `CREATE USER` against the `system` database, so the connection payload uses `uri` (a Bolt URI such as `bolt://host:7687` or `neo4j://host:7687`) rather than `connection_url`. Authentication is HTTP Basic Auth (username + password from the AppBinding secret). Neo4j is dynamic: NewUser/UpdateUser/DeleteUser are all supported. Revocation is the plugin's default `DROP USER ... IF EXISTS` so no `revocation_statements` field is exposed here. https://neo4j.com/docs/operations-manual/current/authentication-authorization/",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the Neo4j database appbinding reference. The AppBinding URL points at the Neo4j Bolt endpoint (e.g. `bolt://neo4j.demo.svc:7687` or `neo4j://neo4j.demo.svc:7687`); the secret contributes username/password used to authenticate against Neo4j when the plugin runs `CREATE USER` Cypher statements on the `system` database.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS verification when talking to Neo4j. Useful for the Neo4j Docker quickstart which ships with a self-signed certificate; not recommended in production.",
+          "type": "boolean"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for neo4j: neo4j-database-plugin",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.OracleConfiguration": {
+      "description": "OracleConfiguration defines an Oracle Database app configuration. The OpenBao `oracle-database-plugin` (sigilr/openbao#6) uses the pure-Go `sijms/go-ora/v2` driver and is a dynamic SQL-statement based plugin (postgres-style): the connection payload is the Oracle DSN (`connection_url`) plus pool-tuning knobs. https://docs.oracle.com/en/database/",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the Oracle database appbinding reference. The AppBinding URL is the Oracle DSN (e.g. `oracle://\u003cuser\u003e:\u003cpass\u003e@\u003chost\u003e:1521/\u003cservice\u003e`); the secret contributes username/password.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "maxConnectionLifetime": {
+          "description": "Specifies the maximum amount of time a connection may be reused. If \u003c= 0s connections are reused forever.",
+          "type": "string"
+        },
+        "maxIdleConnections": {
+          "description": "Specifies the maximum number of idle connections to the database. A zero uses the value of max_open_connections and a negative value disables idle connections. If larger than max_open_connections it will be reduced to be equal.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "maxOpenConnections": {
+          "description": "Specifies the maximum number of open connections to the database.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for oracle: oracle-database-plugin",
+          "type": "string"
         }
       }
     },
@@ -13968,6 +14352,70 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.QdrantConfiguration": {
+      "description": "QdrantConfiguration defines a Qdrant app configuration. The OpenBao `qdrant-database-plugin` is static-credentials-only: Qdrant loads its API key from the `QDRANT__SERVICE__API_KEY` environment variable at server startup and exposes no runtime user-management API, so the plugin verifies the configured API key against the `/readyz` endpoint (key sent in the `api-key` header) and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/17",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the Qdrant database appbinding reference. The AppBinding's URL is forwarded as the Qdrant HTTP endpoint (`url=`); the secret's `password` (or `api_key`) field is forwarded as the Qdrant API key (`api_key=`).",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS verification when probing the Qdrant HTTP endpoint. Not recommended in production.",
+          "type": "boolean"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for qdrant: qdrant-database-plugin",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.RabbitMQConfiguration": {
+      "description": "RabbitMQConfiguration defines a RabbitMQ app configuration. The OpenBao `rabbitmq-database-plugin` (sigilr/openbao#8) provisions credentials via the RabbitMQ Management HTTP API (using rabbit-hole/v3), so the connection payload uses `connection_url` (the RabbitMQ management HTTP base URL, e.g. `http://rabbitmq.demo.svc:15672`). Authentication is HTTP Basic Auth (username + password from the AppBinding secret). RabbitMQ is dynamic: NewUser/UpdateUser/DeleteUser are all supported. Revocation is the plugin's default DELETE /api/users/\u003cname\u003e (idempotent) so no `revocation_statements` field is exposed here. https://www.rabbitmq.com/access-control.html",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the RabbitMQ database appbinding reference. The AppBinding URL points at the RabbitMQ Management HTTP base URL (e.g. `http://rabbitmq.demo.svc:15672`); the secret contributes username/password used to authenticate against the management API when the plugin issues credential operations.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS verification when talking to the RabbitMQ management endpoint. Useful for self-signed development clusters; not recommended in production.",
+          "type": "boolean"
+        },
+        "passwordPolicy": {
+          "description": "PasswordPolicy is the optional name of a Vault password policy that generates dynamic credentials.",
+          "type": "string"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for rabbitmq: rabbitmq-database-plugin",
+          "type": "string"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.engine.v1alpha1.RedisConfiguration": {
       "description": "RedisConfiguration defines a Redis app configuration. https://www.vaultproject.io/api/secret/databases/index.html https://developer.hashicorp.com/vault/api-docs/secret/databases/redis#configure-connection",
       "type": "object",
@@ -14222,14 +14670,32 @@
         "azure": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureConfiguration"
         },
+        "db2": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DB2Configuration"
+        },
         "defaultLeaseTTL": {
           "type": "string"
+        },
+        "druid": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DruidConfiguration"
         },
         "elasticsearch": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.ElasticsearchConfiguration"
         },
         "gcp": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.GCPConfiguration"
+        },
+        "hanadb": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.HanaDBConfiguration"
+        },
+        "hazelcast": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.HazelcastConfiguration"
+        },
+        "ignite": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.IgniteConfiguration"
+        },
+        "kafka": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.KafkaConfiguration"
         },
         "kv": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.KVConfiguration"
@@ -14240,8 +14706,17 @@
         "maxLeaseTTL": {
           "type": "string"
         },
+        "memcached": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MemcachedConfiguration"
+        },
+        "milvus": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MilvusConfiguration"
+        },
         "mongodb": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MongoDBConfiguration"
+        },
+        "mssqlserver": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MSSQLServerConfiguration"
         },
         "mysql": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MySQLConfiguration"
@@ -14250,18 +14725,39 @@
           "description": "Namespace specifies the OpenBao namespace for this SecretEngine. Only applicable when using OpenBao distribution. If specified, overrides the namespace from VaultServer. Empty string means use VaultServer's namespace (or root if VaultServer has none). Supports hierarchical namespaces (e.g., \"tenant-1/project-a\").",
           "type": "string"
         },
+        "neo4j": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.Neo4jConfiguration"
+        },
+        "oracle": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.OracleConfiguration"
+        },
         "pki": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PKIConfiguration"
         },
         "postgres": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.PostgresConfiguration"
         },
+        "qdrant": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.QdrantConfiguration"
+        },
+        "rabbitmq": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.RabbitMQConfiguration"
+        },
         "redis": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.RedisConfiguration"
+        },
+        "solr": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.SolrConfiguration"
         },
         "vaultRef": {
           "default": {},
           "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.ObjectReference"
+        },
+        "weaviate": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.WeaviateConfiguration"
+        },
+        "zookeeper": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.ZooKeeperConfiguration"
         }
       }
     },
@@ -14409,6 +14905,96 @@
         },
         "policyRef": {
           "$ref": "#/definitions/xyz.kmodules.client-go.api.v1.ObjectReference"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.SolrConfiguration": {
+      "description": "SolrConfiguration defines an Apache Solr app configuration. The OpenBao `solr-database-plugin` (sigilr/openbao#11) provisions credentials via Solr's Security Plugin API (Basic Auth Plugin user payload uses `url` (Solr HTTP endpoint) rather than a connection_url. Solr is dynamic: NewUser/UpdateUser/DeleteUser are all supported. https://solr.apache.org/guide/solr/latest/deployment-guide/authentication-and-authorization-plugins.html",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the Solr database appbinding reference. The AppBinding URL points at the Solr HTTP endpoint (e.g. `http://solr.demo.svc:8983`); the secret contributes username/password used to authenticate against Solr's Security Plugin API.",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS verification when talking to the Solr HTTP endpoint. Useful for dev clusters with self-signed certificates; not recommended in production.",
+          "type": "boolean"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for solr: solr-database-plugin",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.WeaviateConfiguration": {
+      "description": "WeaviateConfiguration defines a Weaviate app configuration. The OpenBao `weaviate-database-plugin` is static-credentials-only: Weaviate loads its API keys from the `AUTHENTICATION_APIKEY_ALLOWED_KEYS` environment variable at server startup and exposes no runtime user-management API, so the plugin verifies the configured API key against the `/v1/.well-known/ready` endpoint (key sent as a Bearer token) and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/18",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the Weaviate database appbinding reference. The AppBinding's URL is forwarded as the Weaviate HTTP endpoint (`url=`); the secret's `password` field is forwarded as the Weaviate API key (`api_key=`).",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS verification when probing the Weaviate HTTP endpoint. Not recommended in production.",
+          "type": "boolean"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for weaviate: weaviate-database-plugin",
+          "type": "string"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.engine.v1alpha1.ZooKeeperConfiguration": {
+      "description": "ZooKeeperConfiguration defines an Apache ZooKeeper app configuration. The OpenBao `zookeeper-database-plugin` is static-credentials-only: ZooKeeper has no runtime user-management API for SASL/digest principals — they are loaded from server-side `jaas.conf` at startup — so the plugin opens a TCP connection and sends the 4-letter word `ruok` (a healthy node replies `imok`) to verify reachability and returns \"dynamic credentials are not supported\" for NewUser. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/21",
+      "type": "object",
+      "required": [
+        "databaseRef"
+      ],
+      "properties": {
+        "allowedRoles": {
+          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "databaseRef": {
+          "description": "Specifies the ZooKeeper database appbinding reference. The AppBinding's URL is forwarded as the ZooKeeper TCP endpoint (`url=`); the secret contributes Basic Auth credentials when present (forwarded for symmetry with other plugins; the `ruok` healthcheck does not authenticate).",
+          "default": {},
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "insecure": {
+          "description": "Insecure disables TLS verification when probing the ZooKeeper TCP endpoint. Not recommended in production.",
+          "type": "boolean"
+        },
+        "pluginName": {
+          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for zookeeper: zookeeper-database-plugin",
+          "type": "string"
         }
       }
     },

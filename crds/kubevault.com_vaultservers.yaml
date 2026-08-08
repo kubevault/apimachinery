@@ -10865,6 +10865,22 @@ spec:
                       - mariadb
                       - elasticsearch
                       - redis
+                      - db2
+                      - druid
+                      - hanadb
+                      - hazelcast
+                      - ignite
+                      - kafka
+                      - memcached
+                      - milvus
+                      - mssqlserver
+                      - neo4j
+                      - oracle
+                      - qdrant
+                      - rabbitmq
+                      - solr
+                      - weaviate
+                      - zookeeper
                       type: string
                     type: array
                 type: object

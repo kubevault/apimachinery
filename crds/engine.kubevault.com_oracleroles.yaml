@@ -110,7 +110,7 @@ spec:
           status:
             properties:
               conditions:
-                description: Represents the latest available observations of a OracleRole
+                description: Represents the latest available observations of a role's
                   current state.
                 items:
                   description: Condition defines an observation of a object operational
@@ -164,8 +164,8 @@ spec:
                 type: array
               observedGeneration:
                 description: |-
-                  ObservedGeneration is the most recent generation observed for this OracleRole. It corresponds to the
-                  OracleRole's generation, which is updated on mutation by the API Server.
+                  ObservedGeneration is the most recent generation observed for this role. It corresponds to the
+                  roles's generation, which is updated on mutation by the API Server.
                 format: int64
                 type: integer
               phase:

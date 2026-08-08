@@ -31,17 +31,33 @@ type EngineV1alpha1Interface interface {
 	RESTClient() rest.Interface
 	AWSRolesGetter
 	AzureRolesGetter
+	DB2RolesGetter
+	DruidRolesGetter
 	ElasticsearchRolesGetter
 	GCPRolesGetter
+	HanaDBRolesGetter
+	HazelcastRolesGetter
+	IgniteRolesGetter
+	KafkaRolesGetter
+	MSSQLServerRolesGetter
 	MariaDBRolesGetter
+	MemcachedRolesGetter
+	MilvusRolesGetter
 	MongoDBRolesGetter
 	MySQLRolesGetter
+	Neo4jRolesGetter
+	OracleRolesGetter
 	PKIRolesGetter
 	PostgresRolesGetter
+	QdrantRolesGetter
+	RabbitMQRolesGetter
 	RedisRolesGetter
 	SecretAccessRequestsGetter
 	SecretEnginesGetter
 	SecretRoleBindingsGetter
+	SolrRolesGetter
+	WeaviateRolesGetter
+	ZooKeeperRolesGetter
 }
 
 // EngineV1alpha1Client is used to interact with features provided by the engine.kubevault.com group.
@@ -57,6 +73,14 @@ func (c *EngineV1alpha1Client) AzureRoles(namespace string) AzureRoleInterface {
 	return newAzureRoles(c, namespace)
 }
 
+func (c *EngineV1alpha1Client) DB2Roles(namespace string) DB2RoleInterface {
+	return newDB2Roles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) DruidRoles(namespace string) DruidRoleInterface {
+	return newDruidRoles(c, namespace)
+}
+
 func (c *EngineV1alpha1Client) ElasticsearchRoles(namespace string) ElasticsearchRoleInterface {
 	return newElasticsearchRoles(c, namespace)
 }
@@ -65,8 +89,36 @@ func (c *EngineV1alpha1Client) GCPRoles(namespace string) GCPRoleInterface {
 	return newGCPRoles(c, namespace)
 }
 
+func (c *EngineV1alpha1Client) HanaDBRoles(namespace string) HanaDBRoleInterface {
+	return newHanaDBRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) HazelcastRoles(namespace string) HazelcastRoleInterface {
+	return newHazelcastRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) IgniteRoles(namespace string) IgniteRoleInterface {
+	return newIgniteRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) KafkaRoles(namespace string) KafkaRoleInterface {
+	return newKafkaRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) MSSQLServerRoles(namespace string) MSSQLServerRoleInterface {
+	return newMSSQLServerRoles(c, namespace)
+}
+
 func (c *EngineV1alpha1Client) MariaDBRoles(namespace string) MariaDBRoleInterface {
 	return newMariaDBRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) MemcachedRoles(namespace string) MemcachedRoleInterface {
+	return newMemcachedRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) MilvusRoles(namespace string) MilvusRoleInterface {
+	return newMilvusRoles(c, namespace)
 }
 
 func (c *EngineV1alpha1Client) MongoDBRoles(namespace string) MongoDBRoleInterface {
@@ -77,12 +129,28 @@ func (c *EngineV1alpha1Client) MySQLRoles(namespace string) MySQLRoleInterface {
 	return newMySQLRoles(c, namespace)
 }
 
+func (c *EngineV1alpha1Client) Neo4jRoles(namespace string) Neo4jRoleInterface {
+	return newNeo4jRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) OracleRoles(namespace string) OracleRoleInterface {
+	return newOracleRoles(c, namespace)
+}
+
 func (c *EngineV1alpha1Client) PKIRoles(namespace string) PKIRoleInterface {
 	return newPKIRoles(c, namespace)
 }
 
 func (c *EngineV1alpha1Client) PostgresRoles(namespace string) PostgresRoleInterface {
 	return newPostgresRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) QdrantRoles(namespace string) QdrantRoleInterface {
+	return newQdrantRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) RabbitMQRoles(namespace string) RabbitMQRoleInterface {
+	return newRabbitMQRoles(c, namespace)
 }
 
 func (c *EngineV1alpha1Client) RedisRoles(namespace string) RedisRoleInterface {
@@ -99,6 +167,18 @@ func (c *EngineV1alpha1Client) SecretEngines(namespace string) SecretEngineInter
 
 func (c *EngineV1alpha1Client) SecretRoleBindings(namespace string) SecretRoleBindingInterface {
 	return newSecretRoleBindings(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) SolrRoles(namespace string) SolrRoleInterface {
+	return newSolrRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) WeaviateRoles(namespace string) WeaviateRoleInterface {
+	return newWeaviateRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) ZooKeeperRoles(namespace string) ZooKeeperRoleInterface {
+	return newZooKeeperRoles(c, namespace)
 }
 
 // NewForConfig creates a new EngineV1alpha1Client for the given config.

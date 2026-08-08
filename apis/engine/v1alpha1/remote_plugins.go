@@ -28,7 +28,6 @@ const (
 	RemoteRedisDatabasePlugin       = "remote-redis-plugin"
 	RemoteValkeyDatabasePlugin      = "remote-valkey-plugin"
 	RemoteDB2DatabasePlugin         = "remote-db2-plugin"
-	RemoteDocumentDBDatabasePlugin  = "remote-documentdb-plugin"
 	RemoteDruidDatabasePlugin       = "remote-druid-plugin"
 	RemoteHanaDBDatabasePlugin      = "remote-hana-plugin"
 	RemoteHazelcastDatabasePlugin   = "remote-hazelcast-plugin"
@@ -53,19 +52,8 @@ const (
 // local plugin name into a hub mount.
 func RemoteDatabasePlugin(engineKind string) (string, error) {
 	switch engineKind {
-	case "postgres":
-		return RemotePostgresDatabasePlugin, nil
-	case "mysql", "mariadb":
-		// MariaDB uses the MySQL plugin locally and remotely.
-		return RemoteMySQLDatabasePlugin, nil
-	case "redis":
-		return RemoteRedisDatabasePlugin, nil
-	case "valkey":
-		return RemoteValkeyDatabasePlugin, nil
 	case "db2":
 		return RemoteDB2DatabasePlugin, nil
-	case "documentdb":
-		return RemoteDocumentDBDatabasePlugin, nil
 	case "druid":
 		return RemoteDruidDatabasePlugin, nil
 	case "hanadb":
@@ -76,6 +64,9 @@ func RemoteDatabasePlugin(engineKind string) (string, error) {
 		return RemoteIgniteDatabasePlugin, nil
 	case "kafka":
 		return RemoteKafkaDatabasePlugin, nil
+	case "mariadb", "mysql":
+		// MariaDB uses the MySQL plugin locally and remotely.
+		return RemoteMySQLDatabasePlugin, nil
 	case "memcached":
 		return RemoteMemcachedDatabasePlugin, nil
 	case "milvus":
@@ -86,17 +77,23 @@ func RemoteDatabasePlugin(engineKind string) (string, error) {
 		return RemoteNeo4jDatabasePlugin, nil
 	case "oracle":
 		return RemoteOracleDatabasePlugin, nil
+	case "postgres":
+		return RemotePostgresDatabasePlugin, nil
 	case "qdrant":
 		return RemoteQdrantDatabasePlugin, nil
 	case "rabbitmq":
 		return RemoteRabbitMQDatabasePlugin, nil
+	case "redis":
+		return RemoteRedisDatabasePlugin, nil
 	case "solr":
 		return RemoteSolrDatabasePlugin, nil
+	case "valkey":
+		return RemoteValkeyDatabasePlugin, nil
 	case "weaviate":
 		return RemoteWeaviateDatabasePlugin, nil
 	case "zookeeper":
 		return RemoteZooKeeperDatabasePlugin, nil
 	default:
-		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: postgres, mysql, mariadb, redis, valkey, db2, documentdb, druid, hanadb, hazelcast, ignite, kafka, memcached, milvus, mssqlserver, neo4j, oracle, qdrant, rabbitmq, solr, weaviate, zookeeper", engineKind)
+		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: db2, druid, hanadb, hazelcast, ignite, kafka, mariadb, memcached, milvus, mssqlserver, mysql, neo4j, oracle, postgres, qdrant, rabbitmq, redis, solr, valkey, weaviate, zookeeper", engineKind)
 	}
 }

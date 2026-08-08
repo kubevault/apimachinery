@@ -67,20 +67,46 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().AWSRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("azureroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().AzureRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("db2roles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().DB2Roles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("druidroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().DruidRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("elasticsearchroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().ElasticsearchRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("gcproles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().GCPRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("hanadbroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().HanaDBRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("hazelcastroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().HazelcastRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("igniteroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().IgniteRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("kafkaroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().KafkaRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("mssqlserverroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MSSQLServerRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("mariadbroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MariaDBRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("memcachedroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MemcachedRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("milvusroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MilvusRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("mongodbroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MongoDBRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("mysqlroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MySQLRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("neo4jroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().Neo4jRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("oracleroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().OracleRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("pkiroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().PKIRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("postgresroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().PostgresRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("qdrantroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().QdrantRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("rabbitmqroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().RabbitMQRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("redisroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().RedisRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("secretaccessrequests"):
@@ -89,6 +115,12 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().SecretEngines().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("secretrolebindings"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().SecretRoleBindings().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("solrroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().SolrRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("weaviateroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().WeaviateRoles().Informer()}, nil
+	case enginev1alpha1.SchemeGroupVersion.WithResource("zookeeperroles"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().ZooKeeperRoles().Informer()}, nil
 
 		// Group=kubevault.com, Version=v1alpha1
 	case kubevaultv1alpha1.SchemeGroupVersion.WithResource("vaultservers"):

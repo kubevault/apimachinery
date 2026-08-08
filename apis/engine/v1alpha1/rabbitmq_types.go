@@ -89,20 +89,27 @@ type RabbitMQRoleList struct {
 // RabbitMQConfiguration defines a RabbitMQ app configuration. The
 // OpenBao `rabbitmq-database-plugin` (sigilr/openbao#8) provisions
 // credentials via the RabbitMQ Management HTTP API (using
-// rabbit-hole/v3), so the connection payload uses `connection_url`
+// rabbit-hole/v3), so the connection payload uses `connection_uri`
 // (the RabbitMQ management HTTP base URL, e.g.
 // `http://rabbitmq.demo.svc:15672`). Authentication is HTTP Basic Auth
 // (username + password from the AppBinding secret). RabbitMQ is
 // dynamic: NewUser/UpdateUser/DeleteUser are all supported. Revocation
 // is the plugin's default DELETE /api/users/<name> (idempotent) so no
 // `revocation_statements` field is exposed here.
+//
+// TLS: if the referenced AppBinding's `spec.clientConfig.caBundle` is
+// set, its PEM content is forwarded as the plugin's `tls_ca` (server
+// certificate verification). `ClientCert`/`ClientKey` are optional and
+// enable mutual TLS against the management API.
 // https://www.rabbitmq.com/access-control.html
 type RabbitMQConfiguration struct {
 	// Specifies the RabbitMQ database appbinding reference. The
 	// AppBinding URL points at the RabbitMQ Management HTTP base URL
 	// (e.g. `http://rabbitmq.demo.svc:15672`); the secret contributes
 	// username/password used to authenticate against the management
-	// API when the plugin issues credential operations.
+	// API when the plugin issues credential operations. If
+	// `spec.clientConfig.caBundle` is set, its PEM content is used to
+	// verify the management API's server certificate.
 	DatabaseRef appcat.AppReference `json:"databaseRef"`
 
 	// Specifies the name of the plugin to use for this connection.
@@ -120,6 +127,17 @@ type RabbitMQConfiguration struct {
 	// generates dynamic credentials.
 	// +optional
 	PasswordPolicy string `json:"passwordPolicy,omitempty"`
+
+	// ClientCert is a PEM-encoded client certificate (not a file path)
+	// presented to the RabbitMQ management API for mutual TLS.
+	// Requires ClientKey to also be set.
+	// +optional
+	ClientCert string `json:"clientCert,omitempty"`
+
+	// ClientKey is the PEM-encoded private key (not a file path)
+	// corresponding to ClientCert.
+	// +optional
+	ClientKey string `json:"clientKey,omitempty"`
 
 	// Insecure disables TLS verification when talking to the RabbitMQ
 	// management endpoint. Useful for self-signed development

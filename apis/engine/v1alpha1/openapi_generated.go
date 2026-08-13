@@ -28479,12 +28479,12 @@ func schema_apimachinery_apis_engine_v1alpha1_RabbitMQConfiguration(ref common.R
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "RabbitMQConfiguration defines a RabbitMQ app configuration. The OpenBao `rabbitmq-database-plugin` (sigilr/openbao#8) provisions credentials via the RabbitMQ Management HTTP API (using rabbit-hole/v3), so the connection payload uses `connection_uri` (the RabbitMQ management HTTP base URL, e.g. `http://rabbitmq.demo.svc:15672`). Authentication is HTTP Basic Auth (username + password from the AppBinding secret). RabbitMQ is dynamic: NewUser/UpdateUser/DeleteUser are all supported. Revocation is the plugin's default DELETE /api/users/<name> (idempotent) so no `revocation_statements` field is exposed here.\n\nTLS: if the referenced AppBinding's `spec.clientConfig.caBundle` is set, its PEM content is forwarded as the plugin's `tls_ca` (server certificate verification). `ClientCert`/`ClientKey` are optional and enable mutual TLS against the management API. https://www.rabbitmq.com/access-control.html",
+				Description: "RabbitMQConfiguration defines a RabbitMQ app configuration.",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"databaseRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the RabbitMQ database appbinding reference. The AppBinding URL points at the RabbitMQ Management HTTP base URL (e.g. `http://rabbitmq.demo.svc:15672`); the secret contributes username/password used to authenticate against the management API when the plugin issues credential operations. If `spec.clientConfig.caBundle` is set, its PEM content is used to verify the management API's server certificate.",
+							Description: "Specifies the primary RabbitMQ database AppBinding reference.",
 							Default:     map[string]interface{}{},
 							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
 						},
@@ -28509,34 +28509,6 @@ func schema_apimachinery_apis_engine_v1alpha1_RabbitMQConfiguration(ref common.R
 									},
 								},
 							},
-						},
-					},
-					"passwordPolicy": {
-						SchemaProps: spec.SchemaProps{
-							Description: "PasswordPolicy is the optional name of a Vault password policy that generates dynamic credentials.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"clientCert": {
-						SchemaProps: spec.SchemaProps{
-							Description: "ClientCert is a PEM-encoded client certificate (not a file path) presented to the RabbitMQ management API for mutual TLS. Requires ClientKey to also be set.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"clientKey": {
-						SchemaProps: spec.SchemaProps{
-							Description: "ClientKey is the PEM-encoded private key (not a file path) corresponding to ClientCert.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when talking to the RabbitMQ management endpoint. Useful for self-signed development clusters; not recommended in production.",
-							Type:        []string{"boolean"},
-							Format:      "",
 						},
 					},
 				},

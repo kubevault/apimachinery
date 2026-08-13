@@ -752,6 +752,21 @@ type RedisConfiguration struct {
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
 }
 
+// RabbitMQConfiguration defines a RabbitMQ app configuration.
+type RabbitMQConfiguration struct {
+	// Specifies the primary RabbitMQ database AppBinding reference.
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for rabbitmq: rabbitmq-database-plugin
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+}
+
 // MySQLConfiguration defines a MySQL app configuration.
 // https://www.vaultproject.io/api/secret/databases/index.html
 // https://www.vaultproject.io/api/secret/databases/mysql-maria.html#configure-connection

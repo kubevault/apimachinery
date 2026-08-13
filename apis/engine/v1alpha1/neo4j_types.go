@@ -113,11 +113,4 @@ type Neo4jConfiguration struct {
 	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
 	// +optional
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
-
-	// Insecure disables TLS verification when talking to Neo4j. Useful
-	// for the Neo4j Docker quickstart which ships with a self-signed
-	// certificate; not recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }

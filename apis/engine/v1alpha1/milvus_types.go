@@ -113,11 +113,4 @@ type MilvusConfiguration struct {
 	// DBName is forwarded as the dbName request header on every API call.
 	// +optional
 	DBName string `json:"dbName,omitempty"`
-
-	// Insecure disables TLS verification when talking to Milvus. Useful
-	// for the Milvus standalone quickstart which ships with a self-signed
-	// certificate; not recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }

@@ -19,7 +19,6 @@ package v1alpha1
 import (
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	appcat "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1"
 )
 
 const (
@@ -84,65 +83,4 @@ type RabbitMQRoleList struct {
 
 	// Items is a list of RabbitMQRole objects
 	Items []RabbitMQRole `json:"items,omitempty"`
-}
-
-// RabbitMQConfiguration defines a RabbitMQ app configuration. The
-// OpenBao `rabbitmq-database-plugin` (sigilr/openbao#8) provisions
-// credentials via the RabbitMQ Management HTTP API (using
-// rabbit-hole/v3), so the connection payload uses `connection_uri`
-// (the RabbitMQ management HTTP base URL, e.g.
-// `http://rabbitmq.demo.svc:15672`). Authentication is HTTP Basic Auth
-// (username + password from the AppBinding secret). RabbitMQ is
-// dynamic: NewUser/UpdateUser/DeleteUser are all supported. Revocation
-// is the plugin's default DELETE /api/users/<name> (idempotent) so no
-// `revocation_statements` field is exposed here.
-//
-// TLS: if the referenced AppBinding's `spec.clientConfig.caBundle` is
-// set, its PEM content is forwarded as the plugin's `tls_ca` (server
-// certificate verification). `ClientCert`/`ClientKey` are optional and
-// enable mutual TLS against the management API.
-// https://www.rabbitmq.com/access-control.html
-type RabbitMQConfiguration struct {
-	// Specifies the RabbitMQ database appbinding reference. The
-	// AppBinding URL points at the RabbitMQ Management HTTP base URL
-	// (e.g. `http://rabbitmq.demo.svc:15672`); the secret contributes
-	// username/password used to authenticate against the management
-	// API when the plugin issues credential operations. If
-	// `spec.clientConfig.caBundle` is set, its PEM content is used to
-	// verify the management API's server certificate.
-	DatabaseRef appcat.AppReference `json:"databaseRef"`
-
-	// Specifies the name of the plugin to use for this connection.
-	// Default plugin:
-	//  - for rabbitmq: rabbitmq-database-plugin
-	// +optional
-	PluginName string `json:"pluginName,omitempty"`
-
-	// List of the roles allowed to use this connection.
-	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
-	// +optional
-	AllowedRoles []string `json:"allowedRoles,omitempty"`
-
-	// PasswordPolicy is the optional name of a Vault password policy that
-	// generates dynamic credentials.
-	// +optional
-	PasswordPolicy string `json:"passwordPolicy,omitempty"`
-
-	// ClientCert is a PEM-encoded client certificate (not a file path)
-	// presented to the RabbitMQ management API for mutual TLS.
-	// Requires ClientKey to also be set.
-	// +optional
-	ClientCert string `json:"clientCert,omitempty"`
-
-	// ClientKey is the PEM-encoded private key (not a file path)
-	// corresponding to ClientCert.
-	// +optional
-	ClientKey string `json:"clientKey,omitempty"`
-
-	// Insecure disables TLS verification when talking to the RabbitMQ
-	// management endpoint. Useful for self-signed development
-	// clusters; not recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }

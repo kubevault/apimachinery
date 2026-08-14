@@ -128,12 +128,6 @@ type DB2Configuration struct {
 	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
 	// +optional
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
-
-	// Insecure disables TLS verification when talking to the Db2 REST
-	// endpoint. Not recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }
 
 // DruidConfiguration defines an Apache Druid app configuration. The
@@ -173,13 +167,6 @@ type DruidConfiguration struct {
 	// referenced by creationStatements. Defaults to MyBasicMetadataAuthorizer.
 	// +optional
 	Authorizer string `json:"authorizer,omitempty"`
-
-	// Insecure disables TLS verification when talking to the Druid
-	// coordinator. Useful for the Druid Quick Start which ships with
-	// a self-signed certificate; not recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }
 
 // HanaDBConfiguration defines a SAP HANA app configuration. The OpenBao
@@ -246,12 +233,6 @@ type HazelcastConfiguration struct {
 	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
 	// +optional
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
-
-	// Insecure disables TLS verification when talking to the Hazelcast
-	// member health endpoint. Not recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }
 
 // IgniteConfiguration defines an Apache Ignite app configuration. The OpenBao
@@ -278,11 +259,6 @@ type IgniteConfiguration struct {
 	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
 	// +optional
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
-
-	// Insecure skips TLS verification when calling the Ignite REST endpoint.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }
 
 // KafkaConfiguration defines an Apache Kafka app configuration. The
@@ -316,17 +292,6 @@ type KafkaConfiguration struct {
 	// by the plugin.
 	// +optional
 	Mechanism string `json:"mechanism,omitempty"`
-
-	// UseTLS dials the brokers over TLS.
-	// +optional
-	UseTLS bool `json:"useTLS,omitempty"`
-
-	// Insecure disables TLS certificate verification when UseTLS is true.
-	// Useful for clusters fronted by self-signed certificates; not
-	// recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }
 
 // MemcachedConfiguration defines a Memcached app configuration. The
@@ -354,12 +319,6 @@ type MemcachedConfiguration struct {
 	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
 	// +optional
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
-
-	// Insecure disables TLS verification when probing the Memcached
-	// TCP endpoint. Not recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }
 
 // MSSQLServerConfiguration defines a Microsoft SQL Server app
@@ -473,12 +432,6 @@ type QdrantConfiguration struct {
 	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
 	// +optional
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
-
-	// Insecure disables TLS verification when probing the Qdrant
-	// HTTP endpoint. Not recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }
 
 // SolrConfiguration defines an Apache Solr app configuration. The
@@ -507,13 +460,6 @@ type SolrConfiguration struct {
 	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
 	// +optional
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
-
-	// Insecure disables TLS verification when talking to the Solr
-	// HTTP endpoint. Useful for dev clusters with self-signed
-	// certificates; not recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }
 
 // WeaviateConfiguration defines a Weaviate app configuration. The OpenBao
@@ -542,12 +488,6 @@ type WeaviateConfiguration struct {
 	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
 	// +optional
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
-
-	// Insecure disables TLS verification when probing the Weaviate
-	// HTTP endpoint. Not recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }
 
 // ZooKeeperConfiguration defines an Apache ZooKeeper app configuration.
@@ -577,12 +517,6 @@ type ZooKeeperConfiguration struct {
 	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
 	// +optional
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
-
-	// Insecure disables TLS verification when probing the ZooKeeper
-	// TCP endpoint. Not recommended in production.
-	// +kubebuilder:default:=false
-	// +optional
-	Insecure bool `json:"insecure,omitempty"`
 }
 
 // https://developer.hashicorp.com/vault/api-docs/secret/pki#generate-root
@@ -752,6 +686,21 @@ type RedisConfiguration struct {
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
 }
 
+// RabbitMQConfiguration defines a RabbitMQ app configuration.
+type RabbitMQConfiguration struct {
+	// Specifies the primary RabbitMQ database AppBinding reference.
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for rabbitmq: rabbitmq-database-plugin
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
+}
+
 // MySQLConfiguration defines a MySQL app configuration.
 // https://www.vaultproject.io/api/secret/databases/index.html
 // https://www.vaultproject.io/api/secret/databases/mysql-maria.html#configure-connection
@@ -846,25 +795,6 @@ type ElasticsearchConfiguration struct {
 	// Default plugin:
 	//  - for elasticsearch: elasticsearch-database-plugin
 	PluginName string `json:"pluginName,omitempty"`
-
-	// The path to a PEM-encoded CA cert file to use to verify the Elasticsearch server's identity.
-	CACert string `json:"caCert,omitempty"`
-
-	// The path to a directory of PEM-encoded CA cert files to use to verify the Elasticsearch server's identity.
-	CAPath string `json:"caPath,omitempty"`
-
-	// The path to the certificate for the Elasticsearch client to present for communication.
-	ClientCert string `json:"clientCert,omitempty"`
-
-	// The path to the key for the Elasticsearch client to use for communication.
-	ClientKey string `json:"clientKey,omitempty"`
-
-	// This, if set, is used to set the SNI host when connecting via 1TLS.
-	TLSServerName string `json:"tlsServerName,omitempty"`
-
-	// Not recommended. Default to false. Can be set to true to disable SSL verification.
-	// +kubebuilder:default:=false
-	Insecure bool `json:"insecure,omitempty"`
 }
 
 type SecretEnginePhase string

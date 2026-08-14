@@ -24130,13 +24130,6 @@ func schema_apimachinery_apis_engine_v1alpha1_DB2Configuration(ref common.Refere
 							},
 						},
 					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when talking to the Db2 REST endpoint. Not recommended in production.",
-							Type:        []string{"boolean"},
-							Format:      "",
-						},
-					},
 				},
 				Required: []string{"databaseRef"},
 			},
@@ -24324,13 +24317,6 @@ func schema_apimachinery_apis_engine_v1alpha1_DruidConfiguration(ref common.Refe
 						SchemaProps: spec.SchemaProps{
 							Description: "Authorizer is the Druid BasicSecurity authorizer that holds the roles referenced by creationStatements. Defaults to MyBasicMetadataAuthorizer.",
 							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when talking to the Druid coordinator. Useful for the Druid Quick Start which ships with a self-signed certificate; not recommended in production.",
-							Type:        []string{"boolean"},
 							Format:      "",
 						},
 					},
@@ -24522,48 +24508,6 @@ func schema_apimachinery_apis_engine_v1alpha1_ElasticsearchConfiguration(ref com
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the name of the plugin to use for this connection. Default plugin:\n - for elasticsearch: elasticsearch-database-plugin",
 							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"caCert": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The path to a PEM-encoded CA cert file to use to verify the Elasticsearch server's identity.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"caPath": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The path to a directory of PEM-encoded CA cert files to use to verify the Elasticsearch server's identity.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"clientCert": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The path to the certificate for the Elasticsearch client to present for communication.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"clientKey": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The path to the key for the Elasticsearch client to use for communication.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"tlsServerName": {
-						SchemaProps: spec.SchemaProps{
-							Description: "This, if set, is used to set the SNI host when connecting via 1TLS.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Not recommended. Default to false. Can be set to true to disable SSL verification.",
-							Type:        []string{"boolean"},
 							Format:      "",
 						},
 					},
@@ -25256,13 +25200,6 @@ func schema_apimachinery_apis_engine_v1alpha1_HazelcastConfiguration(ref common.
 							},
 						},
 					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when talking to the Hazelcast member health endpoint. Not recommended in production.",
-							Type:        []string{"boolean"},
-							Format:      "",
-						},
-					},
 				},
 				Required: []string{"databaseRef"},
 			},
@@ -25437,13 +25374,6 @@ func schema_apimachinery_apis_engine_v1alpha1_IgniteConfiguration(ref common.Ref
 									},
 								},
 							},
-						},
-					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure skips TLS verification when calling the Ignite REST endpoint.",
-							Type:        []string{"boolean"},
-							Format:      "",
 						},
 					},
 				},
@@ -25712,20 +25642,6 @@ func schema_apimachinery_apis_engine_v1alpha1_KafkaConfiguration(ref common.Refe
 						SchemaProps: spec.SchemaProps{
 							Description: "Mechanism is the SASL mechanism written into the Kafka SCRAM record. Valid values: SCRAM-SHA-256 (default), SCRAM-SHA-512. PLAIN is rejected by the plugin.",
 							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"useTLS": {
-						SchemaProps: spec.SchemaProps{
-							Description: "UseTLS dials the brokers over TLS.",
-							Type:        []string{"boolean"},
-							Format:      "",
-						},
-					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS certificate verification when UseTLS is true. Useful for clusters fronted by self-signed certificates; not recommended in production.",
-							Type:        []string{"boolean"},
 							Format:      "",
 						},
 					},
@@ -26461,13 +26377,6 @@ func schema_apimachinery_apis_engine_v1alpha1_MemcachedConfiguration(ref common.
 							},
 						},
 					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when probing the Memcached TCP endpoint. Not recommended in production.",
-							Type:        []string{"boolean"},
-							Format:      "",
-						},
-					},
 				},
 				Required: []string{"databaseRef"},
 			},
@@ -26648,13 +26557,6 @@ func schema_apimachinery_apis_engine_v1alpha1_MilvusConfiguration(ref common.Ref
 						SchemaProps: spec.SchemaProps{
 							Description: "DBName is forwarded as the dbName request header on every API call.",
 							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when talking to Milvus. Useful for the Milvus standalone quickstart which ships with a self-signed certificate; not recommended in production.",
-							Type:        []string{"boolean"},
 							Format:      "",
 						},
 					},
@@ -27287,13 +27189,6 @@ func schema_apimachinery_apis_engine_v1alpha1_Neo4jConfiguration(ref common.Refe
 									},
 								},
 							},
-						},
-					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when talking to Neo4j. Useful for the Neo4j Docker quickstart which ships with a self-signed certificate; not recommended in production.",
-							Type:        []string{"boolean"},
-							Format:      "",
 						},
 					},
 				},
@@ -28328,13 +28223,6 @@ func schema_apimachinery_apis_engine_v1alpha1_QdrantConfiguration(ref common.Ref
 							},
 						},
 					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when probing the Qdrant HTTP endpoint. Not recommended in production.",
-							Type:        []string{"boolean"},
-							Format:      "",
-						},
-					},
 				},
 				Required: []string{"databaseRef"},
 			},
@@ -28479,12 +28367,12 @@ func schema_apimachinery_apis_engine_v1alpha1_RabbitMQConfiguration(ref common.R
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "RabbitMQConfiguration defines a RabbitMQ app configuration. The OpenBao `rabbitmq-database-plugin` (sigilr/openbao#8) provisions credentials via the RabbitMQ Management HTTP API (using rabbit-hole/v3), so the connection payload uses `connection_uri` (the RabbitMQ management HTTP base URL, e.g. `http://rabbitmq.demo.svc:15672`). Authentication is HTTP Basic Auth (username + password from the AppBinding secret). RabbitMQ is dynamic: NewUser/UpdateUser/DeleteUser are all supported. Revocation is the plugin's default DELETE /api/users/<name> (idempotent) so no `revocation_statements` field is exposed here.\n\nTLS: if the referenced AppBinding's `spec.clientConfig.caBundle` is set, its PEM content is forwarded as the plugin's `tls_ca` (server certificate verification). `ClientCert`/`ClientKey` are optional and enable mutual TLS against the management API. https://www.rabbitmq.com/access-control.html",
+				Description: "RabbitMQConfiguration defines a RabbitMQ app configuration.",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"databaseRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the RabbitMQ database appbinding reference. The AppBinding URL points at the RabbitMQ Management HTTP base URL (e.g. `http://rabbitmq.demo.svc:15672`); the secret contributes username/password used to authenticate against the management API when the plugin issues credential operations. If `spec.clientConfig.caBundle` is set, its PEM content is used to verify the management API's server certificate.",
+							Description: "Specifies the primary RabbitMQ database AppBinding reference.",
 							Default:     map[string]interface{}{},
 							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
 						},
@@ -28509,34 +28397,6 @@ func schema_apimachinery_apis_engine_v1alpha1_RabbitMQConfiguration(ref common.R
 									},
 								},
 							},
-						},
-					},
-					"passwordPolicy": {
-						SchemaProps: spec.SchemaProps{
-							Description: "PasswordPolicy is the optional name of a Vault password policy that generates dynamic credentials.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"clientCert": {
-						SchemaProps: spec.SchemaProps{
-							Description: "ClientCert is a PEM-encoded client certificate (not a file path) presented to the RabbitMQ management API for mutual TLS. Requires ClientKey to also be set.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"clientKey": {
-						SchemaProps: spec.SchemaProps{
-							Description: "ClientKey is the PEM-encoded private key (not a file path) corresponding to ClientCert.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when talking to the RabbitMQ management endpoint. Useful for self-signed development clusters; not recommended in production.",
-							Type:        []string{"boolean"},
-							Format:      "",
 						},
 					},
 				},
@@ -29882,13 +29742,6 @@ func schema_apimachinery_apis_engine_v1alpha1_SolrConfiguration(ref common.Refer
 							},
 						},
 					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when talking to the Solr HTTP endpoint. Useful for dev clusters with self-signed certificates; not recommended in production.",
-							Type:        []string{"boolean"},
-							Format:      "",
-						},
-					},
 				},
 				Required: []string{"databaseRef"},
 			},
@@ -30080,13 +29933,6 @@ func schema_apimachinery_apis_engine_v1alpha1_WeaviateConfiguration(ref common.R
 							},
 						},
 					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when probing the Weaviate HTTP endpoint. Not recommended in production.",
-							Type:        []string{"boolean"},
-							Format:      "",
-						},
-					},
 				},
 				Required: []string{"databaseRef"},
 			},
@@ -30261,13 +30107,6 @@ func schema_apimachinery_apis_engine_v1alpha1_ZooKeeperConfiguration(ref common.
 									},
 								},
 							},
-						},
-					},
-					"insecure": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Insecure disables TLS verification when probing the ZooKeeper TCP endpoint. Not recommended in production.",
-							Type:        []string{"boolean"},
-							Format:      "",
 						},
 					},
 				},

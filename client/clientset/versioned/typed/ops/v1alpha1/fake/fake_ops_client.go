@@ -30,7 +30,7 @@ type FakeOpsV1alpha1 struct {
 }
 
 func (c *FakeOpsV1alpha1) VaultOpsRequests(namespace string) v1alpha1.VaultOpsRequestInterface {
-	return &FakeVaultOpsRequests{c, namespace}
+	return newFakeVaultOpsRequests(c, namespace)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

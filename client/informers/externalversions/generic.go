@@ -19,7 +19,7 @@ limitations under the License.
 package externalversions
 
 import (
-	"fmt"
+	fmt "fmt"
 
 	v1alpha1 "kubevault.dev/apimachinery/apis/catalog/v1alpha1"
 	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"

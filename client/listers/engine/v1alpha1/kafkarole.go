@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // KafkaRoleLister helps list KafkaRoles.
@@ -31,7 +31,7 @@ import (
 type KafkaRoleLister interface {
 	// List lists all KafkaRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.KafkaRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.KafkaRole, err error)
 	// KafkaRoles returns an object that can list and get KafkaRoles.
 	KafkaRoles(namespace string) KafkaRoleNamespaceLister
 	KafkaRoleListerExpansion
@@ -39,25 +39,17 @@ type KafkaRoleLister interface {
 
 // kafkaRoleLister implements the KafkaRoleLister interface.
 type kafkaRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.KafkaRole]
 }
 
 // NewKafkaRoleLister returns a new KafkaRoleLister.
 func NewKafkaRoleLister(indexer cache.Indexer) KafkaRoleLister {
-	return &kafkaRoleLister{indexer: indexer}
-}
-
-// List lists all KafkaRoles in the indexer.
-func (s *kafkaRoleLister) List(selector labels.Selector) (ret []*v1alpha1.KafkaRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.KafkaRole))
-	})
-	return ret, err
+	return &kafkaRoleLister{listers.New[*enginev1alpha1.KafkaRole](indexer, enginev1alpha1.Resource("kafkarole"))}
 }
 
 // KafkaRoles returns an object that can list and get KafkaRoles.
 func (s *kafkaRoleLister) KafkaRoles(namespace string) KafkaRoleNamespaceLister {
-	return kafkaRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return kafkaRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.KafkaRole](s.ResourceIndexer, namespace)}
 }
 
 // KafkaRoleNamespaceLister helps list and get KafkaRoles.
@@ -65,36 +57,15 @@ func (s *kafkaRoleLister) KafkaRoles(namespace string) KafkaRoleNamespaceLister 
 type KafkaRoleNamespaceLister interface {
 	// List lists all KafkaRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.KafkaRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.KafkaRole, err error)
 	// Get retrieves the KafkaRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.KafkaRole, error)
+	Get(name string) (*enginev1alpha1.KafkaRole, error)
 	KafkaRoleNamespaceListerExpansion
 }
 
 // kafkaRoleNamespaceLister implements the KafkaRoleNamespaceLister
 // interface.
 type kafkaRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all KafkaRoles in the indexer for a given namespace.
-func (s kafkaRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.KafkaRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.KafkaRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the KafkaRole from the indexer for a given namespace and name.
-func (s kafkaRoleNamespaceLister) Get(name string) (*v1alpha1.KafkaRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("kafkarole"), name)
-	}
-	return obj.(*v1alpha1.KafkaRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.KafkaRole]
 }

@@ -19,16 +19,15 @@ limitations under the License.
 package v1alpha2
 
 import (
-	"context"
-	"time"
+	context "context"
 
-	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+	kubevaultv1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 	scheme "kubevault.dev/apimachinery/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
-	rest "k8s.io/client-go/rest"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // VaultRelaysGetter has a method to return a VaultRelayInterface.
@@ -39,158 +38,34 @@ type VaultRelaysGetter interface {
 
 // VaultRelayInterface has methods to work with VaultRelay resources.
 type VaultRelayInterface interface {
-	Create(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.CreateOptions) (*v1alpha2.VaultRelay, error)
-	Update(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (*v1alpha2.VaultRelay, error)
-	UpdateStatus(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (*v1alpha2.VaultRelay, error)
+	Create(ctx context.Context, vaultRelay *kubevaultv1alpha2.VaultRelay, opts v1.CreateOptions) (*kubevaultv1alpha2.VaultRelay, error)
+	Update(ctx context.Context, vaultRelay *kubevaultv1alpha2.VaultRelay, opts v1.UpdateOptions) (*kubevaultv1alpha2.VaultRelay, error)
+	// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
+	UpdateStatus(ctx context.Context, vaultRelay *kubevaultv1alpha2.VaultRelay, opts v1.UpdateOptions) (*kubevaultv1alpha2.VaultRelay, error)
 	Delete(ctx context.Context, name string, opts v1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha2.VaultRelay, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha2.VaultRelayList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*kubevaultv1alpha2.VaultRelay, error)
+	List(ctx context.Context, opts v1.ListOptions) (*kubevaultv1alpha2.VaultRelayList, error)
 	Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error)
-	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha2.VaultRelay, err error)
+	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *kubevaultv1alpha2.VaultRelay, err error)
 	VaultRelayExpansion
 }
 
 // vaultRelays implements VaultRelayInterface
 type vaultRelays struct {
-	client rest.Interface
-	ns     string
+	*gentype.ClientWithList[*kubevaultv1alpha2.VaultRelay, *kubevaultv1alpha2.VaultRelayList]
 }
 
 // newVaultRelays returns a VaultRelays
 func newVaultRelays(c *KubevaultV1alpha2Client, namespace string) *vaultRelays {
 	return &vaultRelays{
-		client: c.RESTClient(),
-		ns:     namespace,
+		gentype.NewClientWithList[*kubevaultv1alpha2.VaultRelay, *kubevaultv1alpha2.VaultRelayList](
+			"vaultrelays",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			namespace,
+			func() *kubevaultv1alpha2.VaultRelay { return &kubevaultv1alpha2.VaultRelay{} },
+			func() *kubevaultv1alpha2.VaultRelayList { return &kubevaultv1alpha2.VaultRelayList{} },
+		),
 	}
-}
-
-// Get takes name of the vaultRelay, and returns the corresponding vaultRelay object, and an error if there is any.
-func (c *vaultRelays) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha2.VaultRelay, err error) {
-	result = &v1alpha2.VaultRelay{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("vaultrelays").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// List takes label and field selectors, and returns the list of VaultRelays that match those selectors.
-func (c *vaultRelays) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha2.VaultRelayList, err error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	result = &v1alpha2.VaultRelayList{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("vaultrelays").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Watch returns a watch.Interface that watches the requested vaultRelays.
-func (c *vaultRelays) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	opts.Watch = true
-	return c.client.Get().
-		Namespace(c.ns).
-		Resource("vaultrelays").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Watch(ctx)
-}
-
-// Create takes the representation of a vaultRelay and creates it.  Returns the server's representation of the vaultRelay, and an error, if there is any.
-func (c *vaultRelays) Create(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.CreateOptions) (result *v1alpha2.VaultRelay, err error) {
-	result = &v1alpha2.VaultRelay{}
-	err = c.client.Post().
-		Namespace(c.ns).
-		Resource("vaultrelays").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(vaultRelay).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Update takes the representation of a vaultRelay and updates it. Returns the server's representation of the vaultRelay, and an error, if there is any.
-func (c *vaultRelays) Update(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (result *v1alpha2.VaultRelay, err error) {
-	result = &v1alpha2.VaultRelay{}
-	err = c.client.Put().
-		Namespace(c.ns).
-		Resource("vaultrelays").
-		Name(vaultRelay.Name).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(vaultRelay).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *vaultRelays) UpdateStatus(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (result *v1alpha2.VaultRelay, err error) {
-	result = &v1alpha2.VaultRelay{}
-	err = c.client.Put().
-		Namespace(c.ns).
-		Resource("vaultrelays").
-		Name(vaultRelay.Name).
-		SubResource("status").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(vaultRelay).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Delete takes name of the vaultRelay and deletes it. Returns an error if one occurs.
-func (c *vaultRelays) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	return c.client.Delete().
-		Namespace(c.ns).
-		Resource("vaultrelays").
-		Name(name).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *vaultRelays) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	var timeout time.Duration
-	if listOpts.TimeoutSeconds != nil {
-		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
-	}
-	return c.client.Delete().
-		Namespace(c.ns).
-		Resource("vaultrelays").
-		VersionedParams(&listOpts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// Patch applies the patch and returns the patched vaultRelay.
-func (c *vaultRelays) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha2.VaultRelay, err error) {
-	result = &v1alpha2.VaultRelay{}
-	err = c.client.Patch(pt).
-		Namespace(c.ns).
-		Resource("vaultrelays").
-		Name(name).
-		SubResource(subresources...).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(data).
-		Do(ctx).
-		Into(result)
-	return
 }

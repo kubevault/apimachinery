@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha2
 
 import (
-	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+	kubevaultv1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // VaultRelayLister helps list VaultRelays.
@@ -31,7 +31,7 @@ import (
 type VaultRelayLister interface {
 	// List lists all VaultRelays in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha2.VaultRelay, err error)
+	List(selector labels.Selector) (ret []*kubevaultv1alpha2.VaultRelay, err error)
 	// VaultRelays returns an object that can list and get VaultRelays.
 	VaultRelays(namespace string) VaultRelayNamespaceLister
 	VaultRelayListerExpansion
@@ -39,25 +39,17 @@ type VaultRelayLister interface {
 
 // vaultRelayLister implements the VaultRelayLister interface.
 type vaultRelayLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*kubevaultv1alpha2.VaultRelay]
 }
 
 // NewVaultRelayLister returns a new VaultRelayLister.
 func NewVaultRelayLister(indexer cache.Indexer) VaultRelayLister {
-	return &vaultRelayLister{indexer: indexer}
-}
-
-// List lists all VaultRelays in the indexer.
-func (s *vaultRelayLister) List(selector labels.Selector) (ret []*v1alpha2.VaultRelay, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha2.VaultRelay))
-	})
-	return ret, err
+	return &vaultRelayLister{listers.New[*kubevaultv1alpha2.VaultRelay](indexer, kubevaultv1alpha2.Resource("vaultrelay"))}
 }
 
 // VaultRelays returns an object that can list and get VaultRelays.
 func (s *vaultRelayLister) VaultRelays(namespace string) VaultRelayNamespaceLister {
-	return vaultRelayNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return vaultRelayNamespaceLister{listers.NewNamespaced[*kubevaultv1alpha2.VaultRelay](s.ResourceIndexer, namespace)}
 }
 
 // VaultRelayNamespaceLister helps list and get VaultRelays.
@@ -65,36 +57,15 @@ func (s *vaultRelayLister) VaultRelays(namespace string) VaultRelayNamespaceList
 type VaultRelayNamespaceLister interface {
 	// List lists all VaultRelays in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha2.VaultRelay, err error)
+	List(selector labels.Selector) (ret []*kubevaultv1alpha2.VaultRelay, err error)
 	// Get retrieves the VaultRelay from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha2.VaultRelay, error)
+	Get(name string) (*kubevaultv1alpha2.VaultRelay, error)
 	VaultRelayNamespaceListerExpansion
 }
 
 // vaultRelayNamespaceLister implements the VaultRelayNamespaceLister
 // interface.
 type vaultRelayNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all VaultRelays in the indexer for a given namespace.
-func (s vaultRelayNamespaceLister) List(selector labels.Selector) (ret []*v1alpha2.VaultRelay, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha2.VaultRelay))
-	})
-	return ret, err
-}
-
-// Get retrieves the VaultRelay from the indexer for a given namespace and name.
-func (s vaultRelayNamespaceLister) Get(name string) (*v1alpha2.VaultRelay, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha2.Resource("vaultrelay"), name)
-	}
-	return obj.(*v1alpha2.VaultRelay), nil
+	listers.ResourceIndexer[*kubevaultv1alpha2.VaultRelay]
 }

@@ -30,15 +30,15 @@ type FakeKubevaultV1alpha2 struct {
 }
 
 func (c *FakeKubevaultV1alpha2) NamespaceSlices(namespace string) v1alpha2.NamespaceSliceInterface {
-	return &FakeNamespaceSlices{c, namespace}
+	return newFakeNamespaceSlices(c, namespace)
 }
 
 func (c *FakeKubevaultV1alpha2) VaultRelays(namespace string) v1alpha2.VaultRelayInterface {
-	return &FakeVaultRelays{c, namespace}
+	return newFakeVaultRelays(c, namespace)
 }
 
 func (c *FakeKubevaultV1alpha2) VaultServers(namespace string) v1alpha2.VaultServerInterface {
-	return &FakeVaultServers{c, namespace}
+	return newFakeVaultServers(c, namespace)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

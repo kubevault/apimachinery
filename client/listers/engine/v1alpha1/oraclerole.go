@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // OracleRoleLister helps list OracleRoles.
@@ -31,7 +31,7 @@ import (
 type OracleRoleLister interface {
 	// List lists all OracleRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.OracleRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.OracleRole, err error)
 	// OracleRoles returns an object that can list and get OracleRoles.
 	OracleRoles(namespace string) OracleRoleNamespaceLister
 	OracleRoleListerExpansion
@@ -39,25 +39,17 @@ type OracleRoleLister interface {
 
 // oracleRoleLister implements the OracleRoleLister interface.
 type oracleRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.OracleRole]
 }
 
 // NewOracleRoleLister returns a new OracleRoleLister.
 func NewOracleRoleLister(indexer cache.Indexer) OracleRoleLister {
-	return &oracleRoleLister{indexer: indexer}
-}
-
-// List lists all OracleRoles in the indexer.
-func (s *oracleRoleLister) List(selector labels.Selector) (ret []*v1alpha1.OracleRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.OracleRole))
-	})
-	return ret, err
+	return &oracleRoleLister{listers.New[*enginev1alpha1.OracleRole](indexer, enginev1alpha1.Resource("oraclerole"))}
 }
 
 // OracleRoles returns an object that can list and get OracleRoles.
 func (s *oracleRoleLister) OracleRoles(namespace string) OracleRoleNamespaceLister {
-	return oracleRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return oracleRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.OracleRole](s.ResourceIndexer, namespace)}
 }
 
 // OracleRoleNamespaceLister helps list and get OracleRoles.
@@ -65,36 +57,15 @@ func (s *oracleRoleLister) OracleRoles(namespace string) OracleRoleNamespaceList
 type OracleRoleNamespaceLister interface {
 	// List lists all OracleRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.OracleRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.OracleRole, err error)
 	// Get retrieves the OracleRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.OracleRole, error)
+	Get(name string) (*enginev1alpha1.OracleRole, error)
 	OracleRoleNamespaceListerExpansion
 }
 
 // oracleRoleNamespaceLister implements the OracleRoleNamespaceLister
 // interface.
 type oracleRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all OracleRoles in the indexer for a given namespace.
-func (s oracleRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.OracleRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.OracleRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the OracleRole from the indexer for a given namespace and name.
-func (s oracleRoleNamespaceLister) Get(name string) (*v1alpha1.OracleRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("oraclerole"), name)
-	}
-	return obj.(*v1alpha1.OracleRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.OracleRole]
 }

@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // HazelcastRoleLister helps list HazelcastRoles.
@@ -31,7 +31,7 @@ import (
 type HazelcastRoleLister interface {
 	// List lists all HazelcastRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.HazelcastRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.HazelcastRole, err error)
 	// HazelcastRoles returns an object that can list and get HazelcastRoles.
 	HazelcastRoles(namespace string) HazelcastRoleNamespaceLister
 	HazelcastRoleListerExpansion
@@ -39,25 +39,17 @@ type HazelcastRoleLister interface {
 
 // hazelcastRoleLister implements the HazelcastRoleLister interface.
 type hazelcastRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.HazelcastRole]
 }
 
 // NewHazelcastRoleLister returns a new HazelcastRoleLister.
 func NewHazelcastRoleLister(indexer cache.Indexer) HazelcastRoleLister {
-	return &hazelcastRoleLister{indexer: indexer}
-}
-
-// List lists all HazelcastRoles in the indexer.
-func (s *hazelcastRoleLister) List(selector labels.Selector) (ret []*v1alpha1.HazelcastRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.HazelcastRole))
-	})
-	return ret, err
+	return &hazelcastRoleLister{listers.New[*enginev1alpha1.HazelcastRole](indexer, enginev1alpha1.Resource("hazelcastrole"))}
 }
 
 // HazelcastRoles returns an object that can list and get HazelcastRoles.
 func (s *hazelcastRoleLister) HazelcastRoles(namespace string) HazelcastRoleNamespaceLister {
-	return hazelcastRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return hazelcastRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.HazelcastRole](s.ResourceIndexer, namespace)}
 }
 
 // HazelcastRoleNamespaceLister helps list and get HazelcastRoles.
@@ -65,36 +57,15 @@ func (s *hazelcastRoleLister) HazelcastRoles(namespace string) HazelcastRoleName
 type HazelcastRoleNamespaceLister interface {
 	// List lists all HazelcastRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.HazelcastRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.HazelcastRole, err error)
 	// Get retrieves the HazelcastRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.HazelcastRole, error)
+	Get(name string) (*enginev1alpha1.HazelcastRole, error)
 	HazelcastRoleNamespaceListerExpansion
 }
 
 // hazelcastRoleNamespaceLister implements the HazelcastRoleNamespaceLister
 // interface.
 type hazelcastRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all HazelcastRoles in the indexer for a given namespace.
-func (s hazelcastRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.HazelcastRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.HazelcastRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the HazelcastRole from the indexer for a given namespace and name.
-func (s hazelcastRoleNamespaceLister) Get(name string) (*v1alpha1.HazelcastRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("hazelcastrole"), name)
-	}
-	return obj.(*v1alpha1.HazelcastRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.HazelcastRole]
 }

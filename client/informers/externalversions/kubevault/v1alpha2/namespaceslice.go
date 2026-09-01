@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha2
 
 import (
-	"context"
+	context "context"
 	time "time"
 
-	kubevaultv1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+	apiskubevaultv1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
 	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
-	v1alpha2 "kubevault.dev/apimachinery/client/listers/kubevault/v1alpha2"
+	kubevaultv1alpha2 "kubevault.dev/apimachinery/client/listers/kubevault/v1alpha2"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -37,7 +37,7 @@ import (
 // NamespaceSlices.
 type NamespaceSliceInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha2.NamespaceSliceLister
+	Lister() kubevaultv1alpha2.NamespaceSliceLister
 }
 
 type namespaceSliceInformer struct {
@@ -63,16 +63,28 @@ func NewFilteredNamespaceSliceInformer(client versioned.Interface, namespace str
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubevaultV1alpha2().NamespaceSlices(namespace).List(context.TODO(), options)
+				return client.KubevaultV1alpha2().NamespaceSlices(namespace).List(context.Background(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubevaultV1alpha2().NamespaceSlices(namespace).Watch(context.TODO(), options)
+				return client.KubevaultV1alpha2().NamespaceSlices(namespace).Watch(context.Background(), options)
+			},
+			ListWithContextFunc: func(ctx context.Context, options v1.ListOptions) (runtime.Object, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.KubevaultV1alpha2().NamespaceSlices(namespace).List(ctx, options)
+			},
+			WatchFuncWithContext: func(ctx context.Context, options v1.ListOptions) (watch.Interface, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.KubevaultV1alpha2().NamespaceSlices(namespace).Watch(ctx, options)
 			},
 		},
-		&kubevaultv1alpha2.NamespaceSlice{},
+		&apiskubevaultv1alpha2.NamespaceSlice{},
 		resyncPeriod,
 		indexers,
 	)
@@ -83,9 +95,9 @@ func (f *namespaceSliceInformer) defaultInformer(client versioned.Interface, res
 }
 
 func (f *namespaceSliceInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&kubevaultv1alpha2.NamespaceSlice{}, f.defaultInformer)
+	return f.factory.InformerFor(&apiskubevaultv1alpha2.NamespaceSlice{}, f.defaultInformer)
 }
 
-func (f *namespaceSliceInformer) Lister() v1alpha2.NamespaceSliceLister {
-	return v1alpha2.NewNamespaceSliceLister(f.Informer().GetIndexer())
+func (f *namespaceSliceInformer) Lister() kubevaultv1alpha2.NamespaceSliceLister {
+	return kubevaultv1alpha2.NewNamespaceSliceLister(f.Informer().GetIndexer())
 }

@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeKafkaRoles implements KafkaRoleInterface
-type FakeKafkaRoles struct {
+// fakeKafkaRoles implements KafkaRoleInterface
+type fakeKafkaRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.KafkaRole, *v1alpha1.KafkaRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var kafkarolesResource = v1alpha1.SchemeGroupVersion.WithResource("kafkaroles")
-
-var kafkarolesKind = v1alpha1.SchemeGroupVersion.WithKind("KafkaRole")
-
-// Get takes name of the kafkaRole, and returns the corresponding kafkaRole object, and an error if there is any.
-func (c *FakeKafkaRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.KafkaRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(kafkarolesResource, c.ns, name), &v1alpha1.KafkaRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeKafkaRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.KafkaRoleInterface {
+	return &fakeKafkaRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.KafkaRole, *v1alpha1.KafkaRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("kafkaroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("KafkaRole"),
+			func() *v1alpha1.KafkaRole { return &v1alpha1.KafkaRole{} },
+			func() *v1alpha1.KafkaRoleList { return &v1alpha1.KafkaRoleList{} },
+			func(dst, src *v1alpha1.KafkaRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.KafkaRoleList) []*v1alpha1.KafkaRole { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.KafkaRoleList, items []*v1alpha1.KafkaRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.KafkaRole), err
-}
-
-// List takes label and field selectors, and returns the list of KafkaRoles that match those selectors.
-func (c *FakeKafkaRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.KafkaRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(kafkarolesResource, kafkarolesKind, c.ns, opts), &v1alpha1.KafkaRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.KafkaRoleList{ListMeta: obj.(*v1alpha1.KafkaRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.KafkaRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested kafkaRoles.
-func (c *FakeKafkaRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(kafkarolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a kafkaRole and creates it.  Returns the server's representation of the kafkaRole, and an error, if there is any.
-func (c *FakeKafkaRoles) Create(ctx context.Context, kafkaRole *v1alpha1.KafkaRole, opts v1.CreateOptions) (result *v1alpha1.KafkaRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(kafkarolesResource, c.ns, kafkaRole), &v1alpha1.KafkaRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.KafkaRole), err
-}
-
-// Update takes the representation of a kafkaRole and updates it. Returns the server's representation of the kafkaRole, and an error, if there is any.
-func (c *FakeKafkaRoles) Update(ctx context.Context, kafkaRole *v1alpha1.KafkaRole, opts v1.UpdateOptions) (result *v1alpha1.KafkaRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(kafkarolesResource, c.ns, kafkaRole), &v1alpha1.KafkaRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.KafkaRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeKafkaRoles) UpdateStatus(ctx context.Context, kafkaRole *v1alpha1.KafkaRole, opts v1.UpdateOptions) (*v1alpha1.KafkaRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(kafkarolesResource, "status", c.ns, kafkaRole), &v1alpha1.KafkaRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.KafkaRole), err
-}
-
-// Delete takes name of the kafkaRole and deletes it. Returns an error if one occurs.
-func (c *FakeKafkaRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(kafkarolesResource, c.ns, name, opts), &v1alpha1.KafkaRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeKafkaRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(kafkarolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.KafkaRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched kafkaRole.
-func (c *FakeKafkaRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.KafkaRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(kafkarolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.KafkaRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.KafkaRole), err
 }

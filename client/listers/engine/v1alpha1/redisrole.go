@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // RedisRoleLister helps list RedisRoles.
@@ -31,7 +31,7 @@ import (
 type RedisRoleLister interface {
 	// List lists all RedisRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.RedisRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.RedisRole, err error)
 	// RedisRoles returns an object that can list and get RedisRoles.
 	RedisRoles(namespace string) RedisRoleNamespaceLister
 	RedisRoleListerExpansion
@@ -39,25 +39,17 @@ type RedisRoleLister interface {
 
 // redisRoleLister implements the RedisRoleLister interface.
 type redisRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.RedisRole]
 }
 
 // NewRedisRoleLister returns a new RedisRoleLister.
 func NewRedisRoleLister(indexer cache.Indexer) RedisRoleLister {
-	return &redisRoleLister{indexer: indexer}
-}
-
-// List lists all RedisRoles in the indexer.
-func (s *redisRoleLister) List(selector labels.Selector) (ret []*v1alpha1.RedisRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.RedisRole))
-	})
-	return ret, err
+	return &redisRoleLister{listers.New[*enginev1alpha1.RedisRole](indexer, enginev1alpha1.Resource("redisrole"))}
 }
 
 // RedisRoles returns an object that can list and get RedisRoles.
 func (s *redisRoleLister) RedisRoles(namespace string) RedisRoleNamespaceLister {
-	return redisRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return redisRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.RedisRole](s.ResourceIndexer, namespace)}
 }
 
 // RedisRoleNamespaceLister helps list and get RedisRoles.
@@ -65,36 +57,15 @@ func (s *redisRoleLister) RedisRoles(namespace string) RedisRoleNamespaceLister 
 type RedisRoleNamespaceLister interface {
 	// List lists all RedisRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.RedisRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.RedisRole, err error)
 	// Get retrieves the RedisRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.RedisRole, error)
+	Get(name string) (*enginev1alpha1.RedisRole, error)
 	RedisRoleNamespaceListerExpansion
 }
 
 // redisRoleNamespaceLister implements the RedisRoleNamespaceLister
 // interface.
 type redisRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all RedisRoles in the indexer for a given namespace.
-func (s redisRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.RedisRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.RedisRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the RedisRole from the indexer for a given namespace and name.
-func (s redisRoleNamespaceLister) Get(name string) (*v1alpha1.RedisRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("redisrole"), name)
-	}
-	return obj.(*v1alpha1.RedisRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.RedisRole]
 }

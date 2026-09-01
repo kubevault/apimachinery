@@ -19,124 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeMemcachedRoles implements MemcachedRoleInterface
-type FakeMemcachedRoles struct {
+// fakeMemcachedRoles implements MemcachedRoleInterface
+type fakeMemcachedRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.MemcachedRole, *v1alpha1.MemcachedRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var memcachedrolesResource = v1alpha1.SchemeGroupVersion.WithResource("memcachedroles")
-
-var memcachedrolesKind = v1alpha1.SchemeGroupVersion.WithKind("MemcachedRole")
-
-// Get takes name of the memcachedRole, and returns the corresponding memcachedRole object, and an error if there is any.
-func (c *FakeMemcachedRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.MemcachedRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(memcachedrolesResource, c.ns, name), &v1alpha1.MemcachedRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeMemcachedRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.MemcachedRoleInterface {
+	return &fakeMemcachedRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.MemcachedRole, *v1alpha1.MemcachedRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("memcachedroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("MemcachedRole"),
+			func() *v1alpha1.MemcachedRole { return &v1alpha1.MemcachedRole{} },
+			func() *v1alpha1.MemcachedRoleList { return &v1alpha1.MemcachedRoleList{} },
+			func(dst, src *v1alpha1.MemcachedRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.MemcachedRoleList) []*v1alpha1.MemcachedRole {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha1.MemcachedRoleList, items []*v1alpha1.MemcachedRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.MemcachedRole), err
-}
-
-// List takes label and field selectors, and returns the list of MemcachedRoles that match those selectors.
-func (c *FakeMemcachedRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.MemcachedRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(memcachedrolesResource, memcachedrolesKind, c.ns, opts), &v1alpha1.MemcachedRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.MemcachedRoleList{ListMeta: obj.(*v1alpha1.MemcachedRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.MemcachedRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested memcachedRoles.
-func (c *FakeMemcachedRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(memcachedrolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a memcachedRole and creates it.  Returns the server's representation of the memcachedRole, and an error, if there is any.
-func (c *FakeMemcachedRoles) Create(ctx context.Context, memcachedRole *v1alpha1.MemcachedRole, opts v1.CreateOptions) (result *v1alpha1.MemcachedRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(memcachedrolesResource, c.ns, memcachedRole), &v1alpha1.MemcachedRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.MemcachedRole), err
-}
-
-// Update takes the representation of a memcachedRole and updates it. Returns the server's representation of the memcachedRole, and an error, if there is any.
-func (c *FakeMemcachedRoles) Update(ctx context.Context, memcachedRole *v1alpha1.MemcachedRole, opts v1.UpdateOptions) (result *v1alpha1.MemcachedRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(memcachedrolesResource, c.ns, memcachedRole), &v1alpha1.MemcachedRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.MemcachedRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeMemcachedRoles) UpdateStatus(ctx context.Context, memcachedRole *v1alpha1.MemcachedRole, opts v1.UpdateOptions) (*v1alpha1.MemcachedRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(memcachedrolesResource, "status", c.ns, memcachedRole), &v1alpha1.MemcachedRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.MemcachedRole), err
-}
-
-// Delete takes name of the memcachedRole and deletes it. Returns an error if one occurs.
-func (c *FakeMemcachedRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(memcachedrolesResource, c.ns, name, opts), &v1alpha1.MemcachedRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeMemcachedRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(memcachedrolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.MemcachedRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched memcachedRole.
-func (c *FakeMemcachedRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.MemcachedRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(memcachedrolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.MemcachedRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.MemcachedRole), err
 }

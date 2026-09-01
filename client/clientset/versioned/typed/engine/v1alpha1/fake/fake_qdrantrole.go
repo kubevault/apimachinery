@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeQdrantRoles implements QdrantRoleInterface
-type FakeQdrantRoles struct {
+// fakeQdrantRoles implements QdrantRoleInterface
+type fakeQdrantRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.QdrantRole, *v1alpha1.QdrantRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var qdrantrolesResource = v1alpha1.SchemeGroupVersion.WithResource("qdrantroles")
-
-var qdrantrolesKind = v1alpha1.SchemeGroupVersion.WithKind("QdrantRole")
-
-// Get takes name of the qdrantRole, and returns the corresponding qdrantRole object, and an error if there is any.
-func (c *FakeQdrantRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.QdrantRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(qdrantrolesResource, c.ns, name), &v1alpha1.QdrantRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeQdrantRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.QdrantRoleInterface {
+	return &fakeQdrantRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.QdrantRole, *v1alpha1.QdrantRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("qdrantroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("QdrantRole"),
+			func() *v1alpha1.QdrantRole { return &v1alpha1.QdrantRole{} },
+			func() *v1alpha1.QdrantRoleList { return &v1alpha1.QdrantRoleList{} },
+			func(dst, src *v1alpha1.QdrantRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.QdrantRoleList) []*v1alpha1.QdrantRole { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.QdrantRoleList, items []*v1alpha1.QdrantRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.QdrantRole), err
-}
-
-// List takes label and field selectors, and returns the list of QdrantRoles that match those selectors.
-func (c *FakeQdrantRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.QdrantRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(qdrantrolesResource, qdrantrolesKind, c.ns, opts), &v1alpha1.QdrantRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.QdrantRoleList{ListMeta: obj.(*v1alpha1.QdrantRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.QdrantRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested qdrantRoles.
-func (c *FakeQdrantRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(qdrantrolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a qdrantRole and creates it.  Returns the server's representation of the qdrantRole, and an error, if there is any.
-func (c *FakeQdrantRoles) Create(ctx context.Context, qdrantRole *v1alpha1.QdrantRole, opts v1.CreateOptions) (result *v1alpha1.QdrantRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(qdrantrolesResource, c.ns, qdrantRole), &v1alpha1.QdrantRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.QdrantRole), err
-}
-
-// Update takes the representation of a qdrantRole and updates it. Returns the server's representation of the qdrantRole, and an error, if there is any.
-func (c *FakeQdrantRoles) Update(ctx context.Context, qdrantRole *v1alpha1.QdrantRole, opts v1.UpdateOptions) (result *v1alpha1.QdrantRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(qdrantrolesResource, c.ns, qdrantRole), &v1alpha1.QdrantRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.QdrantRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeQdrantRoles) UpdateStatus(ctx context.Context, qdrantRole *v1alpha1.QdrantRole, opts v1.UpdateOptions) (*v1alpha1.QdrantRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(qdrantrolesResource, "status", c.ns, qdrantRole), &v1alpha1.QdrantRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.QdrantRole), err
-}
-
-// Delete takes name of the qdrantRole and deletes it. Returns an error if one occurs.
-func (c *FakeQdrantRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(qdrantrolesResource, c.ns, name, opts), &v1alpha1.QdrantRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeQdrantRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(qdrantrolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.QdrantRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched qdrantRole.
-func (c *FakeQdrantRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.QdrantRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(qdrantrolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.QdrantRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.QdrantRole), err
 }

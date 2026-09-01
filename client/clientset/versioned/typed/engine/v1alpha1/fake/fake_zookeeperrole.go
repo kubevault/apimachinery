@@ -19,124 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeZooKeeperRoles implements ZooKeeperRoleInterface
-type FakeZooKeeperRoles struct {
+// fakeZooKeeperRoles implements ZooKeeperRoleInterface
+type fakeZooKeeperRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.ZooKeeperRole, *v1alpha1.ZooKeeperRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var zookeeperrolesResource = v1alpha1.SchemeGroupVersion.WithResource("zookeeperroles")
-
-var zookeeperrolesKind = v1alpha1.SchemeGroupVersion.WithKind("ZooKeeperRole")
-
-// Get takes name of the zooKeeperRole, and returns the corresponding zooKeeperRole object, and an error if there is any.
-func (c *FakeZooKeeperRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ZooKeeperRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(zookeeperrolesResource, c.ns, name), &v1alpha1.ZooKeeperRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeZooKeeperRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.ZooKeeperRoleInterface {
+	return &fakeZooKeeperRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.ZooKeeperRole, *v1alpha1.ZooKeeperRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("zookeeperroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("ZooKeeperRole"),
+			func() *v1alpha1.ZooKeeperRole { return &v1alpha1.ZooKeeperRole{} },
+			func() *v1alpha1.ZooKeeperRoleList { return &v1alpha1.ZooKeeperRoleList{} },
+			func(dst, src *v1alpha1.ZooKeeperRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.ZooKeeperRoleList) []*v1alpha1.ZooKeeperRole {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha1.ZooKeeperRoleList, items []*v1alpha1.ZooKeeperRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ZooKeeperRole), err
-}
-
-// List takes label and field selectors, and returns the list of ZooKeeperRoles that match those selectors.
-func (c *FakeZooKeeperRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.ZooKeeperRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(zookeeperrolesResource, zookeeperrolesKind, c.ns, opts), &v1alpha1.ZooKeeperRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.ZooKeeperRoleList{ListMeta: obj.(*v1alpha1.ZooKeeperRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.ZooKeeperRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested zooKeeperRoles.
-func (c *FakeZooKeeperRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(zookeeperrolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a zooKeeperRole and creates it.  Returns the server's representation of the zooKeeperRole, and an error, if there is any.
-func (c *FakeZooKeeperRoles) Create(ctx context.Context, zooKeeperRole *v1alpha1.ZooKeeperRole, opts v1.CreateOptions) (result *v1alpha1.ZooKeeperRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(zookeeperrolesResource, c.ns, zooKeeperRole), &v1alpha1.ZooKeeperRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.ZooKeeperRole), err
-}
-
-// Update takes the representation of a zooKeeperRole and updates it. Returns the server's representation of the zooKeeperRole, and an error, if there is any.
-func (c *FakeZooKeeperRoles) Update(ctx context.Context, zooKeeperRole *v1alpha1.ZooKeeperRole, opts v1.UpdateOptions) (result *v1alpha1.ZooKeeperRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(zookeeperrolesResource, c.ns, zooKeeperRole), &v1alpha1.ZooKeeperRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.ZooKeeperRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeZooKeeperRoles) UpdateStatus(ctx context.Context, zooKeeperRole *v1alpha1.ZooKeeperRole, opts v1.UpdateOptions) (*v1alpha1.ZooKeeperRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(zookeeperrolesResource, "status", c.ns, zooKeeperRole), &v1alpha1.ZooKeeperRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.ZooKeeperRole), err
-}
-
-// Delete takes name of the zooKeeperRole and deletes it. Returns an error if one occurs.
-func (c *FakeZooKeeperRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(zookeeperrolesResource, c.ns, name, opts), &v1alpha1.ZooKeeperRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeZooKeeperRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(zookeeperrolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.ZooKeeperRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched zooKeeperRole.
-func (c *FakeZooKeeperRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.ZooKeeperRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(zookeeperrolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.ZooKeeperRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.ZooKeeperRole), err
 }

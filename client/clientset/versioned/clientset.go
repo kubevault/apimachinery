@@ -19,8 +19,8 @@ limitations under the License.
 package versioned
 
 import (
-	"fmt"
-	"net/http"
+	fmt "fmt"
+	http "net/http"
 
 	catalogv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/catalog/v1alpha1"
 	configv1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/config/v1alpha1"

@@ -19,16 +19,15 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
-	"time"
+	context "context"
 
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 	scheme "kubevault.dev/apimachinery/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
-	rest "k8s.io/client-go/rest"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // MemcachedRolesGetter has a method to return a MemcachedRoleInterface.
@@ -39,158 +38,34 @@ type MemcachedRolesGetter interface {
 
 // MemcachedRoleInterface has methods to work with MemcachedRole resources.
 type MemcachedRoleInterface interface {
-	Create(ctx context.Context, memcachedRole *v1alpha1.MemcachedRole, opts v1.CreateOptions) (*v1alpha1.MemcachedRole, error)
-	Update(ctx context.Context, memcachedRole *v1alpha1.MemcachedRole, opts v1.UpdateOptions) (*v1alpha1.MemcachedRole, error)
-	UpdateStatus(ctx context.Context, memcachedRole *v1alpha1.MemcachedRole, opts v1.UpdateOptions) (*v1alpha1.MemcachedRole, error)
+	Create(ctx context.Context, memcachedRole *enginev1alpha1.MemcachedRole, opts v1.CreateOptions) (*enginev1alpha1.MemcachedRole, error)
+	Update(ctx context.Context, memcachedRole *enginev1alpha1.MemcachedRole, opts v1.UpdateOptions) (*enginev1alpha1.MemcachedRole, error)
+	// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
+	UpdateStatus(ctx context.Context, memcachedRole *enginev1alpha1.MemcachedRole, opts v1.UpdateOptions) (*enginev1alpha1.MemcachedRole, error)
 	Delete(ctx context.Context, name string, opts v1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.MemcachedRole, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.MemcachedRoleList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*enginev1alpha1.MemcachedRole, error)
+	List(ctx context.Context, opts v1.ListOptions) (*enginev1alpha1.MemcachedRoleList, error)
 	Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error)
-	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.MemcachedRole, err error)
+	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *enginev1alpha1.MemcachedRole, err error)
 	MemcachedRoleExpansion
 }
 
 // memcachedRoles implements MemcachedRoleInterface
 type memcachedRoles struct {
-	client rest.Interface
-	ns     string
+	*gentype.ClientWithList[*enginev1alpha1.MemcachedRole, *enginev1alpha1.MemcachedRoleList]
 }
 
 // newMemcachedRoles returns a MemcachedRoles
 func newMemcachedRoles(c *EngineV1alpha1Client, namespace string) *memcachedRoles {
 	return &memcachedRoles{
-		client: c.RESTClient(),
-		ns:     namespace,
+		gentype.NewClientWithList[*enginev1alpha1.MemcachedRole, *enginev1alpha1.MemcachedRoleList](
+			"memcachedroles",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			namespace,
+			func() *enginev1alpha1.MemcachedRole { return &enginev1alpha1.MemcachedRole{} },
+			func() *enginev1alpha1.MemcachedRoleList { return &enginev1alpha1.MemcachedRoleList{} },
+		),
 	}
-}
-
-// Get takes name of the memcachedRole, and returns the corresponding memcachedRole object, and an error if there is any.
-func (c *memcachedRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.MemcachedRole, err error) {
-	result = &v1alpha1.MemcachedRole{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("memcachedroles").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// List takes label and field selectors, and returns the list of MemcachedRoles that match those selectors.
-func (c *memcachedRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.MemcachedRoleList, err error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	result = &v1alpha1.MemcachedRoleList{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("memcachedroles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Watch returns a watch.Interface that watches the requested memcachedRoles.
-func (c *memcachedRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	opts.Watch = true
-	return c.client.Get().
-		Namespace(c.ns).
-		Resource("memcachedroles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Watch(ctx)
-}
-
-// Create takes the representation of a memcachedRole and creates it.  Returns the server's representation of the memcachedRole, and an error, if there is any.
-func (c *memcachedRoles) Create(ctx context.Context, memcachedRole *v1alpha1.MemcachedRole, opts v1.CreateOptions) (result *v1alpha1.MemcachedRole, err error) {
-	result = &v1alpha1.MemcachedRole{}
-	err = c.client.Post().
-		Namespace(c.ns).
-		Resource("memcachedroles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(memcachedRole).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Update takes the representation of a memcachedRole and updates it. Returns the server's representation of the memcachedRole, and an error, if there is any.
-func (c *memcachedRoles) Update(ctx context.Context, memcachedRole *v1alpha1.MemcachedRole, opts v1.UpdateOptions) (result *v1alpha1.MemcachedRole, err error) {
-	result = &v1alpha1.MemcachedRole{}
-	err = c.client.Put().
-		Namespace(c.ns).
-		Resource("memcachedroles").
-		Name(memcachedRole.Name).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(memcachedRole).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *memcachedRoles) UpdateStatus(ctx context.Context, memcachedRole *v1alpha1.MemcachedRole, opts v1.UpdateOptions) (result *v1alpha1.MemcachedRole, err error) {
-	result = &v1alpha1.MemcachedRole{}
-	err = c.client.Put().
-		Namespace(c.ns).
-		Resource("memcachedroles").
-		Name(memcachedRole.Name).
-		SubResource("status").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(memcachedRole).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Delete takes name of the memcachedRole and deletes it. Returns an error if one occurs.
-func (c *memcachedRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	return c.client.Delete().
-		Namespace(c.ns).
-		Resource("memcachedroles").
-		Name(name).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *memcachedRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	var timeout time.Duration
-	if listOpts.TimeoutSeconds != nil {
-		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
-	}
-	return c.client.Delete().
-		Namespace(c.ns).
-		Resource("memcachedroles").
-		VersionedParams(&listOpts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// Patch applies the patch and returns the patched memcachedRole.
-func (c *memcachedRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.MemcachedRole, err error) {
-	result = &v1alpha1.MemcachedRole{}
-	err = c.client.Patch(pt).
-		Namespace(c.ns).
-		Resource("memcachedroles").
-		Name(name).
-		SubResource(subresources...).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(data).
-		Do(ctx).
-		Into(result)
-	return
 }

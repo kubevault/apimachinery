@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha2
 
 import (
-	"context"
+	context "context"
 	time "time"
 
-	kubevaultv1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+	apiskubevaultv1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
 	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
-	v1alpha2 "kubevault.dev/apimachinery/client/listers/kubevault/v1alpha2"
+	kubevaultv1alpha2 "kubevault.dev/apimachinery/client/listers/kubevault/v1alpha2"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -37,7 +37,7 @@ import (
 // VaultRelays.
 type VaultRelayInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha2.VaultRelayLister
+	Lister() kubevaultv1alpha2.VaultRelayLister
 }
 
 type vaultRelayInformer struct {
@@ -63,16 +63,28 @@ func NewFilteredVaultRelayInformer(client versioned.Interface, namespace string,
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubevaultV1alpha2().VaultRelays(namespace).List(context.TODO(), options)
+				return client.KubevaultV1alpha2().VaultRelays(namespace).List(context.Background(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubevaultV1alpha2().VaultRelays(namespace).Watch(context.TODO(), options)
+				return client.KubevaultV1alpha2().VaultRelays(namespace).Watch(context.Background(), options)
+			},
+			ListWithContextFunc: func(ctx context.Context, options v1.ListOptions) (runtime.Object, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.KubevaultV1alpha2().VaultRelays(namespace).List(ctx, options)
+			},
+			WatchFuncWithContext: func(ctx context.Context, options v1.ListOptions) (watch.Interface, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.KubevaultV1alpha2().VaultRelays(namespace).Watch(ctx, options)
 			},
 		},
-		&kubevaultv1alpha2.VaultRelay{},
+		&apiskubevaultv1alpha2.VaultRelay{},
 		resyncPeriod,
 		indexers,
 	)
@@ -83,9 +95,9 @@ func (f *vaultRelayInformer) defaultInformer(client versioned.Interface, resyncP
 }
 
 func (f *vaultRelayInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&kubevaultv1alpha2.VaultRelay{}, f.defaultInformer)
+	return f.factory.InformerFor(&apiskubevaultv1alpha2.VaultRelay{}, f.defaultInformer)
 }
 
-func (f *vaultRelayInformer) Lister() v1alpha2.VaultRelayLister {
-	return v1alpha2.NewVaultRelayLister(f.Informer().GetIndexer())
+func (f *vaultRelayInformer) Lister() kubevaultv1alpha2.VaultRelayLister {
+	return kubevaultv1alpha2.NewVaultRelayLister(f.Informer().GetIndexer())
 }

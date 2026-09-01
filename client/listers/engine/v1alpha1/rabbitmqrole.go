@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // RabbitMQRoleLister helps list RabbitMQRoles.
@@ -31,7 +31,7 @@ import (
 type RabbitMQRoleLister interface {
 	// List lists all RabbitMQRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.RabbitMQRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.RabbitMQRole, err error)
 	// RabbitMQRoles returns an object that can list and get RabbitMQRoles.
 	RabbitMQRoles(namespace string) RabbitMQRoleNamespaceLister
 	RabbitMQRoleListerExpansion
@@ -39,25 +39,17 @@ type RabbitMQRoleLister interface {
 
 // rabbitMQRoleLister implements the RabbitMQRoleLister interface.
 type rabbitMQRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.RabbitMQRole]
 }
 
 // NewRabbitMQRoleLister returns a new RabbitMQRoleLister.
 func NewRabbitMQRoleLister(indexer cache.Indexer) RabbitMQRoleLister {
-	return &rabbitMQRoleLister{indexer: indexer}
-}
-
-// List lists all RabbitMQRoles in the indexer.
-func (s *rabbitMQRoleLister) List(selector labels.Selector) (ret []*v1alpha1.RabbitMQRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.RabbitMQRole))
-	})
-	return ret, err
+	return &rabbitMQRoleLister{listers.New[*enginev1alpha1.RabbitMQRole](indexer, enginev1alpha1.Resource("rabbitmqrole"))}
 }
 
 // RabbitMQRoles returns an object that can list and get RabbitMQRoles.
 func (s *rabbitMQRoleLister) RabbitMQRoles(namespace string) RabbitMQRoleNamespaceLister {
-	return rabbitMQRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return rabbitMQRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.RabbitMQRole](s.ResourceIndexer, namespace)}
 }
 
 // RabbitMQRoleNamespaceLister helps list and get RabbitMQRoles.
@@ -65,36 +57,15 @@ func (s *rabbitMQRoleLister) RabbitMQRoles(namespace string) RabbitMQRoleNamespa
 type RabbitMQRoleNamespaceLister interface {
 	// List lists all RabbitMQRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.RabbitMQRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.RabbitMQRole, err error)
 	// Get retrieves the RabbitMQRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.RabbitMQRole, error)
+	Get(name string) (*enginev1alpha1.RabbitMQRole, error)
 	RabbitMQRoleNamespaceListerExpansion
 }
 
 // rabbitMQRoleNamespaceLister implements the RabbitMQRoleNamespaceLister
 // interface.
 type rabbitMQRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all RabbitMQRoles in the indexer for a given namespace.
-func (s rabbitMQRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.RabbitMQRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.RabbitMQRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the RabbitMQRole from the indexer for a given namespace and name.
-func (s rabbitMQRoleNamespaceLister) Get(name string) (*v1alpha1.RabbitMQRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("rabbitmqrole"), name)
-	}
-	return obj.(*v1alpha1.RabbitMQRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.RabbitMQRole]
 }

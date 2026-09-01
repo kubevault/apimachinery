@@ -30,11 +30,11 @@ type FakePolicyV1alpha1 struct {
 }
 
 func (c *FakePolicyV1alpha1) VaultPolicies(namespace string) v1alpha1.VaultPolicyInterface {
-	return &FakeVaultPolicies{c, namespace}
+	return newFakeVaultPolicies(c, namespace)
 }
 
 func (c *FakePolicyV1alpha1) VaultPolicyBindings(namespace string) v1alpha1.VaultPolicyBindingInterface {
-	return &FakeVaultPolicyBindings{c, namespace}
+	return newFakeVaultPolicyBindings(c, namespace)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

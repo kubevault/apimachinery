@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // AWSRoleLister helps list AWSRoles.
@@ -31,7 +31,7 @@ import (
 type AWSRoleLister interface {
 	// List lists all AWSRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.AWSRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.AWSRole, err error)
 	// AWSRoles returns an object that can list and get AWSRoles.
 	AWSRoles(namespace string) AWSRoleNamespaceLister
 	AWSRoleListerExpansion
@@ -39,25 +39,17 @@ type AWSRoleLister interface {
 
 // aWSRoleLister implements the AWSRoleLister interface.
 type aWSRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.AWSRole]
 }
 
 // NewAWSRoleLister returns a new AWSRoleLister.
 func NewAWSRoleLister(indexer cache.Indexer) AWSRoleLister {
-	return &aWSRoleLister{indexer: indexer}
-}
-
-// List lists all AWSRoles in the indexer.
-func (s *aWSRoleLister) List(selector labels.Selector) (ret []*v1alpha1.AWSRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.AWSRole))
-	})
-	return ret, err
+	return &aWSRoleLister{listers.New[*enginev1alpha1.AWSRole](indexer, enginev1alpha1.Resource("awsrole"))}
 }
 
 // AWSRoles returns an object that can list and get AWSRoles.
 func (s *aWSRoleLister) AWSRoles(namespace string) AWSRoleNamespaceLister {
-	return aWSRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return aWSRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.AWSRole](s.ResourceIndexer, namespace)}
 }
 
 // AWSRoleNamespaceLister helps list and get AWSRoles.
@@ -65,36 +57,15 @@ func (s *aWSRoleLister) AWSRoles(namespace string) AWSRoleNamespaceLister {
 type AWSRoleNamespaceLister interface {
 	// List lists all AWSRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.AWSRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.AWSRole, err error)
 	// Get retrieves the AWSRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.AWSRole, error)
+	Get(name string) (*enginev1alpha1.AWSRole, error)
 	AWSRoleNamespaceListerExpansion
 }
 
 // aWSRoleNamespaceLister implements the AWSRoleNamespaceLister
 // interface.
 type aWSRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all AWSRoles in the indexer for a given namespace.
-func (s aWSRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.AWSRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.AWSRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the AWSRole from the indexer for a given namespace and name.
-func (s aWSRoleNamespaceLister) Get(name string) (*v1alpha1.AWSRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("awsrole"), name)
-	}
-	return obj.(*v1alpha1.AWSRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.AWSRole]
 }

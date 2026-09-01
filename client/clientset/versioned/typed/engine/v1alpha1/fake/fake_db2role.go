@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeDB2Roles implements DB2RoleInterface
-type FakeDB2Roles struct {
+// fakeDB2Roles implements DB2RoleInterface
+type fakeDB2Roles struct {
+	*gentype.FakeClientWithList[*v1alpha1.DB2Role, *v1alpha1.DB2RoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var db2rolesResource = v1alpha1.SchemeGroupVersion.WithResource("db2roles")
-
-var db2rolesKind = v1alpha1.SchemeGroupVersion.WithKind("DB2Role")
-
-// Get takes name of the dB2Role, and returns the corresponding dB2Role object, and an error if there is any.
-func (c *FakeDB2Roles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.DB2Role, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(db2rolesResource, c.ns, name), &v1alpha1.DB2Role{})
-
-	if obj == nil {
-		return nil, err
+func newFakeDB2Roles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.DB2RoleInterface {
+	return &fakeDB2Roles{
+		gentype.NewFakeClientWithList[*v1alpha1.DB2Role, *v1alpha1.DB2RoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("db2roles"),
+			v1alpha1.SchemeGroupVersion.WithKind("DB2Role"),
+			func() *v1alpha1.DB2Role { return &v1alpha1.DB2Role{} },
+			func() *v1alpha1.DB2RoleList { return &v1alpha1.DB2RoleList{} },
+			func(dst, src *v1alpha1.DB2RoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.DB2RoleList) []*v1alpha1.DB2Role { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.DB2RoleList, items []*v1alpha1.DB2Role) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.DB2Role), err
-}
-
-// List takes label and field selectors, and returns the list of DB2Roles that match those selectors.
-func (c *FakeDB2Roles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.DB2RoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(db2rolesResource, db2rolesKind, c.ns, opts), &v1alpha1.DB2RoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.DB2RoleList{ListMeta: obj.(*v1alpha1.DB2RoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.DB2RoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested dB2Roles.
-func (c *FakeDB2Roles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(db2rolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a dB2Role and creates it.  Returns the server's representation of the dB2Role, and an error, if there is any.
-func (c *FakeDB2Roles) Create(ctx context.Context, dB2Role *v1alpha1.DB2Role, opts v1.CreateOptions) (result *v1alpha1.DB2Role, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(db2rolesResource, c.ns, dB2Role), &v1alpha1.DB2Role{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.DB2Role), err
-}
-
-// Update takes the representation of a dB2Role and updates it. Returns the server's representation of the dB2Role, and an error, if there is any.
-func (c *FakeDB2Roles) Update(ctx context.Context, dB2Role *v1alpha1.DB2Role, opts v1.UpdateOptions) (result *v1alpha1.DB2Role, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(db2rolesResource, c.ns, dB2Role), &v1alpha1.DB2Role{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.DB2Role), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeDB2Roles) UpdateStatus(ctx context.Context, dB2Role *v1alpha1.DB2Role, opts v1.UpdateOptions) (*v1alpha1.DB2Role, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(db2rolesResource, "status", c.ns, dB2Role), &v1alpha1.DB2Role{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.DB2Role), err
-}
-
-// Delete takes name of the dB2Role and deletes it. Returns an error if one occurs.
-func (c *FakeDB2Roles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(db2rolesResource, c.ns, name, opts), &v1alpha1.DB2Role{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeDB2Roles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(db2rolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.DB2RoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched dB2Role.
-func (c *FakeDB2Roles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.DB2Role, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(db2rolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.DB2Role{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.DB2Role), err
 }

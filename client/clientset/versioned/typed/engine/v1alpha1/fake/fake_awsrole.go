@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeAWSRoles implements AWSRoleInterface
-type FakeAWSRoles struct {
+// fakeAWSRoles implements AWSRoleInterface
+type fakeAWSRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.AWSRole, *v1alpha1.AWSRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var awsrolesResource = v1alpha1.SchemeGroupVersion.WithResource("awsroles")
-
-var awsrolesKind = v1alpha1.SchemeGroupVersion.WithKind("AWSRole")
-
-// Get takes name of the aWSRole, and returns the corresponding aWSRole object, and an error if there is any.
-func (c *FakeAWSRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.AWSRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(awsrolesResource, c.ns, name), &v1alpha1.AWSRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeAWSRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.AWSRoleInterface {
+	return &fakeAWSRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.AWSRole, *v1alpha1.AWSRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("awsroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("AWSRole"),
+			func() *v1alpha1.AWSRole { return &v1alpha1.AWSRole{} },
+			func() *v1alpha1.AWSRoleList { return &v1alpha1.AWSRoleList{} },
+			func(dst, src *v1alpha1.AWSRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.AWSRoleList) []*v1alpha1.AWSRole { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.AWSRoleList, items []*v1alpha1.AWSRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.AWSRole), err
-}
-
-// List takes label and field selectors, and returns the list of AWSRoles that match those selectors.
-func (c *FakeAWSRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.AWSRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(awsrolesResource, awsrolesKind, c.ns, opts), &v1alpha1.AWSRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.AWSRoleList{ListMeta: obj.(*v1alpha1.AWSRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.AWSRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested aWSRoles.
-func (c *FakeAWSRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(awsrolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a aWSRole and creates it.  Returns the server's representation of the aWSRole, and an error, if there is any.
-func (c *FakeAWSRoles) Create(ctx context.Context, aWSRole *v1alpha1.AWSRole, opts v1.CreateOptions) (result *v1alpha1.AWSRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(awsrolesResource, c.ns, aWSRole), &v1alpha1.AWSRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.AWSRole), err
-}
-
-// Update takes the representation of a aWSRole and updates it. Returns the server's representation of the aWSRole, and an error, if there is any.
-func (c *FakeAWSRoles) Update(ctx context.Context, aWSRole *v1alpha1.AWSRole, opts v1.UpdateOptions) (result *v1alpha1.AWSRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(awsrolesResource, c.ns, aWSRole), &v1alpha1.AWSRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.AWSRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeAWSRoles) UpdateStatus(ctx context.Context, aWSRole *v1alpha1.AWSRole, opts v1.UpdateOptions) (*v1alpha1.AWSRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(awsrolesResource, "status", c.ns, aWSRole), &v1alpha1.AWSRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.AWSRole), err
-}
-
-// Delete takes name of the aWSRole and deletes it. Returns an error if one occurs.
-func (c *FakeAWSRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(awsrolesResource, c.ns, name, opts), &v1alpha1.AWSRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeAWSRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(awsrolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.AWSRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched aWSRole.
-func (c *FakeAWSRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.AWSRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(awsrolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.AWSRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.AWSRole), err
 }

@@ -30,7 +30,7 @@ type FakeKubevaultV1alpha1 struct {
 }
 
 func (c *FakeKubevaultV1alpha1) VaultServers(namespace string) v1alpha1.VaultServerInterface {
-	return &FakeVaultServers{c, namespace}
+	return newFakeVaultServers(c, namespace)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

@@ -21,7 +21,7 @@ COMPRESS ?= no
 
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS          ?= "crd:generateEmbeddedObjectMeta=true,allowDangerousTypes=true"
-CODE_GENERATOR_IMAGE ?= ghcr.io/appscode/gengo:release-1.32
+CODE_GENERATOR_IMAGE ?= ghcr.io/appscode/gengo:release-1.34
 API_GROUPS           ?= kubevault:v1alpha1 kubevault:v1alpha2 catalog:v1alpha1 config:v1alpha1 policy:v1alpha1 engine:v1alpha1 ops:v1alpha1
 
 # Where to push the docker image.
@@ -134,35 +134,45 @@ version:
 	@echo ::set-output name=commit_hash::$(commit_hash)
 	@echo ::set-output name=commit_timestamp::$(commit_timestamp)
 
-# Generate a typed clientset
+# Generate a typed clientset, listers, informers and deepcopy/conversion
+# helpers, using k8s.io/code-generator's kube_codegen.sh toolchain (see
+# hack/update-codegen.sh). $(API_GROUPS) is passed through so the generation
+# scope lives in one place (this Makefile) instead of being duplicated in
+# the script.
+.PHONY: update-codegen
+update-codegen:
+	@docker run --rm	                                 \
+		-u $$(id -u):$$(id -g)                           \
+		-v /tmp:/.cache                                  \
+		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
+		-w $(DOCKER_REPO_ROOT)                           \
+		--env HTTP_PROXY=$(HTTP_PROXY)                   \
+		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
+		--env API_GROUPS="$(API_GROUPS)"                 \
+		$(CODE_GENERATOR_IMAGE)                          \
+		./hack/update-codegen.sh
+
+# Verifies that ./apis and ./client are up to date with hack/update-codegen.sh.
+.PHONY: verify-codegen
+verify-codegen:
+	@docker run --rm	                                 \
+		-u $$(id -u):$$(id -g)                           \
+		-v /tmp:/.cache                                  \
+		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
+		-w $(DOCKER_REPO_ROOT)                           \
+		--env HTTP_PROXY=$(HTTP_PROXY)                   \
+		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
+		--env API_GROUPS="$(API_GROUPS)"                 \
+		$(CODE_GENERATOR_IMAGE)                          \
+		./hack/verify-codegen.sh
+
+# Deprecated aliases for update-codegen, kept so muscle memory (and any
+# external tooling) invoking these older target names keeps working.
 .PHONY: clientset
-clientset:
-	@docker run --rm                                   \
-		-u $$(id -u):$$(id -g)                           \
-		-v /tmp:/.cache                                  \
-		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
-		-w $(DOCKER_REPO_ROOT)                           \
-		--env HTTP_PROXY=$(HTTP_PROXY)                   \
-		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
-		$(CODE_GENERATOR_IMAGE)                          \
-		/go/src/k8s.io/code-generator/generate-groups.sh \
-			client,deepcopy,informer,lister                \
-			$(GO_PKG)/$(REPO)/client                     \
-			$(GO_PKG)/$(REPO)/apis                       \
-			"$(API_GROUPS)"                              \
-			--go-header-file "./hack/license/go.txt"
-	rm -rf ./apis/kubevault/v1alpha1/zz_generated.conversion.go
-	@docker run --rm                                   \
-		-u $$(id -u):$$(id -g)                           \
-		-v /tmp:/.cache                                  \
-		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
-		-w $(DOCKER_REPO_ROOT)                           \
-		--env HTTP_PROXY=$(HTTP_PROXY)                   \
-		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
-		$(CODE_GENERATOR_IMAGE)                          \
-		/go/bin/conversion-gen --go-header-file ./hack/license/go.txt \
-			--input-dirs $(GO_PKG)/$(REPO)/apis/kubevault/v1alpha1 \
-			-O zz_generated.conversion
+clientset: update-codegen
+
+.PHONY: gen-conversion
+gen-conversion: update-codegen
 
 # Generate openapi schema
 .PHONY: openapi
@@ -193,10 +203,24 @@ openapi-%:
 		$(CODE_GENERATOR_IMAGE)                          \
 		openapi-gen                                      \
 			--v 1 --logtostderr                          \
-			--go-header-file "./hack/license/go.txt" \
-			--input-dirs "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*),k8s.io/apimachinery/pkg/apis/meta/v1,k8s.io/apimachinery/pkg/api/resource,k8s.io/apimachinery/pkg/runtime,k8s.io/apimachinery/pkg/util/intstr,k8s.io/apimachinery/pkg/version,k8s.io/api/core/v1,k8s.io/api/apps/v1,kmodules.xyz/offshoot-api/api/v1,kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1,kmodules.xyz/monitoring-agent-api/api/v1,k8s.io/api/rbac/v1,kmodules.xyz/client-go/api/v1" \
-			--output-package "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*)" \
-			--report-filename .config/api-rules/violation_exceptions.list
+			--go-header-file "./hack/license/go.txt"     \
+			--output-dir "$(DOCKER_REPO_ROOT)/apis/$(subst _,/,$*)" \
+			--output-pkg "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*)" \
+			--output-file "openapi_generated.go"         \
+			--report-filename .config/api-rules/violation_exceptions.list \
+			$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*) \
+			k8s.io/apimachinery/pkg/apis/meta/v1 \
+			k8s.io/apimachinery/pkg/api/resource \
+			k8s.io/apimachinery/pkg/runtime \
+			k8s.io/apimachinery/pkg/util/intstr \
+			k8s.io/apimachinery/pkg/version \
+			k8s.io/api/core/v1 \
+			k8s.io/api/apps/v1 \
+			kmodules.xyz/offshoot-api/api/v1 \
+			kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1 \
+			kmodules.xyz/monitoring-agent-api/api/v1 \
+			k8s.io/api/rbac/v1 \
+			kmodules.xyz/client-go/api/v1
 
 # Generate CRD manifests
 .PHONY: gen-crds
@@ -256,7 +280,7 @@ gen-crd-protos-%:
 manifests: gen-crds patch-crds label-crds
 
 .PHONY: gen
-gen: clientset manifests openapi
+gen: update-codegen manifests openapi
 
 fmt: $(BUILD_DIRS)
 	@docker run                                                 \
@@ -491,7 +515,7 @@ purge: uninstall
 dev: gen fmt push
 
 .PHONY: verify
-verify: verify-gen #verify-modules
+verify: verify-codegen verify-gen #verify-modules
 
 .PHONY: verify-modules
 verify-modules:

@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/catalog/v1alpha1"
+	catalogv1alpha1 "kubevault.dev/apimachinery/apis/catalog/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // VaultServerVersionLister helps list VaultServerVersions.
@@ -31,39 +31,19 @@ import (
 type VaultServerVersionLister interface {
 	// List lists all VaultServerVersions in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.VaultServerVersion, err error)
+	List(selector labels.Selector) (ret []*catalogv1alpha1.VaultServerVersion, err error)
 	// Get retrieves the VaultServerVersion from the index for a given name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.VaultServerVersion, error)
+	Get(name string) (*catalogv1alpha1.VaultServerVersion, error)
 	VaultServerVersionListerExpansion
 }
 
 // vaultServerVersionLister implements the VaultServerVersionLister interface.
 type vaultServerVersionLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*catalogv1alpha1.VaultServerVersion]
 }
 
 // NewVaultServerVersionLister returns a new VaultServerVersionLister.
 func NewVaultServerVersionLister(indexer cache.Indexer) VaultServerVersionLister {
-	return &vaultServerVersionLister{indexer: indexer}
-}
-
-// List lists all VaultServerVersions in the indexer.
-func (s *vaultServerVersionLister) List(selector labels.Selector) (ret []*v1alpha1.VaultServerVersion, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.VaultServerVersion))
-	})
-	return ret, err
-}
-
-// Get retrieves the VaultServerVersion from the index for a given name.
-func (s *vaultServerVersionLister) Get(name string) (*v1alpha1.VaultServerVersion, error) {
-	obj, exists, err := s.indexer.GetByKey(name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("vaultserverversion"), name)
-	}
-	return obj.(*v1alpha1.VaultServerVersion), nil
+	return &vaultServerVersionLister{listers.New[*catalogv1alpha1.VaultServerVersion](indexer, catalogv1alpha1.Resource("vaultserverversion"))}
 }

@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeDruidRoles implements DruidRoleInterface
-type FakeDruidRoles struct {
+// fakeDruidRoles implements DruidRoleInterface
+type fakeDruidRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.DruidRole, *v1alpha1.DruidRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var druidrolesResource = v1alpha1.SchemeGroupVersion.WithResource("druidroles")
-
-var druidrolesKind = v1alpha1.SchemeGroupVersion.WithKind("DruidRole")
-
-// Get takes name of the druidRole, and returns the corresponding druidRole object, and an error if there is any.
-func (c *FakeDruidRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.DruidRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(druidrolesResource, c.ns, name), &v1alpha1.DruidRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeDruidRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.DruidRoleInterface {
+	return &fakeDruidRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.DruidRole, *v1alpha1.DruidRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("druidroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("DruidRole"),
+			func() *v1alpha1.DruidRole { return &v1alpha1.DruidRole{} },
+			func() *v1alpha1.DruidRoleList { return &v1alpha1.DruidRoleList{} },
+			func(dst, src *v1alpha1.DruidRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.DruidRoleList) []*v1alpha1.DruidRole { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.DruidRoleList, items []*v1alpha1.DruidRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.DruidRole), err
-}
-
-// List takes label and field selectors, and returns the list of DruidRoles that match those selectors.
-func (c *FakeDruidRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.DruidRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(druidrolesResource, druidrolesKind, c.ns, opts), &v1alpha1.DruidRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.DruidRoleList{ListMeta: obj.(*v1alpha1.DruidRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.DruidRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested druidRoles.
-func (c *FakeDruidRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(druidrolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a druidRole and creates it.  Returns the server's representation of the druidRole, and an error, if there is any.
-func (c *FakeDruidRoles) Create(ctx context.Context, druidRole *v1alpha1.DruidRole, opts v1.CreateOptions) (result *v1alpha1.DruidRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(druidrolesResource, c.ns, druidRole), &v1alpha1.DruidRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.DruidRole), err
-}
-
-// Update takes the representation of a druidRole and updates it. Returns the server's representation of the druidRole, and an error, if there is any.
-func (c *FakeDruidRoles) Update(ctx context.Context, druidRole *v1alpha1.DruidRole, opts v1.UpdateOptions) (result *v1alpha1.DruidRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(druidrolesResource, c.ns, druidRole), &v1alpha1.DruidRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.DruidRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeDruidRoles) UpdateStatus(ctx context.Context, druidRole *v1alpha1.DruidRole, opts v1.UpdateOptions) (*v1alpha1.DruidRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(druidrolesResource, "status", c.ns, druidRole), &v1alpha1.DruidRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.DruidRole), err
-}
-
-// Delete takes name of the druidRole and deletes it. Returns an error if one occurs.
-func (c *FakeDruidRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(druidrolesResource, c.ns, name, opts), &v1alpha1.DruidRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeDruidRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(druidrolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.DruidRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched druidRole.
-func (c *FakeDruidRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.DruidRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(druidrolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.DruidRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.DruidRole), err
 }

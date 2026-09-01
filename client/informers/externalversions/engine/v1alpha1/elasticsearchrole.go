@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
 	time "time"
 
-	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	apisenginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
 	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
-	v1alpha1 "kubevault.dev/apimachinery/client/listers/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/listers/engine/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -37,7 +37,7 @@ import (
 // ElasticsearchRoles.
 type ElasticsearchRoleInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.ElasticsearchRoleLister
+	Lister() enginev1alpha1.ElasticsearchRoleLister
 }
 
 type elasticsearchRoleInformer struct {
@@ -63,16 +63,28 @@ func NewFilteredElasticsearchRoleInformer(client versioned.Interface, namespace 
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().ElasticsearchRoles(namespace).List(context.TODO(), options)
+				return client.EngineV1alpha1().ElasticsearchRoles(namespace).List(context.Background(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().ElasticsearchRoles(namespace).Watch(context.TODO(), options)
+				return client.EngineV1alpha1().ElasticsearchRoles(namespace).Watch(context.Background(), options)
+			},
+			ListWithContextFunc: func(ctx context.Context, options v1.ListOptions) (runtime.Object, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.EngineV1alpha1().ElasticsearchRoles(namespace).List(ctx, options)
+			},
+			WatchFuncWithContext: func(ctx context.Context, options v1.ListOptions) (watch.Interface, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.EngineV1alpha1().ElasticsearchRoles(namespace).Watch(ctx, options)
 			},
 		},
-		&enginev1alpha1.ElasticsearchRole{},
+		&apisenginev1alpha1.ElasticsearchRole{},
 		resyncPeriod,
 		indexers,
 	)
@@ -83,9 +95,9 @@ func (f *elasticsearchRoleInformer) defaultInformer(client versioned.Interface, 
 }
 
 func (f *elasticsearchRoleInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&enginev1alpha1.ElasticsearchRole{}, f.defaultInformer)
+	return f.factory.InformerFor(&apisenginev1alpha1.ElasticsearchRole{}, f.defaultInformer)
 }
 
-func (f *elasticsearchRoleInformer) Lister() v1alpha1.ElasticsearchRoleLister {
-	return v1alpha1.NewElasticsearchRoleLister(f.Informer().GetIndexer())
+func (f *elasticsearchRoleInformer) Lister() enginev1alpha1.ElasticsearchRoleLister {
+	return enginev1alpha1.NewElasticsearchRoleLister(f.Informer().GetIndexer())
 }

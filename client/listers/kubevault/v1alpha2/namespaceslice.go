@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha2
 
 import (
-	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+	kubevaultv1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // NamespaceSliceLister helps list NamespaceSlices.
@@ -31,7 +31,7 @@ import (
 type NamespaceSliceLister interface {
 	// List lists all NamespaceSlices in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha2.NamespaceSlice, err error)
+	List(selector labels.Selector) (ret []*kubevaultv1alpha2.NamespaceSlice, err error)
 	// NamespaceSlices returns an object that can list and get NamespaceSlices.
 	NamespaceSlices(namespace string) NamespaceSliceNamespaceLister
 	NamespaceSliceListerExpansion
@@ -39,25 +39,17 @@ type NamespaceSliceLister interface {
 
 // namespaceSliceLister implements the NamespaceSliceLister interface.
 type namespaceSliceLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*kubevaultv1alpha2.NamespaceSlice]
 }
 
 // NewNamespaceSliceLister returns a new NamespaceSliceLister.
 func NewNamespaceSliceLister(indexer cache.Indexer) NamespaceSliceLister {
-	return &namespaceSliceLister{indexer: indexer}
-}
-
-// List lists all NamespaceSlices in the indexer.
-func (s *namespaceSliceLister) List(selector labels.Selector) (ret []*v1alpha2.NamespaceSlice, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha2.NamespaceSlice))
-	})
-	return ret, err
+	return &namespaceSliceLister{listers.New[*kubevaultv1alpha2.NamespaceSlice](indexer, kubevaultv1alpha2.Resource("namespaceslice"))}
 }
 
 // NamespaceSlices returns an object that can list and get NamespaceSlices.
 func (s *namespaceSliceLister) NamespaceSlices(namespace string) NamespaceSliceNamespaceLister {
-	return namespaceSliceNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return namespaceSliceNamespaceLister{listers.NewNamespaced[*kubevaultv1alpha2.NamespaceSlice](s.ResourceIndexer, namespace)}
 }
 
 // NamespaceSliceNamespaceLister helps list and get NamespaceSlices.
@@ -65,36 +57,15 @@ func (s *namespaceSliceLister) NamespaceSlices(namespace string) NamespaceSliceN
 type NamespaceSliceNamespaceLister interface {
 	// List lists all NamespaceSlices in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha2.NamespaceSlice, err error)
+	List(selector labels.Selector) (ret []*kubevaultv1alpha2.NamespaceSlice, err error)
 	// Get retrieves the NamespaceSlice from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha2.NamespaceSlice, error)
+	Get(name string) (*kubevaultv1alpha2.NamespaceSlice, error)
 	NamespaceSliceNamespaceListerExpansion
 }
 
 // namespaceSliceNamespaceLister implements the NamespaceSliceNamespaceLister
 // interface.
 type namespaceSliceNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all NamespaceSlices in the indexer for a given namespace.
-func (s namespaceSliceNamespaceLister) List(selector labels.Selector) (ret []*v1alpha2.NamespaceSlice, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha2.NamespaceSlice))
-	})
-	return ret, err
-}
-
-// Get retrieves the NamespaceSlice from the indexer for a given namespace and name.
-func (s namespaceSliceNamespaceLister) Get(name string) (*v1alpha2.NamespaceSlice, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha2.Resource("namespaceslice"), name)
-	}
-	return obj.(*v1alpha2.NamespaceSlice), nil
+	listers.ResourceIndexer[*kubevaultv1alpha2.NamespaceSlice]
 }

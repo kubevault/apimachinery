@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
 	time "time"
 
-	policyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
+	apispolicyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
 	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
 	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
-	v1alpha1 "kubevault.dev/apimachinery/client/listers/policy/v1alpha1"
+	policyv1alpha1 "kubevault.dev/apimachinery/client/listers/policy/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -37,7 +37,7 @@ import (
 // VaultPolicies.
 type VaultPolicyInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.VaultPolicyLister
+	Lister() policyv1alpha1.VaultPolicyLister
 }
 
 type vaultPolicyInformer struct {
@@ -63,16 +63,28 @@ func NewFilteredVaultPolicyInformer(client versioned.Interface, namespace string
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.PolicyV1alpha1().VaultPolicies(namespace).List(context.TODO(), options)
+				return client.PolicyV1alpha1().VaultPolicies(namespace).List(context.Background(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.PolicyV1alpha1().VaultPolicies(namespace).Watch(context.TODO(), options)
+				return client.PolicyV1alpha1().VaultPolicies(namespace).Watch(context.Background(), options)
+			},
+			ListWithContextFunc: func(ctx context.Context, options v1.ListOptions) (runtime.Object, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.PolicyV1alpha1().VaultPolicies(namespace).List(ctx, options)
+			},
+			WatchFuncWithContext: func(ctx context.Context, options v1.ListOptions) (watch.Interface, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.PolicyV1alpha1().VaultPolicies(namespace).Watch(ctx, options)
 			},
 		},
-		&policyv1alpha1.VaultPolicy{},
+		&apispolicyv1alpha1.VaultPolicy{},
 		resyncPeriod,
 		indexers,
 	)
@@ -83,9 +95,9 @@ func (f *vaultPolicyInformer) defaultInformer(client versioned.Interface, resync
 }
 
 func (f *vaultPolicyInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&policyv1alpha1.VaultPolicy{}, f.defaultInformer)
+	return f.factory.InformerFor(&apispolicyv1alpha1.VaultPolicy{}, f.defaultInformer)
 }
 
-func (f *vaultPolicyInformer) Lister() v1alpha1.VaultPolicyLister {
-	return v1alpha1.NewVaultPolicyLister(f.Informer().GetIndexer())
+func (f *vaultPolicyInformer) Lister() policyv1alpha1.VaultPolicyLister {
+	return policyv1alpha1.NewVaultPolicyLister(f.Informer().GetIndexer())
 }

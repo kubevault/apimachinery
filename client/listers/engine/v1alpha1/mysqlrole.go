@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // MySQLRoleLister helps list MySQLRoles.
@@ -31,7 +31,7 @@ import (
 type MySQLRoleLister interface {
 	// List lists all MySQLRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.MySQLRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.MySQLRole, err error)
 	// MySQLRoles returns an object that can list and get MySQLRoles.
 	MySQLRoles(namespace string) MySQLRoleNamespaceLister
 	MySQLRoleListerExpansion
@@ -39,25 +39,17 @@ type MySQLRoleLister interface {
 
 // mySQLRoleLister implements the MySQLRoleLister interface.
 type mySQLRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.MySQLRole]
 }
 
 // NewMySQLRoleLister returns a new MySQLRoleLister.
 func NewMySQLRoleLister(indexer cache.Indexer) MySQLRoleLister {
-	return &mySQLRoleLister{indexer: indexer}
-}
-
-// List lists all MySQLRoles in the indexer.
-func (s *mySQLRoleLister) List(selector labels.Selector) (ret []*v1alpha1.MySQLRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.MySQLRole))
-	})
-	return ret, err
+	return &mySQLRoleLister{listers.New[*enginev1alpha1.MySQLRole](indexer, enginev1alpha1.Resource("mysqlrole"))}
 }
 
 // MySQLRoles returns an object that can list and get MySQLRoles.
 func (s *mySQLRoleLister) MySQLRoles(namespace string) MySQLRoleNamespaceLister {
-	return mySQLRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return mySQLRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.MySQLRole](s.ResourceIndexer, namespace)}
 }
 
 // MySQLRoleNamespaceLister helps list and get MySQLRoles.
@@ -65,36 +57,15 @@ func (s *mySQLRoleLister) MySQLRoles(namespace string) MySQLRoleNamespaceLister 
 type MySQLRoleNamespaceLister interface {
 	// List lists all MySQLRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.MySQLRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.MySQLRole, err error)
 	// Get retrieves the MySQLRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.MySQLRole, error)
+	Get(name string) (*enginev1alpha1.MySQLRole, error)
 	MySQLRoleNamespaceListerExpansion
 }
 
 // mySQLRoleNamespaceLister implements the MySQLRoleNamespaceLister
 // interface.
 type mySQLRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all MySQLRoles in the indexer for a given namespace.
-func (s mySQLRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.MySQLRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.MySQLRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the MySQLRole from the indexer for a given namespace and name.
-func (s mySQLRoleNamespaceLister) Get(name string) (*v1alpha1.MySQLRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("mysqlrole"), name)
-	}
-	return obj.(*v1alpha1.MySQLRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.MySQLRole]
 }

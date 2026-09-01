@@ -135,10 +135,14 @@ version:
 	@echo ::set-output name=commit_timestamp::$(commit_timestamp)
 
 # Generate a typed clientset, listers, informers and deepcopy/conversion
-# helpers, using k8s.io/code-generator's kube_codegen.sh toolchain (see
-# hack/update-codegen.sh). $(API_GROUPS) is passed through so the generation
-# scope lives in one place (this Makefile) instead of being duplicated in
-# the script.
+# helpers, using update-codegen.sh/verify-codegen.sh -- a generic pair of
+# scripts bundled into $(CODE_GENERATOR_IMAGE) (see
+# https://github.com/appscodelabs/gengo-builder/blob/master/scripts/update-codegen.sh
+# for the full env-var interface) driving k8s.io/code-generator's
+# kube_codegen.sh toolchain. Generation scope is configured entirely through
+# the env vars below rather than a repo-local copy of these scripts.
+CONVERSION_GROUPS ?= kubevault:v1alpha1
+
 .PHONY: update-codegen
 update-codegen:
 	@docker run --rm	                                 \
@@ -149,10 +153,11 @@ update-codegen:
 		--env HTTP_PROXY=$(HTTP_PROXY)                   \
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
 		--env API_GROUPS="$(API_GROUPS)"                 \
+		--env CONVERSION_GROUPS="$(CONVERSION_GROUPS)"   \
 		$(CODE_GENERATOR_IMAGE)                          \
-		./hack/update-codegen.sh
+		update-codegen.sh
 
-# Verifies that ./apis and ./client are up to date with hack/update-codegen.sh.
+# Verifies that ./apis and ./client are up to date with update-codegen.sh.
 .PHONY: verify-codegen
 verify-codegen:
 	@docker run --rm	                                 \
@@ -163,8 +168,9 @@ verify-codegen:
 		--env HTTP_PROXY=$(HTTP_PROXY)                   \
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
 		--env API_GROUPS="$(API_GROUPS)"                 \
+		--env CONVERSION_GROUPS="$(CONVERSION_GROUPS)"   \
 		$(CODE_GENERATOR_IMAGE)                          \
-		./hack/verify-codegen.sh
+		verify-codegen.sh
 
 # Deprecated aliases for update-codegen, kept so muscle memory (and any
 # external tooling) invoking these older target names keeps working.

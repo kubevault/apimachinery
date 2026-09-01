@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
 	time "time"
 
-	opsv1alpha1 "kubevault.dev/apimachinery/apis/ops/v1alpha1"
+	apisopsv1alpha1 "kubevault.dev/apimachinery/apis/ops/v1alpha1"
 	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
 	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
-	v1alpha1 "kubevault.dev/apimachinery/client/listers/ops/v1alpha1"
+	opsv1alpha1 "kubevault.dev/apimachinery/client/listers/ops/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -37,7 +37,7 @@ import (
 // VaultOpsRequests.
 type VaultOpsRequestInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.VaultOpsRequestLister
+	Lister() opsv1alpha1.VaultOpsRequestLister
 }
 
 type vaultOpsRequestInformer struct {
@@ -63,16 +63,28 @@ func NewFilteredVaultOpsRequestInformer(client versioned.Interface, namespace st
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.OpsV1alpha1().VaultOpsRequests(namespace).List(context.TODO(), options)
+				return client.OpsV1alpha1().VaultOpsRequests(namespace).List(context.Background(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.OpsV1alpha1().VaultOpsRequests(namespace).Watch(context.TODO(), options)
+				return client.OpsV1alpha1().VaultOpsRequests(namespace).Watch(context.Background(), options)
+			},
+			ListWithContextFunc: func(ctx context.Context, options v1.ListOptions) (runtime.Object, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.OpsV1alpha1().VaultOpsRequests(namespace).List(ctx, options)
+			},
+			WatchFuncWithContext: func(ctx context.Context, options v1.ListOptions) (watch.Interface, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.OpsV1alpha1().VaultOpsRequests(namespace).Watch(ctx, options)
 			},
 		},
-		&opsv1alpha1.VaultOpsRequest{},
+		&apisopsv1alpha1.VaultOpsRequest{},
 		resyncPeriod,
 		indexers,
 	)
@@ -83,9 +95,9 @@ func (f *vaultOpsRequestInformer) defaultInformer(client versioned.Interface, re
 }
 
 func (f *vaultOpsRequestInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&opsv1alpha1.VaultOpsRequest{}, f.defaultInformer)
+	return f.factory.InformerFor(&apisopsv1alpha1.VaultOpsRequest{}, f.defaultInformer)
 }
 
-func (f *vaultOpsRequestInformer) Lister() v1alpha1.VaultOpsRequestLister {
-	return v1alpha1.NewVaultOpsRequestLister(f.Informer().GetIndexer())
+func (f *vaultOpsRequestInformer) Lister() opsv1alpha1.VaultOpsRequestLister {
+	return opsv1alpha1.NewVaultOpsRequestLister(f.Informer().GetIndexer())
 }

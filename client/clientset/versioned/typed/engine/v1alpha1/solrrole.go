@@ -19,16 +19,15 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
-	"time"
+	context "context"
 
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 	scheme "kubevault.dev/apimachinery/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
-	rest "k8s.io/client-go/rest"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // SolrRolesGetter has a method to return a SolrRoleInterface.
@@ -39,158 +38,34 @@ type SolrRolesGetter interface {
 
 // SolrRoleInterface has methods to work with SolrRole resources.
 type SolrRoleInterface interface {
-	Create(ctx context.Context, solrRole *v1alpha1.SolrRole, opts v1.CreateOptions) (*v1alpha1.SolrRole, error)
-	Update(ctx context.Context, solrRole *v1alpha1.SolrRole, opts v1.UpdateOptions) (*v1alpha1.SolrRole, error)
-	UpdateStatus(ctx context.Context, solrRole *v1alpha1.SolrRole, opts v1.UpdateOptions) (*v1alpha1.SolrRole, error)
+	Create(ctx context.Context, solrRole *enginev1alpha1.SolrRole, opts v1.CreateOptions) (*enginev1alpha1.SolrRole, error)
+	Update(ctx context.Context, solrRole *enginev1alpha1.SolrRole, opts v1.UpdateOptions) (*enginev1alpha1.SolrRole, error)
+	// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
+	UpdateStatus(ctx context.Context, solrRole *enginev1alpha1.SolrRole, opts v1.UpdateOptions) (*enginev1alpha1.SolrRole, error)
 	Delete(ctx context.Context, name string, opts v1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.SolrRole, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.SolrRoleList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*enginev1alpha1.SolrRole, error)
+	List(ctx context.Context, opts v1.ListOptions) (*enginev1alpha1.SolrRoleList, error)
 	Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error)
-	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.SolrRole, err error)
+	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *enginev1alpha1.SolrRole, err error)
 	SolrRoleExpansion
 }
 
 // solrRoles implements SolrRoleInterface
 type solrRoles struct {
-	client rest.Interface
-	ns     string
+	*gentype.ClientWithList[*enginev1alpha1.SolrRole, *enginev1alpha1.SolrRoleList]
 }
 
 // newSolrRoles returns a SolrRoles
 func newSolrRoles(c *EngineV1alpha1Client, namespace string) *solrRoles {
 	return &solrRoles{
-		client: c.RESTClient(),
-		ns:     namespace,
+		gentype.NewClientWithList[*enginev1alpha1.SolrRole, *enginev1alpha1.SolrRoleList](
+			"solrroles",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			namespace,
+			func() *enginev1alpha1.SolrRole { return &enginev1alpha1.SolrRole{} },
+			func() *enginev1alpha1.SolrRoleList { return &enginev1alpha1.SolrRoleList{} },
+		),
 	}
-}
-
-// Get takes name of the solrRole, and returns the corresponding solrRole object, and an error if there is any.
-func (c *solrRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.SolrRole, err error) {
-	result = &v1alpha1.SolrRole{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("solrroles").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// List takes label and field selectors, and returns the list of SolrRoles that match those selectors.
-func (c *solrRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.SolrRoleList, err error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	result = &v1alpha1.SolrRoleList{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("solrroles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Watch returns a watch.Interface that watches the requested solrRoles.
-func (c *solrRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	opts.Watch = true
-	return c.client.Get().
-		Namespace(c.ns).
-		Resource("solrroles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Watch(ctx)
-}
-
-// Create takes the representation of a solrRole and creates it.  Returns the server's representation of the solrRole, and an error, if there is any.
-func (c *solrRoles) Create(ctx context.Context, solrRole *v1alpha1.SolrRole, opts v1.CreateOptions) (result *v1alpha1.SolrRole, err error) {
-	result = &v1alpha1.SolrRole{}
-	err = c.client.Post().
-		Namespace(c.ns).
-		Resource("solrroles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(solrRole).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Update takes the representation of a solrRole and updates it. Returns the server's representation of the solrRole, and an error, if there is any.
-func (c *solrRoles) Update(ctx context.Context, solrRole *v1alpha1.SolrRole, opts v1.UpdateOptions) (result *v1alpha1.SolrRole, err error) {
-	result = &v1alpha1.SolrRole{}
-	err = c.client.Put().
-		Namespace(c.ns).
-		Resource("solrroles").
-		Name(solrRole.Name).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(solrRole).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *solrRoles) UpdateStatus(ctx context.Context, solrRole *v1alpha1.SolrRole, opts v1.UpdateOptions) (result *v1alpha1.SolrRole, err error) {
-	result = &v1alpha1.SolrRole{}
-	err = c.client.Put().
-		Namespace(c.ns).
-		Resource("solrroles").
-		Name(solrRole.Name).
-		SubResource("status").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(solrRole).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Delete takes name of the solrRole and deletes it. Returns an error if one occurs.
-func (c *solrRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	return c.client.Delete().
-		Namespace(c.ns).
-		Resource("solrroles").
-		Name(name).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *solrRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	var timeout time.Duration
-	if listOpts.TimeoutSeconds != nil {
-		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
-	}
-	return c.client.Delete().
-		Namespace(c.ns).
-		Resource("solrroles").
-		VersionedParams(&listOpts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// Patch applies the patch and returns the patched solrRole.
-func (c *solrRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.SolrRole, err error) {
-	result = &v1alpha1.SolrRole{}
-	err = c.client.Patch(pt).
-		Namespace(c.ns).
-		Resource("solrroles").
-		Name(name).
-		SubResource(subresources...).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(data).
-		Do(ctx).
-		Into(result)
-	return
 }

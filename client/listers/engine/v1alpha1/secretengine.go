@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // SecretEngineLister helps list SecretEngines.
@@ -31,7 +31,7 @@ import (
 type SecretEngineLister interface {
 	// List lists all SecretEngines in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.SecretEngine, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.SecretEngine, err error)
 	// SecretEngines returns an object that can list and get SecretEngines.
 	SecretEngines(namespace string) SecretEngineNamespaceLister
 	SecretEngineListerExpansion
@@ -39,25 +39,17 @@ type SecretEngineLister interface {
 
 // secretEngineLister implements the SecretEngineLister interface.
 type secretEngineLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.SecretEngine]
 }
 
 // NewSecretEngineLister returns a new SecretEngineLister.
 func NewSecretEngineLister(indexer cache.Indexer) SecretEngineLister {
-	return &secretEngineLister{indexer: indexer}
-}
-
-// List lists all SecretEngines in the indexer.
-func (s *secretEngineLister) List(selector labels.Selector) (ret []*v1alpha1.SecretEngine, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.SecretEngine))
-	})
-	return ret, err
+	return &secretEngineLister{listers.New[*enginev1alpha1.SecretEngine](indexer, enginev1alpha1.Resource("secretengine"))}
 }
 
 // SecretEngines returns an object that can list and get SecretEngines.
 func (s *secretEngineLister) SecretEngines(namespace string) SecretEngineNamespaceLister {
-	return secretEngineNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return secretEngineNamespaceLister{listers.NewNamespaced[*enginev1alpha1.SecretEngine](s.ResourceIndexer, namespace)}
 }
 
 // SecretEngineNamespaceLister helps list and get SecretEngines.
@@ -65,36 +57,15 @@ func (s *secretEngineLister) SecretEngines(namespace string) SecretEngineNamespa
 type SecretEngineNamespaceLister interface {
 	// List lists all SecretEngines in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.SecretEngine, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.SecretEngine, err error)
 	// Get retrieves the SecretEngine from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.SecretEngine, error)
+	Get(name string) (*enginev1alpha1.SecretEngine, error)
 	SecretEngineNamespaceListerExpansion
 }
 
 // secretEngineNamespaceLister implements the SecretEngineNamespaceLister
 // interface.
 type secretEngineNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all SecretEngines in the indexer for a given namespace.
-func (s secretEngineNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.SecretEngine, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.SecretEngine))
-	})
-	return ret, err
-}
-
-// Get retrieves the SecretEngine from the indexer for a given namespace and name.
-func (s secretEngineNamespaceLister) Get(name string) (*v1alpha1.SecretEngine, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("secretengine"), name)
-	}
-	return obj.(*v1alpha1.SecretEngine), nil
+	listers.ResourceIndexer[*enginev1alpha1.SecretEngine]
 }

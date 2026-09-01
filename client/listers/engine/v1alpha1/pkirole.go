@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // PKIRoleLister helps list PKIRoles.
@@ -31,7 +31,7 @@ import (
 type PKIRoleLister interface {
 	// List lists all PKIRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.PKIRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.PKIRole, err error)
 	// PKIRoles returns an object that can list and get PKIRoles.
 	PKIRoles(namespace string) PKIRoleNamespaceLister
 	PKIRoleListerExpansion
@@ -39,25 +39,17 @@ type PKIRoleLister interface {
 
 // pKIRoleLister implements the PKIRoleLister interface.
 type pKIRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.PKIRole]
 }
 
 // NewPKIRoleLister returns a new PKIRoleLister.
 func NewPKIRoleLister(indexer cache.Indexer) PKIRoleLister {
-	return &pKIRoleLister{indexer: indexer}
-}
-
-// List lists all PKIRoles in the indexer.
-func (s *pKIRoleLister) List(selector labels.Selector) (ret []*v1alpha1.PKIRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.PKIRole))
-	})
-	return ret, err
+	return &pKIRoleLister{listers.New[*enginev1alpha1.PKIRole](indexer, enginev1alpha1.Resource("pkirole"))}
 }
 
 // PKIRoles returns an object that can list and get PKIRoles.
 func (s *pKIRoleLister) PKIRoles(namespace string) PKIRoleNamespaceLister {
-	return pKIRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return pKIRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.PKIRole](s.ResourceIndexer, namespace)}
 }
 
 // PKIRoleNamespaceLister helps list and get PKIRoles.
@@ -65,36 +57,15 @@ func (s *pKIRoleLister) PKIRoles(namespace string) PKIRoleNamespaceLister {
 type PKIRoleNamespaceLister interface {
 	// List lists all PKIRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.PKIRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.PKIRole, err error)
 	// Get retrieves the PKIRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.PKIRole, error)
+	Get(name string) (*enginev1alpha1.PKIRole, error)
 	PKIRoleNamespaceListerExpansion
 }
 
 // pKIRoleNamespaceLister implements the PKIRoleNamespaceLister
 // interface.
 type pKIRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all PKIRoles in the indexer for a given namespace.
-func (s pKIRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.PKIRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.PKIRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the PKIRole from the indexer for a given namespace and name.
-func (s pKIRoleNamespaceLister) Get(name string) (*v1alpha1.PKIRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("pkirole"), name)
-	}
-	return obj.(*v1alpha1.PKIRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.PKIRole]
 }

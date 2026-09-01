@@ -19,124 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeHazelcastRoles implements HazelcastRoleInterface
-type FakeHazelcastRoles struct {
+// fakeHazelcastRoles implements HazelcastRoleInterface
+type fakeHazelcastRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.HazelcastRole, *v1alpha1.HazelcastRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var hazelcastrolesResource = v1alpha1.SchemeGroupVersion.WithResource("hazelcastroles")
-
-var hazelcastrolesKind = v1alpha1.SchemeGroupVersion.WithKind("HazelcastRole")
-
-// Get takes name of the hazelcastRole, and returns the corresponding hazelcastRole object, and an error if there is any.
-func (c *FakeHazelcastRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.HazelcastRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(hazelcastrolesResource, c.ns, name), &v1alpha1.HazelcastRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeHazelcastRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.HazelcastRoleInterface {
+	return &fakeHazelcastRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.HazelcastRole, *v1alpha1.HazelcastRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("hazelcastroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("HazelcastRole"),
+			func() *v1alpha1.HazelcastRole { return &v1alpha1.HazelcastRole{} },
+			func() *v1alpha1.HazelcastRoleList { return &v1alpha1.HazelcastRoleList{} },
+			func(dst, src *v1alpha1.HazelcastRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.HazelcastRoleList) []*v1alpha1.HazelcastRole {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha1.HazelcastRoleList, items []*v1alpha1.HazelcastRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.HazelcastRole), err
-}
-
-// List takes label and field selectors, and returns the list of HazelcastRoles that match those selectors.
-func (c *FakeHazelcastRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.HazelcastRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(hazelcastrolesResource, hazelcastrolesKind, c.ns, opts), &v1alpha1.HazelcastRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.HazelcastRoleList{ListMeta: obj.(*v1alpha1.HazelcastRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.HazelcastRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested hazelcastRoles.
-func (c *FakeHazelcastRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(hazelcastrolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a hazelcastRole and creates it.  Returns the server's representation of the hazelcastRole, and an error, if there is any.
-func (c *FakeHazelcastRoles) Create(ctx context.Context, hazelcastRole *v1alpha1.HazelcastRole, opts v1.CreateOptions) (result *v1alpha1.HazelcastRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(hazelcastrolesResource, c.ns, hazelcastRole), &v1alpha1.HazelcastRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.HazelcastRole), err
-}
-
-// Update takes the representation of a hazelcastRole and updates it. Returns the server's representation of the hazelcastRole, and an error, if there is any.
-func (c *FakeHazelcastRoles) Update(ctx context.Context, hazelcastRole *v1alpha1.HazelcastRole, opts v1.UpdateOptions) (result *v1alpha1.HazelcastRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(hazelcastrolesResource, c.ns, hazelcastRole), &v1alpha1.HazelcastRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.HazelcastRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeHazelcastRoles) UpdateStatus(ctx context.Context, hazelcastRole *v1alpha1.HazelcastRole, opts v1.UpdateOptions) (*v1alpha1.HazelcastRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(hazelcastrolesResource, "status", c.ns, hazelcastRole), &v1alpha1.HazelcastRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.HazelcastRole), err
-}
-
-// Delete takes name of the hazelcastRole and deletes it. Returns an error if one occurs.
-func (c *FakeHazelcastRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(hazelcastrolesResource, c.ns, name, opts), &v1alpha1.HazelcastRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeHazelcastRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(hazelcastrolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.HazelcastRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched hazelcastRole.
-func (c *FakeHazelcastRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.HazelcastRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(hazelcastrolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.HazelcastRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.HazelcastRole), err
 }

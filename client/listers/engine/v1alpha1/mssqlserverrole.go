@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // MSSQLServerRoleLister helps list MSSQLServerRoles.
@@ -31,7 +31,7 @@ import (
 type MSSQLServerRoleLister interface {
 	// List lists all MSSQLServerRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.MSSQLServerRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.MSSQLServerRole, err error)
 	// MSSQLServerRoles returns an object that can list and get MSSQLServerRoles.
 	MSSQLServerRoles(namespace string) MSSQLServerRoleNamespaceLister
 	MSSQLServerRoleListerExpansion
@@ -39,25 +39,17 @@ type MSSQLServerRoleLister interface {
 
 // mSSQLServerRoleLister implements the MSSQLServerRoleLister interface.
 type mSSQLServerRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.MSSQLServerRole]
 }
 
 // NewMSSQLServerRoleLister returns a new MSSQLServerRoleLister.
 func NewMSSQLServerRoleLister(indexer cache.Indexer) MSSQLServerRoleLister {
-	return &mSSQLServerRoleLister{indexer: indexer}
-}
-
-// List lists all MSSQLServerRoles in the indexer.
-func (s *mSSQLServerRoleLister) List(selector labels.Selector) (ret []*v1alpha1.MSSQLServerRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.MSSQLServerRole))
-	})
-	return ret, err
+	return &mSSQLServerRoleLister{listers.New[*enginev1alpha1.MSSQLServerRole](indexer, enginev1alpha1.Resource("mssqlserverrole"))}
 }
 
 // MSSQLServerRoles returns an object that can list and get MSSQLServerRoles.
 func (s *mSSQLServerRoleLister) MSSQLServerRoles(namespace string) MSSQLServerRoleNamespaceLister {
-	return mSSQLServerRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return mSSQLServerRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.MSSQLServerRole](s.ResourceIndexer, namespace)}
 }
 
 // MSSQLServerRoleNamespaceLister helps list and get MSSQLServerRoles.
@@ -65,36 +57,15 @@ func (s *mSSQLServerRoleLister) MSSQLServerRoles(namespace string) MSSQLServerRo
 type MSSQLServerRoleNamespaceLister interface {
 	// List lists all MSSQLServerRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.MSSQLServerRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.MSSQLServerRole, err error)
 	// Get retrieves the MSSQLServerRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.MSSQLServerRole, error)
+	Get(name string) (*enginev1alpha1.MSSQLServerRole, error)
 	MSSQLServerRoleNamespaceListerExpansion
 }
 
 // mSSQLServerRoleNamespaceLister implements the MSSQLServerRoleNamespaceLister
 // interface.
 type mSSQLServerRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all MSSQLServerRoles in the indexer for a given namespace.
-func (s mSSQLServerRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.MSSQLServerRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.MSSQLServerRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the MSSQLServerRole from the indexer for a given namespace and name.
-func (s mSSQLServerRoleNamespaceLister) Get(name string) (*v1alpha1.MSSQLServerRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("mssqlserverrole"), name)
-	}
-	return obj.(*v1alpha1.MSSQLServerRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.MSSQLServerRole]
 }

@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeAzureRoles implements AzureRoleInterface
-type FakeAzureRoles struct {
+// fakeAzureRoles implements AzureRoleInterface
+type fakeAzureRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.AzureRole, *v1alpha1.AzureRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var azurerolesResource = v1alpha1.SchemeGroupVersion.WithResource("azureroles")
-
-var azurerolesKind = v1alpha1.SchemeGroupVersion.WithKind("AzureRole")
-
-// Get takes name of the azureRole, and returns the corresponding azureRole object, and an error if there is any.
-func (c *FakeAzureRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.AzureRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(azurerolesResource, c.ns, name), &v1alpha1.AzureRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeAzureRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.AzureRoleInterface {
+	return &fakeAzureRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.AzureRole, *v1alpha1.AzureRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("azureroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("AzureRole"),
+			func() *v1alpha1.AzureRole { return &v1alpha1.AzureRole{} },
+			func() *v1alpha1.AzureRoleList { return &v1alpha1.AzureRoleList{} },
+			func(dst, src *v1alpha1.AzureRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.AzureRoleList) []*v1alpha1.AzureRole { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.AzureRoleList, items []*v1alpha1.AzureRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.AzureRole), err
-}
-
-// List takes label and field selectors, and returns the list of AzureRoles that match those selectors.
-func (c *FakeAzureRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.AzureRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(azurerolesResource, azurerolesKind, c.ns, opts), &v1alpha1.AzureRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.AzureRoleList{ListMeta: obj.(*v1alpha1.AzureRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.AzureRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested azureRoles.
-func (c *FakeAzureRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(azurerolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a azureRole and creates it.  Returns the server's representation of the azureRole, and an error, if there is any.
-func (c *FakeAzureRoles) Create(ctx context.Context, azureRole *v1alpha1.AzureRole, opts v1.CreateOptions) (result *v1alpha1.AzureRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(azurerolesResource, c.ns, azureRole), &v1alpha1.AzureRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.AzureRole), err
-}
-
-// Update takes the representation of a azureRole and updates it. Returns the server's representation of the azureRole, and an error, if there is any.
-func (c *FakeAzureRoles) Update(ctx context.Context, azureRole *v1alpha1.AzureRole, opts v1.UpdateOptions) (result *v1alpha1.AzureRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(azurerolesResource, c.ns, azureRole), &v1alpha1.AzureRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.AzureRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeAzureRoles) UpdateStatus(ctx context.Context, azureRole *v1alpha1.AzureRole, opts v1.UpdateOptions) (*v1alpha1.AzureRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(azurerolesResource, "status", c.ns, azureRole), &v1alpha1.AzureRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.AzureRole), err
-}
-
-// Delete takes name of the azureRole and deletes it. Returns an error if one occurs.
-func (c *FakeAzureRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(azurerolesResource, c.ns, name, opts), &v1alpha1.AzureRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeAzureRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(azurerolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.AzureRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched azureRole.
-func (c *FakeAzureRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.AzureRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(azurerolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.AzureRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.AzureRole), err
 }

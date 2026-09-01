@@ -19,124 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeRabbitMQRoles implements RabbitMQRoleInterface
-type FakeRabbitMQRoles struct {
+// fakeRabbitMQRoles implements RabbitMQRoleInterface
+type fakeRabbitMQRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.RabbitMQRole, *v1alpha1.RabbitMQRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var rabbitmqrolesResource = v1alpha1.SchemeGroupVersion.WithResource("rabbitmqroles")
-
-var rabbitmqrolesKind = v1alpha1.SchemeGroupVersion.WithKind("RabbitMQRole")
-
-// Get takes name of the rabbitMQRole, and returns the corresponding rabbitMQRole object, and an error if there is any.
-func (c *FakeRabbitMQRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.RabbitMQRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(rabbitmqrolesResource, c.ns, name), &v1alpha1.RabbitMQRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeRabbitMQRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.RabbitMQRoleInterface {
+	return &fakeRabbitMQRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.RabbitMQRole, *v1alpha1.RabbitMQRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("rabbitmqroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("RabbitMQRole"),
+			func() *v1alpha1.RabbitMQRole { return &v1alpha1.RabbitMQRole{} },
+			func() *v1alpha1.RabbitMQRoleList { return &v1alpha1.RabbitMQRoleList{} },
+			func(dst, src *v1alpha1.RabbitMQRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.RabbitMQRoleList) []*v1alpha1.RabbitMQRole {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha1.RabbitMQRoleList, items []*v1alpha1.RabbitMQRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.RabbitMQRole), err
-}
-
-// List takes label and field selectors, and returns the list of RabbitMQRoles that match those selectors.
-func (c *FakeRabbitMQRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.RabbitMQRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(rabbitmqrolesResource, rabbitmqrolesKind, c.ns, opts), &v1alpha1.RabbitMQRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.RabbitMQRoleList{ListMeta: obj.(*v1alpha1.RabbitMQRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.RabbitMQRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested rabbitMQRoles.
-func (c *FakeRabbitMQRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(rabbitmqrolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a rabbitMQRole and creates it.  Returns the server's representation of the rabbitMQRole, and an error, if there is any.
-func (c *FakeRabbitMQRoles) Create(ctx context.Context, rabbitMQRole *v1alpha1.RabbitMQRole, opts v1.CreateOptions) (result *v1alpha1.RabbitMQRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(rabbitmqrolesResource, c.ns, rabbitMQRole), &v1alpha1.RabbitMQRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.RabbitMQRole), err
-}
-
-// Update takes the representation of a rabbitMQRole and updates it. Returns the server's representation of the rabbitMQRole, and an error, if there is any.
-func (c *FakeRabbitMQRoles) Update(ctx context.Context, rabbitMQRole *v1alpha1.RabbitMQRole, opts v1.UpdateOptions) (result *v1alpha1.RabbitMQRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(rabbitmqrolesResource, c.ns, rabbitMQRole), &v1alpha1.RabbitMQRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.RabbitMQRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeRabbitMQRoles) UpdateStatus(ctx context.Context, rabbitMQRole *v1alpha1.RabbitMQRole, opts v1.UpdateOptions) (*v1alpha1.RabbitMQRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(rabbitmqrolesResource, "status", c.ns, rabbitMQRole), &v1alpha1.RabbitMQRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.RabbitMQRole), err
-}
-
-// Delete takes name of the rabbitMQRole and deletes it. Returns an error if one occurs.
-func (c *FakeRabbitMQRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(rabbitmqrolesResource, c.ns, name, opts), &v1alpha1.RabbitMQRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeRabbitMQRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(rabbitmqrolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.RabbitMQRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched rabbitMQRole.
-func (c *FakeRabbitMQRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.RabbitMQRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(rabbitmqrolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.RabbitMQRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.RabbitMQRole), err
 }

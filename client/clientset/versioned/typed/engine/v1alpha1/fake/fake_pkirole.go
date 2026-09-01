@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakePKIRoles implements PKIRoleInterface
-type FakePKIRoles struct {
+// fakePKIRoles implements PKIRoleInterface
+type fakePKIRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.PKIRole, *v1alpha1.PKIRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var pkirolesResource = v1alpha1.SchemeGroupVersion.WithResource("pkiroles")
-
-var pkirolesKind = v1alpha1.SchemeGroupVersion.WithKind("PKIRole")
-
-// Get takes name of the pKIRole, and returns the corresponding pKIRole object, and an error if there is any.
-func (c *FakePKIRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.PKIRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(pkirolesResource, c.ns, name), &v1alpha1.PKIRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakePKIRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.PKIRoleInterface {
+	return &fakePKIRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.PKIRole, *v1alpha1.PKIRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("pkiroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("PKIRole"),
+			func() *v1alpha1.PKIRole { return &v1alpha1.PKIRole{} },
+			func() *v1alpha1.PKIRoleList { return &v1alpha1.PKIRoleList{} },
+			func(dst, src *v1alpha1.PKIRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.PKIRoleList) []*v1alpha1.PKIRole { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.PKIRoleList, items []*v1alpha1.PKIRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.PKIRole), err
-}
-
-// List takes label and field selectors, and returns the list of PKIRoles that match those selectors.
-func (c *FakePKIRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.PKIRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(pkirolesResource, pkirolesKind, c.ns, opts), &v1alpha1.PKIRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.PKIRoleList{ListMeta: obj.(*v1alpha1.PKIRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.PKIRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested pKIRoles.
-func (c *FakePKIRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(pkirolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a pKIRole and creates it.  Returns the server's representation of the pKIRole, and an error, if there is any.
-func (c *FakePKIRoles) Create(ctx context.Context, pKIRole *v1alpha1.PKIRole, opts v1.CreateOptions) (result *v1alpha1.PKIRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(pkirolesResource, c.ns, pKIRole), &v1alpha1.PKIRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.PKIRole), err
-}
-
-// Update takes the representation of a pKIRole and updates it. Returns the server's representation of the pKIRole, and an error, if there is any.
-func (c *FakePKIRoles) Update(ctx context.Context, pKIRole *v1alpha1.PKIRole, opts v1.UpdateOptions) (result *v1alpha1.PKIRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(pkirolesResource, c.ns, pKIRole), &v1alpha1.PKIRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.PKIRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakePKIRoles) UpdateStatus(ctx context.Context, pKIRole *v1alpha1.PKIRole, opts v1.UpdateOptions) (*v1alpha1.PKIRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(pkirolesResource, "status", c.ns, pKIRole), &v1alpha1.PKIRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.PKIRole), err
-}
-
-// Delete takes name of the pKIRole and deletes it. Returns an error if one occurs.
-func (c *FakePKIRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(pkirolesResource, c.ns, name, opts), &v1alpha1.PKIRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakePKIRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(pkirolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.PKIRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched pKIRole.
-func (c *FakePKIRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.PKIRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(pkirolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.PKIRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.PKIRole), err
 }

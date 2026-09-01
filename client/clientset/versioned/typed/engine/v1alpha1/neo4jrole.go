@@ -19,16 +19,15 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
-	"time"
+	context "context"
 
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 	scheme "kubevault.dev/apimachinery/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
-	rest "k8s.io/client-go/rest"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // Neo4jRolesGetter has a method to return a Neo4jRoleInterface.
@@ -39,158 +38,34 @@ type Neo4jRolesGetter interface {
 
 // Neo4jRoleInterface has methods to work with Neo4jRole resources.
 type Neo4jRoleInterface interface {
-	Create(ctx context.Context, neo4jRole *v1alpha1.Neo4jRole, opts v1.CreateOptions) (*v1alpha1.Neo4jRole, error)
-	Update(ctx context.Context, neo4jRole *v1alpha1.Neo4jRole, opts v1.UpdateOptions) (*v1alpha1.Neo4jRole, error)
-	UpdateStatus(ctx context.Context, neo4jRole *v1alpha1.Neo4jRole, opts v1.UpdateOptions) (*v1alpha1.Neo4jRole, error)
+	Create(ctx context.Context, neo4jRole *enginev1alpha1.Neo4jRole, opts v1.CreateOptions) (*enginev1alpha1.Neo4jRole, error)
+	Update(ctx context.Context, neo4jRole *enginev1alpha1.Neo4jRole, opts v1.UpdateOptions) (*enginev1alpha1.Neo4jRole, error)
+	// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
+	UpdateStatus(ctx context.Context, neo4jRole *enginev1alpha1.Neo4jRole, opts v1.UpdateOptions) (*enginev1alpha1.Neo4jRole, error)
 	Delete(ctx context.Context, name string, opts v1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.Neo4jRole, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.Neo4jRoleList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*enginev1alpha1.Neo4jRole, error)
+	List(ctx context.Context, opts v1.ListOptions) (*enginev1alpha1.Neo4jRoleList, error)
 	Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error)
-	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.Neo4jRole, err error)
+	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *enginev1alpha1.Neo4jRole, err error)
 	Neo4jRoleExpansion
 }
 
 // neo4jRoles implements Neo4jRoleInterface
 type neo4jRoles struct {
-	client rest.Interface
-	ns     string
+	*gentype.ClientWithList[*enginev1alpha1.Neo4jRole, *enginev1alpha1.Neo4jRoleList]
 }
 
 // newNeo4jRoles returns a Neo4jRoles
 func newNeo4jRoles(c *EngineV1alpha1Client, namespace string) *neo4jRoles {
 	return &neo4jRoles{
-		client: c.RESTClient(),
-		ns:     namespace,
+		gentype.NewClientWithList[*enginev1alpha1.Neo4jRole, *enginev1alpha1.Neo4jRoleList](
+			"neo4jroles",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			namespace,
+			func() *enginev1alpha1.Neo4jRole { return &enginev1alpha1.Neo4jRole{} },
+			func() *enginev1alpha1.Neo4jRoleList { return &enginev1alpha1.Neo4jRoleList{} },
+		),
 	}
-}
-
-// Get takes name of the neo4jRole, and returns the corresponding neo4jRole object, and an error if there is any.
-func (c *neo4jRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.Neo4jRole, err error) {
-	result = &v1alpha1.Neo4jRole{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("neo4jroles").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// List takes label and field selectors, and returns the list of Neo4jRoles that match those selectors.
-func (c *neo4jRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.Neo4jRoleList, err error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	result = &v1alpha1.Neo4jRoleList{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("neo4jroles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Watch returns a watch.Interface that watches the requested neo4jRoles.
-func (c *neo4jRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	opts.Watch = true
-	return c.client.Get().
-		Namespace(c.ns).
-		Resource("neo4jroles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Watch(ctx)
-}
-
-// Create takes the representation of a neo4jRole and creates it.  Returns the server's representation of the neo4jRole, and an error, if there is any.
-func (c *neo4jRoles) Create(ctx context.Context, neo4jRole *v1alpha1.Neo4jRole, opts v1.CreateOptions) (result *v1alpha1.Neo4jRole, err error) {
-	result = &v1alpha1.Neo4jRole{}
-	err = c.client.Post().
-		Namespace(c.ns).
-		Resource("neo4jroles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(neo4jRole).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Update takes the representation of a neo4jRole and updates it. Returns the server's representation of the neo4jRole, and an error, if there is any.
-func (c *neo4jRoles) Update(ctx context.Context, neo4jRole *v1alpha1.Neo4jRole, opts v1.UpdateOptions) (result *v1alpha1.Neo4jRole, err error) {
-	result = &v1alpha1.Neo4jRole{}
-	err = c.client.Put().
-		Namespace(c.ns).
-		Resource("neo4jroles").
-		Name(neo4jRole.Name).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(neo4jRole).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *neo4jRoles) UpdateStatus(ctx context.Context, neo4jRole *v1alpha1.Neo4jRole, opts v1.UpdateOptions) (result *v1alpha1.Neo4jRole, err error) {
-	result = &v1alpha1.Neo4jRole{}
-	err = c.client.Put().
-		Namespace(c.ns).
-		Resource("neo4jroles").
-		Name(neo4jRole.Name).
-		SubResource("status").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(neo4jRole).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Delete takes name of the neo4jRole and deletes it. Returns an error if one occurs.
-func (c *neo4jRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	return c.client.Delete().
-		Namespace(c.ns).
-		Resource("neo4jroles").
-		Name(name).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *neo4jRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	var timeout time.Duration
-	if listOpts.TimeoutSeconds != nil {
-		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
-	}
-	return c.client.Delete().
-		Namespace(c.ns).
-		Resource("neo4jroles").
-		VersionedParams(&listOpts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// Patch applies the patch and returns the patched neo4jRole.
-func (c *neo4jRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.Neo4jRole, err error) {
-	result = &v1alpha1.Neo4jRole{}
-	err = c.client.Patch(pt).
-		Namespace(c.ns).
-		Resource("neo4jroles").
-		Name(name).
-		SubResource(subresources...).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(data).
-		Do(ctx).
-		Into(result)
-	return
 }

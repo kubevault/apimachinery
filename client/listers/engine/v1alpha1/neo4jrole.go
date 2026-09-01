@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // Neo4jRoleLister helps list Neo4jRoles.
@@ -31,7 +31,7 @@ import (
 type Neo4jRoleLister interface {
 	// List lists all Neo4jRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.Neo4jRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.Neo4jRole, err error)
 	// Neo4jRoles returns an object that can list and get Neo4jRoles.
 	Neo4jRoles(namespace string) Neo4jRoleNamespaceLister
 	Neo4jRoleListerExpansion
@@ -39,25 +39,17 @@ type Neo4jRoleLister interface {
 
 // neo4jRoleLister implements the Neo4jRoleLister interface.
 type neo4jRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.Neo4jRole]
 }
 
 // NewNeo4jRoleLister returns a new Neo4jRoleLister.
 func NewNeo4jRoleLister(indexer cache.Indexer) Neo4jRoleLister {
-	return &neo4jRoleLister{indexer: indexer}
-}
-
-// List lists all Neo4jRoles in the indexer.
-func (s *neo4jRoleLister) List(selector labels.Selector) (ret []*v1alpha1.Neo4jRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.Neo4jRole))
-	})
-	return ret, err
+	return &neo4jRoleLister{listers.New[*enginev1alpha1.Neo4jRole](indexer, enginev1alpha1.Resource("neo4jrole"))}
 }
 
 // Neo4jRoles returns an object that can list and get Neo4jRoles.
 func (s *neo4jRoleLister) Neo4jRoles(namespace string) Neo4jRoleNamespaceLister {
-	return neo4jRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return neo4jRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.Neo4jRole](s.ResourceIndexer, namespace)}
 }
 
 // Neo4jRoleNamespaceLister helps list and get Neo4jRoles.
@@ -65,36 +57,15 @@ func (s *neo4jRoleLister) Neo4jRoles(namespace string) Neo4jRoleNamespaceLister 
 type Neo4jRoleNamespaceLister interface {
 	// List lists all Neo4jRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.Neo4jRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.Neo4jRole, err error)
 	// Get retrieves the Neo4jRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.Neo4jRole, error)
+	Get(name string) (*enginev1alpha1.Neo4jRole, error)
 	Neo4jRoleNamespaceListerExpansion
 }
 
 // neo4jRoleNamespaceLister implements the Neo4jRoleNamespaceLister
 // interface.
 type neo4jRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all Neo4jRoles in the indexer for a given namespace.
-func (s neo4jRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.Neo4jRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.Neo4jRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the Neo4jRole from the indexer for a given namespace and name.
-func (s neo4jRoleNamespaceLister) Get(name string) (*v1alpha1.Neo4jRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("neo4jrole"), name)
-	}
-	return obj.(*v1alpha1.Neo4jRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.Neo4jRole]
 }

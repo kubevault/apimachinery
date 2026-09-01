@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
 	time "time"
 
-	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	apisenginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
 	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
-	v1alpha1 "kubevault.dev/apimachinery/client/listers/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/listers/engine/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -37,7 +37,7 @@ import (
 // SecretAccessRequests.
 type SecretAccessRequestInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.SecretAccessRequestLister
+	Lister() enginev1alpha1.SecretAccessRequestLister
 }
 
 type secretAccessRequestInformer struct {
@@ -63,16 +63,28 @@ func NewFilteredSecretAccessRequestInformer(client versioned.Interface, namespac
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().SecretAccessRequests(namespace).List(context.TODO(), options)
+				return client.EngineV1alpha1().SecretAccessRequests(namespace).List(context.Background(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().SecretAccessRequests(namespace).Watch(context.TODO(), options)
+				return client.EngineV1alpha1().SecretAccessRequests(namespace).Watch(context.Background(), options)
+			},
+			ListWithContextFunc: func(ctx context.Context, options v1.ListOptions) (runtime.Object, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.EngineV1alpha1().SecretAccessRequests(namespace).List(ctx, options)
+			},
+			WatchFuncWithContext: func(ctx context.Context, options v1.ListOptions) (watch.Interface, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.EngineV1alpha1().SecretAccessRequests(namespace).Watch(ctx, options)
 			},
 		},
-		&enginev1alpha1.SecretAccessRequest{},
+		&apisenginev1alpha1.SecretAccessRequest{},
 		resyncPeriod,
 		indexers,
 	)
@@ -83,9 +95,9 @@ func (f *secretAccessRequestInformer) defaultInformer(client versioned.Interface
 }
 
 func (f *secretAccessRequestInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&enginev1alpha1.SecretAccessRequest{}, f.defaultInformer)
+	return f.factory.InformerFor(&apisenginev1alpha1.SecretAccessRequest{}, f.defaultInformer)
 }
 
-func (f *secretAccessRequestInformer) Lister() v1alpha1.SecretAccessRequestLister {
-	return v1alpha1.NewSecretAccessRequestLister(f.Informer().GetIndexer())
+func (f *secretAccessRequestInformer) Lister() enginev1alpha1.SecretAccessRequestLister {
+	return enginev1alpha1.NewSecretAccessRequestLister(f.Informer().GetIndexer())
 }

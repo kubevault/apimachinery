@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // MemcachedRoleLister helps list MemcachedRoles.
@@ -31,7 +31,7 @@ import (
 type MemcachedRoleLister interface {
 	// List lists all MemcachedRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.MemcachedRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.MemcachedRole, err error)
 	// MemcachedRoles returns an object that can list and get MemcachedRoles.
 	MemcachedRoles(namespace string) MemcachedRoleNamespaceLister
 	MemcachedRoleListerExpansion
@@ -39,25 +39,17 @@ type MemcachedRoleLister interface {
 
 // memcachedRoleLister implements the MemcachedRoleLister interface.
 type memcachedRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.MemcachedRole]
 }
 
 // NewMemcachedRoleLister returns a new MemcachedRoleLister.
 func NewMemcachedRoleLister(indexer cache.Indexer) MemcachedRoleLister {
-	return &memcachedRoleLister{indexer: indexer}
-}
-
-// List lists all MemcachedRoles in the indexer.
-func (s *memcachedRoleLister) List(selector labels.Selector) (ret []*v1alpha1.MemcachedRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.MemcachedRole))
-	})
-	return ret, err
+	return &memcachedRoleLister{listers.New[*enginev1alpha1.MemcachedRole](indexer, enginev1alpha1.Resource("memcachedrole"))}
 }
 
 // MemcachedRoles returns an object that can list and get MemcachedRoles.
 func (s *memcachedRoleLister) MemcachedRoles(namespace string) MemcachedRoleNamespaceLister {
-	return memcachedRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return memcachedRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.MemcachedRole](s.ResourceIndexer, namespace)}
 }
 
 // MemcachedRoleNamespaceLister helps list and get MemcachedRoles.
@@ -65,36 +57,15 @@ func (s *memcachedRoleLister) MemcachedRoles(namespace string) MemcachedRoleName
 type MemcachedRoleNamespaceLister interface {
 	// List lists all MemcachedRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.MemcachedRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.MemcachedRole, err error)
 	// Get retrieves the MemcachedRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.MemcachedRole, error)
+	Get(name string) (*enginev1alpha1.MemcachedRole, error)
 	MemcachedRoleNamespaceListerExpansion
 }
 
 // memcachedRoleNamespaceLister implements the MemcachedRoleNamespaceLister
 // interface.
 type memcachedRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all MemcachedRoles in the indexer for a given namespace.
-func (s memcachedRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.MemcachedRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.MemcachedRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the MemcachedRole from the indexer for a given namespace and name.
-func (s memcachedRoleNamespaceLister) Get(name string) (*v1alpha1.MemcachedRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("memcachedrole"), name)
-	}
-	return obj.(*v1alpha1.MemcachedRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.MemcachedRole]
 }

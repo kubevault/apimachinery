@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+	kubevaultv1alpha2 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha2"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeVaultRelays implements VaultRelayInterface
-type FakeVaultRelays struct {
+// fakeVaultRelays implements VaultRelayInterface
+type fakeVaultRelays struct {
+	*gentype.FakeClientWithList[*v1alpha2.VaultRelay, *v1alpha2.VaultRelayList]
 	Fake *FakeKubevaultV1alpha2
-	ns   string
 }
 
-var vaultrelaysResource = v1alpha2.SchemeGroupVersion.WithResource("vaultrelays")
-
-var vaultrelaysKind = v1alpha2.SchemeGroupVersion.WithKind("VaultRelay")
-
-// Get takes name of the vaultRelay, and returns the corresponding vaultRelay object, and an error if there is any.
-func (c *FakeVaultRelays) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha2.VaultRelay, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(vaultrelaysResource, c.ns, name), &v1alpha2.VaultRelay{})
-
-	if obj == nil {
-		return nil, err
+func newFakeVaultRelays(fake *FakeKubevaultV1alpha2, namespace string) kubevaultv1alpha2.VaultRelayInterface {
+	return &fakeVaultRelays{
+		gentype.NewFakeClientWithList[*v1alpha2.VaultRelay, *v1alpha2.VaultRelayList](
+			fake.Fake,
+			namespace,
+			v1alpha2.SchemeGroupVersion.WithResource("vaultrelays"),
+			v1alpha2.SchemeGroupVersion.WithKind("VaultRelay"),
+			func() *v1alpha2.VaultRelay { return &v1alpha2.VaultRelay{} },
+			func() *v1alpha2.VaultRelayList { return &v1alpha2.VaultRelayList{} },
+			func(dst, src *v1alpha2.VaultRelayList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha2.VaultRelayList) []*v1alpha2.VaultRelay { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha2.VaultRelayList, items []*v1alpha2.VaultRelay) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha2.VaultRelay), err
-}
-
-// List takes label and field selectors, and returns the list of VaultRelays that match those selectors.
-func (c *FakeVaultRelays) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha2.VaultRelayList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(vaultrelaysResource, vaultrelaysKind, c.ns, opts), &v1alpha2.VaultRelayList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha2.VaultRelayList{ListMeta: obj.(*v1alpha2.VaultRelayList).ListMeta}
-	for _, item := range obj.(*v1alpha2.VaultRelayList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested vaultRelays.
-func (c *FakeVaultRelays) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(vaultrelaysResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a vaultRelay and creates it.  Returns the server's representation of the vaultRelay, and an error, if there is any.
-func (c *FakeVaultRelays) Create(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.CreateOptions) (result *v1alpha2.VaultRelay, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(vaultrelaysResource, c.ns, vaultRelay), &v1alpha2.VaultRelay{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha2.VaultRelay), err
-}
-
-// Update takes the representation of a vaultRelay and updates it. Returns the server's representation of the vaultRelay, and an error, if there is any.
-func (c *FakeVaultRelays) Update(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (result *v1alpha2.VaultRelay, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(vaultrelaysResource, c.ns, vaultRelay), &v1alpha2.VaultRelay{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha2.VaultRelay), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeVaultRelays) UpdateStatus(ctx context.Context, vaultRelay *v1alpha2.VaultRelay, opts v1.UpdateOptions) (*v1alpha2.VaultRelay, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(vaultrelaysResource, "status", c.ns, vaultRelay), &v1alpha2.VaultRelay{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha2.VaultRelay), err
-}
-
-// Delete takes name of the vaultRelay and deletes it. Returns an error if one occurs.
-func (c *FakeVaultRelays) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(vaultrelaysResource, c.ns, name, opts), &v1alpha2.VaultRelay{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeVaultRelays) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(vaultrelaysResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha2.VaultRelayList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched vaultRelay.
-func (c *FakeVaultRelays) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha2.VaultRelay, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(vaultrelaysResource, c.ns, name, pt, data, subresources...), &v1alpha2.VaultRelay{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha2.VaultRelay), err
 }

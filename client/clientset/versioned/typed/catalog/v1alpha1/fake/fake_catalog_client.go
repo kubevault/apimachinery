@@ -30,7 +30,7 @@ type FakeCatalogV1alpha1 struct {
 }
 
 func (c *FakeCatalogV1alpha1) VaultServerVersions() v1alpha1.VaultServerVersionInterface {
-	return &FakeVaultServerVersions{c}
+	return newFakeVaultServerVersions(c)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

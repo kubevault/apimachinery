@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeGCPRoles implements GCPRoleInterface
-type FakeGCPRoles struct {
+// fakeGCPRoles implements GCPRoleInterface
+type fakeGCPRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.GCPRole, *v1alpha1.GCPRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var gcprolesResource = v1alpha1.SchemeGroupVersion.WithResource("gcproles")
-
-var gcprolesKind = v1alpha1.SchemeGroupVersion.WithKind("GCPRole")
-
-// Get takes name of the gCPRole, and returns the corresponding gCPRole object, and an error if there is any.
-func (c *FakeGCPRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.GCPRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(gcprolesResource, c.ns, name), &v1alpha1.GCPRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeGCPRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.GCPRoleInterface {
+	return &fakeGCPRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.GCPRole, *v1alpha1.GCPRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("gcproles"),
+			v1alpha1.SchemeGroupVersion.WithKind("GCPRole"),
+			func() *v1alpha1.GCPRole { return &v1alpha1.GCPRole{} },
+			func() *v1alpha1.GCPRoleList { return &v1alpha1.GCPRoleList{} },
+			func(dst, src *v1alpha1.GCPRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.GCPRoleList) []*v1alpha1.GCPRole { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.GCPRoleList, items []*v1alpha1.GCPRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.GCPRole), err
-}
-
-// List takes label and field selectors, and returns the list of GCPRoles that match those selectors.
-func (c *FakeGCPRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.GCPRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(gcprolesResource, gcprolesKind, c.ns, opts), &v1alpha1.GCPRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.GCPRoleList{ListMeta: obj.(*v1alpha1.GCPRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.GCPRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested gCPRoles.
-func (c *FakeGCPRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(gcprolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a gCPRole and creates it.  Returns the server's representation of the gCPRole, and an error, if there is any.
-func (c *FakeGCPRoles) Create(ctx context.Context, gCPRole *v1alpha1.GCPRole, opts v1.CreateOptions) (result *v1alpha1.GCPRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(gcprolesResource, c.ns, gCPRole), &v1alpha1.GCPRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.GCPRole), err
-}
-
-// Update takes the representation of a gCPRole and updates it. Returns the server's representation of the gCPRole, and an error, if there is any.
-func (c *FakeGCPRoles) Update(ctx context.Context, gCPRole *v1alpha1.GCPRole, opts v1.UpdateOptions) (result *v1alpha1.GCPRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(gcprolesResource, c.ns, gCPRole), &v1alpha1.GCPRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.GCPRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeGCPRoles) UpdateStatus(ctx context.Context, gCPRole *v1alpha1.GCPRole, opts v1.UpdateOptions) (*v1alpha1.GCPRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(gcprolesResource, "status", c.ns, gCPRole), &v1alpha1.GCPRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.GCPRole), err
-}
-
-// Delete takes name of the gCPRole and deletes it. Returns an error if one occurs.
-func (c *FakeGCPRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(gcprolesResource, c.ns, name, opts), &v1alpha1.GCPRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeGCPRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(gcprolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.GCPRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched gCPRole.
-func (c *FakeGCPRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.GCPRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(gcprolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.GCPRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.GCPRole), err
 }

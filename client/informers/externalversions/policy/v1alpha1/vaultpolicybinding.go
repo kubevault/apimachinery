@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
 	time "time"
 
-	policyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
+	apispolicyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
 	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
 	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
-	v1alpha1 "kubevault.dev/apimachinery/client/listers/policy/v1alpha1"
+	policyv1alpha1 "kubevault.dev/apimachinery/client/listers/policy/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -37,7 +37,7 @@ import (
 // VaultPolicyBindings.
 type VaultPolicyBindingInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.VaultPolicyBindingLister
+	Lister() policyv1alpha1.VaultPolicyBindingLister
 }
 
 type vaultPolicyBindingInformer struct {
@@ -63,16 +63,28 @@ func NewFilteredVaultPolicyBindingInformer(client versioned.Interface, namespace
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.PolicyV1alpha1().VaultPolicyBindings(namespace).List(context.TODO(), options)
+				return client.PolicyV1alpha1().VaultPolicyBindings(namespace).List(context.Background(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.PolicyV1alpha1().VaultPolicyBindings(namespace).Watch(context.TODO(), options)
+				return client.PolicyV1alpha1().VaultPolicyBindings(namespace).Watch(context.Background(), options)
+			},
+			ListWithContextFunc: func(ctx context.Context, options v1.ListOptions) (runtime.Object, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.PolicyV1alpha1().VaultPolicyBindings(namespace).List(ctx, options)
+			},
+			WatchFuncWithContext: func(ctx context.Context, options v1.ListOptions) (watch.Interface, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.PolicyV1alpha1().VaultPolicyBindings(namespace).Watch(ctx, options)
 			},
 		},
-		&policyv1alpha1.VaultPolicyBinding{},
+		&apispolicyv1alpha1.VaultPolicyBinding{},
 		resyncPeriod,
 		indexers,
 	)
@@ -83,9 +95,9 @@ func (f *vaultPolicyBindingInformer) defaultInformer(client versioned.Interface,
 }
 
 func (f *vaultPolicyBindingInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&policyv1alpha1.VaultPolicyBinding{}, f.defaultInformer)
+	return f.factory.InformerFor(&apispolicyv1alpha1.VaultPolicyBinding{}, f.defaultInformer)
 }
 
-func (f *vaultPolicyBindingInformer) Lister() v1alpha1.VaultPolicyBindingLister {
-	return v1alpha1.NewVaultPolicyBindingLister(f.Informer().GetIndexer())
+func (f *vaultPolicyBindingInformer) Lister() policyv1alpha1.VaultPolicyBindingLister {
+	return policyv1alpha1.NewVaultPolicyBindingLister(f.Informer().GetIndexer())
 }

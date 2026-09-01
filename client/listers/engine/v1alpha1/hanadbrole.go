@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // HanaDBRoleLister helps list HanaDBRoles.
@@ -31,7 +31,7 @@ import (
 type HanaDBRoleLister interface {
 	// List lists all HanaDBRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.HanaDBRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.HanaDBRole, err error)
 	// HanaDBRoles returns an object that can list and get HanaDBRoles.
 	HanaDBRoles(namespace string) HanaDBRoleNamespaceLister
 	HanaDBRoleListerExpansion
@@ -39,25 +39,17 @@ type HanaDBRoleLister interface {
 
 // hanaDBRoleLister implements the HanaDBRoleLister interface.
 type hanaDBRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.HanaDBRole]
 }
 
 // NewHanaDBRoleLister returns a new HanaDBRoleLister.
 func NewHanaDBRoleLister(indexer cache.Indexer) HanaDBRoleLister {
-	return &hanaDBRoleLister{indexer: indexer}
-}
-
-// List lists all HanaDBRoles in the indexer.
-func (s *hanaDBRoleLister) List(selector labels.Selector) (ret []*v1alpha1.HanaDBRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.HanaDBRole))
-	})
-	return ret, err
+	return &hanaDBRoleLister{listers.New[*enginev1alpha1.HanaDBRole](indexer, enginev1alpha1.Resource("hanadbrole"))}
 }
 
 // HanaDBRoles returns an object that can list and get HanaDBRoles.
 func (s *hanaDBRoleLister) HanaDBRoles(namespace string) HanaDBRoleNamespaceLister {
-	return hanaDBRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return hanaDBRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.HanaDBRole](s.ResourceIndexer, namespace)}
 }
 
 // HanaDBRoleNamespaceLister helps list and get HanaDBRoles.
@@ -65,36 +57,15 @@ func (s *hanaDBRoleLister) HanaDBRoles(namespace string) HanaDBRoleNamespaceList
 type HanaDBRoleNamespaceLister interface {
 	// List lists all HanaDBRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.HanaDBRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.HanaDBRole, err error)
 	// Get retrieves the HanaDBRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.HanaDBRole, error)
+	Get(name string) (*enginev1alpha1.HanaDBRole, error)
 	HanaDBRoleNamespaceListerExpansion
 }
 
 // hanaDBRoleNamespaceLister implements the HanaDBRoleNamespaceLister
 // interface.
 type hanaDBRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all HanaDBRoles in the indexer for a given namespace.
-func (s hanaDBRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.HanaDBRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.HanaDBRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the HanaDBRole from the indexer for a given namespace and name.
-func (s hanaDBRoleNamespaceLister) Get(name string) (*v1alpha1.HanaDBRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("hanadbrole"), name)
-	}
-	return obj.(*v1alpha1.HanaDBRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.HanaDBRole]
 }

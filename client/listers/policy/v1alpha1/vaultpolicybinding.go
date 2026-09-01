@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
+	policyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // VaultPolicyBindingLister helps list VaultPolicyBindings.
@@ -31,7 +31,7 @@ import (
 type VaultPolicyBindingLister interface {
 	// List lists all VaultPolicyBindings in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.VaultPolicyBinding, err error)
+	List(selector labels.Selector) (ret []*policyv1alpha1.VaultPolicyBinding, err error)
 	// VaultPolicyBindings returns an object that can list and get VaultPolicyBindings.
 	VaultPolicyBindings(namespace string) VaultPolicyBindingNamespaceLister
 	VaultPolicyBindingListerExpansion
@@ -39,25 +39,17 @@ type VaultPolicyBindingLister interface {
 
 // vaultPolicyBindingLister implements the VaultPolicyBindingLister interface.
 type vaultPolicyBindingLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*policyv1alpha1.VaultPolicyBinding]
 }
 
 // NewVaultPolicyBindingLister returns a new VaultPolicyBindingLister.
 func NewVaultPolicyBindingLister(indexer cache.Indexer) VaultPolicyBindingLister {
-	return &vaultPolicyBindingLister{indexer: indexer}
-}
-
-// List lists all VaultPolicyBindings in the indexer.
-func (s *vaultPolicyBindingLister) List(selector labels.Selector) (ret []*v1alpha1.VaultPolicyBinding, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.VaultPolicyBinding))
-	})
-	return ret, err
+	return &vaultPolicyBindingLister{listers.New[*policyv1alpha1.VaultPolicyBinding](indexer, policyv1alpha1.Resource("vaultpolicybinding"))}
 }
 
 // VaultPolicyBindings returns an object that can list and get VaultPolicyBindings.
 func (s *vaultPolicyBindingLister) VaultPolicyBindings(namespace string) VaultPolicyBindingNamespaceLister {
-	return vaultPolicyBindingNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return vaultPolicyBindingNamespaceLister{listers.NewNamespaced[*policyv1alpha1.VaultPolicyBinding](s.ResourceIndexer, namespace)}
 }
 
 // VaultPolicyBindingNamespaceLister helps list and get VaultPolicyBindings.
@@ -65,36 +57,15 @@ func (s *vaultPolicyBindingLister) VaultPolicyBindings(namespace string) VaultPo
 type VaultPolicyBindingNamespaceLister interface {
 	// List lists all VaultPolicyBindings in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.VaultPolicyBinding, err error)
+	List(selector labels.Selector) (ret []*policyv1alpha1.VaultPolicyBinding, err error)
 	// Get retrieves the VaultPolicyBinding from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.VaultPolicyBinding, error)
+	Get(name string) (*policyv1alpha1.VaultPolicyBinding, error)
 	VaultPolicyBindingNamespaceListerExpansion
 }
 
 // vaultPolicyBindingNamespaceLister implements the VaultPolicyBindingNamespaceLister
 // interface.
 type vaultPolicyBindingNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all VaultPolicyBindings in the indexer for a given namespace.
-func (s vaultPolicyBindingNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.VaultPolicyBinding, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.VaultPolicyBinding))
-	})
-	return ret, err
-}
-
-// Get retrieves the VaultPolicyBinding from the indexer for a given namespace and name.
-func (s vaultPolicyBindingNamespaceLister) Get(name string) (*v1alpha1.VaultPolicyBinding, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("vaultpolicybinding"), name)
-	}
-	return obj.(*v1alpha1.VaultPolicyBinding), nil
+	listers.ResourceIndexer[*policyv1alpha1.VaultPolicyBinding]
 }

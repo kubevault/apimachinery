@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // SecretRoleBindingLister helps list SecretRoleBindings.
@@ -31,7 +31,7 @@ import (
 type SecretRoleBindingLister interface {
 	// List lists all SecretRoleBindings in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.SecretRoleBinding, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.SecretRoleBinding, err error)
 	// SecretRoleBindings returns an object that can list and get SecretRoleBindings.
 	SecretRoleBindings(namespace string) SecretRoleBindingNamespaceLister
 	SecretRoleBindingListerExpansion
@@ -39,25 +39,17 @@ type SecretRoleBindingLister interface {
 
 // secretRoleBindingLister implements the SecretRoleBindingLister interface.
 type secretRoleBindingLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.SecretRoleBinding]
 }
 
 // NewSecretRoleBindingLister returns a new SecretRoleBindingLister.
 func NewSecretRoleBindingLister(indexer cache.Indexer) SecretRoleBindingLister {
-	return &secretRoleBindingLister{indexer: indexer}
-}
-
-// List lists all SecretRoleBindings in the indexer.
-func (s *secretRoleBindingLister) List(selector labels.Selector) (ret []*v1alpha1.SecretRoleBinding, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.SecretRoleBinding))
-	})
-	return ret, err
+	return &secretRoleBindingLister{listers.New[*enginev1alpha1.SecretRoleBinding](indexer, enginev1alpha1.Resource("secretrolebinding"))}
 }
 
 // SecretRoleBindings returns an object that can list and get SecretRoleBindings.
 func (s *secretRoleBindingLister) SecretRoleBindings(namespace string) SecretRoleBindingNamespaceLister {
-	return secretRoleBindingNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return secretRoleBindingNamespaceLister{listers.NewNamespaced[*enginev1alpha1.SecretRoleBinding](s.ResourceIndexer, namespace)}
 }
 
 // SecretRoleBindingNamespaceLister helps list and get SecretRoleBindings.
@@ -65,36 +57,15 @@ func (s *secretRoleBindingLister) SecretRoleBindings(namespace string) SecretRol
 type SecretRoleBindingNamespaceLister interface {
 	// List lists all SecretRoleBindings in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.SecretRoleBinding, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.SecretRoleBinding, err error)
 	// Get retrieves the SecretRoleBinding from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.SecretRoleBinding, error)
+	Get(name string) (*enginev1alpha1.SecretRoleBinding, error)
 	SecretRoleBindingNamespaceListerExpansion
 }
 
 // secretRoleBindingNamespaceLister implements the SecretRoleBindingNamespaceLister
 // interface.
 type secretRoleBindingNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all SecretRoleBindings in the indexer for a given namespace.
-func (s secretRoleBindingNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.SecretRoleBinding, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.SecretRoleBinding))
-	})
-	return ret, err
-}
-
-// Get retrieves the SecretRoleBinding from the indexer for a given namespace and name.
-func (s secretRoleBindingNamespaceLister) Get(name string) (*v1alpha1.SecretRoleBinding, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("secretrolebinding"), name)
-	}
-	return obj.(*v1alpha1.SecretRoleBinding), nil
+	listers.ResourceIndexer[*enginev1alpha1.SecretRoleBinding]
 }

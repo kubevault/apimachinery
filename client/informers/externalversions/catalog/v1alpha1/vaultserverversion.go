@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
 	time "time"
 
-	catalogv1alpha1 "kubevault.dev/apimachinery/apis/catalog/v1alpha1"
+	apiscatalogv1alpha1 "kubevault.dev/apimachinery/apis/catalog/v1alpha1"
 	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
 	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
-	v1alpha1 "kubevault.dev/apimachinery/client/listers/catalog/v1alpha1"
+	catalogv1alpha1 "kubevault.dev/apimachinery/client/listers/catalog/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -37,7 +37,7 @@ import (
 // VaultServerVersions.
 type VaultServerVersionInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.VaultServerVersionLister
+	Lister() catalogv1alpha1.VaultServerVersionLister
 }
 
 type vaultServerVersionInformer struct {
@@ -62,16 +62,28 @@ func NewFilteredVaultServerVersionInformer(client versioned.Interface, resyncPer
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.CatalogV1alpha1().VaultServerVersions().List(context.TODO(), options)
+				return client.CatalogV1alpha1().VaultServerVersions().List(context.Background(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.CatalogV1alpha1().VaultServerVersions().Watch(context.TODO(), options)
+				return client.CatalogV1alpha1().VaultServerVersions().Watch(context.Background(), options)
+			},
+			ListWithContextFunc: func(ctx context.Context, options v1.ListOptions) (runtime.Object, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.CatalogV1alpha1().VaultServerVersions().List(ctx, options)
+			},
+			WatchFuncWithContext: func(ctx context.Context, options v1.ListOptions) (watch.Interface, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.CatalogV1alpha1().VaultServerVersions().Watch(ctx, options)
 			},
 		},
-		&catalogv1alpha1.VaultServerVersion{},
+		&apiscatalogv1alpha1.VaultServerVersion{},
 		resyncPeriod,
 		indexers,
 	)
@@ -82,9 +94,9 @@ func (f *vaultServerVersionInformer) defaultInformer(client versioned.Interface,
 }
 
 func (f *vaultServerVersionInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&catalogv1alpha1.VaultServerVersion{}, f.defaultInformer)
+	return f.factory.InformerFor(&apiscatalogv1alpha1.VaultServerVersion{}, f.defaultInformer)
 }
 
-func (f *vaultServerVersionInformer) Lister() v1alpha1.VaultServerVersionLister {
-	return v1alpha1.NewVaultServerVersionLister(f.Informer().GetIndexer())
+func (f *vaultServerVersionInformer) Lister() catalogv1alpha1.VaultServerVersionLister {
+	return catalogv1alpha1.NewVaultServerVersionLister(f.Informer().GetIndexer())
 }

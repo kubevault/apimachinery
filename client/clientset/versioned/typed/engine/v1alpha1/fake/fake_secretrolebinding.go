@@ -19,124 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeSecretRoleBindings implements SecretRoleBindingInterface
-type FakeSecretRoleBindings struct {
+// fakeSecretRoleBindings implements SecretRoleBindingInterface
+type fakeSecretRoleBindings struct {
+	*gentype.FakeClientWithList[*v1alpha1.SecretRoleBinding, *v1alpha1.SecretRoleBindingList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var secretrolebindingsResource = v1alpha1.SchemeGroupVersion.WithResource("secretrolebindings")
-
-var secretrolebindingsKind = v1alpha1.SchemeGroupVersion.WithKind("SecretRoleBinding")
-
-// Get takes name of the secretRoleBinding, and returns the corresponding secretRoleBinding object, and an error if there is any.
-func (c *FakeSecretRoleBindings) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.SecretRoleBinding, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(secretrolebindingsResource, c.ns, name), &v1alpha1.SecretRoleBinding{})
-
-	if obj == nil {
-		return nil, err
+func newFakeSecretRoleBindings(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.SecretRoleBindingInterface {
+	return &fakeSecretRoleBindings{
+		gentype.NewFakeClientWithList[*v1alpha1.SecretRoleBinding, *v1alpha1.SecretRoleBindingList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("secretrolebindings"),
+			v1alpha1.SchemeGroupVersion.WithKind("SecretRoleBinding"),
+			func() *v1alpha1.SecretRoleBinding { return &v1alpha1.SecretRoleBinding{} },
+			func() *v1alpha1.SecretRoleBindingList { return &v1alpha1.SecretRoleBindingList{} },
+			func(dst, src *v1alpha1.SecretRoleBindingList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.SecretRoleBindingList) []*v1alpha1.SecretRoleBinding {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha1.SecretRoleBindingList, items []*v1alpha1.SecretRoleBinding) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.SecretRoleBinding), err
-}
-
-// List takes label and field selectors, and returns the list of SecretRoleBindings that match those selectors.
-func (c *FakeSecretRoleBindings) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.SecretRoleBindingList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(secretrolebindingsResource, secretrolebindingsKind, c.ns, opts), &v1alpha1.SecretRoleBindingList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.SecretRoleBindingList{ListMeta: obj.(*v1alpha1.SecretRoleBindingList).ListMeta}
-	for _, item := range obj.(*v1alpha1.SecretRoleBindingList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested secretRoleBindings.
-func (c *FakeSecretRoleBindings) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(secretrolebindingsResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a secretRoleBinding and creates it.  Returns the server's representation of the secretRoleBinding, and an error, if there is any.
-func (c *FakeSecretRoleBindings) Create(ctx context.Context, secretRoleBinding *v1alpha1.SecretRoleBinding, opts v1.CreateOptions) (result *v1alpha1.SecretRoleBinding, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(secretrolebindingsResource, c.ns, secretRoleBinding), &v1alpha1.SecretRoleBinding{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SecretRoleBinding), err
-}
-
-// Update takes the representation of a secretRoleBinding and updates it. Returns the server's representation of the secretRoleBinding, and an error, if there is any.
-func (c *FakeSecretRoleBindings) Update(ctx context.Context, secretRoleBinding *v1alpha1.SecretRoleBinding, opts v1.UpdateOptions) (result *v1alpha1.SecretRoleBinding, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(secretrolebindingsResource, c.ns, secretRoleBinding), &v1alpha1.SecretRoleBinding{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SecretRoleBinding), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeSecretRoleBindings) UpdateStatus(ctx context.Context, secretRoleBinding *v1alpha1.SecretRoleBinding, opts v1.UpdateOptions) (*v1alpha1.SecretRoleBinding, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(secretrolebindingsResource, "status", c.ns, secretRoleBinding), &v1alpha1.SecretRoleBinding{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SecretRoleBinding), err
-}
-
-// Delete takes name of the secretRoleBinding and deletes it. Returns an error if one occurs.
-func (c *FakeSecretRoleBindings) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(secretrolebindingsResource, c.ns, name, opts), &v1alpha1.SecretRoleBinding{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeSecretRoleBindings) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(secretrolebindingsResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.SecretRoleBindingList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched secretRoleBinding.
-func (c *FakeSecretRoleBindings) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.SecretRoleBinding, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(secretrolebindingsResource, c.ns, name, pt, data, subresources...), &v1alpha1.SecretRoleBinding{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SecretRoleBinding), err
 }

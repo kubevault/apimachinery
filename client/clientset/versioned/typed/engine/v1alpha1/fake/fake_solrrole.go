@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeSolrRoles implements SolrRoleInterface
-type FakeSolrRoles struct {
+// fakeSolrRoles implements SolrRoleInterface
+type fakeSolrRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.SolrRole, *v1alpha1.SolrRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var solrrolesResource = v1alpha1.SchemeGroupVersion.WithResource("solrroles")
-
-var solrrolesKind = v1alpha1.SchemeGroupVersion.WithKind("SolrRole")
-
-// Get takes name of the solrRole, and returns the corresponding solrRole object, and an error if there is any.
-func (c *FakeSolrRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.SolrRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(solrrolesResource, c.ns, name), &v1alpha1.SolrRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeSolrRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.SolrRoleInterface {
+	return &fakeSolrRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.SolrRole, *v1alpha1.SolrRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("solrroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("SolrRole"),
+			func() *v1alpha1.SolrRole { return &v1alpha1.SolrRole{} },
+			func() *v1alpha1.SolrRoleList { return &v1alpha1.SolrRoleList{} },
+			func(dst, src *v1alpha1.SolrRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.SolrRoleList) []*v1alpha1.SolrRole { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.SolrRoleList, items []*v1alpha1.SolrRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.SolrRole), err
-}
-
-// List takes label and field selectors, and returns the list of SolrRoles that match those selectors.
-func (c *FakeSolrRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.SolrRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(solrrolesResource, solrrolesKind, c.ns, opts), &v1alpha1.SolrRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.SolrRoleList{ListMeta: obj.(*v1alpha1.SolrRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.SolrRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested solrRoles.
-func (c *FakeSolrRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(solrrolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a solrRole and creates it.  Returns the server's representation of the solrRole, and an error, if there is any.
-func (c *FakeSolrRoles) Create(ctx context.Context, solrRole *v1alpha1.SolrRole, opts v1.CreateOptions) (result *v1alpha1.SolrRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(solrrolesResource, c.ns, solrRole), &v1alpha1.SolrRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SolrRole), err
-}
-
-// Update takes the representation of a solrRole and updates it. Returns the server's representation of the solrRole, and an error, if there is any.
-func (c *FakeSolrRoles) Update(ctx context.Context, solrRole *v1alpha1.SolrRole, opts v1.UpdateOptions) (result *v1alpha1.SolrRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(solrrolesResource, c.ns, solrRole), &v1alpha1.SolrRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SolrRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeSolrRoles) UpdateStatus(ctx context.Context, solrRole *v1alpha1.SolrRole, opts v1.UpdateOptions) (*v1alpha1.SolrRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(solrrolesResource, "status", c.ns, solrRole), &v1alpha1.SolrRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SolrRole), err
-}
-
-// Delete takes name of the solrRole and deletes it. Returns an error if one occurs.
-func (c *FakeSolrRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(solrrolesResource, c.ns, name, opts), &v1alpha1.SolrRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeSolrRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(solrrolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.SolrRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched solrRole.
-func (c *FakeSolrRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.SolrRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(solrrolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.SolrRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SolrRole), err
 }

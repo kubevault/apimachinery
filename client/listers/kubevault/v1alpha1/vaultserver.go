@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/kubevault/v1alpha1"
+	kubevaultv1alpha1 "kubevault.dev/apimachinery/apis/kubevault/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // VaultServerLister helps list VaultServers.
@@ -31,7 +31,7 @@ import (
 type VaultServerLister interface {
 	// List lists all VaultServers in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.VaultServer, err error)
+	List(selector labels.Selector) (ret []*kubevaultv1alpha1.VaultServer, err error)
 	// VaultServers returns an object that can list and get VaultServers.
 	VaultServers(namespace string) VaultServerNamespaceLister
 	VaultServerListerExpansion
@@ -39,25 +39,17 @@ type VaultServerLister interface {
 
 // vaultServerLister implements the VaultServerLister interface.
 type vaultServerLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*kubevaultv1alpha1.VaultServer]
 }
 
 // NewVaultServerLister returns a new VaultServerLister.
 func NewVaultServerLister(indexer cache.Indexer) VaultServerLister {
-	return &vaultServerLister{indexer: indexer}
-}
-
-// List lists all VaultServers in the indexer.
-func (s *vaultServerLister) List(selector labels.Selector) (ret []*v1alpha1.VaultServer, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.VaultServer))
-	})
-	return ret, err
+	return &vaultServerLister{listers.New[*kubevaultv1alpha1.VaultServer](indexer, kubevaultv1alpha1.Resource("vaultserver"))}
 }
 
 // VaultServers returns an object that can list and get VaultServers.
 func (s *vaultServerLister) VaultServers(namespace string) VaultServerNamespaceLister {
-	return vaultServerNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return vaultServerNamespaceLister{listers.NewNamespaced[*kubevaultv1alpha1.VaultServer](s.ResourceIndexer, namespace)}
 }
 
 // VaultServerNamespaceLister helps list and get VaultServers.
@@ -65,36 +57,15 @@ func (s *vaultServerLister) VaultServers(namespace string) VaultServerNamespaceL
 type VaultServerNamespaceLister interface {
 	// List lists all VaultServers in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.VaultServer, err error)
+	List(selector labels.Selector) (ret []*kubevaultv1alpha1.VaultServer, err error)
 	// Get retrieves the VaultServer from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.VaultServer, error)
+	Get(name string) (*kubevaultv1alpha1.VaultServer, error)
 	VaultServerNamespaceListerExpansion
 }
 
 // vaultServerNamespaceLister implements the VaultServerNamespaceLister
 // interface.
 type vaultServerNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all VaultServers in the indexer for a given namespace.
-func (s vaultServerNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.VaultServer, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.VaultServer))
-	})
-	return ret, err
-}
-
-// Get retrieves the VaultServer from the indexer for a given namespace and name.
-func (s vaultServerNamespaceLister) Get(name string) (*v1alpha1.VaultServer, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("vaultserver"), name)
-	}
-	return obj.(*v1alpha1.VaultServer), nil
+	listers.ResourceIndexer[*kubevaultv1alpha1.VaultServer]
 }

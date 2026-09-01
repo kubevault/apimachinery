@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // QdrantRoleLister helps list QdrantRoles.
@@ -31,7 +31,7 @@ import (
 type QdrantRoleLister interface {
 	// List lists all QdrantRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.QdrantRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.QdrantRole, err error)
 	// QdrantRoles returns an object that can list and get QdrantRoles.
 	QdrantRoles(namespace string) QdrantRoleNamespaceLister
 	QdrantRoleListerExpansion
@@ -39,25 +39,17 @@ type QdrantRoleLister interface {
 
 // qdrantRoleLister implements the QdrantRoleLister interface.
 type qdrantRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.QdrantRole]
 }
 
 // NewQdrantRoleLister returns a new QdrantRoleLister.
 func NewQdrantRoleLister(indexer cache.Indexer) QdrantRoleLister {
-	return &qdrantRoleLister{indexer: indexer}
-}
-
-// List lists all QdrantRoles in the indexer.
-func (s *qdrantRoleLister) List(selector labels.Selector) (ret []*v1alpha1.QdrantRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.QdrantRole))
-	})
-	return ret, err
+	return &qdrantRoleLister{listers.New[*enginev1alpha1.QdrantRole](indexer, enginev1alpha1.Resource("qdrantrole"))}
 }
 
 // QdrantRoles returns an object that can list and get QdrantRoles.
 func (s *qdrantRoleLister) QdrantRoles(namespace string) QdrantRoleNamespaceLister {
-	return qdrantRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return qdrantRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.QdrantRole](s.ResourceIndexer, namespace)}
 }
 
 // QdrantRoleNamespaceLister helps list and get QdrantRoles.
@@ -65,36 +57,15 @@ func (s *qdrantRoleLister) QdrantRoles(namespace string) QdrantRoleNamespaceList
 type QdrantRoleNamespaceLister interface {
 	// List lists all QdrantRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.QdrantRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.QdrantRole, err error)
 	// Get retrieves the QdrantRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.QdrantRole, error)
+	Get(name string) (*enginev1alpha1.QdrantRole, error)
 	QdrantRoleNamespaceListerExpansion
 }
 
 // qdrantRoleNamespaceLister implements the QdrantRoleNamespaceLister
 // interface.
 type qdrantRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all QdrantRoles in the indexer for a given namespace.
-func (s qdrantRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.QdrantRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.QdrantRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the QdrantRole from the indexer for a given namespace and name.
-func (s qdrantRoleNamespaceLister) Get(name string) (*v1alpha1.QdrantRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("qdrantrole"), name)
-	}
-	return obj.(*v1alpha1.QdrantRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.QdrantRole]
 }

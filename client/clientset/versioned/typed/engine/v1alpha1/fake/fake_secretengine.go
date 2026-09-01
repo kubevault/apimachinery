@@ -19,124 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeSecretEngines implements SecretEngineInterface
-type FakeSecretEngines struct {
+// fakeSecretEngines implements SecretEngineInterface
+type fakeSecretEngines struct {
+	*gentype.FakeClientWithList[*v1alpha1.SecretEngine, *v1alpha1.SecretEngineList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var secretenginesResource = v1alpha1.SchemeGroupVersion.WithResource("secretengines")
-
-var secretenginesKind = v1alpha1.SchemeGroupVersion.WithKind("SecretEngine")
-
-// Get takes name of the secretEngine, and returns the corresponding secretEngine object, and an error if there is any.
-func (c *FakeSecretEngines) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.SecretEngine, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(secretenginesResource, c.ns, name), &v1alpha1.SecretEngine{})
-
-	if obj == nil {
-		return nil, err
+func newFakeSecretEngines(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.SecretEngineInterface {
+	return &fakeSecretEngines{
+		gentype.NewFakeClientWithList[*v1alpha1.SecretEngine, *v1alpha1.SecretEngineList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("secretengines"),
+			v1alpha1.SchemeGroupVersion.WithKind("SecretEngine"),
+			func() *v1alpha1.SecretEngine { return &v1alpha1.SecretEngine{} },
+			func() *v1alpha1.SecretEngineList { return &v1alpha1.SecretEngineList{} },
+			func(dst, src *v1alpha1.SecretEngineList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.SecretEngineList) []*v1alpha1.SecretEngine {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha1.SecretEngineList, items []*v1alpha1.SecretEngine) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.SecretEngine), err
-}
-
-// List takes label and field selectors, and returns the list of SecretEngines that match those selectors.
-func (c *FakeSecretEngines) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.SecretEngineList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(secretenginesResource, secretenginesKind, c.ns, opts), &v1alpha1.SecretEngineList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.SecretEngineList{ListMeta: obj.(*v1alpha1.SecretEngineList).ListMeta}
-	for _, item := range obj.(*v1alpha1.SecretEngineList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested secretEngines.
-func (c *FakeSecretEngines) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(secretenginesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a secretEngine and creates it.  Returns the server's representation of the secretEngine, and an error, if there is any.
-func (c *FakeSecretEngines) Create(ctx context.Context, secretEngine *v1alpha1.SecretEngine, opts v1.CreateOptions) (result *v1alpha1.SecretEngine, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(secretenginesResource, c.ns, secretEngine), &v1alpha1.SecretEngine{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SecretEngine), err
-}
-
-// Update takes the representation of a secretEngine and updates it. Returns the server's representation of the secretEngine, and an error, if there is any.
-func (c *FakeSecretEngines) Update(ctx context.Context, secretEngine *v1alpha1.SecretEngine, opts v1.UpdateOptions) (result *v1alpha1.SecretEngine, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(secretenginesResource, c.ns, secretEngine), &v1alpha1.SecretEngine{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SecretEngine), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeSecretEngines) UpdateStatus(ctx context.Context, secretEngine *v1alpha1.SecretEngine, opts v1.UpdateOptions) (*v1alpha1.SecretEngine, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(secretenginesResource, "status", c.ns, secretEngine), &v1alpha1.SecretEngine{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SecretEngine), err
-}
-
-// Delete takes name of the secretEngine and deletes it. Returns an error if one occurs.
-func (c *FakeSecretEngines) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(secretenginesResource, c.ns, name, opts), &v1alpha1.SecretEngine{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeSecretEngines) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(secretenginesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.SecretEngineList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched secretEngine.
-func (c *FakeSecretEngines) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.SecretEngine, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(secretenginesResource, c.ns, name, pt, data, subresources...), &v1alpha1.SecretEngine{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.SecretEngine), err
 }

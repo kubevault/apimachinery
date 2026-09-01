@@ -19,124 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha2 "kubevault.dev/apimachinery/apis/kubevault/v1alpha2"
+	kubevaultv1alpha2 "kubevault.dev/apimachinery/client/clientset/versioned/typed/kubevault/v1alpha2"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeNamespaceSlices implements NamespaceSliceInterface
-type FakeNamespaceSlices struct {
+// fakeNamespaceSlices implements NamespaceSliceInterface
+type fakeNamespaceSlices struct {
+	*gentype.FakeClientWithList[*v1alpha2.NamespaceSlice, *v1alpha2.NamespaceSliceList]
 	Fake *FakeKubevaultV1alpha2
-	ns   string
 }
 
-var namespaceslicesResource = v1alpha2.SchemeGroupVersion.WithResource("namespaceslices")
-
-var namespaceslicesKind = v1alpha2.SchemeGroupVersion.WithKind("NamespaceSlice")
-
-// Get takes name of the namespaceSlice, and returns the corresponding namespaceSlice object, and an error if there is any.
-func (c *FakeNamespaceSlices) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha2.NamespaceSlice, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(namespaceslicesResource, c.ns, name), &v1alpha2.NamespaceSlice{})
-
-	if obj == nil {
-		return nil, err
+func newFakeNamespaceSlices(fake *FakeKubevaultV1alpha2, namespace string) kubevaultv1alpha2.NamespaceSliceInterface {
+	return &fakeNamespaceSlices{
+		gentype.NewFakeClientWithList[*v1alpha2.NamespaceSlice, *v1alpha2.NamespaceSliceList](
+			fake.Fake,
+			namespace,
+			v1alpha2.SchemeGroupVersion.WithResource("namespaceslices"),
+			v1alpha2.SchemeGroupVersion.WithKind("NamespaceSlice"),
+			func() *v1alpha2.NamespaceSlice { return &v1alpha2.NamespaceSlice{} },
+			func() *v1alpha2.NamespaceSliceList { return &v1alpha2.NamespaceSliceList{} },
+			func(dst, src *v1alpha2.NamespaceSliceList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha2.NamespaceSliceList) []*v1alpha2.NamespaceSlice {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha2.NamespaceSliceList, items []*v1alpha2.NamespaceSlice) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha2.NamespaceSlice), err
-}
-
-// List takes label and field selectors, and returns the list of NamespaceSlices that match those selectors.
-func (c *FakeNamespaceSlices) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha2.NamespaceSliceList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(namespaceslicesResource, namespaceslicesKind, c.ns, opts), &v1alpha2.NamespaceSliceList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha2.NamespaceSliceList{ListMeta: obj.(*v1alpha2.NamespaceSliceList).ListMeta}
-	for _, item := range obj.(*v1alpha2.NamespaceSliceList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested namespaceSlices.
-func (c *FakeNamespaceSlices) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(namespaceslicesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a namespaceSlice and creates it.  Returns the server's representation of the namespaceSlice, and an error, if there is any.
-func (c *FakeNamespaceSlices) Create(ctx context.Context, namespaceSlice *v1alpha2.NamespaceSlice, opts v1.CreateOptions) (result *v1alpha2.NamespaceSlice, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(namespaceslicesResource, c.ns, namespaceSlice), &v1alpha2.NamespaceSlice{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha2.NamespaceSlice), err
-}
-
-// Update takes the representation of a namespaceSlice and updates it. Returns the server's representation of the namespaceSlice, and an error, if there is any.
-func (c *FakeNamespaceSlices) Update(ctx context.Context, namespaceSlice *v1alpha2.NamespaceSlice, opts v1.UpdateOptions) (result *v1alpha2.NamespaceSlice, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(namespaceslicesResource, c.ns, namespaceSlice), &v1alpha2.NamespaceSlice{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha2.NamespaceSlice), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeNamespaceSlices) UpdateStatus(ctx context.Context, namespaceSlice *v1alpha2.NamespaceSlice, opts v1.UpdateOptions) (*v1alpha2.NamespaceSlice, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(namespaceslicesResource, "status", c.ns, namespaceSlice), &v1alpha2.NamespaceSlice{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha2.NamespaceSlice), err
-}
-
-// Delete takes name of the namespaceSlice and deletes it. Returns an error if one occurs.
-func (c *FakeNamespaceSlices) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(namespaceslicesResource, c.ns, name, opts), &v1alpha2.NamespaceSlice{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeNamespaceSlices) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(namespaceslicesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha2.NamespaceSliceList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched namespaceSlice.
-func (c *FakeNamespaceSlices) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha2.NamespaceSlice, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(namespaceslicesResource, c.ns, name, pt, data, subresources...), &v1alpha2.NamespaceSlice{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha2.NamespaceSlice), err
 }

@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
+	policyv1alpha1 "kubevault.dev/apimachinery/apis/policy/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // VaultPolicyLister helps list VaultPolicies.
@@ -31,7 +31,7 @@ import (
 type VaultPolicyLister interface {
 	// List lists all VaultPolicies in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.VaultPolicy, err error)
+	List(selector labels.Selector) (ret []*policyv1alpha1.VaultPolicy, err error)
 	// VaultPolicies returns an object that can list and get VaultPolicies.
 	VaultPolicies(namespace string) VaultPolicyNamespaceLister
 	VaultPolicyListerExpansion
@@ -39,25 +39,17 @@ type VaultPolicyLister interface {
 
 // vaultPolicyLister implements the VaultPolicyLister interface.
 type vaultPolicyLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*policyv1alpha1.VaultPolicy]
 }
 
 // NewVaultPolicyLister returns a new VaultPolicyLister.
 func NewVaultPolicyLister(indexer cache.Indexer) VaultPolicyLister {
-	return &vaultPolicyLister{indexer: indexer}
-}
-
-// List lists all VaultPolicies in the indexer.
-func (s *vaultPolicyLister) List(selector labels.Selector) (ret []*v1alpha1.VaultPolicy, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.VaultPolicy))
-	})
-	return ret, err
+	return &vaultPolicyLister{listers.New[*policyv1alpha1.VaultPolicy](indexer, policyv1alpha1.Resource("vaultpolicy"))}
 }
 
 // VaultPolicies returns an object that can list and get VaultPolicies.
 func (s *vaultPolicyLister) VaultPolicies(namespace string) VaultPolicyNamespaceLister {
-	return vaultPolicyNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return vaultPolicyNamespaceLister{listers.NewNamespaced[*policyv1alpha1.VaultPolicy](s.ResourceIndexer, namespace)}
 }
 
 // VaultPolicyNamespaceLister helps list and get VaultPolicies.
@@ -65,36 +57,15 @@ func (s *vaultPolicyLister) VaultPolicies(namespace string) VaultPolicyNamespace
 type VaultPolicyNamespaceLister interface {
 	// List lists all VaultPolicies in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.VaultPolicy, err error)
+	List(selector labels.Selector) (ret []*policyv1alpha1.VaultPolicy, err error)
 	// Get retrieves the VaultPolicy from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.VaultPolicy, error)
+	Get(name string) (*policyv1alpha1.VaultPolicy, error)
 	VaultPolicyNamespaceListerExpansion
 }
 
 // vaultPolicyNamespaceLister implements the VaultPolicyNamespaceLister
 // interface.
 type vaultPolicyNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all VaultPolicies in the indexer for a given namespace.
-func (s vaultPolicyNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.VaultPolicy, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.VaultPolicy))
-	})
-	return ret, err
-}
-
-// Get retrieves the VaultPolicy from the indexer for a given namespace and name.
-func (s vaultPolicyNamespaceLister) Get(name string) (*v1alpha1.VaultPolicy, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("vaultpolicy"), name)
-	}
-	return obj.(*v1alpha1.VaultPolicy), nil
+	listers.ResourceIndexer[*policyv1alpha1.VaultPolicy]
 }

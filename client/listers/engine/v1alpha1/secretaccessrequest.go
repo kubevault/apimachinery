@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // SecretAccessRequestLister helps list SecretAccessRequests.
@@ -31,7 +31,7 @@ import (
 type SecretAccessRequestLister interface {
 	// List lists all SecretAccessRequests in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.SecretAccessRequest, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.SecretAccessRequest, err error)
 	// SecretAccessRequests returns an object that can list and get SecretAccessRequests.
 	SecretAccessRequests(namespace string) SecretAccessRequestNamespaceLister
 	SecretAccessRequestListerExpansion
@@ -39,25 +39,17 @@ type SecretAccessRequestLister interface {
 
 // secretAccessRequestLister implements the SecretAccessRequestLister interface.
 type secretAccessRequestLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.SecretAccessRequest]
 }
 
 // NewSecretAccessRequestLister returns a new SecretAccessRequestLister.
 func NewSecretAccessRequestLister(indexer cache.Indexer) SecretAccessRequestLister {
-	return &secretAccessRequestLister{indexer: indexer}
-}
-
-// List lists all SecretAccessRequests in the indexer.
-func (s *secretAccessRequestLister) List(selector labels.Selector) (ret []*v1alpha1.SecretAccessRequest, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.SecretAccessRequest))
-	})
-	return ret, err
+	return &secretAccessRequestLister{listers.New[*enginev1alpha1.SecretAccessRequest](indexer, enginev1alpha1.Resource("secretaccessrequest"))}
 }
 
 // SecretAccessRequests returns an object that can list and get SecretAccessRequests.
 func (s *secretAccessRequestLister) SecretAccessRequests(namespace string) SecretAccessRequestNamespaceLister {
-	return secretAccessRequestNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return secretAccessRequestNamespaceLister{listers.NewNamespaced[*enginev1alpha1.SecretAccessRequest](s.ResourceIndexer, namespace)}
 }
 
 // SecretAccessRequestNamespaceLister helps list and get SecretAccessRequests.
@@ -65,36 +57,15 @@ func (s *secretAccessRequestLister) SecretAccessRequests(namespace string) Secre
 type SecretAccessRequestNamespaceLister interface {
 	// List lists all SecretAccessRequests in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.SecretAccessRequest, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.SecretAccessRequest, err error)
 	// Get retrieves the SecretAccessRequest from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.SecretAccessRequest, error)
+	Get(name string) (*enginev1alpha1.SecretAccessRequest, error)
 	SecretAccessRequestNamespaceListerExpansion
 }
 
 // secretAccessRequestNamespaceLister implements the SecretAccessRequestNamespaceLister
 // interface.
 type secretAccessRequestNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all SecretAccessRequests in the indexer for a given namespace.
-func (s secretAccessRequestNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.SecretAccessRequest, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.SecretAccessRequest))
-	})
-	return ret, err
-}
-
-// Get retrieves the SecretAccessRequest from the indexer for a given namespace and name.
-func (s secretAccessRequestNamespaceLister) Get(name string) (*v1alpha1.SecretAccessRequest, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("secretaccessrequest"), name)
-	}
-	return obj.(*v1alpha1.SecretAccessRequest), nil
+	listers.ResourceIndexer[*enginev1alpha1.SecretAccessRequest]
 }

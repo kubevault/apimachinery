@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // ZooKeeperRoleLister helps list ZooKeeperRoles.
@@ -31,7 +31,7 @@ import (
 type ZooKeeperRoleLister interface {
 	// List lists all ZooKeeperRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.ZooKeeperRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.ZooKeeperRole, err error)
 	// ZooKeeperRoles returns an object that can list and get ZooKeeperRoles.
 	ZooKeeperRoles(namespace string) ZooKeeperRoleNamespaceLister
 	ZooKeeperRoleListerExpansion
@@ -39,25 +39,17 @@ type ZooKeeperRoleLister interface {
 
 // zooKeeperRoleLister implements the ZooKeeperRoleLister interface.
 type zooKeeperRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.ZooKeeperRole]
 }
 
 // NewZooKeeperRoleLister returns a new ZooKeeperRoleLister.
 func NewZooKeeperRoleLister(indexer cache.Indexer) ZooKeeperRoleLister {
-	return &zooKeeperRoleLister{indexer: indexer}
-}
-
-// List lists all ZooKeeperRoles in the indexer.
-func (s *zooKeeperRoleLister) List(selector labels.Selector) (ret []*v1alpha1.ZooKeeperRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.ZooKeeperRole))
-	})
-	return ret, err
+	return &zooKeeperRoleLister{listers.New[*enginev1alpha1.ZooKeeperRole](indexer, enginev1alpha1.Resource("zookeeperrole"))}
 }
 
 // ZooKeeperRoles returns an object that can list and get ZooKeeperRoles.
 func (s *zooKeeperRoleLister) ZooKeeperRoles(namespace string) ZooKeeperRoleNamespaceLister {
-	return zooKeeperRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return zooKeeperRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.ZooKeeperRole](s.ResourceIndexer, namespace)}
 }
 
 // ZooKeeperRoleNamespaceLister helps list and get ZooKeeperRoles.
@@ -65,36 +57,15 @@ func (s *zooKeeperRoleLister) ZooKeeperRoles(namespace string) ZooKeeperRoleName
 type ZooKeeperRoleNamespaceLister interface {
 	// List lists all ZooKeeperRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.ZooKeeperRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.ZooKeeperRole, err error)
 	// Get retrieves the ZooKeeperRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.ZooKeeperRole, error)
+	Get(name string) (*enginev1alpha1.ZooKeeperRole, error)
 	ZooKeeperRoleNamespaceListerExpansion
 }
 
 // zooKeeperRoleNamespaceLister implements the ZooKeeperRoleNamespaceLister
 // interface.
 type zooKeeperRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all ZooKeeperRoles in the indexer for a given namespace.
-func (s zooKeeperRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.ZooKeeperRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.ZooKeeperRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the ZooKeeperRole from the indexer for a given namespace and name.
-func (s zooKeeperRoleNamespaceLister) Get(name string) (*v1alpha1.ZooKeeperRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("zookeeperrole"), name)
-	}
-	return obj.(*v1alpha1.ZooKeeperRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.ZooKeeperRole]
 }

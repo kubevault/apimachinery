@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeNeo4jRoles implements Neo4jRoleInterface
-type FakeNeo4jRoles struct {
+// fakeNeo4jRoles implements Neo4jRoleInterface
+type fakeNeo4jRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.Neo4jRole, *v1alpha1.Neo4jRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var neo4jrolesResource = v1alpha1.SchemeGroupVersion.WithResource("neo4jroles")
-
-var neo4jrolesKind = v1alpha1.SchemeGroupVersion.WithKind("Neo4jRole")
-
-// Get takes name of the neo4jRole, and returns the corresponding neo4jRole object, and an error if there is any.
-func (c *FakeNeo4jRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.Neo4jRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(neo4jrolesResource, c.ns, name), &v1alpha1.Neo4jRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeNeo4jRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.Neo4jRoleInterface {
+	return &fakeNeo4jRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.Neo4jRole, *v1alpha1.Neo4jRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("neo4jroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("Neo4jRole"),
+			func() *v1alpha1.Neo4jRole { return &v1alpha1.Neo4jRole{} },
+			func() *v1alpha1.Neo4jRoleList { return &v1alpha1.Neo4jRoleList{} },
+			func(dst, src *v1alpha1.Neo4jRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.Neo4jRoleList) []*v1alpha1.Neo4jRole { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.Neo4jRoleList, items []*v1alpha1.Neo4jRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.Neo4jRole), err
-}
-
-// List takes label and field selectors, and returns the list of Neo4jRoles that match those selectors.
-func (c *FakeNeo4jRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.Neo4jRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(neo4jrolesResource, neo4jrolesKind, c.ns, opts), &v1alpha1.Neo4jRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.Neo4jRoleList{ListMeta: obj.(*v1alpha1.Neo4jRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.Neo4jRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested neo4jRoles.
-func (c *FakeNeo4jRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(neo4jrolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a neo4jRole and creates it.  Returns the server's representation of the neo4jRole, and an error, if there is any.
-func (c *FakeNeo4jRoles) Create(ctx context.Context, neo4jRole *v1alpha1.Neo4jRole, opts v1.CreateOptions) (result *v1alpha1.Neo4jRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(neo4jrolesResource, c.ns, neo4jRole), &v1alpha1.Neo4jRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.Neo4jRole), err
-}
-
-// Update takes the representation of a neo4jRole and updates it. Returns the server's representation of the neo4jRole, and an error, if there is any.
-func (c *FakeNeo4jRoles) Update(ctx context.Context, neo4jRole *v1alpha1.Neo4jRole, opts v1.UpdateOptions) (result *v1alpha1.Neo4jRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(neo4jrolesResource, c.ns, neo4jRole), &v1alpha1.Neo4jRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.Neo4jRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeNeo4jRoles) UpdateStatus(ctx context.Context, neo4jRole *v1alpha1.Neo4jRole, opts v1.UpdateOptions) (*v1alpha1.Neo4jRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(neo4jrolesResource, "status", c.ns, neo4jRole), &v1alpha1.Neo4jRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.Neo4jRole), err
-}
-
-// Delete takes name of the neo4jRole and deletes it. Returns an error if one occurs.
-func (c *FakeNeo4jRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(neo4jrolesResource, c.ns, name, opts), &v1alpha1.Neo4jRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeNeo4jRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(neo4jrolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.Neo4jRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched neo4jRole.
-func (c *FakeNeo4jRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.Neo4jRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(neo4jrolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.Neo4jRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.Neo4jRole), err
 }

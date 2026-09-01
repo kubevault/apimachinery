@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeOracleRoles implements OracleRoleInterface
-type FakeOracleRoles struct {
+// fakeOracleRoles implements OracleRoleInterface
+type fakeOracleRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.OracleRole, *v1alpha1.OracleRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var oraclerolesResource = v1alpha1.SchemeGroupVersion.WithResource("oracleroles")
-
-var oraclerolesKind = v1alpha1.SchemeGroupVersion.WithKind("OracleRole")
-
-// Get takes name of the oracleRole, and returns the corresponding oracleRole object, and an error if there is any.
-func (c *FakeOracleRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.OracleRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(oraclerolesResource, c.ns, name), &v1alpha1.OracleRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeOracleRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.OracleRoleInterface {
+	return &fakeOracleRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.OracleRole, *v1alpha1.OracleRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("oracleroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("OracleRole"),
+			func() *v1alpha1.OracleRole { return &v1alpha1.OracleRole{} },
+			func() *v1alpha1.OracleRoleList { return &v1alpha1.OracleRoleList{} },
+			func(dst, src *v1alpha1.OracleRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.OracleRoleList) []*v1alpha1.OracleRole { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.OracleRoleList, items []*v1alpha1.OracleRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.OracleRole), err
-}
-
-// List takes label and field selectors, and returns the list of OracleRoles that match those selectors.
-func (c *FakeOracleRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.OracleRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(oraclerolesResource, oraclerolesKind, c.ns, opts), &v1alpha1.OracleRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.OracleRoleList{ListMeta: obj.(*v1alpha1.OracleRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.OracleRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested oracleRoles.
-func (c *FakeOracleRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(oraclerolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a oracleRole and creates it.  Returns the server's representation of the oracleRole, and an error, if there is any.
-func (c *FakeOracleRoles) Create(ctx context.Context, oracleRole *v1alpha1.OracleRole, opts v1.CreateOptions) (result *v1alpha1.OracleRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(oraclerolesResource, c.ns, oracleRole), &v1alpha1.OracleRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.OracleRole), err
-}
-
-// Update takes the representation of a oracleRole and updates it. Returns the server's representation of the oracleRole, and an error, if there is any.
-func (c *FakeOracleRoles) Update(ctx context.Context, oracleRole *v1alpha1.OracleRole, opts v1.UpdateOptions) (result *v1alpha1.OracleRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(oraclerolesResource, c.ns, oracleRole), &v1alpha1.OracleRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.OracleRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeOracleRoles) UpdateStatus(ctx context.Context, oracleRole *v1alpha1.OracleRole, opts v1.UpdateOptions) (*v1alpha1.OracleRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(oraclerolesResource, "status", c.ns, oracleRole), &v1alpha1.OracleRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.OracleRole), err
-}
-
-// Delete takes name of the oracleRole and deletes it. Returns an error if one occurs.
-func (c *FakeOracleRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(oraclerolesResource, c.ns, name, opts), &v1alpha1.OracleRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeOracleRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(oraclerolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.OracleRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched oracleRole.
-func (c *FakeOracleRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.OracleRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(oraclerolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.OracleRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.OracleRole), err
 }

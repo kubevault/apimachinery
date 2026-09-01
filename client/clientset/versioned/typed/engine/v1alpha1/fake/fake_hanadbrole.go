@@ -19,124 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeHanaDBRoles implements HanaDBRoleInterface
-type FakeHanaDBRoles struct {
+// fakeHanaDBRoles implements HanaDBRoleInterface
+type fakeHanaDBRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.HanaDBRole, *v1alpha1.HanaDBRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var hanadbrolesResource = v1alpha1.SchemeGroupVersion.WithResource("hanadbroles")
-
-var hanadbrolesKind = v1alpha1.SchemeGroupVersion.WithKind("HanaDBRole")
-
-// Get takes name of the hanaDBRole, and returns the corresponding hanaDBRole object, and an error if there is any.
-func (c *FakeHanaDBRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.HanaDBRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(hanadbrolesResource, c.ns, name), &v1alpha1.HanaDBRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakeHanaDBRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.HanaDBRoleInterface {
+	return &fakeHanaDBRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.HanaDBRole, *v1alpha1.HanaDBRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("hanadbroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("HanaDBRole"),
+			func() *v1alpha1.HanaDBRole { return &v1alpha1.HanaDBRole{} },
+			func() *v1alpha1.HanaDBRoleList { return &v1alpha1.HanaDBRoleList{} },
+			func(dst, src *v1alpha1.HanaDBRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.HanaDBRoleList) []*v1alpha1.HanaDBRole { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.HanaDBRoleList, items []*v1alpha1.HanaDBRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.HanaDBRole), err
-}
-
-// List takes label and field selectors, and returns the list of HanaDBRoles that match those selectors.
-func (c *FakeHanaDBRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.HanaDBRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(hanadbrolesResource, hanadbrolesKind, c.ns, opts), &v1alpha1.HanaDBRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.HanaDBRoleList{ListMeta: obj.(*v1alpha1.HanaDBRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.HanaDBRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested hanaDBRoles.
-func (c *FakeHanaDBRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(hanadbrolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a hanaDBRole and creates it.  Returns the server's representation of the hanaDBRole, and an error, if there is any.
-func (c *FakeHanaDBRoles) Create(ctx context.Context, hanaDBRole *v1alpha1.HanaDBRole, opts v1.CreateOptions) (result *v1alpha1.HanaDBRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(hanadbrolesResource, c.ns, hanaDBRole), &v1alpha1.HanaDBRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.HanaDBRole), err
-}
-
-// Update takes the representation of a hanaDBRole and updates it. Returns the server's representation of the hanaDBRole, and an error, if there is any.
-func (c *FakeHanaDBRoles) Update(ctx context.Context, hanaDBRole *v1alpha1.HanaDBRole, opts v1.UpdateOptions) (result *v1alpha1.HanaDBRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(hanadbrolesResource, c.ns, hanaDBRole), &v1alpha1.HanaDBRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.HanaDBRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeHanaDBRoles) UpdateStatus(ctx context.Context, hanaDBRole *v1alpha1.HanaDBRole, opts v1.UpdateOptions) (*v1alpha1.HanaDBRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(hanadbrolesResource, "status", c.ns, hanaDBRole), &v1alpha1.HanaDBRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.HanaDBRole), err
-}
-
-// Delete takes name of the hanaDBRole and deletes it. Returns an error if one occurs.
-func (c *FakeHanaDBRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(hanadbrolesResource, c.ns, name, opts), &v1alpha1.HanaDBRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeHanaDBRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(hanadbrolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.HanaDBRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched hanaDBRole.
-func (c *FakeHanaDBRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.HanaDBRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(hanadbrolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.HanaDBRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.HanaDBRole), err
 }

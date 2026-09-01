@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
 	time "time"
 
-	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	apisenginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
 	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
-	v1alpha1 "kubevault.dev/apimachinery/client/listers/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/listers/engine/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -37,7 +37,7 @@ import (
 // WeaviateRoles.
 type WeaviateRoleInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.WeaviateRoleLister
+	Lister() enginev1alpha1.WeaviateRoleLister
 }
 
 type weaviateRoleInformer struct {
@@ -63,16 +63,28 @@ func NewFilteredWeaviateRoleInformer(client versioned.Interface, namespace strin
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().WeaviateRoles(namespace).List(context.TODO(), options)
+				return client.EngineV1alpha1().WeaviateRoles(namespace).List(context.Background(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().WeaviateRoles(namespace).Watch(context.TODO(), options)
+				return client.EngineV1alpha1().WeaviateRoles(namespace).Watch(context.Background(), options)
+			},
+			ListWithContextFunc: func(ctx context.Context, options v1.ListOptions) (runtime.Object, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.EngineV1alpha1().WeaviateRoles(namespace).List(ctx, options)
+			},
+			WatchFuncWithContext: func(ctx context.Context, options v1.ListOptions) (watch.Interface, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.EngineV1alpha1().WeaviateRoles(namespace).Watch(ctx, options)
 			},
 		},
-		&enginev1alpha1.WeaviateRole{},
+		&apisenginev1alpha1.WeaviateRole{},
 		resyncPeriod,
 		indexers,
 	)
@@ -83,9 +95,9 @@ func (f *weaviateRoleInformer) defaultInformer(client versioned.Interface, resyn
 }
 
 func (f *weaviateRoleInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&enginev1alpha1.WeaviateRole{}, f.defaultInformer)
+	return f.factory.InformerFor(&apisenginev1alpha1.WeaviateRole{}, f.defaultInformer)
 }
 
-func (f *weaviateRoleInformer) Lister() v1alpha1.WeaviateRoleLister {
-	return v1alpha1.NewWeaviateRoleLister(f.Informer().GetIndexer())
+func (f *weaviateRoleInformer) Lister() enginev1alpha1.WeaviateRoleLister {
+	return enginev1alpha1.NewWeaviateRoleLister(f.Informer().GetIndexer())
 }

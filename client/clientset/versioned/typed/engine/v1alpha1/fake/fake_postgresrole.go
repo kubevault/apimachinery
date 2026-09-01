@@ -19,124 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
 	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/clientset/versioned/typed/engine/v1alpha1"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakePostgresRoles implements PostgresRoleInterface
-type FakePostgresRoles struct {
+// fakePostgresRoles implements PostgresRoleInterface
+type fakePostgresRoles struct {
+	*gentype.FakeClientWithList[*v1alpha1.PostgresRole, *v1alpha1.PostgresRoleList]
 	Fake *FakeEngineV1alpha1
-	ns   string
 }
 
-var postgresrolesResource = v1alpha1.SchemeGroupVersion.WithResource("postgresroles")
-
-var postgresrolesKind = v1alpha1.SchemeGroupVersion.WithKind("PostgresRole")
-
-// Get takes name of the postgresRole, and returns the corresponding postgresRole object, and an error if there is any.
-func (c *FakePostgresRoles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.PostgresRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(postgresrolesResource, c.ns, name), &v1alpha1.PostgresRole{})
-
-	if obj == nil {
-		return nil, err
+func newFakePostgresRoles(fake *FakeEngineV1alpha1, namespace string) enginev1alpha1.PostgresRoleInterface {
+	return &fakePostgresRoles{
+		gentype.NewFakeClientWithList[*v1alpha1.PostgresRole, *v1alpha1.PostgresRoleList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("postgresroles"),
+			v1alpha1.SchemeGroupVersion.WithKind("PostgresRole"),
+			func() *v1alpha1.PostgresRole { return &v1alpha1.PostgresRole{} },
+			func() *v1alpha1.PostgresRoleList { return &v1alpha1.PostgresRoleList{} },
+			func(dst, src *v1alpha1.PostgresRoleList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.PostgresRoleList) []*v1alpha1.PostgresRole {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha1.PostgresRoleList, items []*v1alpha1.PostgresRole) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.PostgresRole), err
-}
-
-// List takes label and field selectors, and returns the list of PostgresRoles that match those selectors.
-func (c *FakePostgresRoles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.PostgresRoleList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(postgresrolesResource, postgresrolesKind, c.ns, opts), &v1alpha1.PostgresRoleList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.PostgresRoleList{ListMeta: obj.(*v1alpha1.PostgresRoleList).ListMeta}
-	for _, item := range obj.(*v1alpha1.PostgresRoleList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested postgresRoles.
-func (c *FakePostgresRoles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(postgresrolesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a postgresRole and creates it.  Returns the server's representation of the postgresRole, and an error, if there is any.
-func (c *FakePostgresRoles) Create(ctx context.Context, postgresRole *v1alpha1.PostgresRole, opts v1.CreateOptions) (result *v1alpha1.PostgresRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(postgresrolesResource, c.ns, postgresRole), &v1alpha1.PostgresRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.PostgresRole), err
-}
-
-// Update takes the representation of a postgresRole and updates it. Returns the server's representation of the postgresRole, and an error, if there is any.
-func (c *FakePostgresRoles) Update(ctx context.Context, postgresRole *v1alpha1.PostgresRole, opts v1.UpdateOptions) (result *v1alpha1.PostgresRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(postgresrolesResource, c.ns, postgresRole), &v1alpha1.PostgresRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.PostgresRole), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakePostgresRoles) UpdateStatus(ctx context.Context, postgresRole *v1alpha1.PostgresRole, opts v1.UpdateOptions) (*v1alpha1.PostgresRole, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(postgresrolesResource, "status", c.ns, postgresRole), &v1alpha1.PostgresRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.PostgresRole), err
-}
-
-// Delete takes name of the postgresRole and deletes it. Returns an error if one occurs.
-func (c *FakePostgresRoles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(postgresrolesResource, c.ns, name, opts), &v1alpha1.PostgresRole{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakePostgresRoles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(postgresrolesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.PostgresRoleList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched postgresRole.
-func (c *FakePostgresRoles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.PostgresRole, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(postgresrolesResource, c.ns, name, pt, data, subresources...), &v1alpha1.PostgresRole{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.PostgresRole), err
 }

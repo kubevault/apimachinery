@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // DB2RoleLister helps list DB2Roles.
@@ -31,7 +31,7 @@ import (
 type DB2RoleLister interface {
 	// List lists all DB2Roles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.DB2Role, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.DB2Role, err error)
 	// DB2Roles returns an object that can list and get DB2Roles.
 	DB2Roles(namespace string) DB2RoleNamespaceLister
 	DB2RoleListerExpansion
@@ -39,25 +39,17 @@ type DB2RoleLister interface {
 
 // dB2RoleLister implements the DB2RoleLister interface.
 type dB2RoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.DB2Role]
 }
 
 // NewDB2RoleLister returns a new DB2RoleLister.
 func NewDB2RoleLister(indexer cache.Indexer) DB2RoleLister {
-	return &dB2RoleLister{indexer: indexer}
-}
-
-// List lists all DB2Roles in the indexer.
-func (s *dB2RoleLister) List(selector labels.Selector) (ret []*v1alpha1.DB2Role, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.DB2Role))
-	})
-	return ret, err
+	return &dB2RoleLister{listers.New[*enginev1alpha1.DB2Role](indexer, enginev1alpha1.Resource("db2role"))}
 }
 
 // DB2Roles returns an object that can list and get DB2Roles.
 func (s *dB2RoleLister) DB2Roles(namespace string) DB2RoleNamespaceLister {
-	return dB2RoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return dB2RoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.DB2Role](s.ResourceIndexer, namespace)}
 }
 
 // DB2RoleNamespaceLister helps list and get DB2Roles.
@@ -65,36 +57,15 @@ func (s *dB2RoleLister) DB2Roles(namespace string) DB2RoleNamespaceLister {
 type DB2RoleNamespaceLister interface {
 	// List lists all DB2Roles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.DB2Role, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.DB2Role, err error)
 	// Get retrieves the DB2Role from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.DB2Role, error)
+	Get(name string) (*enginev1alpha1.DB2Role, error)
 	DB2RoleNamespaceListerExpansion
 }
 
 // dB2RoleNamespaceLister implements the DB2RoleNamespaceLister
 // interface.
 type dB2RoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all DB2Roles in the indexer for a given namespace.
-func (s dB2RoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.DB2Role, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.DB2Role))
-	})
-	return ret, err
-}
-
-// Get retrieves the DB2Role from the indexer for a given namespace and name.
-func (s dB2RoleNamespaceLister) Get(name string) (*v1alpha1.DB2Role, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("db2role"), name)
-	}
-	return obj.(*v1alpha1.DB2Role), nil
+	listers.ResourceIndexer[*enginev1alpha1.DB2Role]
 }

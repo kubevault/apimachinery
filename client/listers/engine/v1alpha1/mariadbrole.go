@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // MariaDBRoleLister helps list MariaDBRoles.
@@ -31,7 +31,7 @@ import (
 type MariaDBRoleLister interface {
 	// List lists all MariaDBRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.MariaDBRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.MariaDBRole, err error)
 	// MariaDBRoles returns an object that can list and get MariaDBRoles.
 	MariaDBRoles(namespace string) MariaDBRoleNamespaceLister
 	MariaDBRoleListerExpansion
@@ -39,25 +39,17 @@ type MariaDBRoleLister interface {
 
 // mariaDBRoleLister implements the MariaDBRoleLister interface.
 type mariaDBRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.MariaDBRole]
 }
 
 // NewMariaDBRoleLister returns a new MariaDBRoleLister.
 func NewMariaDBRoleLister(indexer cache.Indexer) MariaDBRoleLister {
-	return &mariaDBRoleLister{indexer: indexer}
-}
-
-// List lists all MariaDBRoles in the indexer.
-func (s *mariaDBRoleLister) List(selector labels.Selector) (ret []*v1alpha1.MariaDBRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.MariaDBRole))
-	})
-	return ret, err
+	return &mariaDBRoleLister{listers.New[*enginev1alpha1.MariaDBRole](indexer, enginev1alpha1.Resource("mariadbrole"))}
 }
 
 // MariaDBRoles returns an object that can list and get MariaDBRoles.
 func (s *mariaDBRoleLister) MariaDBRoles(namespace string) MariaDBRoleNamespaceLister {
-	return mariaDBRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return mariaDBRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.MariaDBRole](s.ResourceIndexer, namespace)}
 }
 
 // MariaDBRoleNamespaceLister helps list and get MariaDBRoles.
@@ -65,36 +57,15 @@ func (s *mariaDBRoleLister) MariaDBRoles(namespace string) MariaDBRoleNamespaceL
 type MariaDBRoleNamespaceLister interface {
 	// List lists all MariaDBRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.MariaDBRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.MariaDBRole, err error)
 	// Get retrieves the MariaDBRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.MariaDBRole, error)
+	Get(name string) (*enginev1alpha1.MariaDBRole, error)
 	MariaDBRoleNamespaceListerExpansion
 }
 
 // mariaDBRoleNamespaceLister implements the MariaDBRoleNamespaceLister
 // interface.
 type mariaDBRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all MariaDBRoles in the indexer for a given namespace.
-func (s mariaDBRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.MariaDBRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.MariaDBRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the MariaDBRole from the indexer for a given namespace and name.
-func (s mariaDBRoleNamespaceLister) Get(name string) (*v1alpha1.MariaDBRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("mariadbrole"), name)
-	}
-	return obj.(*v1alpha1.MariaDBRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.MariaDBRole]
 }

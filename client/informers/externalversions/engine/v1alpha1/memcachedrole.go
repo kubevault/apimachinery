@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
 	time "time"
 
-	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	apisenginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 	versioned "kubevault.dev/apimachinery/client/clientset/versioned"
 	internalinterfaces "kubevault.dev/apimachinery/client/informers/externalversions/internalinterfaces"
-	v1alpha1 "kubevault.dev/apimachinery/client/listers/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/client/listers/engine/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -37,7 +37,7 @@ import (
 // MemcachedRoles.
 type MemcachedRoleInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.MemcachedRoleLister
+	Lister() enginev1alpha1.MemcachedRoleLister
 }
 
 type memcachedRoleInformer struct {
@@ -63,16 +63,28 @@ func NewFilteredMemcachedRoleInformer(client versioned.Interface, namespace stri
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().MemcachedRoles(namespace).List(context.TODO(), options)
+				return client.EngineV1alpha1().MemcachedRoles(namespace).List(context.Background(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.EngineV1alpha1().MemcachedRoles(namespace).Watch(context.TODO(), options)
+				return client.EngineV1alpha1().MemcachedRoles(namespace).Watch(context.Background(), options)
+			},
+			ListWithContextFunc: func(ctx context.Context, options v1.ListOptions) (runtime.Object, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.EngineV1alpha1().MemcachedRoles(namespace).List(ctx, options)
+			},
+			WatchFuncWithContext: func(ctx context.Context, options v1.ListOptions) (watch.Interface, error) {
+				if tweakListOptions != nil {
+					tweakListOptions(&options)
+				}
+				return client.EngineV1alpha1().MemcachedRoles(namespace).Watch(ctx, options)
 			},
 		},
-		&enginev1alpha1.MemcachedRole{},
+		&apisenginev1alpha1.MemcachedRole{},
 		resyncPeriod,
 		indexers,
 	)
@@ -83,9 +95,9 @@ func (f *memcachedRoleInformer) defaultInformer(client versioned.Interface, resy
 }
 
 func (f *memcachedRoleInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&enginev1alpha1.MemcachedRole{}, f.defaultInformer)
+	return f.factory.InformerFor(&apisenginev1alpha1.MemcachedRole{}, f.defaultInformer)
 }
 
-func (f *memcachedRoleInformer) Lister() v1alpha1.MemcachedRoleLister {
-	return v1alpha1.NewMemcachedRoleLister(f.Informer().GetIndexer())
+func (f *memcachedRoleInformer) Lister() enginev1alpha1.MemcachedRoleLister {
+	return enginev1alpha1.NewMemcachedRoleLister(f.Informer().GetIndexer())
 }

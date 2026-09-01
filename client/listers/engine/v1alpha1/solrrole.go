@@ -19,11 +19,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
+	enginev1alpha1 "kubevault.dev/apimachinery/apis/engine/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/tools/cache"
+	labels "k8s.io/apimachinery/pkg/labels"
+	listers "k8s.io/client-go/listers"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // SolrRoleLister helps list SolrRoles.
@@ -31,7 +31,7 @@ import (
 type SolrRoleLister interface {
 	// List lists all SolrRoles in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.SolrRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.SolrRole, err error)
 	// SolrRoles returns an object that can list and get SolrRoles.
 	SolrRoles(namespace string) SolrRoleNamespaceLister
 	SolrRoleListerExpansion
@@ -39,25 +39,17 @@ type SolrRoleLister interface {
 
 // solrRoleLister implements the SolrRoleLister interface.
 type solrRoleLister struct {
-	indexer cache.Indexer
+	listers.ResourceIndexer[*enginev1alpha1.SolrRole]
 }
 
 // NewSolrRoleLister returns a new SolrRoleLister.
 func NewSolrRoleLister(indexer cache.Indexer) SolrRoleLister {
-	return &solrRoleLister{indexer: indexer}
-}
-
-// List lists all SolrRoles in the indexer.
-func (s *solrRoleLister) List(selector labels.Selector) (ret []*v1alpha1.SolrRole, err error) {
-	err = cache.ListAll(s.indexer, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.SolrRole))
-	})
-	return ret, err
+	return &solrRoleLister{listers.New[*enginev1alpha1.SolrRole](indexer, enginev1alpha1.Resource("solrrole"))}
 }
 
 // SolrRoles returns an object that can list and get SolrRoles.
 func (s *solrRoleLister) SolrRoles(namespace string) SolrRoleNamespaceLister {
-	return solrRoleNamespaceLister{indexer: s.indexer, namespace: namespace}
+	return solrRoleNamespaceLister{listers.NewNamespaced[*enginev1alpha1.SolrRole](s.ResourceIndexer, namespace)}
 }
 
 // SolrRoleNamespaceLister helps list and get SolrRoles.
@@ -65,36 +57,15 @@ func (s *solrRoleLister) SolrRoles(namespace string) SolrRoleNamespaceLister {
 type SolrRoleNamespaceLister interface {
 	// List lists all SolrRoles in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1alpha1.SolrRole, err error)
+	List(selector labels.Selector) (ret []*enginev1alpha1.SolrRole, err error)
 	// Get retrieves the SolrRole from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.SolrRole, error)
+	Get(name string) (*enginev1alpha1.SolrRole, error)
 	SolrRoleNamespaceListerExpansion
 }
 
 // solrRoleNamespaceLister implements the SolrRoleNamespaceLister
 // interface.
 type solrRoleNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all SolrRoles in the indexer for a given namespace.
-func (s solrRoleNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.SolrRole, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1alpha1.SolrRole))
-	})
-	return ret, err
-}
-
-// Get retrieves the SolrRole from the indexer for a given namespace and name.
-func (s solrRoleNamespaceLister) Get(name string) (*v1alpha1.SolrRole, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		return nil, errors.NewNotFound(v1alpha1.Resource("solrrole"), name)
-	}
-	return obj.(*v1alpha1.SolrRole), nil
+	listers.ResourceIndexer[*enginev1alpha1.SolrRole]
 }

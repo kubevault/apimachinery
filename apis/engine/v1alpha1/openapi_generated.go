@@ -28198,12 +28198,12 @@ func schema_apimachinery_apis_engine_v1alpha1_QdrantConfiguration(ref common.Ref
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "QdrantConfiguration defines a Qdrant app configuration. The OpenBao `qdrant-database-plugin` is static-credentials-only: Qdrant loads its API key from the `QDRANT__SERVICE__API_KEY` environment variable at server startup and exposes no runtime user-management API, so the plugin verifies the configured API key against the `/readyz` endpoint (key sent in the `api-key` header) and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/17",
+				Description: "QdrantConfiguration defines a Qdrant app configuration.",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"databaseRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the Qdrant database appbinding reference. The AppBinding's URL is forwarded as the Qdrant HTTP endpoint (`url=`); the secret's `password` (or `api_key`) field is forwarded as the Qdrant API key (`api_key=`).",
+							Description: "Specifies the Qdrant database appbinding reference. The AppBinding's URL is forwarded as the Qdrant HTTP endpoint (`url=`); the secret's `api_key` (or `password`) field is forwarded as the Qdrant API key (`api_key=`).",
 							Default:     map[string]interface{}{},
 							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
 						},
@@ -28337,7 +28337,7 @@ func schema_apimachinery_apis_engine_v1alpha1_QdrantRoleSpec(ref common.Referenc
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "QdrantRoleSpec describes a static-role binding against the Qdrant database secret engine. The OpenBao `qdrant-database-plugin` is static-credentials-only: Qdrant loads its API key from the `QDRANT__SERVICE__API_KEY` environment variable at server startup and exposes no runtime user-management API, so dynamic NewUser is unsupported and this CRD configures rotation of the pre-existing Qdrant API key rather than emitting `creation_statements`.",
+				Description: "QdrantRoleSpec describes a database role for the Qdrant database secret engine.",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"secretEngineRef": {
@@ -28345,6 +28345,21 @@ func schema_apimachinery_apis_engine_v1alpha1_QdrantRoleSpec(ref common.Referenc
 							Description: "SecretEngineRef is the name of a Secret Engine",
 							Default:     map[string]interface{}{},
 							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+					"creationStatements": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the database statements to be executed to create a user.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
 						},
 					},
 					"defaultTTL": {
@@ -29908,12 +29923,12 @@ func schema_apimachinery_apis_engine_v1alpha1_WeaviateConfiguration(ref common.R
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "WeaviateConfiguration defines a Weaviate app configuration. The OpenBao `weaviate-database-plugin` is static-credentials-only: Weaviate loads its API keys from the `AUTHENTICATION_APIKEY_ALLOWED_KEYS` environment variable at server startup and exposes no runtime user-management API, so the plugin verifies the configured API key against the `/v1/.well-known/ready` endpoint (key sent as a Bearer token) and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/18",
+				Description: "WeaviateConfiguration defines a Weaviate app configuration.",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"databaseRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the Weaviate database appbinding reference. The AppBinding's URL is forwarded as the Weaviate HTTP endpoint (`url=`); the secret's `password` field is forwarded as the Weaviate API key (`api_key=`).",
+							Description: "Specifies the Weaviate database appbinding reference. The AppBinding's URL is forwarded as the Weaviate HTTP endpoint (`url=`); the secret's `AUTHENTICATION_APIKEY_ALLOWED_KEYS` field is forwarded as the Weaviate API key (`api_key=`).",
 							Default:     map[string]interface{}{},
 							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
 						},
@@ -30047,7 +30062,7 @@ func schema_apimachinery_apis_engine_v1alpha1_WeaviateRoleSpec(ref common.Refere
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "WeaviateRoleSpec describes a static-role binding against the Weaviate database secret engine. The OpenBao `weaviate-database-plugin` is static-credentials-only: Weaviate loads its API keys from the `AUTHENTICATION_APIKEY_ALLOWED_KEYS` environment variable at server startup and exposes no runtime user-management API, so dynamic NewUser is unsupported and this CRD configures rotation of the pre-existing Weaviate API key rather than emitting `creation_statements`.",
+				Description: "WeaviateRoleSpec describes a database role for the Weaviate database secret engine.",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"secretEngineRef": {
@@ -30055,6 +30070,21 @@ func schema_apimachinery_apis_engine_v1alpha1_WeaviateRoleSpec(ref common.Refere
 							Description: "SecretEngineRef is the name of a Secret Engine",
 							Default:     map[string]interface{}{},
 							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+					"creationStatements": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the database statements to be executed to create a user.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
 						},
 					},
 					"defaultTTL": {

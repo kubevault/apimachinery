@@ -407,18 +407,11 @@ type OracleConfiguration struct {
 	MaxConnectionLifetime string `json:"maxConnectionLifetime,omitempty"`
 }
 
-// QdrantConfiguration defines a Qdrant app configuration. The OpenBao
-// `qdrant-database-plugin` is static-credentials-only: Qdrant loads
-// its API key from the `QDRANT__SERVICE__API_KEY` environment variable
-// at server startup and exposes no runtime user-management API, so the
-// plugin verifies the configured API key against the `/readyz`
-// endpoint (key sent in the `api-key` header) and treats NewUser as
-// unsupported. Use static-roles for credential rotation.
-// https://github.com/sigilr/openbao/pull/17
+// QdrantConfiguration defines a Qdrant app configuration.
 type QdrantConfiguration struct {
 	// Specifies the Qdrant database appbinding reference. The
 	// AppBinding's URL is forwarded as the Qdrant HTTP endpoint
-	// (`url=`); the secret's `password` (or `api_key`) field is
+	// (`url=`); the secret's `api_key` (or `password`) field is
 	// forwarded as the Qdrant API key (`api_key=`).
 	DatabaseRef appcat.AppReference `json:"databaseRef"`
 
@@ -462,20 +455,12 @@ type SolrConfiguration struct {
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
 }
 
-// WeaviateConfiguration defines a Weaviate app configuration. The OpenBao
-// `weaviate-database-plugin` is static-credentials-only: Weaviate loads
-// its API keys from the `AUTHENTICATION_APIKEY_ALLOWED_KEYS` environment
-// variable at server startup and exposes no runtime user-management API,
-// so the plugin verifies the configured API key against the
-// `/v1/.well-known/ready` endpoint (key sent as a Bearer token) and
-// treats NewUser as unsupported. Use static-roles for credential
-// rotation.
-// https://github.com/sigilr/openbao/pull/18
+// WeaviateConfiguration defines a Weaviate app configuration.
 type WeaviateConfiguration struct {
 	// Specifies the Weaviate database appbinding reference. The
 	// AppBinding's URL is forwarded as the Weaviate HTTP endpoint
-	// (`url=`); the secret's `password` field is forwarded as the
-	// Weaviate API key (`api_key=`).
+	// (`url=`); the secret's `AUTHENTICATION_APIKEY_ALLOWED_KEYS` field
+	// is forwarded as the Weaviate API key (`api_key=`).
 	DatabaseRef appcat.AppReference `json:"databaseRef"`
 
 	// Specifies the name of the plugin to use for this connection.

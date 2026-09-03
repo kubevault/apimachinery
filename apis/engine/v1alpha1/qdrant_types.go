@@ -43,16 +43,14 @@ type QdrantRole struct {
 	Status            RoleStatus     `json:"status,omitempty"`
 }
 
-// QdrantRoleSpec describes a static-role binding against the Qdrant
-// database secret engine. The OpenBao `qdrant-database-plugin` is
-// static-credentials-only: Qdrant loads its API key from the
-// `QDRANT__SERVICE__API_KEY` environment variable at server startup
-// and exposes no runtime user-management API, so dynamic NewUser is
-// unsupported and this CRD configures rotation of the pre-existing
-// Qdrant API key rather than emitting `creation_statements`.
+// QdrantRoleSpec describes a database role for the Qdrant database secret engine.
 type QdrantRoleSpec struct {
 	// SecretEngineRef is the name of a Secret Engine
 	SecretEngineRef core.LocalObjectReference `json:"secretEngineRef"`
+
+	// Specifies the database statements to be executed to create a user.
+	// +optional
+	CreationStatements []string `json:"creationStatements,omitempty"`
 
 	// Specifies the TTL for the leases associated with this role.
 	// Accepts time suffixed strings ("1h") or an integer number of seconds.

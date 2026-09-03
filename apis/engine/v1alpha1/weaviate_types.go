@@ -43,17 +43,14 @@ type WeaviateRole struct {
 	Status            RoleStatus       `json:"status,omitempty"`
 }
 
-// WeaviateRoleSpec describes a static-role binding against the Weaviate
-// database secret engine. The OpenBao `weaviate-database-plugin` is
-// static-credentials-only: Weaviate loads its API keys from the
-// `AUTHENTICATION_APIKEY_ALLOWED_KEYS` environment variable at server
-// startup and exposes no runtime user-management API, so dynamic
-// NewUser is unsupported and this CRD configures rotation of the
-// pre-existing Weaviate API key rather than emitting
-// `creation_statements`.
+// WeaviateRoleSpec describes a database role for the Weaviate database secret engine.
 type WeaviateRoleSpec struct {
 	// SecretEngineRef is the name of a Secret Engine
 	SecretEngineRef core.LocalObjectReference `json:"secretEngineRef"`
+
+	// Specifies the database statements to be executed to create a user.
+	// +optional
+	CreationStatements []string `json:"creationStatements,omitempty"`
 
 	// Specifies the TTL for the leases associated with this role.
 	// Accepts time suffixed strings ("1h") or an integer number of seconds.

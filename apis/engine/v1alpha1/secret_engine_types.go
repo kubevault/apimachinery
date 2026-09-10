@@ -91,6 +91,7 @@ type SecretEngineConfiguration struct {
 	PKI           *PKIConfiguration           `json:"pki,omitempty"`
 	DB2           *DB2Configuration           `json:"db2,omitempty"`
 	Druid         *DruidConfiguration         `json:"druid,omitempty"`
+	Etcd          *EtcdConfiguration          `json:"etcd,omitempty"`
 	HanaDB        *HanaDBConfiguration        `json:"hanadb,omitempty"`
 	Hazelcast     *HazelcastConfiguration     `json:"hazelcast,omitempty"`
 	Ignite        *IgniteConfiguration        `json:"ignite,omitempty"`
@@ -167,6 +168,33 @@ type DruidConfiguration struct {
 	// referenced by creationStatements. Defaults to MyBasicMetadataAuthorizer.
 	// +optional
 	Authorizer string `json:"authorizer,omitempty"`
+}
+
+// EtcdConfiguration defines an etcd app configuration. The OpenBao
+// `etcd-database-plugin` (sigilr/openbao#50) issues dynamic credentials
+// against etcd's built-in v3 Auth API: NewUser creates a native etcd
+// user and grants it every role named in creationStatements. The
+// connection payload uses `endpoints` (comma-separated etcd client
+// URLs) rather than a connection_url. Etcd is dynamic:
+// NewUser/UpdateUser/DeleteUser are all supported.
+// https://etcd.io/docs/latest/op-guide/authentication/
+type EtcdConfiguration struct {
+	// Specifies the etcd database appbinding reference. The AppBinding's
+	// URL is forwarded as the etcd client endpoint (`endpoints=`); the
+	// secret contributes the root username/password used to
+	// authenticate against etcd's v3 Auth API.
+	DatabaseRef appcat.AppReference `json:"databaseRef"`
+
+	// Specifies the name of the plugin to use for this connection.
+	// Default plugin:
+	//  - for etcd: etcd-database-plugin
+	// +optional
+	PluginName string `json:"pluginName,omitempty"`
+
+	// List of the roles allowed to use this connection.
+	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
+	// +optional
+	AllowedRoles []string `json:"allowedRoles,omitempty"`
 }
 
 // HanaDBConfiguration defines a SAP HANA app configuration. The OpenBao

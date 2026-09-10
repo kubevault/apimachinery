@@ -49,6 +49,10 @@ func (c *FakeEngineV1alpha1) ElasticsearchRoles(namespace string) v1alpha1.Elast
 	return newFakeElasticsearchRoles(c, namespace)
 }
 
+func (c *FakeEngineV1alpha1) EtcdRoles(namespace string) v1alpha1.EtcdRoleInterface {
+	return newFakeEtcdRoles(c, namespace)
+}
+
 func (c *FakeEngineV1alpha1) GCPRoles(namespace string) v1alpha1.GCPRoleInterface {
 	return newFakeGCPRoles(c, namespace)
 }

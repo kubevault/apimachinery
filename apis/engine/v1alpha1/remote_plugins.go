@@ -29,6 +29,7 @@ const (
 	RemoteValkeyDatabasePlugin      = "remote-valkey-plugin"
 	RemoteDB2DatabasePlugin         = "remote-db2-plugin"
 	RemoteDruidDatabasePlugin       = "remote-druid-plugin"
+	RemoteEtcdDatabasePlugin        = "remote-etcd-plugin"
 	RemoteHanaDBDatabasePlugin      = "remote-hana-plugin"
 	RemoteHazelcastDatabasePlugin   = "remote-hazelcast-plugin"
 	RemoteIgniteDatabasePlugin      = "remote-ignite-plugin"
@@ -56,6 +57,8 @@ func RemoteDatabasePlugin(engineKind string) (string, error) {
 		return RemoteDB2DatabasePlugin, nil
 	case "druid":
 		return RemoteDruidDatabasePlugin, nil
+	case "etcd":
+		return RemoteEtcdDatabasePlugin, nil
 	case "hanadb":
 		return RemoteHanaDBDatabasePlugin, nil
 	case "hazelcast":
@@ -94,6 +97,6 @@ func RemoteDatabasePlugin(engineKind string) (string, error) {
 	case "zookeeper":
 		return RemoteZooKeeperDatabasePlugin, nil
 	default:
-		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: db2, druid, hanadb, hazelcast, ignite, kafka, mariadb, memcached, milvus, mssqlserver, mysql, neo4j, oracle, postgres, qdrant, rabbitmq, redis, solr, valkey, weaviate, zookeeper", engineKind)
+		return "", fmt.Errorf("database engine %q is not supported through the OpenBao spoke relay; supported: db2, druid, etcd, hanadb, hazelcast, ignite, kafka, mariadb, memcached, milvus, mssqlserver, mysql, neo4j, oracle, postgres, qdrant, rabbitmq, redis, solr, valkey, weaviate, zookeeper", engineKind)
 	}
 }

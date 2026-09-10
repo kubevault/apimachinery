@@ -315,7 +315,7 @@ type AllowedSecretEngines struct {
 	SecretEngines []SecretEngineType `json:"secretEngines,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=kv;pki;aws;azure;gcp;postgres;mongodb;mysql;mariadb;elasticsearch;redis;db2;druid;hanadb;hazelcast;ignite;kafka;memcached;milvus;mssqlserver;neo4j;oracle;qdrant;rabbitmq;solr;weaviate;zookeeper
+// +kubebuilder:validation:Enum=kv;pki;aws;azure;gcp;postgres;mongodb;mysql;mariadb;elasticsearch;redis;db2;druid;etcd;hanadb;hazelcast;ignite;kafka;memcached;milvus;mssqlserver;neo4j;oracle;qdrant;rabbitmq;solr;weaviate;zookeeper
 type SecretEngineType string
 
 const (
@@ -332,6 +332,7 @@ const (
 	SecretEngineTypeRedis         SecretEngineType = "redis"
 	SecretEngineTypeDB2           SecretEngineType = "db2"
 	SecretEngineTypeDruid         SecretEngineType = "druid"
+	SecretEngineTypeEtcd          SecretEngineType = "etcd"
 	SecretEngineTypeHanaDB        SecretEngineType = "hanadb"
 	SecretEngineTypeHazelcast     SecretEngineType = "hazelcast"
 	SecretEngineTypeIgnite        SecretEngineType = "ignite"

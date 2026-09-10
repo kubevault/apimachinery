@@ -85,6 +85,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&DB2RoleList{},
 		&DruidRole{},
 		&DruidRoleList{},
+		&EtcdRole{},
+		&EtcdRoleList{},
 		&HanaDBRole{},
 		&HanaDBRoleList{},
 		&HazelcastRole{},

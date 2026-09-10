@@ -28,6 +28,8 @@ type DruidRoleExpansion interface{}
 
 type ElasticsearchRoleExpansion interface{}
 
+type EtcdRoleExpansion interface{}
+
 type GCPRoleExpansion interface{}
 
 type HanaDBRoleExpansion interface{}

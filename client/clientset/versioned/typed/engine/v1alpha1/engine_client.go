@@ -34,6 +34,7 @@ type EngineV1alpha1Interface interface {
 	DB2RolesGetter
 	DruidRolesGetter
 	ElasticsearchRolesGetter
+	EtcdRolesGetter
 	GCPRolesGetter
 	HanaDBRolesGetter
 	HazelcastRolesGetter
@@ -83,6 +84,10 @@ func (c *EngineV1alpha1Client) DruidRoles(namespace string) DruidRoleInterface {
 
 func (c *EngineV1alpha1Client) ElasticsearchRoles(namespace string) ElasticsearchRoleInterface {
 	return newElasticsearchRoles(c, namespace)
+}
+
+func (c *EngineV1alpha1Client) EtcdRoles(namespace string) EtcdRoleInterface {
+	return newEtcdRoles(c, namespace)
 }
 
 func (c *EngineV1alpha1Client) GCPRoles(namespace string) GCPRoleInterface {

@@ -2380,7 +2380,7 @@ func (in *QdrantRole) DeepCopyInto(out *QdrantRole) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
-	out.Spec = in.Spec
+	in.Spec.DeepCopyInto(&out.Spec)
 	in.Status.DeepCopyInto(&out.Status)
 	return
 }
@@ -2440,6 +2440,11 @@ func (in *QdrantRoleList) DeepCopyObject() runtime.Object {
 func (in *QdrantRoleSpec) DeepCopyInto(out *QdrantRoleSpec) {
 	*out = *in
 	out.SecretEngineRef = in.SecretEngineRef
+	if in.CreationStatements != nil {
+		in, out := &in.CreationStatements, &out.CreationStatements
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 
@@ -3356,7 +3361,7 @@ func (in *WeaviateRole) DeepCopyInto(out *WeaviateRole) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
-	out.Spec = in.Spec
+	in.Spec.DeepCopyInto(&out.Spec)
 	in.Status.DeepCopyInto(&out.Status)
 	return
 }
@@ -3416,6 +3421,11 @@ func (in *WeaviateRoleList) DeepCopyObject() runtime.Object {
 func (in *WeaviateRoleSpec) DeepCopyInto(out *WeaviateRoleSpec) {
 	*out = *in
 	out.SecretEngineRef = in.SecretEngineRef
+	if in.CreationStatements != nil {
+		in, out := &in.CreationStatements, &out.CreationStatements
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 

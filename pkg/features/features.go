@@ -45,6 +45,9 @@ const (
 	// Enables the Elasticsearch secret engine.
 	Elasticsearch featuregate.Feature = "Elasticsearch"
 
+	// Enables the etcd secret engine.
+	Etcd featuregate.Feature = "Etcd"
+
 	// Enables the HanaDB secret engine.
 	HanaDB featuregate.Feature = "HanaDB"
 
@@ -115,6 +118,7 @@ var defaultKubeVaultFeatureGates = map[featuregate.Feature]featuregate.FeatureSp
 	DB2:           {Default: false, PreRelease: featuregate.Alpha},
 	Druid:         {Default: false, PreRelease: featuregate.Alpha},
 	Elasticsearch: {Default: false, PreRelease: featuregate.Alpha},
+	Etcd:          {Default: false, PreRelease: featuregate.Alpha},
 	HanaDB:        {Default: false, PreRelease: featuregate.Alpha},
 	Hazelcast:     {Default: false, PreRelease: featuregate.Alpha},
 	Ignite:        {Default: false, PreRelease: featuregate.Alpha},

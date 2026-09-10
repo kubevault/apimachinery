@@ -58,6 +58,14 @@ type ElasticsearchRoleListerExpansion interface{}
 // ElasticsearchRoleNamespaceLister.
 type ElasticsearchRoleNamespaceListerExpansion interface{}
 
+// EtcdRoleListerExpansion allows custom methods to be added to
+// EtcdRoleLister.
+type EtcdRoleListerExpansion interface{}
+
+// EtcdRoleNamespaceListerExpansion allows custom methods to be added to
+// EtcdRoleNamespaceLister.
+type EtcdRoleNamespaceListerExpansion interface{}
+
 // GCPRoleListerExpansion allows custom methods to be added to
 // GCPRoleLister.
 type GCPRoleListerExpansion interface{}

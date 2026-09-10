@@ -472,6 +472,10 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRole":                schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRole(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRoleList":            schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRoleList(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchRoleSpec":            schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRoleSpec(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdConfiguration":                schema_apimachinery_apis_engine_v1alpha1_EtcdConfiguration(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdRole":                         schema_apimachinery_apis_engine_v1alpha1_EtcdRole(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdRoleList":                     schema_apimachinery_apis_engine_v1alpha1_EtcdRoleList(ref),
+		"kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdRoleSpec":                     schema_apimachinery_apis_engine_v1alpha1_EtcdRoleSpec(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPAccessRequestConfiguration":    schema_apimachinery_apis_engine_v1alpha1_GCPAccessRequestConfiguration(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration":                 schema_apimachinery_apis_engine_v1alpha1_GCPConfiguration(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPRole":                          schema_apimachinery_apis_engine_v1alpha1_GCPRole(ref),
@@ -24688,6 +24692,197 @@ func schema_apimachinery_apis_engine_v1alpha1_ElasticsearchRoleSpec(ref common.R
 	}
 }
 
+func schema_apimachinery_apis_engine_v1alpha1_EtcdConfiguration(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "EtcdConfiguration defines an etcd app configuration. The OpenBao `etcd-database-plugin` (sigilr/openbao#50) issues dynamic credentials against etcd's built-in v3 Auth API: NewUser creates a native etcd user and grants it every role named in creationStatements. The connection payload uses `endpoints` (comma-separated etcd client URLs) rather than a connection_url. Etcd is dynamic: NewUser/UpdateUser/DeleteUser are all supported. https://etcd.io/docs/latest/op-guide/authentication/",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the etcd database appbinding reference. The AppBinding's URL is forwarded as the etcd client endpoint (`endpoints=`); the secret contributes the root username/password used to authenticate against etcd's v3 Auth API.",
+							Default:     map[string]interface{}{},
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
+					"pluginName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the name of the plugin to use for this connection. Default plugin:\n - for etcd: etcd-database-plugin",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"allowedRoles": {
+						SchemaProps: spec.SchemaProps{
+							Description: "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"databaseRef"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
+	}
+}
+
+func schema_apimachinery_apis_engine_v1alpha1_EtcdRole(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdRoleSpec"),
+						},
+					},
+					"status": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdRoleSpec", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus"},
+	}
+}
+
+func schema_apimachinery_apis_engine_v1alpha1_EtcdRoleList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Items is a list of EtcdRole objects",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdRole"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdRole"},
+	}
+}
+
+func schema_apimachinery_apis_engine_v1alpha1_EtcdRoleSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "EtcdRoleSpec describes a database role for the etcd database secret engine. The OpenBao `etcd-database-plugin` creates a native etcd user via the v3 Auth API and grants it every role named in creationStatements; those roles must already exist on the cluster (e.g. via `etcdctl role add`).",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"secretEngineRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "SecretEngineRef is the name of a Secret Engine",
+							Default:     map[string]interface{}{},
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+					"creationStatements": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the database statements to be executed to create a user. A single-element list holding a JSON document of the form `{\"roles\":[\"role1\",\"role2\"]}` naming pre-existing etcd roles to grant the new user.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"defaultTTL": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"maxTTL": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the maximum TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"secretEngineRef"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference"},
+	}
+}
+
 func schema_apimachinery_apis_engine_v1alpha1_GCPAccessRequestConfiguration(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -29174,6 +29369,11 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineConfiguration(ref comm
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration"),
 						},
 					},
+					"etcd": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdConfiguration"),
+						},
+					},
 					"hanadb": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration"),
@@ -29248,7 +29448,7 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineConfiguration(ref comm
 			},
 		},
 		Dependencies: []string{
-			"kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Configuration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KafkaConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MSSQLServerConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MilvusConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.Neo4jConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.OracleConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PKIConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.QdrantConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RabbitMQConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RedisConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.SolrConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperConfiguration"},
+			"kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Configuration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KafkaConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MSSQLServerConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MilvusConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.Neo4jConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.OracleConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PKIConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.QdrantConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RabbitMQConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RedisConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.SolrConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperConfiguration"},
 	}
 }
 
@@ -29383,6 +29583,11 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineSpec(ref common.Refere
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration"),
 						},
 					},
+					"etcd": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdConfiguration"),
+						},
+					},
 					"hanadb": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration"),
@@ -29470,7 +29675,7 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineSpec(ref common.Refere
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.ObjectReference", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Configuration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KafkaConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MSSQLServerConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MilvusConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.Neo4jConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.OracleConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PKIConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.QdrantConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RabbitMQConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RedisConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.SolrConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperConfiguration"},
+			"kmodules.xyz/client-go/api/v1.ObjectReference", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Configuration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KafkaConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MSSQLServerConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MilvusConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.Neo4jConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.OracleConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PKIConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.QdrantConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RabbitMQConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RedisConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.SolrConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperConfiguration"},
 	}
 }
 

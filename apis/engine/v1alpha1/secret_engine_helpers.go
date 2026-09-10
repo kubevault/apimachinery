@@ -83,6 +83,8 @@ func (se SecretEngine) GetSecretEngineType() api.SecretEngineType {
 		return api.SecretEngineTypeDruid
 	case seSpec.Elasticsearch != nil:
 		return api.SecretEngineTypeElasticsearch
+	case seSpec.Etcd != nil:
+		return api.SecretEngineTypeEtcd
 	case seSpec.GCP != nil:
 		return api.SecretEngineTypeGCP
 	case seSpec.HanaDB != nil:

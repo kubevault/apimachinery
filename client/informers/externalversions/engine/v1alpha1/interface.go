@@ -34,6 +34,8 @@ type Interface interface {
 	DruidRoles() DruidRoleInformer
 	// ElasticsearchRoles returns a ElasticsearchRoleInformer.
 	ElasticsearchRoles() ElasticsearchRoleInformer
+	// EtcdRoles returns a EtcdRoleInformer.
+	EtcdRoles() EtcdRoleInformer
 	// GCPRoles returns a GCPRoleInformer.
 	GCPRoles() GCPRoleInformer
 	// HanaDBRoles returns a HanaDBRoleInformer.
@@ -118,6 +120,11 @@ func (v *version) DruidRoles() DruidRoleInformer {
 // ElasticsearchRoles returns a ElasticsearchRoleInformer.
 func (v *version) ElasticsearchRoles() ElasticsearchRoleInformer {
 	return &elasticsearchRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// EtcdRoles returns a EtcdRoleInformer.
+func (v *version) EtcdRoles() EtcdRoleInformer {
+	return &etcdRoleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // GCPRoles returns a GCPRoleInformer.

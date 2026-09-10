@@ -49,7 +49,6 @@ type WeaviateRoleSpec struct {
 	SecretEngineRef core.LocalObjectReference `json:"secretEngineRef"`
 
 	// Specifies the database statements to be executed to create a user.
-	// +optional
 	CreationStatements []string `json:"creationStatements,omitempty"`
 
 	// Specifies the TTL for the leases associated with this role.

@@ -13411,10 +13411,6 @@
           "default": {},
           "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
         },
-        "mechanism": {
-          "description": "Mechanism is the SASL mechanism written into the Kafka SCRAM record. Valid values: SCRAM-SHA-256 (default), SCRAM-SHA-512. PLAIN is rejected by the plugin.",
-          "type": "string"
-        },
         "pluginName": {
           "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for kafka: kafka-database-plugin",
           "type": "string"

@@ -286,12 +286,6 @@ type KafkaConfiguration struct {
 	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
 	// +optional
 	AllowedRoles []string `json:"allowedRoles,omitempty"`
-
-	// Mechanism is the SASL mechanism written into the Kafka SCRAM record.
-	// Valid values: SCRAM-SHA-256 (default), SCRAM-SHA-512. PLAIN is rejected
-	// by the plugin.
-	// +optional
-	Mechanism string `json:"mechanism,omitempty"`
 }
 
 // MemcachedConfiguration defines a Memcached app configuration. The

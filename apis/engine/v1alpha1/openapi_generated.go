@@ -25645,13 +25645,6 @@ func schema_apimachinery_apis_engine_v1alpha1_KafkaConfiguration(ref common.Refe
 							},
 						},
 					},
-					"mechanism": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Mechanism is the SASL mechanism written into the Kafka SCRAM record. Valid values: SCRAM-SHA-256 (default), SCRAM-SHA-512. PLAIN is rejected by the plugin.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
 				},
 				Required: []string{"databaseRef"},
 			},

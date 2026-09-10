@@ -433,6 +433,21 @@ type TLSPolicy struct {
 
 // TODO : set defaults and validation
 // BackendStorageSpec defines storage backend configuration of vault
+//
+// FoundationDB is intentionally not represented here: unlike every other
+// backend, it requires CGo and the native libfdb_c client library, so it
+// isn't compiled into standard OpenBao/Vault images and can't be assumed
+// available in a generic VaultServer deployment.
+//
+// New backends added here (CockroachDB, Cassandra, Zookeeper, CouchDB,
+// MSSQL, Spanner, Aerospike, OCI, AlicloudOSS) are v1alpha2-only for now;
+// v1alpha1 already predates several v1alpha2-only conventions used by
+// their spec types (SecretRef-typed credentials, DatabaseRef, HAEnabled),
+// so mirroring them would need bespoke field-mapping conversion functions
+// rather than the mechanical 1:1 copy used elsewhere. v1alpha2 is the
+// storage/hub version and the only one the operator's storage package
+// consumes; a v1alpha1 backport can follow the existing
+// Convert_v1alpha1_<X>Spec_To_v1alpha2_<X>Spec pattern if ever needed.
 type BackendStorageSpec struct {
 	// ref: https://www.vaultproject.io/docs/configuration/storage/in-memory.html
 	// +optional
@@ -470,6 +485,33 @@ type BackendStorageSpec struct {
 
 	// +optional
 	Raft *RaftSpec `json:"raft,omitempty"`
+
+	// +optional
+	CockroachDB *CockroachDBSpec `json:"cockroachdb,omitempty"`
+
+	// +optional
+	Cassandra *CassandraSpec `json:"cassandra,omitempty"`
+
+	// +optional
+	Zookeeper *ZookeeperSpec `json:"zookeeper,omitempty"`
+
+	// +optional
+	CouchDB *CouchDBSpec `json:"couchdb,omitempty"`
+
+	// +optional
+	MSSQL *MSSQLSpec `json:"mssql,omitempty"`
+
+	// +optional
+	Spanner *SpannerSpec `json:"spanner,omitempty"`
+
+	// +optional
+	Aerospike *AerospikeSpec `json:"aerospike,omitempty"`
+
+	// +optional
+	OCI *OCISpec `json:"oci,omitempty"`
+
+	// +optional
+	AlicloudOSS *AlicloudOSSSpec `json:"alicloudoss,omitempty"`
 }
 
 // ref: https://www.vaultproject.io/docs/configuration/storage/consul.html
@@ -1070,6 +1112,430 @@ type RaftSpec struct {
 
 	// Storage to specify how storage shall be used.
 	Storage *core.PersistentVolumeClaimSpec `json:"storage,omitempty"`
+}
+
+// vault doc: https://openbao.org/docs/configuration/storage/cockroachdb/
+//
+// CockroachDBSpec defines configuration to set up CockroachDB as backend storage in vault.
+// CockroachDB speaks the PostgreSQL wire protocol, but is configured as a dedicated backend
+// (rather than reusing PostgreSQLSpec) so its schema and locking queries can account for
+// CockroachDB-specific behavior.
+type CockroachDBSpec struct {
+	// Specifies the address of the CockroachDB host.
+	// if DatabaseRef is set then Address will be generated from it
+	// This must be set if DatabaseRef is empty, validate from ValidatingWebhook
+	// +optional
+	Address string `json:"address"`
+
+	// Specifies the secret name containing username, password and, optionally, a
+	// full connection_url to connect to the CockroachDB cluster.
+	// secret data:
+	//  - username=<value>
+	//  - password=<value>
+	//  - connection_url="postgresql://<username>:<password>@<host>:<port>/<db_name>?sslmode=<sslMode>"
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+
+	// DatabaseRef contains the info of KubeDB managed Database
+	// This will be used to generate the "Address" field
+	// +optional
+	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
+
+	// SSLMode for both standalone and clusters. [disable;require;verify-ca;verify-full]
+	// +optional
+	SSLMode PostgresSSLMode `json:"sslMode,omitempty"`
+
+	// Specifies the name of the table in which to write Vault data.
+	// +optional
+	// +kubebuilder:default:="openbao_kv_store"
+	Table string `json:"table,omitempty"`
+
+	// Specifies the maximum number of concurrent requests to take place.
+	// +optional
+	MaxParallel int64 `json:"maxParallel,omitempty"`
+
+	// Specifies the maximum number of concurrent interactive transactions to take place.
+	// +optional
+	TransactionMaxParallel int64 `json:"transactionMaxParallel,omitempty"`
+
+	// When set, Vault will not attempt to create the storage table(s); they must already exist.
+	// +optional
+	SkipCreateTable bool `json:"skipCreateTable,omitempty"`
+
+	// High Availability Parameter
+	// Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like "true" or "false".
+	// +optional
+	// +kubebuilder:default:="false"
+	HAEnabled string `json:"haEnabled,omitempty"`
+
+	// Specifies the name of the table to use for storing high availability information.
+	// +optional
+	// +kubebuilder:default:="openbao_ha_locks"
+	HATable string `json:"haTable,omitempty"`
+}
+
+// vault doc: https://openbao.org/docs/configuration/storage/cassandra/
+//
+// CassandraSpec defines configuration to set up Cassandra as backend storage in vault
+type CassandraSpec struct {
+	// Specifies a comma-separated list of Cassandra hosts to connect to. All hosts must
+	// listen on the same port; include the port in each host as "<host>:<port>" if it is
+	// not the CQL native protocol default.
+	Hosts string `json:"hosts"`
+
+	// Specifies the keyspace that is used for storing the Vault data. The keyspace must
+	// already exist, be reachable, and writable.
+	// +optional
+	// +kubebuilder:default:="vault"
+	Keyspace string `json:"keyspace,omitempty"`
+
+	// Specifies the table in the keyspace that is used for storing the Vault data. The
+	// table must already exist.
+	// +optional
+	// +kubebuilder:default:="entries"
+	Table string `json:"table,omitempty"`
+
+	// Specifies the consistency level for read and write operations. Must be one of ANY,
+	// ONE, TWO, THREE, QUORUM, ALL, LOCAL_QUORUM, EACH_QUORUM, or LOCAL_ONE.
+	// +optional
+	Consistency string `json:"consistency,omitempty"`
+
+	// Specifies the CQL protocol version to use. Set to "3" or higher to use
+	// username/password authentication with a proto version that requires it.
+	// +optional
+	ProtocolVersion string `json:"protocolVersion,omitempty"`
+
+	// Specifies the secret name containing username and password to use for
+	// authentication (PasswordAuthenticator). Requires protocolVersion of "2" or higher.
+	// secret data:
+	//  - username=<value>
+	//  - password=<value>
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+
+	// When set to a positive integer, enables Cassandra's SimpleRetryPolicy with the
+	// given number of retries for queries that time out or fail.
+	// +optional
+	SimpleRetryPolicyRetries string `json:"simpleRetryPolicyRetries,omitempty"`
+
+	// Specifies the timeout, in seconds, for the initial connection to the cluster.
+	// +optional
+	InitialConnectionTimeout string `json:"initialConnectionTimeout,omitempty"`
+
+	// Specifies the timeout, in seconds, for individual queries against the cluster.
+	// +optional
+	ConnectionTimeout string `json:"connectionTimeout,omitempty"`
+
+	// Set to enable a TLS connection to Cassandra.
+	// +optional
+	TLSEnabled bool `json:"tlsEnabled,omitempty"`
+
+	// Specifies the secret name that contains a PEM-encoded certificate bundle (and,
+	// optionally, a private key) used for the TLS connection to Cassandra.
+	// secret data:
+	//  - pem_bundle=<value>
+	// +optional
+	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
+
+	// Disables verification of the Cassandra server's certificate chain and host name.
+	// Not recommended for production use.
+	// +optional
+	TLSSkipVerify bool `json:"tlsSkipVerify,omitempty"`
+
+	// Specifies the minimum acceptable TLS version. One of tls10, tls11, tls12, or tls13.
+	// +optional
+	TLSMinVersion string `json:"tlsMinVersion,omitempty"`
+}
+
+// vault doc: https://openbao.org/docs/configuration/storage/zookeeper/
+//
+// ZookeeperSpec defines configuration to set up ZooKeeper as backend storage in vault
+type ZookeeperSpec struct {
+	// Specifies the addresses of the ZooKeeper instances as a comma-separated list.
+	// +optional
+	// +kubebuilder:default:="localhost:2181"
+	Address string `json:"address,omitempty"`
+
+	// Specifies the path in ZooKeeper's tree where Vault data will be stored.
+	// +optional
+	// +kubebuilder:default:="vault/"
+	Path string `json:"path,omitempty"`
+
+	// Specifies the ACL scheme:id applied to every znode Vault creates. Defaults to
+	// "world:anyone", i.e. unrestricted access.
+	// +optional
+	ZnodeOwner string `json:"znodeOwner,omitempty"`
+
+	// Specifies the secret name containing a scheme:auth pair passed to ZooKeeper's
+	// AddAuth API immediately after connecting, so the client authenticates as a
+	// specific principal.
+	// secret data:
+	//  - authInfo=<scheme:auth>
+	// +optional
+	AuthInfoSecretRef *core.LocalObjectReference `json:"authInfoSecretRef,omitempty"`
+
+	// Enables a TLS connection to ZooKeeper.
+	// +optional
+	TLSEnabled bool `json:"tlsEnabled,omitempty"`
+
+	// Specifies the secret name that contains ca.crt, tls.crt and tls.key for ZooKeeper
+	// communication.
+	// secret data:
+	//  - ca.crt
+	//  - tls.crt
+	//  - tls.key
+	// +optional
+	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
+
+	// Disables verification of the ZooKeeper server's certificate chain and host name.
+	// Not recommended for production use.
+	// +optional
+	TLSSkipVerify bool `json:"tlsSkipVerify,omitempty"`
+
+	// When set, verifies the server's IP address against the certificate instead of its
+	// DNS name. Only consulted when TLSSkipVerify is false.
+	// +optional
+	TLSVerifyIP bool `json:"tlsVerifyIP,omitempty"`
+
+	// Specifies the minimum acceptable TLS version. One of tls10, tls11, tls12, or tls13.
+	// +optional
+	TLSMinVersion string `json:"tlsMinVersion,omitempty"`
+}
+
+// vault doc: https://openbao.org/docs/configuration/storage/couchdb/
+//
+// CouchDBSpec defines configuration to set up CouchDB as backend storage in vault
+type CouchDBSpec struct {
+	// Specifies the full URL to the CouchDB database to use, including the database
+	// name. The database must already exist; Vault does not create it.
+	Endpoint string `json:"endpoint"`
+
+	// Specifies the secret name containing the CouchDB username and password to
+	// connect with.
+	// secret data:
+	//  - username=<value>
+	//  - password=<value>
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+
+	// Specifies the maximum number of concurrent requests to CouchDB.
+	// +optional
+	MaxParallel int64 `json:"maxParallel,omitempty"`
+}
+
+// vault doc: https://openbao.org/docs/configuration/storage/mssql/
+//
+// MSSQLSpec defines configuration to set up Microsoft SQL Server as backend storage in vault
+type MSSQLSpec struct {
+	// Specifies the address of the MSSQL host.
+	Server string `json:"server"`
+
+	// Specifies the port of the MSSQL host. Defaults to the driver's standard port
+	// (1433) when unset.
+	// +optional
+	Port string `json:"port,omitempty"`
+
+	// Specifies the secret name containing the MSSQL username and password to connect
+	// with.
+	// secret data:
+	//  - username=<value>
+	//  - password=<value>
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+
+	// Specifies the name of the database to use. Vault will attempt to create it if it
+	// does not already exist.
+	// +optional
+	// +kubebuilder:default:="openbao"
+	Database string `json:"database,omitempty"`
+
+	// Specifies the name of the table in which to write Vault data. Vault will attempt
+	// to create it if missing.
+	// +optional
+	// +kubebuilder:default:="openbao"
+	Table string `json:"table,omitempty"`
+
+	// Specifies the schema within the database that the table lives in. Vault will
+	// attempt to create it if missing (requires permission to run CREATE SCHEMA).
+	// +optional
+	// +kubebuilder:default:="dbo"
+	Schema string `json:"schema,omitempty"`
+
+	// Specifies the application name to report to the server.
+	// +optional
+	// +kubebuilder:default:="openbao"
+	AppName string `json:"appName,omitempty"`
+
+	// Specifies the connection timeout, in seconds.
+	// +optional
+	// +kubebuilder:default:="30"
+	ConnectionTimeout string `json:"connectionTimeout,omitempty"`
+
+	// Specifies the driver's internal log level bitmask.
+	// +optional
+	LogLevel string `json:"logLevel,omitempty"`
+
+	// Specifies the maximum number of concurrent requests to MSSQL.
+	// +optional
+	MaxParallel int64 `json:"maxParallel,omitempty"`
+}
+
+// vault doc: https://openbao.org/docs/configuration/storage/google-cloud-spanner/
+//
+// SpannerSpec defines configuration to set up Google Cloud Spanner as backend storage in vault
+type SpannerSpec struct {
+	// Specifies the full name of the Spanner database, in the form
+	// projects/<project>/instances/<instance>/databases/<database>.
+	Database string `json:"database"`
+
+	// Specifies the name of the table to use for Vault data.
+	// +optional
+	// +kubebuilder:default:="Vault"
+	Table string `json:"table,omitempty"`
+
+	// High Availability Parameter
+	// Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like "true" or "false".
+	// +optional
+	// +kubebuilder:default:="false"
+	HAEnabled string `json:"haEnabled,omitempty"`
+
+	// Specifies the name of the table used for HA leader election. Defaults to the
+	// value of Table suffixed with "HA".
+	// +optional
+	HATable string `json:"haTable,omitempty"`
+
+	// Specifies the maximum number of concurrent requests to Spanner.
+	// +optional
+	MaxParallel int64 `json:"maxParallel,omitempty"`
+
+	// Secret containing the Google application credential used to reach Spanner.
+	// secret data:
+	//  - sa.json:<value>
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+}
+
+// vault doc: https://openbao.org/docs/configuration/storage/aerospike/
+//
+// AerospikeSpec defines configuration to set up Aerospike as backend storage in vault
+type AerospikeSpec struct {
+	// Specifies the hostname of the Aerospike server to connect to, when HostList is
+	// not set.
+	// +optional
+	// +kubebuilder:default:="127.0.0.1"
+	Hostname string `json:"hostname,omitempty"`
+
+	// Specifies the port of the Aerospike server to connect to, when HostList is not
+	// set.
+	// +optional
+	// +kubebuilder:default:="3000"
+	Port string `json:"port,omitempty"`
+
+	// A comma-separated list of host[:port] entries describing the Aerospike cluster's
+	// seed nodes. Takes precedence over Hostname/Port when set.
+	// +optional
+	HostList string `json:"hostList,omitempty"`
+
+	// Specifies the Aerospike namespace to store data in. The namespace must already
+	// exist on the server; Vault does not create it.
+	// +optional
+	// +kubebuilder:default:="test"
+	Namespace string `json:"namespace,omitempty"`
+
+	// Specifies the Aerospike set to store data in, within Namespace.
+	// +optional
+	Set string `json:"set,omitempty"`
+
+	// Specifies the secret name containing username and password to authenticate to
+	// the Aerospike cluster with, if it has security enabled.
+	// secret data:
+	//  - username=<value>
+	//  - password=<value>
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+
+	// Either INTERNAL (Aerospike's own credential store) or EXTERNAL (e.g. LDAP).
+	// +optional
+	// +kubebuilder:default:="INTERNAL"
+	AuthMode string `json:"authMode,omitempty"`
+
+	// If set, the client verifies it is connected to a cluster with this name.
+	// +optional
+	ClusterName string `json:"clusterName,omitempty"`
+
+	// Socket connection timeout, in milliseconds.
+	// +optional
+	Timeout int64 `json:"timeout,omitempty"`
+
+	// Idle connection timeout, in milliseconds. 0 disables idle connection trimming.
+	// +optional
+	IdleTimeout int64 `json:"idleTimeout,omitempty"`
+}
+
+// vault doc: https://openbao.org/docs/configuration/storage/oci/
+//
+// OCISpec defines configuration to set up OCI Object Storage as backend storage in vault
+type OCISpec struct {
+	// Specifies the name of the OCI Object Storage bucket to store data in. It must
+	// already exist; Vault does not create it.
+	BucketName string `json:"bucketName"`
+
+	// Specifies the Object Storage namespace the bucket belongs to.
+	NamespaceName string `json:"namespaceName"`
+
+	// Specifies the OCI region to use. Defaults to the region configured in the
+	// resolved OCI configuration provider.
+	// +optional
+	Region string `json:"region,omitempty"`
+
+	// When true, authenticates using an OCI API-key configuration file (see
+	// CredentialSecretRef). When false (the default), authenticates using instance
+	// principal credentials, intended for Vault instances running on an OCI compute
+	// instance.
+	// +optional
+	AuthTypeAPIKey bool `json:"authTypeAPIKey,omitempty"`
+
+	// Specifies the secret name containing an OCI API-key configuration file (in the
+	// same format as the default "~/.oci/config" file, including the referenced
+	// private key). Only consulted when AuthTypeAPIKey is true.
+	// secret data:
+	//  - config=<value>
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+
+	// Enables High Availability support. Requires LockBucketName to also be set.
+	// +optional
+	HAEnabled bool `json:"haEnabled,omitempty"`
+
+	// Specifies the name of a second bucket used to store HA lock records. Required
+	// when HAEnabled is true. Must already exist and should generally be a different
+	// bucket than BucketName.
+	// +optional
+	LockBucketName string `json:"lockBucketName,omitempty"`
+}
+
+// vault doc: https://openbao.org/docs/configuration/storage/alicloudoss/
+//
+// AlicloudOSSSpec defines configuration to set up Alicloud OSS as backend storage in vault
+type AlicloudOSSSpec struct {
+	// Specifies the OSS endpoint to connect to, e.g. "http://oss-us-east-1.aliyuncs.com".
+	Endpoint string `json:"endpoint"`
+
+	// Specifies the name of the OSS bucket to store data in. It must already exist;
+	// Vault does not create it.
+	Bucket string `json:"bucket"`
+
+	// Specifies the secret name containing the Alicloud access key ID and secret to
+	// connect with.
+	// secret data:
+	//  - access_key=<value>
+	//  - secret_key=<value>
+	// +optional
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+
+	// Specifies the maximum number of concurrent requests to OSS.
+	// +optional
+	MaxParallel int64 `json:"maxParallel,omitempty"`
 }
 
 // AzureKeyVault contain the fields that required to unseal vault using azure key vault

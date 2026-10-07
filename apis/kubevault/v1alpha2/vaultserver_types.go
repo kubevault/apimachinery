@@ -626,7 +626,7 @@ type EtcdSpec struct {
 
 	// Specifies if high availability should be enabled
 	// +optional
-	HAEnable bool `json:"haEnable,omitempty"`
+	HAEnabled bool `json:"haEnabled,omitempty"`
 
 	// Specifies the path in etcd where vault data will be stored
 	// +optional
@@ -905,7 +905,7 @@ type DynamoDBSpec struct {
 
 	// Specifies whether this backend should be used to run Vault in high availability mode.
 	// +optional
-	HaEnabled bool `json:"haEnabled,omitempty"`
+	HAEnabled bool `json:"haEnabled,omitempty"`
 
 	// Specifies the maximum number of reads consumed per second on the table
 	// +optional
@@ -1164,10 +1164,9 @@ type CockroachDBSpec struct {
 	SkipCreateTable bool `json:"skipCreateTable,omitempty"`
 
 	// High Availability Parameter
-	// Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like "true" or "false".
+	// Specifies if high availability mode is enabled.
 	// +optional
-	// +kubebuilder:default:="false"
-	HAEnabled string `json:"haEnabled,omitempty"`
+	HAEnabled bool `json:"haEnabled,omitempty"`
 
 	// Specifies the name of the table to use for storing high availability information.
 	// +optional
@@ -1395,10 +1394,9 @@ type SpannerSpec struct {
 	Table string `json:"table,omitempty"`
 
 	// High Availability Parameter
-	// Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like "true" or "false".
+	// Specifies if high availability mode is enabled.
 	// +optional
-	// +kubebuilder:default:="false"
-	HAEnabled string `json:"haEnabled,omitempty"`
+	HAEnabled bool `json:"haEnabled,omitempty"`
 
 	// Specifies the name of the table used for HA leader election. Defaults to the
 	// value of Table suffixed with "HA".

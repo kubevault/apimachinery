@@ -16066,6 +16066,83 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AerospikeSpec": {
+      "description": "vault doc: https://openbao.org/docs/configuration/storage/aerospike/\n\nAerospikeSpec defines configuration to set up Aerospike as backend storage in vault",
+      "type": "object",
+      "properties": {
+        "authMode": {
+          "description": "Either INTERNAL (Aerospike's own credential store) or EXTERNAL (e.g. LDAP).",
+          "type": "string"
+        },
+        "clusterName": {
+          "description": "If set, the client verifies it is connected to a cluster with this name.",
+          "type": "string"
+        },
+        "credentialSecretRef": {
+          "description": "Specifies the secret name containing username and password to authenticate to the Aerospike cluster with, if it has security enabled. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "hostList": {
+          "description": "A comma-separated list of host[:port] entries describing the Aerospike cluster's seed nodes. Takes precedence over Hostname/Port when set.",
+          "type": "string"
+        },
+        "hostname": {
+          "description": "Specifies the hostname of the Aerospike server to connect to, when HostList is not set.",
+          "type": "string"
+        },
+        "idleTimeout": {
+          "description": "Idle connection timeout, in milliseconds. 0 disables idle connection trimming.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "namespace": {
+          "description": "Specifies the Aerospike namespace to store data in. The namespace must already exist on the server; Vault does not create it.",
+          "type": "string"
+        },
+        "port": {
+          "description": "Specifies the port of the Aerospike server to connect to, when HostList is not set.",
+          "type": "string"
+        },
+        "set": {
+          "description": "Specifies the Aerospike set to store data in, within Namespace.",
+          "type": "string"
+        },
+        "timeout": {
+          "description": "Socket connection timeout, in milliseconds.",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AlicloudOSSSpec": {
+      "description": "vault doc: https://openbao.org/docs/configuration/storage/alicloudoss/\n\nAlicloudOSSSpec defines configuration to set up Alicloud OSS as backend storage in vault",
+      "type": "object",
+      "required": [
+        "endpoint",
+        "bucket"
+      ],
+      "properties": {
+        "bucket": {
+          "description": "Specifies the name of the OSS bucket to store data in. It must already exist; Vault does not create it.",
+          "type": "string",
+          "default": ""
+        },
+        "credentialSecretRef": {
+          "description": "Specifies the secret name containing the Alicloud access key ID and secret to connect with. secret data:\n - access_key=\u003cvalue\u003e\n - secret_key=\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "endpoint": {
+          "description": "Specifies the OSS endpoint to connect to, e.g. \"http://oss-us-east-1.aliyuncs.com\".",
+          "type": "string",
+          "default": ""
+        },
+        "maxParallel": {
+          "description": "Specifies the maximum number of concurrent requests to OSS.",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AllowedSecretEngines": {
       "description": "AllowedSecretEngines defines which Secret Engines may be attached to this Listener.",
       "type": "object",
@@ -16253,14 +16330,29 @@
       }
     },
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.BackendStorageSpec": {
-      "description": "BackendStorageSpec defines storage backend configuration of vault",
+      "description": "BackendStorageSpec defines storage backend configuration of vault\n\nFoundationDB is intentionally not represented here: unlike every other backend, it requires CGo and the native libfdb_c client library, so it isn't compiled into standard OpenBao/Vault images and can't be assumed available in a generic VaultServer deployment.\n\nNew backends added here (CockroachDB, Cassandra, Zookeeper, CouchDB, MSSQL, Spanner, Aerospike, OCI, AlicloudOSS) are v1alpha2-only for now; v1alpha1 already predates several v1alpha2-only conventions used by their spec types (SecretRef-typed credentials, DatabaseRef, HAEnabled), so mirroring them would need bespoke field-mapping conversion functions rather than the mechanical 1:1 copy used elsewhere. v1alpha2 is the storage/hub version and the only one the operator's storage package consumes; a v1alpha1 backport can follow the existing Convert_v1alpha1_\u003cX\u003eSpec_To_v1alpha2_\u003cX\u003eSpec pattern if ever needed.",
       "type": "object",
       "properties": {
+        "aerospike": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AerospikeSpec"
+        },
+        "alicloudoss": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AlicloudOSSSpec"
+        },
         "azure": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.AzureSpec"
         },
+        "cassandra": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.CassandraSpec"
+        },
+        "cockroachdb": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.CockroachDBSpec"
+        },
         "consul": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.ConsulSpec"
+        },
+        "couchdb": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.CouchDBSpec"
         },
         "dynamodb": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.DynamoDBSpec"
@@ -16278,8 +16370,14 @@
           "description": "ref: https://www.vaultproject.io/docs/configuration/storage/in-memory.html",
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.InmemSpec"
         },
+        "mssql": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.MSSQLSpec"
+        },
         "mysql": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.MySQLSpec"
+        },
+        "oci": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.OCISpec"
         },
         "postgresql": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.PostgreSQLSpec"
@@ -16290,8 +16388,125 @@
         "s3": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.S3Spec"
         },
+        "spanner": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.SpannerSpec"
+        },
         "swift": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.SwiftSpec"
+        },
+        "zookeeper": {
+          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.kubevault.v1alpha2.ZookeeperSpec"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.CassandraSpec": {
+      "description": "vault doc: https://openbao.org/docs/configuration/storage/cassandra/\n\nCassandraSpec defines configuration to set up Cassandra as backend storage in vault",
+      "type": "object",
+      "required": [
+        "hosts"
+      ],
+      "properties": {
+        "connectionTimeout": {
+          "description": "Specifies the timeout, in seconds, for individual queries against the cluster.",
+          "type": "string"
+        },
+        "consistency": {
+          "description": "Specifies the consistency level for read and write operations. Must be one of ANY, ONE, TWO, THREE, QUORUM, ALL, LOCAL_QUORUM, EACH_QUORUM, or LOCAL_ONE.",
+          "type": "string"
+        },
+        "credentialSecretRef": {
+          "description": "Specifies the secret name containing username and password to use for authentication (PasswordAuthenticator). Requires protocolVersion of \"2\" or higher. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "hosts": {
+          "description": "Specifies a comma-separated list of Cassandra hosts to connect to. All hosts must listen on the same port; include the port in each host as \"\u003chost\u003e:\u003cport\u003e\" if it is not the CQL native protocol default.",
+          "type": "string",
+          "default": ""
+        },
+        "initialConnectionTimeout": {
+          "description": "Specifies the timeout, in seconds, for the initial connection to the cluster.",
+          "type": "string"
+        },
+        "keyspace": {
+          "description": "Specifies the keyspace that is used for storing the Vault data. The keyspace must already exist, be reachable, and writable.",
+          "type": "string"
+        },
+        "protocolVersion": {
+          "description": "Specifies the CQL protocol version to use. Set to \"3\" or higher to use username/password authentication with a proto version that requires it.",
+          "type": "string"
+        },
+        "simpleRetryPolicyRetries": {
+          "description": "When set to a positive integer, enables Cassandra's SimpleRetryPolicy with the given number of retries for queries that time out or fail.",
+          "type": "string"
+        },
+        "table": {
+          "description": "Specifies the table in the keyspace that is used for storing the Vault data. The table must already exist.",
+          "type": "string"
+        },
+        "tlsEnabled": {
+          "description": "Set to enable a TLS connection to Cassandra.",
+          "type": "boolean"
+        },
+        "tlsMinVersion": {
+          "description": "Specifies the minimum acceptable TLS version. One of tls10, tls11, tls12, or tls13.",
+          "type": "string"
+        },
+        "tlsSecretRef": {
+          "description": "Specifies the secret name that contains a PEM-encoded certificate bundle (and, optionally, a private key) used for the TLS connection to Cassandra. secret data:\n - pem_bundle=\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "tlsSkipVerify": {
+          "description": "Disables verification of the Cassandra server's certificate chain and host name. Not recommended for production use.",
+          "type": "boolean"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.CockroachDBSpec": {
+      "description": "vault doc: https://openbao.org/docs/configuration/storage/cockroachdb/\n\nCockroachDBSpec defines configuration to set up CockroachDB as backend storage in vault. CockroachDB speaks the PostgreSQL wire protocol, but is configured as a dedicated backend (rather than reusing PostgreSQLSpec) so its schema and locking queries can account for CockroachDB-specific behavior.",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "Specifies the address of the CockroachDB host. if DatabaseRef is set then Address will be generated from it This must be set if DatabaseRef is empty, validate from ValidatingWebhook",
+          "type": "string",
+          "default": ""
+        },
+        "credentialSecretRef": {
+          "description": "Specifies the secret name containing username, password and, optionally, a full connection_url to connect to the CockroachDB cluster. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e\n - connection_url=\"postgresql://\u003cusername\u003e:\u003cpassword\u003e@\u003chost\u003e:\u003cport\u003e/\u003cdb_name\u003e?sslmode=\u003csslMode\u003e\"",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "databaseRef": {
+          "description": "DatabaseRef contains the info of KubeDB managed Database This will be used to generate the \"Address\" field",
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
+        "haEnabled": {
+          "description": "High Availability Parameter Specifies if high availability mode is enabled.",
+          "type": "boolean"
+        },
+        "haTable": {
+          "description": "Specifies the name of the table to use for storing high availability information.",
+          "type": "string"
+        },
+        "maxParallel": {
+          "description": "Specifies the maximum number of concurrent requests to take place.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "skipCreateTable": {
+          "description": "When set, Vault will not attempt to create the storage table(s); they must already exist.",
+          "type": "boolean"
+        },
+        "sslMode": {
+          "description": "SSLMode for both standalone and clusters. [disable;require;verify-ca;verify-full]",
+          "type": "string"
+        },
+        "table": {
+          "description": "Specifies the name of the table in which to write Vault data.",
+          "type": "string"
+        },
+        "transactionMaxParallel": {
+          "description": "Specifies the maximum number of concurrent interactive transactions to take place.",
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
@@ -16365,6 +16580,29 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.CouchDBSpec": {
+      "description": "vault doc: https://openbao.org/docs/configuration/storage/couchdb/\n\nCouchDBSpec defines configuration to set up CouchDB as backend storage in vault",
+      "type": "object",
+      "required": [
+        "endpoint"
+      ],
+      "properties": {
+        "credentialSecretRef": {
+          "description": "Specifies the secret name containing the CouchDB username and password to connect with. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "endpoint": {
+          "description": "Specifies the full URL to the CouchDB database to use, including the database name. The database must already exist; Vault does not create it.",
+          "type": "string",
+          "default": ""
+        },
+        "maxParallel": {
+          "description": "Specifies the maximum number of concurrent requests to CouchDB.",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.DynamoDBSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/dynamodb.html\n\nDynamoDBSpec defines configuration to set up DynamoDB Storage as backend storage in vault",
       "type": "object",
@@ -16430,7 +16668,7 @@
           "description": "Specifies the version of the API to communicate with etcd",
           "type": "string"
         },
-        "haEnable": {
+        "haEnabled": {
           "description": "Specifies if high availability should be enabled",
           "type": "boolean"
         },
@@ -16708,6 +16946,57 @@
         }
       }
     },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.MSSQLSpec": {
+      "description": "vault doc: https://openbao.org/docs/configuration/storage/mssql/\n\nMSSQLSpec defines configuration to set up Microsoft SQL Server as backend storage in vault",
+      "type": "object",
+      "required": [
+        "server"
+      ],
+      "properties": {
+        "appName": {
+          "description": "Specifies the application name to report to the server.",
+          "type": "string"
+        },
+        "connectionTimeout": {
+          "description": "Specifies the connection timeout, in seconds.",
+          "type": "string"
+        },
+        "credentialSecretRef": {
+          "description": "Specifies the secret name containing the MSSQL username and password to connect with. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "database": {
+          "description": "Specifies the name of the database to use. Vault will attempt to create it if it does not already exist.",
+          "type": "string"
+        },
+        "logLevel": {
+          "description": "Specifies the driver's internal log level bitmask.",
+          "type": "string"
+        },
+        "maxParallel": {
+          "description": "Specifies the maximum number of concurrent requests to MSSQL.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "port": {
+          "description": "Specifies the port of the MSSQL host. Defaults to the driver's standard port (1433) when unset.",
+          "type": "string"
+        },
+        "schema": {
+          "description": "Specifies the schema within the database that the table lives in. Vault will attempt to create it if missing (requires permission to run CREATE SCHEMA).",
+          "type": "string"
+        },
+        "server": {
+          "description": "Specifies the address of the MSSQL host.",
+          "type": "string",
+          "default": ""
+        },
+        "table": {
+          "description": "Specifies the name of the table in which to write Vault data. Vault will attempt to create it if missing.",
+          "type": "string"
+        }
+      }
+    },
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.ModeSpec": {
       "description": "ModeSpec contain unseal mechanism",
       "type": "object",
@@ -16803,6 +17092,46 @@
           "description": "Specification of the desired behavior of the service. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#spec-and-status",
           "default": {},
           "$ref": "#/definitions/xyz.kmodules.offshoot-api.api.v1.ServiceSpec"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.OCISpec": {
+      "description": "vault doc: https://openbao.org/docs/configuration/storage/oci/\n\nOCISpec defines configuration to set up OCI Object Storage as backend storage in vault",
+      "type": "object",
+      "required": [
+        "bucketName",
+        "namespaceName"
+      ],
+      "properties": {
+        "authTypeAPIKey": {
+          "description": "When true, authenticates using an OCI API-key configuration file (see CredentialSecretRef). When false (the default), authenticates using instance principal credentials, intended for Vault instances running on an OCI compute instance.",
+          "type": "boolean"
+        },
+        "bucketName": {
+          "description": "Specifies the name of the OCI Object Storage bucket to store data in. It must already exist; Vault does not create it.",
+          "type": "string",
+          "default": ""
+        },
+        "credentialSecretRef": {
+          "description": "Specifies the secret name containing an OCI API-key configuration file (in the same format as the default \"~/.oci/config\" file, including the referenced private key). Only consulted when AuthTypeAPIKey is true. secret data:\n - config=\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "haEnabled": {
+          "description": "Enables High Availability support. Requires LockBucketName to also be set.",
+          "type": "boolean"
+        },
+        "lockBucketName": {
+          "description": "Specifies the name of a second bucket used to store HA lock records. Required when HAEnabled is true. Must already exist and should generally be a different bucket than BucketName.",
+          "type": "string"
+        },
+        "namespaceName": {
+          "description": "Specifies the Object Storage namespace the bucket belongs to.",
+          "type": "string",
+          "default": ""
+        },
+        "region": {
+          "description": "Specifies the OCI region to use. Defaults to the region configured in the resolved OCI configuration provider.",
+          "type": "string"
         }
       }
     },
@@ -16968,6 +17297,41 @@
         "selector": {
           "description": "Selector must be specified when From is set to \"Selector\". In that case, only Secret Engines in Namespaces matching this Selector will be selected by this VaultServer. This field is ignored for other values of \"From\".",
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector"
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.SpannerSpec": {
+      "description": "vault doc: https://openbao.org/docs/configuration/storage/google-cloud-spanner/\n\nSpannerSpec defines configuration to set up Google Cloud Spanner as backend storage in vault",
+      "type": "object",
+      "required": [
+        "database"
+      ],
+      "properties": {
+        "credentialSecretRef": {
+          "description": "Secret containing the Google application credential used to reach Spanner. secret data:\n - sa.json:\u003cvalue\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "database": {
+          "description": "Specifies the full name of the Spanner database, in the form projects/\u003cproject\u003e/instances/\u003cinstance\u003e/databases/\u003cdatabase\u003e.",
+          "type": "string",
+          "default": ""
+        },
+        "haEnabled": {
+          "description": "High Availability Parameter Specifies if high availability mode is enabled.",
+          "type": "boolean"
+        },
+        "haTable": {
+          "description": "Specifies the name of the table used for HA leader election. Defaults to the value of Table suffixed with \"HA\".",
+          "type": "string"
+        },
+        "maxParallel": {
+          "description": "Specifies the maximum number of concurrent requests to Spanner.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "table": {
+          "description": "Specifies the name of the table to use for Vault data.",
+          "type": "string"
         }
       }
     },
@@ -17362,6 +17726,48 @@
             "type": "string",
             "default": ""
           }
+        }
+      }
+    },
+    "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.ZookeeperSpec": {
+      "description": "vault doc: https://openbao.org/docs/configuration/storage/zookeeper/\n\nZookeeperSpec defines configuration to set up ZooKeeper as backend storage in vault",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "Specifies the addresses of the ZooKeeper instances as a comma-separated list.",
+          "type": "string"
+        },
+        "authInfoSecretRef": {
+          "description": "Specifies the secret name containing a scheme:auth pair passed to ZooKeeper's AddAuth API immediately after connecting, so the client authenticates as a specific principal. secret data:\n - authInfo=\u003cscheme:auth\u003e",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "path": {
+          "description": "Specifies the path in ZooKeeper's tree where Vault data will be stored.",
+          "type": "string"
+        },
+        "tlsEnabled": {
+          "description": "Enables a TLS connection to ZooKeeper.",
+          "type": "boolean"
+        },
+        "tlsMinVersion": {
+          "description": "Specifies the minimum acceptable TLS version. One of tls10, tls11, tls12, or tls13.",
+          "type": "string"
+        },
+        "tlsSecretRef": {
+          "description": "Specifies the secret name that contains ca.crt, tls.crt and tls.key for ZooKeeper communication. secret data:\n - ca.crt\n - tls.crt\n - tls.key",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "tlsSkipVerify": {
+          "description": "Disables verification of the ZooKeeper server's certificate chain and host name. Not recommended for production use.",
+          "type": "boolean"
+        },
+        "tlsVerifyIP": {
+          "description": "When set, verifies the server's IP address against the certificate instead of its DNS name. Only consulted when TLSSkipVerify is false.",
+          "type": "boolean"
+        },
+        "znodeOwner": {
+          "description": "Specifies the ACL scheme:id applied to every znode Vault creates. Defaults to \"world:anyone\", i.e. unrestricted access.",
+          "type": "string"
         }
       }
     },

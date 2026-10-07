@@ -11522,11 +11522,10 @@ spec:
                         - namespace
                         type: object
                       haEnabled:
-                        default: "false"
                         description: |-
                           High Availability Parameter
-                          Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like "true" or "false".
-                        type: string
+                          Specifies if high availability mode is enabled.
+                        type: boolean
                       haTable:
                         default: openbao_ha_locks
                         description: Specifies the name of the table to use for storing
@@ -11809,7 +11808,7 @@ spec:
                         description: Specifies the version of the API to communicate
                           with etcd
                         type: string
-                      haEnable:
+                      haEnabled:
                         description: Specifies if high availability should be enabled
                         type: boolean
                       path:
@@ -13098,11 +13097,10 @@ spec:
                           projects/<project>/instances/<instance>/databases/<database>.
                         type: string
                       haEnabled:
-                        default: "false"
                         description: |-
                           High Availability Parameter
-                          Specifies if high availability mode is enabled. This is a boolean value, but it is specified as a string like "true" or "false".
-                        type: string
+                          Specifies if high availability mode is enabled.
+                        type: boolean
                       haTable:
                         description: |-
                           Specifies the name of the table used for HA leader election. Defaults to the

@@ -73,6 +73,13 @@ func TestConvert_v1alpha1_VaultServer_To_v1alpha2_VaultServer(t *testing.T) {
 	}
 }
 
+func TestConvertNewStorageBackendToV1alpha1Fails(t *testing.T) {
+	in := &v1alpha2.BackendStorageSpec{Spanner: &v1alpha2.SpannerSpec{Database: "db"}}
+	if err := Convert_v1alpha2_BackendStorageSpec_To_v1alpha1_BackendStorageSpec(in, &BackendStorageSpec{}, nil); err == nil {
+		t.Fatal("expected conversion to reject a storage backend unavailable in v1alpha1")
+	}
+}
+
 // TestConvert_VaultServerStatus_RoundTrip verifies VaultServerStatus stays in
 // sync between the API versions, including the OCM relay placement summary.
 func TestConvert_VaultServerStatus_RoundTrip(t *testing.T) {
@@ -950,7 +957,7 @@ func TestConvert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(t *testing.T) {
 			spec: &v1alpha2.EtcdSpec{
 				Address:      "addr",
 				EtcdApi:      "api",
-				HAEnable:     false,
+				HAEnabled:    false,
 				Path:         "path",
 				Sync:         false,
 				DiscoverySrv: "srv",
@@ -967,7 +974,7 @@ func TestConvert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(t *testing.T) {
 			spec: &v1alpha2.EtcdSpec{
 				Address:             "",
 				EtcdApi:             "",
-				HAEnable:            false,
+				HAEnabled:           true,
 				Path:                "",
 				Sync:                false,
 				DiscoverySrv:        "",
@@ -1070,7 +1077,7 @@ func TestConvert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(t *testing.T) {
 			spec: &v1alpha2.DynamoDBSpec{
 				Endpoint:      "",
 				Region:        "",
-				HaEnabled:     false,
+				HAEnabled:     true,
 				ReadCapacity:  0,
 				WriteCapacity: 0,
 				Table:         "",
@@ -1085,7 +1092,7 @@ func TestConvert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(t *testing.T) {
 			spec: &v1alpha2.DynamoDBSpec{
 				Endpoint:            "",
 				Region:              "",
-				HaEnabled:           false,
+				HAEnabled:           false,
 				ReadCapacity:        0,
 				WriteCapacity:       0,
 				Table:               "",

@@ -23609,11 +23609,17 @@ func schema_apimachinery_apis_kubevault_v1alpha2_AerospikeSpec(ref common.Refere
 							Format:      "int64",
 						},
 					},
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DatabaseRef contains the info of a KubeDB managed Aerospike. If set, Hostname will be generated from the referenced AppBinding.",
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
 	}
 }
 
@@ -24098,7 +24104,6 @@ func schema_apimachinery_apis_kubevault_v1alpha2_CassandraSpec(ref common.Refere
 					"hosts": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies a comma-separated list of Cassandra hosts to connect to. All hosts must listen on the same port; include the port in each host as \"<host>:<port>\" if it is not the CQL native protocol default.",
-							Default:     "",
 							Type:        []string{"string"},
 							Format:      "",
 						},
@@ -24185,12 +24190,17 @@ func schema_apimachinery_apis_kubevault_v1alpha2_CassandraSpec(ref common.Refere
 							Format:      "",
 						},
 					},
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DatabaseRef contains the info of a KubeDB managed Cassandra. If set, Hosts will be generated from the referenced AppBinding.",
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
 				},
-				Required: []string{"hosts"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
 	}
 }
 
@@ -24268,6 +24278,12 @@ func schema_apimachinery_apis_kubevault_v1alpha2_CockroachDBSpec(ref common.Refe
 							Description: "Specifies the name of the table to use for storing high availability information.",
 							Type:        []string{"string"},
 							Format:      "",
+						},
+					},
+					"tlsSecretRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the secret name containing the TLS material used to connect to CockroachDB. secret data:\n - ca.crt:  CA certificate used to verify the server (required)\n - tls.crt: client certificate (optional, for mutual TLS; needs tls.key)\n - tls.key: client private key (optional, for mutual TLS; needs tls.crt)\nIf DatabaseRef is set and this is empty, it is generated from the CA bundle and client certificate of the referenced AppBinding.",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 				},
@@ -24413,7 +24429,6 @@ func schema_apimachinery_apis_kubevault_v1alpha2_CouchDBSpec(ref common.Referenc
 					"endpoint": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the full URL to the CouchDB database to use, including the database name. The database must already exist; Vault does not create it.",
-							Default:     "",
 							Type:        []string{"string"},
 							Format:      "",
 						},
@@ -24431,12 +24446,24 @@ func schema_apimachinery_apis_kubevault_v1alpha2_CouchDBSpec(ref common.Referenc
 							Format:      "int64",
 						},
 					},
+					"database": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the name of the CouchDB database to store data in. Only used with DatabaseRef, where the endpoint is generated as <appbinding url>/<database>.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DatabaseRef contains the info of a CouchDB database exposed through an AppBinding. If set, Endpoint will be generated from the referenced AppBinding.",
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
 				},
-				Required: []string{"endpoint"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
 	}
 }
 
@@ -24520,7 +24547,6 @@ func schema_apimachinery_apis_kubevault_v1alpha2_EtcdSpec(ref common.ReferenceCa
 					"address": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the addresses of the etcd instances",
-							Default:     "",
 							Type:        []string{"string"},
 							Format:      "",
 						},
@@ -24572,12 +24598,17 @@ func schema_apimachinery_apis_kubevault_v1alpha2_EtcdSpec(ref common.ReferenceCa
 							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DatabaseRef contains the info of a KubeDB managed Etcd. If set, Address will be generated from the referenced AppBinding.",
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
 				},
-				Required: []string{"address"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
 	}
 }
 
@@ -25098,7 +25129,6 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MSSQLSpec(ref common.ReferenceC
 					"server": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Specifies the address of the MSSQL host.",
-							Default:     "",
 							Type:        []string{"string"},
 							Format:      "",
 						},
@@ -25165,12 +25195,17 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MSSQLSpec(ref common.ReferenceC
 							Format:      "int64",
 						},
 					},
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DatabaseRef contains the info of a KubeDB managed MSSQLServer. If set, Server will be generated from the referenced AppBinding.",
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
 				},
-				Required: []string{"server"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
 	}
 }
 
@@ -25695,6 +25730,12 @@ func schema_apimachinery_apis_kubevault_v1alpha2_PostgreSQLSpec(ref common.Refer
 							Description: "Specifies the name of the table to use for storing high availability information. This table must already exist (Vault will not attempt to create it).",
 							Type:        []string{"string"},
 							Format:      "",
+						},
+					},
+					"tlsSecretRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the secret name containing the TLS material used to connect to PostgreSQL. secret data:\n - ca.crt:  CA certificate used to verify the server (required)\n - tls.crt: client certificate (optional, for mutual TLS; needs tls.key)\n - tls.key: client private key (optional, for mutual TLS; needs tls.crt)\nIf DatabaseRef is set and this is empty, it is generated from the CA bundle and client certificate of the referenced AppBinding.",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 				},
@@ -27039,11 +27080,17 @@ func schema_apimachinery_apis_kubevault_v1alpha2_ZookeeperSpec(ref common.Refere
 							Format:      "",
 						},
 					},
+					"databaseRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DatabaseRef contains the info of a KubeDB managed ZooKeeper. If set, Address will be generated from the referenced AppBinding.",
+							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
 	}
 }
 

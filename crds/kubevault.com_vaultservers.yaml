@@ -11239,6 +11239,36 @@ spec:
                             type: string
                         type: object
                         x-kubernetes-map-type: atomic
+                      databaseRef:
+                        description: |-
+                          DatabaseRef contains the info of a KubeDB managed Aerospike.
+                          If set, Hostname will be generated from the referenced AppBinding.
+                        properties:
+                          name:
+                            description: |-
+                              `name` is the name of the app.
+                              Required
+                            type: string
+                          namespace:
+                            description: |-
+                              `namespace` is the namespace of the app.
+                              Required
+                            type: string
+                          parameters:
+                            description: |-
+                              Parameters is a set of the parameters to be used to override default
+                              parameters. The inline YAML/JSON payload to be translated into equivalent
+                              JSON object.
+
+                              The Parameters field is NOT secret or secured in any way and should
+                              NEVER be used to hold sensitive information.
+                            type: object
+                            x-kubernetes-embedded-resource: true
+                            x-kubernetes-preserve-unknown-fields: true
+                        required:
+                        - name
+                        - namespace
+                        type: object
                       hostList:
                         description: |-
                           A comma-separated list of host[:port] entries describing the Aerospike cluster's
@@ -11391,6 +11421,36 @@ spec:
                             type: string
                         type: object
                         x-kubernetes-map-type: atomic
+                      databaseRef:
+                        description: |-
+                          DatabaseRef contains the info of a KubeDB managed Cassandra.
+                          If set, Hosts will be generated from the referenced AppBinding.
+                        properties:
+                          name:
+                            description: |-
+                              `name` is the name of the app.
+                              Required
+                            type: string
+                          namespace:
+                            description: |-
+                              `namespace` is the namespace of the app.
+                              Required
+                            type: string
+                          parameters:
+                            description: |-
+                              Parameters is a set of the parameters to be used to override default
+                              parameters. The inline YAML/JSON payload to be translated into equivalent
+                              JSON object.
+
+                              The Parameters field is NOT secret or secured in any way and should
+                              NEVER be used to hold sensitive information.
+                            type: object
+                            x-kubernetes-embedded-resource: true
+                            x-kubernetes-preserve-unknown-fields: true
+                        required:
+                        - name
+                        - namespace
+                        type: object
                       hosts:
                         description: |-
                           Specifies a comma-separated list of Cassandra hosts to connect to. All hosts must
@@ -11453,8 +11513,6 @@ spec:
                           Disables verification of the Cassandra server's certificate chain and host name.
                           Not recommended for production use.
                         type: boolean
-                    required:
-                    - hosts
                     type: object
                   cockroachdb:
                     description: |-
@@ -11553,6 +11611,27 @@ spec:
                         description: Specifies the name of the table in which to write
                           Vault data.
                         type: string
+                      tlsSecretRef:
+                        description: |-
+                          Specifies the secret name containing the TLS material used to connect to CockroachDB.
+                          secret data:
+                           - ca.crt:  CA certificate used to verify the server (required)
+                           - tls.crt: client certificate (optional, for mutual TLS; needs tls.key)
+                           - tls.key: client private key (optional, for mutual TLS; needs tls.crt)
+                          If DatabaseRef is set and this is empty, it is generated from the CA bundle and
+                          client certificate of the referenced AppBinding.
+                        properties:
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                        type: object
+                        x-kubernetes-map-type: atomic
                       transactionMaxParallel:
                         description: Specifies the maximum number of concurrent interactive
                           transactions to take place.
@@ -11702,6 +11781,42 @@ spec:
                             type: string
                         type: object
                         x-kubernetes-map-type: atomic
+                      database:
+                        default: vault
+                        description: |-
+                          Specifies the name of the CouchDB database to store data in. Only used with
+                          DatabaseRef, where the endpoint is generated as <appbinding url>/<database>.
+                        type: string
+                      databaseRef:
+                        description: |-
+                          DatabaseRef contains the info of a CouchDB database exposed through an AppBinding.
+                          If set, Endpoint will be generated from the referenced AppBinding.
+                        properties:
+                          name:
+                            description: |-
+                              `name` is the name of the app.
+                              Required
+                            type: string
+                          namespace:
+                            description: |-
+                              `namespace` is the namespace of the app.
+                              Required
+                            type: string
+                          parameters:
+                            description: |-
+                              Parameters is a set of the parameters to be used to override default
+                              parameters. The inline YAML/JSON payload to be translated into equivalent
+                              JSON object.
+
+                              The Parameters field is NOT secret or secured in any way and should
+                              NEVER be used to hold sensitive information.
+                            type: object
+                            x-kubernetes-embedded-resource: true
+                            x-kubernetes-preserve-unknown-fields: true
+                        required:
+                        - name
+                        - namespace
+                        type: object
                       endpoint:
                         description: |-
                           Specifies the full URL to the CouchDB database to use, including the database
@@ -11712,8 +11827,6 @@ spec:
                           to CouchDB.
                         format: int64
                         type: integer
-                    required:
-                    - endpoint
                     type: object
                   dynamodb:
                     description: |-
@@ -11800,6 +11913,36 @@ spec:
                             type: string
                         type: object
                         x-kubernetes-map-type: atomic
+                      databaseRef:
+                        description: |-
+                          DatabaseRef contains the info of a KubeDB managed Etcd.
+                          If set, Address will be generated from the referenced AppBinding.
+                        properties:
+                          name:
+                            description: |-
+                              `name` is the name of the app.
+                              Required
+                            type: string
+                          namespace:
+                            description: |-
+                              `namespace` is the namespace of the app.
+                              Required
+                            type: string
+                          parameters:
+                            description: |-
+                              Parameters is a set of the parameters to be used to override default
+                              parameters. The inline YAML/JSON payload to be translated into equivalent
+                              JSON object.
+
+                              The Parameters field is NOT secret or secured in any way and should
+                              NEVER be used to hold sensitive information.
+                            type: object
+                            x-kubernetes-embedded-resource: true
+                            x-kubernetes-preserve-unknown-fields: true
+                        required:
+                        - name
+                        - namespace
+                        type: object
                       discoverySrv:
                         description: Specifies the domain name to query for SRV records
                           describing cluster endpoints
@@ -11838,8 +11981,6 @@ spec:
                             type: string
                         type: object
                         x-kubernetes-map-type: atomic
-                    required:
-                    - address
                     type: object
                   file:
                     description: |-
@@ -12473,6 +12614,36 @@ spec:
                           Specifies the name of the database to use. Vault will attempt to create it if it
                           does not already exist.
                         type: string
+                      databaseRef:
+                        description: |-
+                          DatabaseRef contains the info of a KubeDB managed MSSQLServer.
+                          If set, Server will be generated from the referenced AppBinding.
+                        properties:
+                          name:
+                            description: |-
+                              `name` is the name of the app.
+                              Required
+                            type: string
+                          namespace:
+                            description: |-
+                              `namespace` is the namespace of the app.
+                              Required
+                            type: string
+                          parameters:
+                            description: |-
+                              Parameters is a set of the parameters to be used to override default
+                              parameters. The inline YAML/JSON payload to be translated into equivalent
+                              JSON object.
+
+                              The Parameters field is NOT secret or secured in any way and should
+                              NEVER be used to hold sensitive information.
+                            type: object
+                            x-kubernetes-embedded-resource: true
+                            x-kubernetes-preserve-unknown-fields: true
+                        required:
+                        - name
+                        - namespace
+                        type: object
                       logLevel:
                         description: Specifies the driver's internal log level bitmask.
                         type: string
@@ -12501,8 +12672,6 @@ spec:
                           Specifies the name of the table in which to write Vault data. Vault will attempt
                           to create it if missing.
                         type: string
-                    required:
-                    - server
                     type: object
                   mysql:
                     description: |-
@@ -12784,6 +12953,27 @@ spec:
                           Specifies the name of the table in which to write Vault data.
                           This table must already exist (Vault will not attempt to create it).
                         type: string
+                      tlsSecretRef:
+                        description: |-
+                          Specifies the secret name containing the TLS material used to connect to PostgreSQL.
+                          secret data:
+                           - ca.crt:  CA certificate used to verify the server (required)
+                           - tls.crt: client certificate (optional, for mutual TLS; needs tls.key)
+                           - tls.key: client private key (optional, for mutual TLS; needs tls.crt)
+                          If DatabaseRef is set and this is empty, it is generated from the CA bundle and
+                          client certificate of the referenced AppBinding.
+                        properties:
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                        type: object
+                        x-kubernetes-map-type: atomic
                     type: object
                   raft:
                     description: |-
@@ -13212,6 +13402,36 @@ spec:
                             type: string
                         type: object
                         x-kubernetes-map-type: atomic
+                      databaseRef:
+                        description: |-
+                          DatabaseRef contains the info of a KubeDB managed ZooKeeper.
+                          If set, Address will be generated from the referenced AppBinding.
+                        properties:
+                          name:
+                            description: |-
+                              `name` is the name of the app.
+                              Required
+                            type: string
+                          namespace:
+                            description: |-
+                              `namespace` is the namespace of the app.
+                              Required
+                            type: string
+                          parameters:
+                            description: |-
+                              Parameters is a set of the parameters to be used to override default
+                              parameters. The inline YAML/JSON payload to be translated into equivalent
+                              JSON object.
+
+                              The Parameters field is NOT secret or secured in any way and should
+                              NEVER be used to hold sensitive information.
+                            type: object
+                            x-kubernetes-embedded-resource: true
+                            x-kubernetes-preserve-unknown-fields: true
+                        required:
+                        - name
+                        - namespace
+                        type: object
                       path:
                         default: vault/
                         description: Specifies the path in ZooKeeper's tree where

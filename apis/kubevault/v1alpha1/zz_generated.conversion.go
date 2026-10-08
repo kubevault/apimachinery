@@ -781,6 +781,7 @@ func autoConvert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(in *v1alpha2.EtcdSpec, o
 	out.DiscoverySrv = in.DiscoverySrv
 	// WARNING: in.CredentialSecretRef requires manual conversion: does not exist in peer-type
 	// WARNING: in.TLSSecretRef requires manual conversion: does not exist in peer-type
+	// WARNING: in.DatabaseRef requires manual conversion: does not exist in peer-type
 	return nil
 }
 
@@ -1021,6 +1022,7 @@ func autoConvert_v1alpha2_PostgreSQLSpec_To_v1alpha1_PostgreSQLSpec(in *v1alpha2
 	// WARNING: in.MaxIdleConnection requires manual conversion: does not exist in peer-type
 	// WARNING: in.HAEnabled requires manual conversion: does not exist in peer-type
 	// WARNING: in.HATable requires manual conversion: does not exist in peer-type
+	// WARNING: in.TLSSecretRef requires manual conversion: does not exist in peer-type
 	return nil
 }
 

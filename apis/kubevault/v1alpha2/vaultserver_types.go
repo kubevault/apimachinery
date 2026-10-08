@@ -618,7 +618,8 @@ type InmemSpec struct{}
 // EtcdSpec defines configuration to set up etcd as backend storage in vault
 type EtcdSpec struct {
 	// Specifies the addresses of the etcd instances
-	Address string `json:"address"`
+	// +optional
+	Address string `json:"address,omitempty"`
 
 	// Specifies the version of the API to communicate with etcd
 	// +optional
@@ -654,6 +655,11 @@ type EtcdSpec struct {
 	//  - tls.key
 	// +optional
 	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
+
+	// DatabaseRef contains the info of a KubeDB managed Etcd.
+	// If set, Address will be generated from the referenced AppBinding.
+	// +optional
+	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
 }
 
 // vault doc: https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage.html
@@ -789,6 +795,16 @@ type PostgreSQLSpec struct {
 	// +optional
 	// +kubebuilder:default:="vault_ha_locks"
 	HATable string `json:"haTable,omitempty"`
+
+	// Specifies the secret name containing the TLS material used to connect to PostgreSQL.
+	// secret data:
+	//  - ca.crt:  CA certificate used to verify the server (required)
+	//  - tls.crt: client certificate (optional, for mutual TLS; needs tls.key)
+	//  - tls.key: client private key (optional, for mutual TLS; needs tls.crt)
+	// If DatabaseRef is set and this is empty, it is generated from the CA bundle and
+	// client certificate of the referenced AppBinding.
+	// +optional
+	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=disable;require;verify-ca;verify-full
@@ -1172,6 +1188,16 @@ type CockroachDBSpec struct {
 	// +optional
 	// +kubebuilder:default:="openbao_ha_locks"
 	HATable string `json:"haTable,omitempty"`
+
+	// Specifies the secret name containing the TLS material used to connect to CockroachDB.
+	// secret data:
+	//  - ca.crt:  CA certificate used to verify the server (required)
+	//  - tls.crt: client certificate (optional, for mutual TLS; needs tls.key)
+	//  - tls.key: client private key (optional, for mutual TLS; needs tls.crt)
+	// If DatabaseRef is set and this is empty, it is generated from the CA bundle and
+	// client certificate of the referenced AppBinding.
+	// +optional
+	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
 }
 
 // vault doc: https://openbao.org/docs/configuration/storage/cassandra/
@@ -1181,7 +1207,8 @@ type CassandraSpec struct {
 	// Specifies a comma-separated list of Cassandra hosts to connect to. All hosts must
 	// listen on the same port; include the port in each host as "<host>:<port>" if it is
 	// not the CQL native protocol default.
-	Hosts string `json:"hosts"`
+	// +optional
+	Hosts string `json:"hosts,omitempty"`
 
 	// Specifies the keyspace that is used for storing the Vault data. The keyspace must
 	// already exist, be reachable, and writable.
@@ -1245,6 +1272,11 @@ type CassandraSpec struct {
 	// Specifies the minimum acceptable TLS version. One of tls10, tls11, tls12, or tls13.
 	// +optional
 	TLSMinVersion string `json:"tlsMinVersion,omitempty"`
+
+	// DatabaseRef contains the info of a KubeDB managed Cassandra.
+	// If set, Hosts will be generated from the referenced AppBinding.
+	// +optional
+	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
 }
 
 // vault doc: https://openbao.org/docs/configuration/storage/zookeeper/
@@ -1300,6 +1332,11 @@ type ZookeeperSpec struct {
 	// Specifies the minimum acceptable TLS version. One of tls10, tls11, tls12, or tls13.
 	// +optional
 	TLSMinVersion string `json:"tlsMinVersion,omitempty"`
+
+	// DatabaseRef contains the info of a KubeDB managed ZooKeeper.
+	// If set, Address will be generated from the referenced AppBinding.
+	// +optional
+	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
 }
 
 // vault doc: https://openbao.org/docs/configuration/storage/couchdb/
@@ -1308,7 +1345,8 @@ type ZookeeperSpec struct {
 type CouchDBSpec struct {
 	// Specifies the full URL to the CouchDB database to use, including the database
 	// name. The database must already exist; Vault does not create it.
-	Endpoint string `json:"endpoint"`
+	// +optional
+	Endpoint string `json:"endpoint,omitempty"`
 
 	// Specifies the secret name containing the CouchDB username and password to
 	// connect with.
@@ -1321,6 +1359,16 @@ type CouchDBSpec struct {
 	// Specifies the maximum number of concurrent requests to CouchDB.
 	// +optional
 	MaxParallel int64 `json:"maxParallel,omitempty"`
+	// Specifies the name of the CouchDB database to store data in. Only used with
+	// DatabaseRef, where the endpoint is generated as <appbinding url>/<database>.
+	// +optional
+	// +kubebuilder:default:="vault"
+	Database string `json:"database,omitempty"`
+
+	// DatabaseRef contains the info of a CouchDB database exposed through an AppBinding.
+	// If set, Endpoint will be generated from the referenced AppBinding.
+	// +optional
+	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
 }
 
 // vault doc: https://openbao.org/docs/configuration/storage/mssql/
@@ -1328,7 +1376,8 @@ type CouchDBSpec struct {
 // MSSQLSpec defines configuration to set up Microsoft SQL Server as backend storage in vault
 type MSSQLSpec struct {
 	// Specifies the address of the MSSQL host.
-	Server string `json:"server"`
+	// +optional
+	Server string `json:"server,omitempty"`
 
 	// Specifies the port of the MSSQL host. Defaults to the driver's standard port
 	// (1433) when unset.
@@ -1378,6 +1427,11 @@ type MSSQLSpec struct {
 	// Specifies the maximum number of concurrent requests to MSSQL.
 	// +optional
 	MaxParallel int64 `json:"maxParallel,omitempty"`
+
+	// DatabaseRef contains the info of a KubeDB managed MSSQLServer.
+	// If set, Server will be generated from the referenced AppBinding.
+	// +optional
+	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
 }
 
 // vault doc: https://openbao.org/docs/configuration/storage/google-cloud-spanner/
@@ -1469,6 +1523,11 @@ type AerospikeSpec struct {
 	// Idle connection timeout, in milliseconds. 0 disables idle connection trimming.
 	// +optional
 	IdleTimeout int64 `json:"idleTimeout,omitempty"`
+
+	// DatabaseRef contains the info of a KubeDB managed Aerospike.
+	// If set, Hostname will be generated from the referenced AppBinding.
+	// +optional
+	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
 }
 
 // vault doc: https://openbao.org/docs/configuration/storage/oci/

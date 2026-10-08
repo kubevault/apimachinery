@@ -16082,6 +16082,10 @@
           "description": "Specifies the secret name containing username and password to authenticate to the Aerospike cluster with, if it has security enabled. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
+        "databaseRef": {
+          "description": "DatabaseRef contains the info of a KubeDB managed Aerospike. If set, Hostname will be generated from the referenced AppBinding.",
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
         "hostList": {
           "description": "A comma-separated list of host[:port] entries describing the Aerospike cluster's seed nodes. Takes precedence over Hostname/Port when set.",
           "type": "string"
@@ -16402,9 +16406,6 @@
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.CassandraSpec": {
       "description": "vault doc: https://openbao.org/docs/configuration/storage/cassandra/\n\nCassandraSpec defines configuration to set up Cassandra as backend storage in vault",
       "type": "object",
-      "required": [
-        "hosts"
-      ],
       "properties": {
         "connectionTimeout": {
           "description": "Specifies the timeout, in seconds, for individual queries against the cluster.",
@@ -16418,10 +16419,13 @@
           "description": "Specifies the secret name containing username and password to use for authentication (PasswordAuthenticator). Requires protocolVersion of \"2\" or higher. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
+        "databaseRef": {
+          "description": "DatabaseRef contains the info of a KubeDB managed Cassandra. If set, Hosts will be generated from the referenced AppBinding.",
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
         "hosts": {
           "description": "Specifies a comma-separated list of Cassandra hosts to connect to. All hosts must listen on the same port; include the port in each host as \"\u003chost\u003e:\u003cport\u003e\" if it is not the CQL native protocol default.",
-          "type": "string",
-          "default": ""
+          "type": "string"
         },
         "initialConnectionTimeout": {
           "description": "Specifies the timeout, in seconds, for the initial connection to the cluster.",
@@ -16503,6 +16507,10 @@
           "description": "Specifies the name of the table in which to write Vault data.",
           "type": "string"
         },
+        "tlsSecretRef": {
+          "description": "Specifies the secret name containing the TLS material used to connect to CockroachDB. secret data:\n - ca.crt:  CA certificate used to verify the server (required)\n - tls.crt: client certificate (optional, for mutual TLS; needs tls.key)\n - tls.key: client private key (optional, for mutual TLS; needs tls.crt)\nIf DatabaseRef is set and this is empty, it is generated from the CA bundle and client certificate of the referenced AppBinding.",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
         "transactionMaxParallel": {
           "description": "Specifies the maximum number of concurrent interactive transactions to take place.",
           "type": "integer",
@@ -16583,18 +16591,22 @@
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.CouchDBSpec": {
       "description": "vault doc: https://openbao.org/docs/configuration/storage/couchdb/\n\nCouchDBSpec defines configuration to set up CouchDB as backend storage in vault",
       "type": "object",
-      "required": [
-        "endpoint"
-      ],
       "properties": {
         "credentialSecretRef": {
           "description": "Specifies the secret name containing the CouchDB username and password to connect with. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
+        "database": {
+          "description": "Specifies the name of the CouchDB database to store data in. Only used with DatabaseRef, where the endpoint is generated as \u003cappbinding url\u003e/\u003cdatabase\u003e.",
+          "type": "string"
+        },
+        "databaseRef": {
+          "description": "DatabaseRef contains the info of a CouchDB database exposed through an AppBinding. If set, Endpoint will be generated from the referenced AppBinding.",
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
+        },
         "endpoint": {
           "description": "Specifies the full URL to the CouchDB database to use, including the database name. The database must already exist; Vault does not create it.",
-          "type": "string",
-          "default": ""
+          "type": "string"
         },
         "maxParallel": {
           "description": "Specifies the maximum number of concurrent requests to CouchDB.",
@@ -16647,18 +16659,18 @@
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.EtcdSpec": {
       "description": "vault doc: https://www.vaultproject.io/docs/configuration/storage/etcd.html\n\nEtcdSpec defines configuration to set up etcd as backend storage in vault",
       "type": "object",
-      "required": [
-        "address"
-      ],
       "properties": {
         "address": {
           "description": "Specifies the addresses of the etcd instances",
-          "type": "string",
-          "default": ""
+          "type": "string"
         },
         "credentialSecretRef": {
           "description": "Specifies the secret name that contain username and password to use when authenticating with the etcd server secret data:\n - username:\u003cvalue\u003e\n - password:\u003cvalue\u003e",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "databaseRef": {
+          "description": "DatabaseRef contains the info of a KubeDB managed Etcd. If set, Address will be generated from the referenced AppBinding.",
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
         },
         "discoverySrv": {
           "description": "Specifies the domain name to query for SRV records describing cluster endpoints",
@@ -16949,9 +16961,6 @@
     "dev.kubevault.apimachinery.apis.kubevault.v1alpha2.MSSQLSpec": {
       "description": "vault doc: https://openbao.org/docs/configuration/storage/mssql/\n\nMSSQLSpec defines configuration to set up Microsoft SQL Server as backend storage in vault",
       "type": "object",
-      "required": [
-        "server"
-      ],
       "properties": {
         "appName": {
           "description": "Specifies the application name to report to the server.",
@@ -16968,6 +16977,10 @@
         "database": {
           "description": "Specifies the name of the database to use. Vault will attempt to create it if it does not already exist.",
           "type": "string"
+        },
+        "databaseRef": {
+          "description": "DatabaseRef contains the info of a KubeDB managed MSSQLServer. If set, Server will be generated from the referenced AppBinding.",
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
         },
         "logLevel": {
           "description": "Specifies the driver's internal log level bitmask.",
@@ -16988,8 +17001,7 @@
         },
         "server": {
           "description": "Specifies the address of the MSSQL host.",
-          "type": "string",
-          "default": ""
+          "type": "string"
         },
         "table": {
           "description": "Specifies the name of the table in which to write Vault data. Vault will attempt to create it if missing.",
@@ -17177,6 +17189,10 @@
         "table": {
           "description": "Specifies the name of the table in which to write Vault data. This table must already exist (Vault will not attempt to create it).",
           "type": "string"
+        },
+        "tlsSecretRef": {
+          "description": "Specifies the secret name containing the TLS material used to connect to PostgreSQL. secret data:\n - ca.crt:  CA certificate used to verify the server (required)\n - tls.crt: client certificate (optional, for mutual TLS; needs tls.key)\n - tls.key: client private key (optional, for mutual TLS; needs tls.crt)\nIf DatabaseRef is set and this is empty, it is generated from the CA bundle and client certificate of the referenced AppBinding.",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         }
       }
     },
@@ -17740,6 +17756,10 @@
         "authInfoSecretRef": {
           "description": "Specifies the secret name containing a scheme:auth pair passed to ZooKeeper's AddAuth API immediately after connecting, so the client authenticates as a specific principal. secret data:\n - authInfo=\u003cscheme:auth\u003e",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "databaseRef": {
+          "description": "DatabaseRef contains the info of a KubeDB managed ZooKeeper. If set, Address will be generated from the referenced AppBinding.",
+          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
         },
         "path": {
           "description": "Specifies the path in ZooKeeper's tree where Vault data will be stored.",

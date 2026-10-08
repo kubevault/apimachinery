@@ -38,6 +38,11 @@ func (in *AerospikeSpec) DeepCopyInto(out *AerospikeSpec) {
 		*out = new(v1.LocalObjectReference)
 		**out = **in
 	}
+	if in.DatabaseRef != nil {
+		in, out := &in.DatabaseRef, &out.DatabaseRef
+		*out = new(v1alpha1.AppReference)
+		(*in).DeepCopyInto(*out)
+	}
 	return
 }
 
@@ -347,6 +352,11 @@ func (in *CassandraSpec) DeepCopyInto(out *CassandraSpec) {
 		*out = new(v1.LocalObjectReference)
 		**out = **in
 	}
+	if in.DatabaseRef != nil {
+		in, out := &in.DatabaseRef, &out.DatabaseRef
+		*out = new(v1alpha1.AppReference)
+		(*in).DeepCopyInto(*out)
+	}
 	return
 }
 
@@ -372,6 +382,11 @@ func (in *CockroachDBSpec) DeepCopyInto(out *CockroachDBSpec) {
 		in, out := &in.DatabaseRef, &out.DatabaseRef
 		*out = new(v1alpha1.AppReference)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.TLSSecretRef != nil {
+		in, out := &in.TLSSecretRef, &out.TLSSecretRef
+		*out = new(v1.LocalObjectReference)
+		**out = **in
 	}
 	return
 }
@@ -420,6 +435,11 @@ func (in *CouchDBSpec) DeepCopyInto(out *CouchDBSpec) {
 		*out = new(v1.LocalObjectReference)
 		**out = **in
 	}
+	if in.DatabaseRef != nil {
+		in, out := &in.DatabaseRef, &out.DatabaseRef
+		*out = new(v1alpha1.AppReference)
+		(*in).DeepCopyInto(*out)
+	}
 	return
 }
 
@@ -466,6 +486,11 @@ func (in *EtcdSpec) DeepCopyInto(out *EtcdSpec) {
 		in, out := &in.TLSSecretRef, &out.TLSSecretRef
 		*out = new(v1.LocalObjectReference)
 		**out = **in
+	}
+	if in.DatabaseRef != nil {
+		in, out := &in.DatabaseRef, &out.DatabaseRef
+		*out = new(v1alpha1.AppReference)
+		(*in).DeepCopyInto(*out)
 	}
 	return
 }
@@ -688,6 +713,11 @@ func (in *MSSQLSpec) DeepCopyInto(out *MSSQLSpec) {
 		in, out := &in.CredentialSecretRef, &out.CredentialSecretRef
 		*out = new(v1.LocalObjectReference)
 		**out = **in
+	}
+	if in.DatabaseRef != nil {
+		in, out := &in.DatabaseRef, &out.DatabaseRef
+		*out = new(v1alpha1.AppReference)
+		(*in).DeepCopyInto(*out)
 	}
 	return
 }
@@ -958,6 +988,11 @@ func (in *PostgreSQLSpec) DeepCopyInto(out *PostgreSQLSpec) {
 		in, out := &in.DatabaseRef, &out.DatabaseRef
 		*out = new(v1alpha1.AppReference)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.TLSSecretRef != nil {
+		in, out := &in.TLSSecretRef, &out.TLSSecretRef
+		*out = new(v1.LocalObjectReference)
+		**out = **in
 	}
 	return
 }
@@ -1621,6 +1656,11 @@ func (in *ZookeeperSpec) DeepCopyInto(out *ZookeeperSpec) {
 		in, out := &in.TLSSecretRef, &out.TLSSecretRef
 		*out = new(v1.LocalObjectReference)
 		**out = **in
+	}
+	if in.DatabaseRef != nil {
+		in, out := &in.DatabaseRef, &out.DatabaseRef
+		*out = new(v1alpha1.AppReference)
+		(*in).DeepCopyInto(*out)
 	}
 	return
 }

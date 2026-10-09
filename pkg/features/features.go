@@ -36,9 +36,6 @@ const (
 	// cloud-IAM/PKI secret engines (AWS, Azure, GCP, PKI), which are not
 	// database plugins and are always installed.
 
-	// Enables the DB2 secret engine.
-	DB2 featuregate.Feature = "DB2"
-
 	// Enables the Druid secret engine.
 	Druid featuregate.Feature = "Druid"
 
@@ -51,9 +48,6 @@ const (
 	// Enables the HanaDB secret engine.
 	HanaDB featuregate.Feature = "HanaDB"
 
-	// Enables the Hazelcast secret engine.
-	Hazelcast featuregate.Feature = "Hazelcast"
-
 	// Enables the Ignite secret engine.
 	Ignite featuregate.Feature = "Ignite"
 
@@ -62,9 +56,6 @@ const (
 
 	// Enables the MariaDB secret engine.
 	MariaDB featuregate.Feature = "MariaDB"
-
-	// Enables the Memcached secret engine.
-	Memcached featuregate.Feature = "Memcached"
 
 	// Enables the Milvus secret engine.
 	Milvus featuregate.Feature = "Milvus"
@@ -101,9 +92,6 @@ const (
 
 	// Enables the Weaviate secret engine.
 	Weaviate featuregate.Feature = "Weaviate"
-
-	// Enables the ZooKeeper secret engine.
-	ZooKeeper featuregate.Feature = "ZooKeeper"
 )
 
 func init() {
@@ -115,16 +103,13 @@ func init() {
 // for it above and add it here. The features will be available throughout
 // KubeVault binaries (operator, crd-manager).
 var defaultKubeVaultFeatureGates = map[featuregate.Feature]featuregate.FeatureSpec{
-	DB2:           {Default: false, PreRelease: featuregate.Alpha},
 	Druid:         {Default: false, PreRelease: featuregate.Alpha},
 	Elasticsearch: {Default: false, PreRelease: featuregate.Alpha},
 	Etcd:          {Default: false, PreRelease: featuregate.Alpha},
 	HanaDB:        {Default: false, PreRelease: featuregate.Alpha},
-	Hazelcast:     {Default: false, PreRelease: featuregate.Alpha},
 	Ignite:        {Default: false, PreRelease: featuregate.Alpha},
 	Kafka:         {Default: false, PreRelease: featuregate.Alpha},
 	MariaDB:       {Default: false, PreRelease: featuregate.Alpha},
-	Memcached:     {Default: false, PreRelease: featuregate.Alpha},
 	Milvus:        {Default: false, PreRelease: featuregate.Alpha},
 	MongoDB:       {Default: false, PreRelease: featuregate.Alpha},
 	MSSQLServer:   {Default: false, PreRelease: featuregate.Alpha},
@@ -137,5 +122,4 @@ var defaultKubeVaultFeatureGates = map[featuregate.Feature]featuregate.FeatureSp
 	Redis:         {Default: false, PreRelease: featuregate.Alpha},
 	Solr:          {Default: false, PreRelease: featuregate.Alpha},
 	Weaviate:      {Default: false, PreRelease: featuregate.Alpha},
-	ZooKeeper:     {Default: false, PreRelease: featuregate.Alpha},
 }

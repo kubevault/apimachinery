@@ -34,14 +34,6 @@ type AzureRoleListerExpansion interface{}
 // AzureRoleNamespaceLister.
 type AzureRoleNamespaceListerExpansion interface{}
 
-// DB2RoleListerExpansion allows custom methods to be added to
-// DB2RoleLister.
-type DB2RoleListerExpansion interface{}
-
-// DB2RoleNamespaceListerExpansion allows custom methods to be added to
-// DB2RoleNamespaceLister.
-type DB2RoleNamespaceListerExpansion interface{}
-
 // DruidRoleListerExpansion allows custom methods to be added to
 // DruidRoleLister.
 type DruidRoleListerExpansion interface{}
@@ -82,14 +74,6 @@ type HanaDBRoleListerExpansion interface{}
 // HanaDBRoleNamespaceLister.
 type HanaDBRoleNamespaceListerExpansion interface{}
 
-// HazelcastRoleListerExpansion allows custom methods to be added to
-// HazelcastRoleLister.
-type HazelcastRoleListerExpansion interface{}
-
-// HazelcastRoleNamespaceListerExpansion allows custom methods to be added to
-// HazelcastRoleNamespaceLister.
-type HazelcastRoleNamespaceListerExpansion interface{}
-
 // IgniteRoleListerExpansion allows custom methods to be added to
 // IgniteRoleLister.
 type IgniteRoleListerExpansion interface{}
@@ -121,14 +105,6 @@ type MariaDBRoleListerExpansion interface{}
 // MariaDBRoleNamespaceListerExpansion allows custom methods to be added to
 // MariaDBRoleNamespaceLister.
 type MariaDBRoleNamespaceListerExpansion interface{}
-
-// MemcachedRoleListerExpansion allows custom methods to be added to
-// MemcachedRoleLister.
-type MemcachedRoleListerExpansion interface{}
-
-// MemcachedRoleNamespaceListerExpansion allows custom methods to be added to
-// MemcachedRoleNamespaceLister.
-type MemcachedRoleNamespaceListerExpansion interface{}
 
 // MilvusRoleListerExpansion allows custom methods to be added to
 // MilvusRoleLister.
@@ -249,11 +225,3 @@ type WeaviateRoleListerExpansion interface{}
 // WeaviateRoleNamespaceListerExpansion allows custom methods to be added to
 // WeaviateRoleNamespaceLister.
 type WeaviateRoleNamespaceListerExpansion interface{}
-
-// ZooKeeperRoleListerExpansion allows custom methods to be added to
-// ZooKeeperRoleLister.
-type ZooKeeperRoleListerExpansion interface{}
-
-// ZooKeeperRoleNamespaceListerExpansion allows custom methods to be added to
-// ZooKeeperRoleNamespaceLister.
-type ZooKeeperRoleNamespaceListerExpansion interface{}

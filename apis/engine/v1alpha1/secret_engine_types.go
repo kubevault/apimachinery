@@ -89,14 +89,11 @@ type SecretEngineConfiguration struct {
 	KV            *KVConfiguration            `json:"kv,omitempty"`
 	Elasticsearch *ElasticsearchConfiguration `json:"elasticsearch,omitempty"`
 	PKI           *PKIConfiguration           `json:"pki,omitempty"`
-	DB2           *DB2Configuration           `json:"db2,omitempty"`
 	Druid         *DruidConfiguration         `json:"druid,omitempty"`
 	Etcd          *EtcdConfiguration          `json:"etcd,omitempty"`
 	HanaDB        *HanaDBConfiguration        `json:"hanadb,omitempty"`
-	Hazelcast     *HazelcastConfiguration     `json:"hazelcast,omitempty"`
 	Ignite        *IgniteConfiguration        `json:"ignite,omitempty"`
 	Kafka         *KafkaConfiguration         `json:"kafka,omitempty"`
-	Memcached     *MemcachedConfiguration     `json:"memcached,omitempty"`
 	Milvus        *MilvusConfiguration        `json:"milvus,omitempty"`
 	MSSQLServer   *MSSQLServerConfiguration   `json:"mssqlserver,omitempty"`
 	Neo4j         *Neo4jConfiguration         `json:"neo4j,omitempty"`
@@ -105,30 +102,6 @@ type SecretEngineConfiguration struct {
 	RabbitMQ      *RabbitMQConfiguration      `json:"rabbitmq,omitempty"`
 	Solr          *SolrConfiguration          `json:"solr,omitempty"`
 	Weaviate      *WeaviateConfiguration      `json:"weaviate,omitempty"`
-	ZooKeeper     *ZooKeeperConfiguration     `json:"zookeeper,omitempty"`
-}
-
-// DB2Configuration defines an IBM Db2 app configuration. The OpenBao
-// `db2-database-plugin` is static-credentials-only: it pings the Db2
-// REST endpoint to verify reachability and treats NewUser as
-// unsupported. Use static-roles for credential rotation.
-// https://github.com/sigilr/openbao/pull/19
-type DB2Configuration struct {
-	// Specifies the Db2 database appbinding reference. The AppBinding's
-	// URL is forwarded as the Db2 REST endpoint (`url=`); the secret
-	// contributes Basic Auth credentials when present.
-	DatabaseRef appcat.AppReference `json:"databaseRef"`
-
-	// Specifies the name of the plugin to use for this connection.
-	// Default plugin:
-	//  - for db2: db2-database-plugin
-	// +optional
-	PluginName string `json:"pluginName,omitempty"`
-
-	// List of the roles allowed to use this connection.
-	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
-	// +optional
-	AllowedRoles []string `json:"allowedRoles,omitempty"`
 }
 
 // DruidConfiguration defines an Apache Druid app configuration. The
@@ -236,33 +209,6 @@ type HanaDBConfiguration struct {
 	MaxConnectionLifetime string `json:"maxConnectionLifetime,omitempty"`
 }
 
-// HazelcastConfiguration defines a Hazelcast app configuration. The
-// OpenBao `hazelcast-database-plugin` is static-credentials-only:
-// Hazelcast OSS has no runtime user-management API (auth is configured
-// in member XML at startup), so the plugin pings
-// `/hazelcast/health/ready` with Basic Auth to verify reachability and
-// treats NewUser as unsupported. Use static-roles for credential
-// rotation.
-// https://github.com/sigilr/openbao/pull/20
-type HazelcastConfiguration struct {
-	// Specifies the Hazelcast database appbinding reference. The
-	// AppBinding's URL is forwarded as the Hazelcast member health
-	// endpoint (`url=`); the secret contributes Basic Auth credentials
-	// when present.
-	DatabaseRef appcat.AppReference `json:"databaseRef"`
-
-	// Specifies the name of the plugin to use for this connection.
-	// Default plugin:
-	//  - for hazelcast: hazelcast-database-plugin
-	// +optional
-	PluginName string `json:"pluginName,omitempty"`
-
-	// List of the roles allowed to use this connection.
-	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
-	// +optional
-	AllowedRoles []string `json:"allowedRoles,omitempty"`
-}
-
 // IgniteConfiguration defines an Apache Ignite app configuration. The OpenBao
 // `ignite-database-plugin` (sigilr/openbao#14) executes dynamic SQL DDL
 // (`CREATE USER` / `ALTER USER` / `DROP USER`) over Ignite's REST API
@@ -307,33 +253,6 @@ type KafkaConfiguration struct {
 	// Specifies the name of the plugin to use for this connection.
 	// Default plugin:
 	//  - for kafka: kafka-database-plugin
-	// +optional
-	PluginName string `json:"pluginName,omitempty"`
-
-	// List of the roles allowed to use this connection.
-	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
-	// +optional
-	AllowedRoles []string `json:"allowedRoles,omitempty"`
-}
-
-// MemcachedConfiguration defines a Memcached app configuration. The
-// OpenBao `memcached-database-plugin` is static-credentials-only:
-// Memcached loads SASL credentials from a static auth file at server
-// startup and exposes no runtime user-management API, so the plugin
-// pings the Memcached TCP endpoint (and optionally completes a TLS
-// handshake) to verify reachability and treats NewUser as unsupported.
-// Use static-roles for credential rotation.
-// https://github.com/sigilr/openbao/pull/16
-type MemcachedConfiguration struct {
-	// Specifies the Memcached database appbinding reference. The
-	// AppBinding's URL is forwarded as the Memcached TCP endpoint
-	// (`url=`); the secret contributes Basic Auth credentials
-	// when present.
-	DatabaseRef appcat.AppReference `json:"databaseRef"`
-
-	// Specifies the name of the plugin to use for this connection.
-	// Default plugin:
-	//  - for memcached: memcached-database-plugin
 	// +optional
 	PluginName string `json:"pluginName,omitempty"`
 
@@ -488,35 +407,6 @@ type WeaviateConfiguration struct {
 	// Specifies the name of the plugin to use for this connection.
 	// Default plugin:
 	//  - for weaviate: weaviate-database-plugin
-	// +optional
-	PluginName string `json:"pluginName,omitempty"`
-
-	// List of the roles allowed to use this connection.
-	// Defaults to empty (no roles), if contains a "*" any role can use this connection.
-	// +optional
-	AllowedRoles []string `json:"allowedRoles,omitempty"`
-}
-
-// ZooKeeperConfiguration defines an Apache ZooKeeper app configuration.
-// The OpenBao `zookeeper-database-plugin` is static-credentials-only:
-// ZooKeeper has no runtime user-management API for SASL/digest
-// principals — they are loaded from server-side `jaas.conf` at
-// startup — so the plugin opens a TCP connection and sends the
-// 4-letter word `ruok` (a healthy node replies `imok`) to verify
-// reachability and returns "dynamic credentials are not supported"
-// for NewUser. Use static-roles for credential rotation.
-// https://github.com/sigilr/openbao/pull/21
-type ZooKeeperConfiguration struct {
-	// Specifies the ZooKeeper database appbinding reference. The
-	// AppBinding's URL is forwarded as the ZooKeeper TCP endpoint
-	// (`url=`); the secret contributes Basic Auth credentials when
-	// present (forwarded for symmetry with other plugins; the
-	// `ruok` healthcheck does not authenticate).
-	DatabaseRef appcat.AppReference `json:"databaseRef"`
-
-	// Specifies the name of the plugin to use for this connection.
-	// Default plugin:
-	//  - for zookeeper: zookeeper-database-plugin
 	// +optional
 	PluginName string `json:"pluginName,omitempty"`
 

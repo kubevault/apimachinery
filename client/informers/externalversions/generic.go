@@ -67,8 +67,6 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().AWSRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("azureroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().AzureRoles().Informer()}, nil
-	case enginev1alpha1.SchemeGroupVersion.WithResource("db2roles"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().DB2Roles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("druidroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().DruidRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("elasticsearchroles"):
@@ -79,8 +77,6 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().GCPRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("hanadbroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().HanaDBRoles().Informer()}, nil
-	case enginev1alpha1.SchemeGroupVersion.WithResource("hazelcastroles"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().HazelcastRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("igniteroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().IgniteRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("kafkaroles"):
@@ -89,8 +85,6 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MSSQLServerRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("mariadbroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MariaDBRoles().Informer()}, nil
-	case enginev1alpha1.SchemeGroupVersion.WithResource("memcachedroles"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MemcachedRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("milvusroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().MilvusRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("mongodbroles"):
@@ -121,8 +115,6 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().SolrRoles().Informer()}, nil
 	case enginev1alpha1.SchemeGroupVersion.WithResource("weaviateroles"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().WeaviateRoles().Informer()}, nil
-	case enginev1alpha1.SchemeGroupVersion.WithResource("zookeeperroles"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Engine().V1alpha1().ZooKeeperRoles().Informer()}, nil
 
 		// Group=kubevault.com, Version=v1alpha1
 	case kubevaultv1alpha1.SchemeGroupVersion.WithResource("vaultservers"):

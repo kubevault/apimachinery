@@ -315,7 +315,7 @@ type AllowedSecretEngines struct {
 	SecretEngines []SecretEngineType `json:"secretEngines,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=kv;pki;aws;azure;gcp;postgres;mongodb;mysql;mariadb;elasticsearch;redis;db2;druid;etcd;hanadb;hazelcast;ignite;kafka;memcached;milvus;mssqlserver;neo4j;oracle;qdrant;rabbitmq;solr;weaviate;zookeeper
+// +kubebuilder:validation:Enum=kv;pki;aws;azure;gcp;postgres;mongodb;mysql;mariadb;elasticsearch;redis;druid;etcd;hanadb;ignite;kafka;milvus;mssqlserver;neo4j;oracle;qdrant;rabbitmq;solr;weaviate
 type SecretEngineType string
 
 const (
@@ -330,14 +330,11 @@ const (
 	SecretEngineTypeMariaDB       SecretEngineType = "mariadb"
 	SecretEngineTypeElasticsearch SecretEngineType = "elasticsearch"
 	SecretEngineTypeRedis         SecretEngineType = "redis"
-	SecretEngineTypeDB2           SecretEngineType = "db2"
 	SecretEngineTypeDruid         SecretEngineType = "druid"
 	SecretEngineTypeEtcd          SecretEngineType = "etcd"
 	SecretEngineTypeHanaDB        SecretEngineType = "hanadb"
-	SecretEngineTypeHazelcast     SecretEngineType = "hazelcast"
 	SecretEngineTypeIgnite        SecretEngineType = "ignite"
 	SecretEngineTypeKafka         SecretEngineType = "kafka"
-	SecretEngineTypeMemcached     SecretEngineType = "memcached"
 	SecretEngineTypeMilvus        SecretEngineType = "milvus"
 	SecretEngineTypeMSSQLServer   SecretEngineType = "mssqlserver"
 	SecretEngineTypeNeo4j         SecretEngineType = "neo4j"
@@ -346,7 +343,6 @@ const (
 	SecretEngineTypeRabbitMQ      SecretEngineType = "rabbitmq"
 	SecretEngineTypeSolr          SecretEngineType = "solr"
 	SecretEngineTypeWeaviate      SecretEngineType = "weaviate"
-	SecretEngineTypeZooKeeper     SecretEngineType = "zookeeper"
 )
 
 // FromNamespaces specifies namespace from which Secret Engines may be attached to a

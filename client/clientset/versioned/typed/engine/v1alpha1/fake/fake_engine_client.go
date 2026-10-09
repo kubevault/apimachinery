@@ -37,10 +37,6 @@ func (c *FakeEngineV1alpha1) AzureRoles(namespace string) v1alpha1.AzureRoleInte
 	return newFakeAzureRoles(c, namespace)
 }
 
-func (c *FakeEngineV1alpha1) DB2Roles(namespace string) v1alpha1.DB2RoleInterface {
-	return newFakeDB2Roles(c, namespace)
-}
-
 func (c *FakeEngineV1alpha1) DruidRoles(namespace string) v1alpha1.DruidRoleInterface {
 	return newFakeDruidRoles(c, namespace)
 }
@@ -61,10 +57,6 @@ func (c *FakeEngineV1alpha1) HanaDBRoles(namespace string) v1alpha1.HanaDBRoleIn
 	return newFakeHanaDBRoles(c, namespace)
 }
 
-func (c *FakeEngineV1alpha1) HazelcastRoles(namespace string) v1alpha1.HazelcastRoleInterface {
-	return newFakeHazelcastRoles(c, namespace)
-}
-
 func (c *FakeEngineV1alpha1) IgniteRoles(namespace string) v1alpha1.IgniteRoleInterface {
 	return newFakeIgniteRoles(c, namespace)
 }
@@ -79,10 +71,6 @@ func (c *FakeEngineV1alpha1) MSSQLServerRoles(namespace string) v1alpha1.MSSQLSe
 
 func (c *FakeEngineV1alpha1) MariaDBRoles(namespace string) v1alpha1.MariaDBRoleInterface {
 	return newFakeMariaDBRoles(c, namespace)
-}
-
-func (c *FakeEngineV1alpha1) MemcachedRoles(namespace string) v1alpha1.MemcachedRoleInterface {
-	return newFakeMemcachedRoles(c, namespace)
 }
 
 func (c *FakeEngineV1alpha1) MilvusRoles(namespace string) v1alpha1.MilvusRoleInterface {
@@ -143,10 +131,6 @@ func (c *FakeEngineV1alpha1) SolrRoles(namespace string) v1alpha1.SolrRoleInterf
 
 func (c *FakeEngineV1alpha1) WeaviateRoles(namespace string) v1alpha1.WeaviateRoleInterface {
 	return newFakeWeaviateRoles(c, namespace)
-}
-
-func (c *FakeEngineV1alpha1) ZooKeeperRoles(namespace string) v1alpha1.ZooKeeperRoleInterface {
-	return newFakeZooKeeperRoles(c, namespace)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

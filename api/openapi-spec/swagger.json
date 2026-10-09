@@ -13045,32 +13045,6 @@
         }
       }
     },
-    "dev.kubevault.apimachinery.apis.engine.v1alpha1.DB2Configuration": {
-      "description": "DB2Configuration defines an IBM Db2 app configuration. The OpenBao `db2-database-plugin` is static-credentials-only: it pings the Db2 REST endpoint to verify reachability and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/19",
-      "type": "object",
-      "required": [
-        "databaseRef"
-      ],
-      "properties": {
-        "allowedRoles": {
-          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "default": ""
-          }
-        },
-        "databaseRef": {
-          "description": "Specifies the Db2 database appbinding reference. The AppBinding's URL is forwarded as the Db2 REST endpoint (`url=`); the secret contributes Basic Auth credentials when present.",
-          "default": {},
-          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
-        },
-        "pluginName": {
-          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for db2: db2-database-plugin",
-          "type": "string"
-        }
-      }
-    },
     "dev.kubevault.apimachinery.apis.engine.v1alpha1.DruidConfiguration": {
       "description": "DruidConfiguration defines an Apache Druid app configuration. The OpenBao `druid-database-plugin` (sigilr/openbao#12) provisions credentials via Druid's BasicSecurity coordinator API (authenticator user + role bindings), so the connection payload uses `url` (Druid coordinator REST endpoint) rather than a connection_url. Druid is dynamic: NewUser/UpdateUser/DeleteUser are all supported. https://druid.apache.org/docs/latest/operations/security-overview/",
       "type": "object",
@@ -13341,32 +13315,6 @@
         }
       }
     },
-    "dev.kubevault.apimachinery.apis.engine.v1alpha1.HazelcastConfiguration": {
-      "description": "HazelcastConfiguration defines a Hazelcast app configuration. The OpenBao `hazelcast-database-plugin` is static-credentials-only: Hazelcast OSS has no runtime user-management API (auth is configured in member XML at startup), so the plugin pings `/hazelcast/health/ready` with Basic Auth to verify reachability and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/20",
-      "type": "object",
-      "required": [
-        "databaseRef"
-      ],
-      "properties": {
-        "allowedRoles": {
-          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "default": ""
-          }
-        },
-        "databaseRef": {
-          "description": "Specifies the Hazelcast database appbinding reference. The AppBinding's URL is forwarded as the Hazelcast member health endpoint (`url=`); the secret contributes Basic Auth credentials when present.",
-          "default": {},
-          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
-        },
-        "pluginName": {
-          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for hazelcast: hazelcast-database-plugin",
-          "type": "string"
-        }
-      }
-    },
     "dev.kubevault.apimachinery.apis.engine.v1alpha1.IgniteConfiguration": {
       "description": "IgniteConfiguration defines an Apache Ignite app configuration. The OpenBao `ignite-database-plugin` (sigilr/openbao#14) executes dynamic SQL DDL (`CREATE USER` / `ALTER USER` / `DROP USER`) over Ignite's REST API (`cmd=qryfldexe`). The connection payload is the Ignite REST endpoint (`url`) plus Basic Auth username/password sourced from the AppBinding secret. Pool-tuning knobs are intentionally omitted because the REST API does not expose them. https://ignite.apache.org/docs/latest/security/authentication",
       "type": "object",
@@ -13561,32 +13509,6 @@
         },
         "pluginName": {
           "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for mysql: mysql-database-plugin",
-          "type": "string"
-        }
-      }
-    },
-    "dev.kubevault.apimachinery.apis.engine.v1alpha1.MemcachedConfiguration": {
-      "description": "MemcachedConfiguration defines a Memcached app configuration. The OpenBao `memcached-database-plugin` is static-credentials-only: Memcached loads SASL credentials from a static auth file at server startup and exposes no runtime user-management API, so the plugin pings the Memcached TCP endpoint (and optionally completes a TLS handshake) to verify reachability and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/16",
-      "type": "object",
-      "required": [
-        "databaseRef"
-      ],
-      "properties": {
-        "allowedRoles": {
-          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "default": ""
-          }
-        },
-        "databaseRef": {
-          "description": "Specifies the Memcached database appbinding reference. The AppBinding's URL is forwarded as the Memcached TCP endpoint (`url=`); the secret contributes Basic Auth credentials when present.",
-          "default": {},
-          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
-        },
-        "pluginName": {
-          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for memcached: memcached-database-plugin",
           "type": "string"
         }
       }
@@ -14620,9 +14542,6 @@
         "azure": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.AzureConfiguration"
         },
-        "db2": {
-          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.DB2Configuration"
-        },
         "defaultLeaseTTL": {
           "type": "string"
         },
@@ -14641,9 +14560,6 @@
         "hanadb": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.HanaDBConfiguration"
         },
-        "hazelcast": {
-          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.HazelcastConfiguration"
-        },
         "ignite": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.IgniteConfiguration"
         },
@@ -14658,9 +14574,6 @@
         },
         "maxLeaseTTL": {
           "type": "string"
-        },
-        "memcached": {
-          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MemcachedConfiguration"
         },
         "milvus": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.MilvusConfiguration"
@@ -14708,9 +14621,6 @@
         },
         "weaviate": {
           "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.WeaviateConfiguration"
-        },
-        "zookeeper": {
-          "$ref": "#/definitions/dev.kubevault.apimachinery.apis.engine.v1alpha1.ZooKeeperConfiguration"
         }
       }
     },
@@ -14909,32 +14819,6 @@
         },
         "pluginName": {
           "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for weaviate: weaviate-database-plugin",
-          "type": "string"
-        }
-      }
-    },
-    "dev.kubevault.apimachinery.apis.engine.v1alpha1.ZooKeeperConfiguration": {
-      "description": "ZooKeeperConfiguration defines an Apache ZooKeeper app configuration. The OpenBao `zookeeper-database-plugin` is static-credentials-only: ZooKeeper has no runtime user-management API for SASL/digest principals — they are loaded from server-side `jaas.conf` at startup — so the plugin opens a TCP connection and sends the 4-letter word `ruok` (a healthy node replies `imok`) to verify reachability and returns \"dynamic credentials are not supported\" for NewUser. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/21",
-      "type": "object",
-      "required": [
-        "databaseRef"
-      ],
-      "properties": {
-        "allowedRoles": {
-          "description": "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "default": ""
-          }
-        },
-        "databaseRef": {
-          "description": "Specifies the ZooKeeper database appbinding reference. The AppBinding's URL is forwarded as the ZooKeeper TCP endpoint (`url=`); the secret contributes Basic Auth credentials when present (forwarded for symmetry with other plugins; the `ruok` healthcheck does not authenticate).",
-          "default": {},
-          "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
-        },
-        "pluginName": {
-          "description": "Specifies the name of the plugin to use for this connection. Default plugin:\n - for zookeeper: zookeeper-database-plugin",
           "type": "string"
         }
       }

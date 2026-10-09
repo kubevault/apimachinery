@@ -460,10 +460,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureRoleList":                    schema_apimachinery_apis_engine_v1alpha1_AzureRoleList(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureRoleSpec":                    schema_apimachinery_apis_engine_v1alpha1_AzureRoleSpec(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ConfigURL":                        schema_apimachinery_apis_engine_v1alpha1_ConfigURL(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Configuration":                 schema_apimachinery_apis_engine_v1alpha1_DB2Configuration(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Role":                          schema_apimachinery_apis_engine_v1alpha1_DB2Role(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2RoleList":                      schema_apimachinery_apis_engine_v1alpha1_DB2RoleList(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2RoleSpec":                      schema_apimachinery_apis_engine_v1alpha1_DB2RoleSpec(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration":               schema_apimachinery_apis_engine_v1alpha1_DruidConfiguration(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidRole":                        schema_apimachinery_apis_engine_v1alpha1_DruidRole(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidRoleList":                    schema_apimachinery_apis_engine_v1alpha1_DruidRoleList(ref),
@@ -485,10 +481,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBRole":                       schema_apimachinery_apis_engine_v1alpha1_HanaDBRole(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBRoleList":                   schema_apimachinery_apis_engine_v1alpha1_HanaDBRoleList(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBRoleSpec":                   schema_apimachinery_apis_engine_v1alpha1_HanaDBRoleSpec(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastConfiguration":           schema_apimachinery_apis_engine_v1alpha1_HazelcastConfiguration(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastRole":                    schema_apimachinery_apis_engine_v1alpha1_HazelcastRole(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastRoleList":                schema_apimachinery_apis_engine_v1alpha1_HazelcastRoleList(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastRoleSpec":                schema_apimachinery_apis_engine_v1alpha1_HazelcastRoleSpec(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteConfiguration":              schema_apimachinery_apis_engine_v1alpha1_IgniteConfiguration(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteRole":                       schema_apimachinery_apis_engine_v1alpha1_IgniteRole(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteRoleList":                   schema_apimachinery_apis_engine_v1alpha1_IgniteRoleList(ref),
@@ -508,10 +500,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBRole":                      schema_apimachinery_apis_engine_v1alpha1_MariaDBRole(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBRoleList":                  schema_apimachinery_apis_engine_v1alpha1_MariaDBRoleList(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBRoleSpec":                  schema_apimachinery_apis_engine_v1alpha1_MariaDBRoleSpec(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedConfiguration":           schema_apimachinery_apis_engine_v1alpha1_MemcachedConfiguration(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedRole":                    schema_apimachinery_apis_engine_v1alpha1_MemcachedRole(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedRoleList":                schema_apimachinery_apis_engine_v1alpha1_MemcachedRoleList(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedRoleSpec":                schema_apimachinery_apis_engine_v1alpha1_MemcachedRoleSpec(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MilvusConfiguration":              schema_apimachinery_apis_engine_v1alpha1_MilvusConfiguration(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MilvusRole":                       schema_apimachinery_apis_engine_v1alpha1_MilvusRole(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.MilvusRoleList":                   schema_apimachinery_apis_engine_v1alpha1_MilvusRoleList(ref),
@@ -576,10 +564,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateRole":                     schema_apimachinery_apis_engine_v1alpha1_WeaviateRole(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateRoleList":                 schema_apimachinery_apis_engine_v1alpha1_WeaviateRoleList(ref),
 		"kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateRoleSpec":                 schema_apimachinery_apis_engine_v1alpha1_WeaviateRoleSpec(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperConfiguration":           schema_apimachinery_apis_engine_v1alpha1_ZooKeeperConfiguration(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperRole":                    schema_apimachinery_apis_engine_v1alpha1_ZooKeeperRole(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperRoleList":                schema_apimachinery_apis_engine_v1alpha1_ZooKeeperRoleList(ref),
-		"kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperRoleSpec":                schema_apimachinery_apis_engine_v1alpha1_ZooKeeperRoleSpec(ref),
 	}
 }
 
@@ -24105,182 +24089,6 @@ func schema_apimachinery_apis_engine_v1alpha1_ConfigURL(ref common.ReferenceCall
 	}
 }
 
-func schema_apimachinery_apis_engine_v1alpha1_DB2Configuration(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "DB2Configuration defines an IBM Db2 app configuration. The OpenBao `db2-database-plugin` is static-credentials-only: it pings the Db2 REST endpoint to verify reachability and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/19",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"databaseRef": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the Db2 database appbinding reference. The AppBinding's URL is forwarded as the Db2 REST endpoint (`url=`); the secret contributes Basic Auth credentials when present.",
-							Default:     map[string]interface{}{},
-							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
-						},
-					},
-					"pluginName": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the name of the plugin to use for this connection. Default plugin:\n - for db2: db2-database-plugin",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"allowedRoles": {
-						SchemaProps: spec.SchemaProps{
-							Description: "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-				},
-				Required: []string{"databaseRef"},
-			},
-		},
-		Dependencies: []string{
-			"kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_DB2Role(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"metadata": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
-						},
-					},
-					"spec": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2RoleSpec"),
-						},
-					},
-					"status": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus"),
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2RoleSpec", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_DB2RoleList(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"metadata": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
-						},
-					},
-					"items": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Items is a list of DB2Role objects",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Role"),
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Role"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_DB2RoleSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "DB2RoleSpec describes a static-role binding against the IBM Db2 database secret engine. The OpenBao `db2-database-plugin` is static-credentials-only: dynamic NewUser is unsupported, so this CRD configures rotation of a pre-existing Db2 principal rather than emitting `creation_statements`.",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"secretEngineRef": {
-						SchemaProps: spec.SchemaProps{
-							Description: "SecretEngineRef is the name of a Secret Engine",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
-						},
-					},
-					"defaultTTL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"maxTTL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the maximum TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-				},
-				Required: []string{"secretEngineRef"},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
-	}
-}
-
 func schema_apimachinery_apis_engine_v1alpha1_DruidConfiguration(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -25366,182 +25174,6 @@ func schema_apimachinery_apis_engine_v1alpha1_HanaDBRoleSpec(ref common.Referenc
 	}
 }
 
-func schema_apimachinery_apis_engine_v1alpha1_HazelcastConfiguration(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "HazelcastConfiguration defines a Hazelcast app configuration. The OpenBao `hazelcast-database-plugin` is static-credentials-only: Hazelcast OSS has no runtime user-management API (auth is configured in member XML at startup), so the plugin pings `/hazelcast/health/ready` with Basic Auth to verify reachability and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/20",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"databaseRef": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the Hazelcast database appbinding reference. The AppBinding's URL is forwarded as the Hazelcast member health endpoint (`url=`); the secret contributes Basic Auth credentials when present.",
-							Default:     map[string]interface{}{},
-							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
-						},
-					},
-					"pluginName": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the name of the plugin to use for this connection. Default plugin:\n - for hazelcast: hazelcast-database-plugin",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"allowedRoles": {
-						SchemaProps: spec.SchemaProps{
-							Description: "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-				},
-				Required: []string{"databaseRef"},
-			},
-		},
-		Dependencies: []string{
-			"kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_HazelcastRole(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"metadata": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
-						},
-					},
-					"spec": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastRoleSpec"),
-						},
-					},
-					"status": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus"),
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastRoleSpec", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_HazelcastRoleList(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"metadata": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
-						},
-					},
-					"items": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Items is a list of HazelcastRole objects",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastRole"),
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastRole"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_HazelcastRoleSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "HazelcastRoleSpec describes a static-role binding against the Hazelcast database secret engine. The OpenBao `hazelcast-database-plugin` is static-credentials-only: Hazelcast OSS has no runtime user-management API (auth is configured in member XML at startup), so dynamic NewUser is unsupported and this CRD configures rotation of a pre-existing Hazelcast principal rather than emitting `creation_statements`.",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"secretEngineRef": {
-						SchemaProps: spec.SchemaProps{
-							Description: "SecretEngineRef is the name of a Secret Engine",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
-						},
-					},
-					"defaultTTL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"maxTTL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the maximum TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-				},
-				Required: []string{"secretEngineRef"},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
-	}
-}
-
 func schema_apimachinery_apis_engine_v1alpha1_IgniteConfiguration(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -26529,182 +26161,6 @@ func schema_apimachinery_apis_engine_v1alpha1_MariaDBRoleSpec(ref common.Referen
 					},
 				},
 				Required: []string{"secretEngineRef", "creationStatements"},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_MemcachedConfiguration(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "MemcachedConfiguration defines a Memcached app configuration. The OpenBao `memcached-database-plugin` is static-credentials-only: Memcached loads SASL credentials from a static auth file at server startup and exposes no runtime user-management API, so the plugin pings the Memcached TCP endpoint (and optionally completes a TLS handshake) to verify reachability and treats NewUser as unsupported. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/16",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"databaseRef": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the Memcached database appbinding reference. The AppBinding's URL is forwarded as the Memcached TCP endpoint (`url=`); the secret contributes Basic Auth credentials when present.",
-							Default:     map[string]interface{}{},
-							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
-						},
-					},
-					"pluginName": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the name of the plugin to use for this connection. Default plugin:\n - for memcached: memcached-database-plugin",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"allowedRoles": {
-						SchemaProps: spec.SchemaProps{
-							Description: "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-				},
-				Required: []string{"databaseRef"},
-			},
-		},
-		Dependencies: []string{
-			"kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_MemcachedRole(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"metadata": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
-						},
-					},
-					"spec": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedRoleSpec"),
-						},
-					},
-					"status": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus"),
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedRoleSpec", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_MemcachedRoleList(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"metadata": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
-						},
-					},
-					"items": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Items is a list of MemcachedRole objects",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedRole"),
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedRole"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_MemcachedRoleSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "MemcachedRoleSpec describes a static-role binding against the Memcached database secret engine. The OpenBao `memcached-database-plugin` is static-credentials-only: Memcached loads SASL credentials from a static auth file at server startup and exposes no runtime user-management API, so dynamic NewUser is unsupported and this CRD configures rotation of a pre-existing Memcached principal rather than emitting `creation_statements`.",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"secretEngineRef": {
-						SchemaProps: spec.SchemaProps{
-							Description: "SecretEngineRef is the name of a Secret Engine",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
-						},
-					},
-					"defaultTTL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"maxTTL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the maximum TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-				},
-				Required: []string{"secretEngineRef"},
 			},
 		},
 		Dependencies: []string{
@@ -29359,11 +28815,6 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineConfiguration(ref comm
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.PKIConfiguration"),
 						},
 					},
-					"db2": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Configuration"),
-						},
-					},
 					"druid": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration"),
@@ -29379,11 +28830,6 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineConfiguration(ref comm
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration"),
 						},
 					},
-					"hazelcast": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastConfiguration"),
-						},
-					},
 					"ignite": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteConfiguration"),
@@ -29392,11 +28838,6 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineConfiguration(ref comm
 					"kafka": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.KafkaConfiguration"),
-						},
-					},
-					"memcached": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedConfiguration"),
 						},
 					},
 					"milvus": {
@@ -29439,16 +28880,11 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineConfiguration(ref comm
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateConfiguration"),
 						},
 					},
-					"zookeeper": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperConfiguration"),
-						},
-					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Configuration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KafkaConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MSSQLServerConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MilvusConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.Neo4jConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.OracleConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PKIConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.QdrantConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RabbitMQConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RedisConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.SolrConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperConfiguration"},
+			"kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KafkaConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MSSQLServerConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MilvusConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.Neo4jConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.OracleConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PKIConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.QdrantConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RabbitMQConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RedisConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.SolrConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateConfiguration"},
 	}
 }
 
@@ -29573,11 +29009,6 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineSpec(ref common.Refere
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.PKIConfiguration"),
 						},
 					},
-					"db2": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Configuration"),
-						},
-					},
 					"druid": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration"),
@@ -29593,11 +29024,6 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineSpec(ref common.Refere
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration"),
 						},
 					},
-					"hazelcast": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastConfiguration"),
-						},
-					},
 					"ignite": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteConfiguration"),
@@ -29606,11 +29032,6 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineSpec(ref common.Refere
 					"kafka": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.KafkaConfiguration"),
-						},
-					},
-					"memcached": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedConfiguration"),
 						},
 					},
 					"milvus": {
@@ -29653,11 +29074,6 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineSpec(ref common.Refere
 							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateConfiguration"),
 						},
 					},
-					"zookeeper": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperConfiguration"),
-						},
-					},
 					"defaultLeaseTTL": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -29675,7 +29091,7 @@ func schema_apimachinery_apis_engine_v1alpha1_SecretEngineSpec(ref common.Refere
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.ObjectReference", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DB2Configuration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HazelcastConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KafkaConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MSSQLServerConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MemcachedConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MilvusConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.Neo4jConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.OracleConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PKIConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.QdrantConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RabbitMQConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RedisConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.SolrConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperConfiguration"},
+			"kmodules.xyz/client-go/api/v1.ObjectReference", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AWSConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.AzureConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.DruidConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ElasticsearchConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.EtcdConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.GCPConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.HanaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.IgniteConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KVConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.KafkaConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MSSQLServerConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MariaDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MilvusConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MongoDBConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.MySQLConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.Neo4jConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.OracleConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PKIConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.PostgresConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.QdrantConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RabbitMQConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RedisConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.SolrConfiguration", "kubevault.dev/apimachinery/apis/engine/v1alpha1.WeaviateConfiguration"},
 	}
 }
 
@@ -30283,182 +29699,6 @@ func schema_apimachinery_apis_engine_v1alpha1_WeaviateRoleSpec(ref common.Refere
 									},
 								},
 							},
-						},
-					},
-					"defaultTTL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"maxTTL": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the maximum TTL for the leases associated with this role. Accepts time suffixed strings (\"1h\") or an integer number of seconds. Defaults to system/engine default TTL time.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-				},
-				Required: []string{"secretEngineRef"},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_ZooKeeperConfiguration(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "ZooKeeperConfiguration defines an Apache ZooKeeper app configuration. The OpenBao `zookeeper-database-plugin` is static-credentials-only: ZooKeeper has no runtime user-management API for SASL/digest principals — they are loaded from server-side `jaas.conf` at startup — so the plugin opens a TCP connection and sends the 4-letter word `ruok` (a healthy node replies `imok`) to verify reachability and returns \"dynamic credentials are not supported\" for NewUser. Use static-roles for credential rotation. https://github.com/sigilr/openbao/pull/21",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"databaseRef": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the ZooKeeper database appbinding reference. The AppBinding's URL is forwarded as the ZooKeeper TCP endpoint (`url=`); the secret contributes Basic Auth credentials when present (forwarded for symmetry with other plugins; the `ruok` healthcheck does not authenticate).",
-							Default:     map[string]interface{}{},
-							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
-						},
-					},
-					"pluginName": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the name of the plugin to use for this connection. Default plugin:\n - for zookeeper: zookeeper-database-plugin",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"allowedRoles": {
-						SchemaProps: spec.SchemaProps{
-							Description: "List of the roles allowed to use this connection. Defaults to empty (no roles), if contains a \"*\" any role can use this connection.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-				},
-				Required: []string{"databaseRef"},
-			},
-		},
-		Dependencies: []string{
-			"kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_ZooKeeperRole(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"metadata": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
-						},
-					},
-					"spec": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperRoleSpec"),
-						},
-					},
-					"status": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus"),
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.RoleStatus", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperRoleSpec"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_ZooKeeperRoleList(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"metadata": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
-						},
-					},
-					"items": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Items is a list of ZooKeeperRole objects",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperRole"),
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kubevault.dev/apimachinery/apis/engine/v1alpha1.ZooKeeperRole"},
-	}
-}
-
-func schema_apimachinery_apis_engine_v1alpha1_ZooKeeperRoleSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "ZooKeeperRoleSpec describes a static-role binding against the Apache ZooKeeper database secret engine. The OpenBao `zookeeper-database-plugin` is static-credentials-only: ZooKeeper has no runtime user-management API for SASL/digest principals (they are loaded from server-side `jaas.conf` at startup), so dynamic NewUser is unsupported and this CRD configures rotation of a pre-existing ZooKeeper principal rather than emitting `creation_statements`.",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"secretEngineRef": {
-						SchemaProps: spec.SchemaProps{
-							Description: "SecretEngineRef is the name of a Secret Engine",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
 					"defaultTTL": {

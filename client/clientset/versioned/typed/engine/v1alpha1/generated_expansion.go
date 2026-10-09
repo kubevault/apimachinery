@@ -22,8 +22,6 @@ type AWSRoleExpansion interface{}
 
 type AzureRoleExpansion interface{}
 
-type DB2RoleExpansion interface{}
-
 type DruidRoleExpansion interface{}
 
 type ElasticsearchRoleExpansion interface{}
@@ -34,8 +32,6 @@ type GCPRoleExpansion interface{}
 
 type HanaDBRoleExpansion interface{}
 
-type HazelcastRoleExpansion interface{}
-
 type IgniteRoleExpansion interface{}
 
 type KafkaRoleExpansion interface{}
@@ -43,8 +39,6 @@ type KafkaRoleExpansion interface{}
 type MSSQLServerRoleExpansion interface{}
 
 type MariaDBRoleExpansion interface{}
-
-type MemcachedRoleExpansion interface{}
 
 type MilvusRoleExpansion interface{}
 
@@ -75,5 +69,3 @@ type SecretRoleBindingExpansion interface{}
 type SolrRoleExpansion interface{}
 
 type WeaviateRoleExpansion interface{}
-
-type ZooKeeperRoleExpansion interface{}

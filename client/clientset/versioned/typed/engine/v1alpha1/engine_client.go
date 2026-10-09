@@ -31,18 +31,15 @@ type EngineV1alpha1Interface interface {
 	RESTClient() rest.Interface
 	AWSRolesGetter
 	AzureRolesGetter
-	DB2RolesGetter
 	DruidRolesGetter
 	ElasticsearchRolesGetter
 	EtcdRolesGetter
 	GCPRolesGetter
 	HanaDBRolesGetter
-	HazelcastRolesGetter
 	IgniteRolesGetter
 	KafkaRolesGetter
 	MSSQLServerRolesGetter
 	MariaDBRolesGetter
-	MemcachedRolesGetter
 	MilvusRolesGetter
 	MongoDBRolesGetter
 	MySQLRolesGetter
@@ -58,7 +55,6 @@ type EngineV1alpha1Interface interface {
 	SecretRoleBindingsGetter
 	SolrRolesGetter
 	WeaviateRolesGetter
-	ZooKeeperRolesGetter
 }
 
 // EngineV1alpha1Client is used to interact with features provided by the engine.kubevault.com group.
@@ -72,10 +68,6 @@ func (c *EngineV1alpha1Client) AWSRoles(namespace string) AWSRoleInterface {
 
 func (c *EngineV1alpha1Client) AzureRoles(namespace string) AzureRoleInterface {
 	return newAzureRoles(c, namespace)
-}
-
-func (c *EngineV1alpha1Client) DB2Roles(namespace string) DB2RoleInterface {
-	return newDB2Roles(c, namespace)
 }
 
 func (c *EngineV1alpha1Client) DruidRoles(namespace string) DruidRoleInterface {
@@ -98,10 +90,6 @@ func (c *EngineV1alpha1Client) HanaDBRoles(namespace string) HanaDBRoleInterface
 	return newHanaDBRoles(c, namespace)
 }
 
-func (c *EngineV1alpha1Client) HazelcastRoles(namespace string) HazelcastRoleInterface {
-	return newHazelcastRoles(c, namespace)
-}
-
 func (c *EngineV1alpha1Client) IgniteRoles(namespace string) IgniteRoleInterface {
 	return newIgniteRoles(c, namespace)
 }
@@ -116,10 +104,6 @@ func (c *EngineV1alpha1Client) MSSQLServerRoles(namespace string) MSSQLServerRol
 
 func (c *EngineV1alpha1Client) MariaDBRoles(namespace string) MariaDBRoleInterface {
 	return newMariaDBRoles(c, namespace)
-}
-
-func (c *EngineV1alpha1Client) MemcachedRoles(namespace string) MemcachedRoleInterface {
-	return newMemcachedRoles(c, namespace)
 }
 
 func (c *EngineV1alpha1Client) MilvusRoles(namespace string) MilvusRoleInterface {
@@ -180,10 +164,6 @@ func (c *EngineV1alpha1Client) SolrRoles(namespace string) SolrRoleInterface {
 
 func (c *EngineV1alpha1Client) WeaviateRoles(namespace string) WeaviateRoleInterface {
 	return newWeaviateRoles(c, namespace)
-}
-
-func (c *EngineV1alpha1Client) ZooKeeperRoles(namespace string) ZooKeeperRoleInterface {
-	return newZooKeeperRoles(c, namespace)
 }
 
 // NewForConfig creates a new EngineV1alpha1Client for the given config.

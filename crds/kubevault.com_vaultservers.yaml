@@ -10864,14 +10864,11 @@ spec:
                       - mariadb
                       - elasticsearch
                       - redis
-                      - db2
                       - druid
                       - etcd
                       - hanadb
-                      - hazelcast
                       - ignite
                       - kafka
-                      - memcached
                       - milvus
                       - mssqlserver
                       - neo4j
@@ -10880,7 +10877,6 @@ spec:
                       - rabbitmq
                       - solr
                       - weaviate
-                      - zookeeper
                       type: string
                     type: array
                 type: object

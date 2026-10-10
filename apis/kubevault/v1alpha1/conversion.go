@@ -74,6 +74,17 @@ func (dst *VaultServer) ConvertFrom(srcRaw kbconv.Hub) (err error) {
 	return
 }
 
+// Convert_v1alpha2_BackendStorageSpec_To_v1alpha1_BackendStorageSpec rejects
+// storage backends that have no representation in v1alpha1.
+func Convert_v1alpha2_BackendStorageSpec_To_v1alpha1_BackendStorageSpec(in *v1alpha2.BackendStorageSpec, out *BackendStorageSpec, s conversion.Scope) error {
+	if in.CockroachDB != nil || in.Cassandra != nil || in.Zookeeper != nil ||
+		in.CouchDB != nil || in.MSSQL != nil || in.Spanner != nil ||
+		in.Aerospike != nil || in.OCI != nil || in.AlicloudOSS != nil {
+		return fmt.Errorf("storage backend is not supported in v1alpha1")
+	}
+	return autoConvert_v1alpha2_BackendStorageSpec_To_v1alpha1_BackendStorageSpec(in, out, s)
+}
+
 func Convert_v1alpha1_MySQLSpec_To_v1alpha2_MySQLSpec(in *MySQLSpec, out *v1alpha2.MySQLSpec, s conversion.Scope) error {
 	out.Address = in.Address
 	out.Database = in.Database
@@ -271,7 +282,7 @@ func Convert_v1alpha2_GcsSpec_To_v1alpha1_GcsSpec(in *v1alpha2.GcsSpec, out *Gcs
 func Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(in *EtcdSpec, out *v1alpha2.EtcdSpec, s conversion.Scope) error {
 	out.Address = in.Address
 	out.EtcdApi = in.EtcdApi
-	out.HAEnable = in.HAEnable
+	out.HAEnabled = in.HAEnable
 	out.Path = in.Path
 	out.Sync = in.Sync
 	out.DiscoverySrv = in.DiscoverySrv
@@ -292,7 +303,7 @@ func Convert_v1alpha1_EtcdSpec_To_v1alpha2_EtcdSpec(in *EtcdSpec, out *v1alpha2.
 func Convert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(in *v1alpha2.EtcdSpec, out *EtcdSpec, s conversion.Scope) error {
 	out.Address = in.Address
 	out.EtcdApi = in.EtcdApi
-	out.HAEnable = in.HAEnable
+	out.HAEnable = in.HAEnabled
 	out.Path = in.Path
 	out.Sync = in.Sync
 	out.DiscoverySrv = in.DiscoverySrv
@@ -308,7 +319,7 @@ func Convert_v1alpha2_EtcdSpec_To_v1alpha1_EtcdSpec(in *v1alpha2.EtcdSpec, out *
 func Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(in *DynamoDBSpec, out *v1alpha2.DynamoDBSpec, s conversion.Scope) error {
 	out.Endpoint = in.Endpoint
 	out.Region = in.Region
-	out.HaEnabled = in.HaEnabled
+	out.HAEnabled = in.HaEnabled
 	out.ReadCapacity = in.ReadCapacity
 	out.WriteCapacity = in.WriteCapacity
 	out.Table = in.Table
@@ -325,7 +336,7 @@ func Convert_v1alpha1_DynamoDBSpec_To_v1alpha2_DynamoDBSpec(in *DynamoDBSpec, ou
 func Convert_v1alpha2_DynamoDBSpec_To_v1alpha1_DynamoDBSpec(in *v1alpha2.DynamoDBSpec, out *DynamoDBSpec, s conversion.Scope) error {
 	out.Endpoint = in.Endpoint
 	out.Region = in.Region
-	out.HaEnabled = in.HaEnabled
+	out.HaEnabled = in.HAEnabled
 	out.ReadCapacity = in.ReadCapacity
 	out.WriteCapacity = in.WriteCapacity
 	out.Table = in.Table

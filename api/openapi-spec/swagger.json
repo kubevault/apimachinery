@@ -16359,8 +16359,12 @@
           "default": ""
         },
         "credentialSecretRef": {
-          "description": "Specifies the secret name containing username, password and, optionally, a full connection_url to connect to the CockroachDB cluster. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e\n - connection_url=\"postgresql://\u003cusername\u003e:\u003cpassword\u003e@\u003chost\u003e:\u003cport\u003e/\u003cdb_name\u003e?sslmode=\u003csslMode\u003e\"",
+          "description": "Specifies the secret name containing the username and the password to connect to the CockroachDB cluster. The password can be left out when the user logs in with a client certificate (see tlsSecretRef). Optionally, the secret holds a full connection_url, which then replaces address, database and sslMode. secret data:\n - username=\u003cvalue\u003e\n - password=\u003cvalue\u003e\n - connection_url=\"postgresql://\u003cusername\u003e:\u003cpassword\u003e@\u003chost\u003e:\u003cport\u003e/\u003cdb_name\u003e?sslmode=\u003csslMode\u003e\"",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "database": {
+          "description": "Specifies the name of the database in which the tables for Vault data are created. The database must already exist: Vault creates the tables, not the database.",
+          "type": "string"
         },
         "databaseRef": {
           "description": "DatabaseRef contains the info of KubeDB managed Database This will be used to generate the \"Address\" field",

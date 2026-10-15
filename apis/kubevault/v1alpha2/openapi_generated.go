@@ -24219,9 +24219,16 @@ func schema_apimachinery_apis_kubevault_v1alpha2_CockroachDBSpec(ref common.Refe
 							Format:      "",
 						},
 					},
+					"database": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the name of the database in which the tables for Vault data are created. The database must already exist: Vault creates the tables, not the database.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the secret name containing username, password and, optionally, a full connection_url to connect to the CockroachDB cluster. secret data:\n - username=<value>\n - password=<value>\n - connection_url=\"postgresql://<username>:<password>@<host>:<port>/<db_name>?sslmode=<sslMode>\"",
+							Description: "Specifies the secret name containing the username and the password to connect to the CockroachDB cluster. The password can be left out when the user logs in with a client certificate (see tlsSecretRef). Optionally, the secret holds a full connection_url, which then replaces address, database and sslMode. secret data:\n - username=<value>\n - password=<value>\n - connection_url=\"postgresql://<username>:<password>@<host>:<port>/<db_name>?sslmode=<sslMode>\"",
 							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},

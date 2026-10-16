@@ -94,6 +94,14 @@ type CassandraSpec struct {
 	// +optional
 	TLSMinVersion string `json:"tlsMinVersion,omitempty"`
 
+	// Specifies the name to verify the certificate of every Cassandra node against. By
+	// default each node is checked against the host name it was reached by, which, for
+	// nodes discovered from the cluster, is their IP address. Set it when the nodes share
+	// a certificate that lists DNS names but not the node IPs. If DatabaseRef is set and
+	// the TLS material comes from the AppBinding, it defaults to the AppBinding's host.
+	// +optional
+	TLSServerName string `json:"tlsServerName,omitempty"`
+
 	// DatabaseRef contains the info of a KubeDB managed Cassandra.
 	// If set, Hosts will be generated from the referenced AppBinding.
 	// +optional

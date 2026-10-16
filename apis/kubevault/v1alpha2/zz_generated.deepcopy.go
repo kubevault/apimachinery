@@ -719,6 +719,11 @@ func (in *MSSQLSpec) DeepCopyInto(out *MSSQLSpec) {
 		*out = new(v1alpha1.AppReference)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.TLSSecretRef != nil {
+		in, out := &in.TLSSecretRef, &out.TLSSecretRef
+		*out = new(v1.LocalObjectReference)
+		**out = **in
+	}
 	return
 }
 

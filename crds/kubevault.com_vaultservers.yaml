@@ -11504,6 +11504,14 @@ spec:
                             type: string
                         type: object
                         x-kubernetes-map-type: atomic
+                      tlsServerName:
+                        description: |-
+                          Specifies the name to verify the certificate of every Cassandra node against. By
+                          default each node is checked against the host name it was reached by, which, for
+                          nodes discovered from the cluster, is their IP address. Set it when the nodes share
+                          a certificate that lists DNS names but not the node IPs. If DatabaseRef is set and
+                          the TLS material comes from the AppBinding, it defaults to the AppBinding's host.
+                        type: string
                       tlsSkipVerify:
                         description: |-
                           Disables verification of the Cassandra server's certificate chain and host name.
@@ -12649,6 +12657,23 @@ spec:
                         - name
                         - namespace
                         type: object
+                      encrypt:
+                        description: |-
+                          Specifies how the connection is encrypted:
+                           - true:    encrypt the whole connection, and fail if the server doesn't support it
+                           - false:   encrypt only the login packet, unless the server forces encryption
+                           - strict:  use TDS 8.0, where TLS is set up before any TDS traffic (SQL Server 2022+)
+                           - disable: don't encrypt anything
+                          Unless it is disable, the server certificate is verified (see TrustServerCertificate).
+                          When unset, it is true if a CA is available (from TLSSecretRef or the DatabaseRef
+                          AppBinding) or any other TLS option is set, and otherwise left to the driver, which
+                          encrypts only the login packet and does not verify the server certificate.
+                        enum:
+                        - "true"
+                        - "false"
+                        - strict
+                        - disable
+                        type: string
                       logLevel:
                         description: Specifies the driver's internal log level bitmask.
                         type: string
@@ -12677,6 +12702,42 @@ spec:
                           Specifies the name of the table in which to write Vault data. Vault will attempt
                           to create it if missing.
                         type: string
+                      tlsMinVersion:
+                        description: Specifies the minimum TLS version to use.
+                        enum:
+                        - tls10
+                        - tls11
+                        - tls12
+                        - tls13
+                        type: string
+                      tlsSecretRef:
+                        description: |-
+                          Specifies the secret name containing the CA certificate used to verify the server.
+                          secret data:
+                           - ca.crt=<value>
+                          If DatabaseRef is set and this is empty, it is generated from the CA bundle of the
+                          referenced AppBinding.
+                        properties:
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      tlsServerName:
+                        description: Specifies the name the server certificate must
+                          be valid for. Defaults to Server.
+                        type: string
+                      trustServerCertificate:
+                        description: |-
+                          Specifies whether to skip verifying the server certificate. Not recommended in
+                          production.
+                        type: boolean
                     type: object
                   mysql:
                     description: |-

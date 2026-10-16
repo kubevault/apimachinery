@@ -82,4 +82,50 @@ type MSSQLSpec struct {
 	// If set, Server will be generated from the referenced AppBinding.
 	// +optional
 	DatabaseRef *appcat.AppReference `json:"databaseRef,omitempty"`
+
+	// Specifies how the connection is encrypted:
+	//  - true:    encrypt the whole connection, and fail if the server doesn't support it
+	//  - false:   encrypt only the login packet, unless the server forces encryption
+	//  - strict:  use TDS 8.0, where TLS is set up before any TDS traffic (SQL Server 2022+)
+	//  - disable: don't encrypt anything
+	// Unless it is disable, the server certificate is verified (see TrustServerCertificate).
+	// When unset, it is true if a CA is available (from TLSSecretRef or the DatabaseRef
+	// AppBinding) or any other TLS option is set, and otherwise left to the driver, which
+	// encrypts only the login packet and does not verify the server certificate.
+	// +optional
+	Encrypt MSSQLEncrypt `json:"encrypt,omitempty"`
+
+	// Specifies the secret name containing the CA certificate used to verify the server.
+	// secret data:
+	//  - ca.crt=<value>
+	// If DatabaseRef is set and this is empty, it is generated from the CA bundle of the
+	// referenced AppBinding.
+	// +optional
+	TLSSecretRef *core.LocalObjectReference `json:"tlsSecretRef,omitempty"`
+
+	// Specifies whether to skip verifying the server certificate. Not recommended in
+	// production.
+	// +optional
+	TrustServerCertificate bool `json:"trustServerCertificate,omitempty"`
+
+	// Specifies the name the server certificate must be valid for. Defaults to Server.
+	// +optional
+	TLSServerName string `json:"tlsServerName,omitempty"`
+
+	// Specifies the minimum TLS version to use.
+	// +optional
+	TLSMinVersion MSSQLTLSVersion `json:"tlsMinVersion,omitempty"`
 }
+
+// +kubebuilder:validation:Enum="true";"false";strict;disable
+type MSSQLEncrypt string
+
+const (
+	MSSQLEncryptTrue    MSSQLEncrypt = "true"
+	MSSQLEncryptFalse   MSSQLEncrypt = "false"
+	MSSQLEncryptStrict  MSSQLEncrypt = "strict"
+	MSSQLEncryptDisable MSSQLEncrypt = "disable"
+)
+
+// +kubebuilder:validation:Enum=tls10;tls11;tls12;tls13
+type MSSQLTLSVersion string

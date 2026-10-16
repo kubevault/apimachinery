@@ -16343,6 +16343,10 @@
           "description": "Specifies the secret name that contains a PEM-encoded certificate bundle (and, optionally, a private key) used for the TLS connection to Cassandra. secret data:\n - pem_bundle=\u003cvalue\u003e",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
+        "tlsServerName": {
+          "description": "Specifies the name to verify the certificate of every Cassandra node against. By default each node is checked against the host name it was reached by, which, for nodes discovered from the cluster, is their IP address. Set it when the nodes share a certificate that lists DNS names but not the node IPs. If DatabaseRef is set and the TLS material comes from the AppBinding, it defaults to the AppBinding's host.",
+          "type": "string"
+        },
         "tlsSkipVerify": {
           "description": "Disables verification of the Cassandra server's certificate chain and host name. Not recommended for production use.",
           "type": "boolean"
@@ -16870,6 +16874,10 @@
           "description": "DatabaseRef contains the info of a KubeDB managed MSSQLServer. If set, Server will be generated from the referenced AppBinding.",
           "$ref": "#/definitions/xyz.kmodules.custom-resources.apis.appcatalog.v1alpha1.AppReference"
         },
+        "encrypt": {
+          "description": "Specifies how the connection is encrypted:\n - true:    encrypt the whole connection, and fail if the server doesn't support it\n - false:   encrypt only the login packet, unless the server forces encryption\n - strict:  use TDS 8.0, where TLS is set up before any TDS traffic (SQL Server 2022+)\n - disable: don't encrypt anything\nUnless it is disable, the server certificate is verified (see TrustServerCertificate). When unset, it is true if a CA is available (from TLSSecretRef or the DatabaseRef AppBinding) or any other TLS option is set, and otherwise left to the driver, which encrypts only the login packet and does not verify the server certificate.",
+          "type": "string"
+        },
         "logLevel": {
           "description": "Specifies the driver's internal log level bitmask.",
           "type": "string"
@@ -16894,6 +16902,22 @@
         "table": {
           "description": "Specifies the name of the table in which to write Vault data. Vault will attempt to create it if missing.",
           "type": "string"
+        },
+        "tlsMinVersion": {
+          "description": "Specifies the minimum TLS version to use.",
+          "type": "string"
+        },
+        "tlsSecretRef": {
+          "description": "Specifies the secret name containing the CA certificate used to verify the server. secret data:\n - ca.crt=\u003cvalue\u003e\nIf DatabaseRef is set and this is empty, it is generated from the CA bundle of the referenced AppBinding.",
+          "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+        },
+        "tlsServerName": {
+          "description": "Specifies the name the server certificate must be valid for. Defaults to Server.",
+          "type": "string"
+        },
+        "trustServerCertificate": {
+          "description": "Specifies whether to skip verifying the server certificate. Not recommended in production.",
+          "type": "boolean"
         }
       }
     },

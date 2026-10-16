@@ -24190,6 +24190,13 @@ func schema_apimachinery_apis_kubevault_v1alpha2_CassandraSpec(ref common.Refere
 							Format:      "",
 						},
 					},
+					"tlsServerName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the name to verify the certificate of every Cassandra node against. By default each node is checked against the host name it was reached by, which, for nodes discovered from the cluster, is their IP address. Set it when the nodes share a certificate that lists DNS names but not the node IPs. If DatabaseRef is set and the TLS material comes from the AppBinding, it defaults to the AppBinding's host.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 					"databaseRef": {
 						SchemaProps: spec.SchemaProps{
 							Description: "DatabaseRef contains the info of a KubeDB managed Cassandra. If set, Hosts will be generated from the referenced AppBinding.",
@@ -25206,6 +25213,40 @@ func schema_apimachinery_apis_kubevault_v1alpha2_MSSQLSpec(ref common.ReferenceC
 						SchemaProps: spec.SchemaProps{
 							Description: "DatabaseRef contains the info of a KubeDB managed MSSQLServer. If set, Server will be generated from the referenced AppBinding.",
 							Ref:         ref("kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1.AppReference"),
+						},
+					},
+					"encrypt": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies how the connection is encrypted:\n - true:    encrypt the whole connection, and fail if the server doesn't support it\n - false:   encrypt only the login packet, unless the server forces encryption\n - strict:  use TDS 8.0, where TLS is set up before any TDS traffic (SQL Server 2022+)\n - disable: don't encrypt anything\nUnless it is disable, the server certificate is verified (see TrustServerCertificate). When unset, it is true if a CA is available (from TLSSecretRef or the DatabaseRef AppBinding) or any other TLS option is set, and otherwise left to the driver, which encrypts only the login packet and does not verify the server certificate.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"tlsSecretRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the secret name containing the CA certificate used to verify the server. secret data:\n - ca.crt=<value>\nIf DatabaseRef is set and this is empty, it is generated from the CA bundle of the referenced AppBinding.",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+					"trustServerCertificate": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies whether to skip verifying the server certificate. Not recommended in production.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"tlsServerName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the name the server certificate must be valid for. Defaults to Server.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"tlsMinVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Specifies the minimum TLS version to use.",
+							Type:        []string{"string"},
+							Format:      "",
 						},
 					},
 				},

@@ -11316,7 +11316,7 @@ spec:
                       credentialSecretRef:
                         description: |-
                           Specifies the secret name containing the Alicloud access key ID and secret to
-                          connect with.
+                          connect with. Required: Vault does not start without them.
                           secret data:
                            - access_key=<value>
                            - secret_key=<value>
@@ -11343,6 +11343,7 @@ spec:
                         type: integer
                     required:
                     - bucket
+                    - credentialSecretRef
                     - endpoint
                     type: object
                   azure:
@@ -12882,10 +12883,14 @@ spec:
                       credentialSecretRef:
                         description: |-
                           Specifies the secret name containing an OCI API-key configuration file (in the
-                          same format as the default "~/.oci/config" file, including the referenced
-                          private key). Only consulted when AuthTypeAPIKey is true.
+                          same format as the default "~/.oci/config" file) and the private key it
+                          references. Required when AuthTypeAPIKey is true, and only consulted then.
+                          Every key of the secret is mounted in /etc/vault/storage/oci/.oci, so key_file
+                          in the config must point there by full path, e.g.
+                          key_file=/etc/vault/storage/oci/.oci/oci_api_key.pem.
                           secret data:
                            - config=<value>
+                           - <key file name>=<private key, PEM>
                         properties:
                           name:
                             default: ""

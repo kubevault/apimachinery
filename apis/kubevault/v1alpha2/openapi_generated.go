@@ -23648,7 +23648,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_AlicloudOSSSpec(ref common.Refe
 					},
 					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the secret name containing the Alicloud access key ID and secret to connect with. secret data:\n - access_key=<value>\n - secret_key=<value>",
+							Description: "Specifies the secret name containing the Alicloud access key ID and secret to connect with. Required: Vault does not start without them. secret data:\n - access_key=<value>\n - secret_key=<value>",
 							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},
@@ -23660,7 +23660,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_AlicloudOSSSpec(ref common.Refe
 						},
 					},
 				},
-				Required: []string{"endpoint", "bucket"},
+				Required: []string{"endpoint", "bucket", "credentialSecretRef"},
 			},
 		},
 		Dependencies: []string{
@@ -25684,7 +25684,7 @@ func schema_apimachinery_apis_kubevault_v1alpha2_OCISpec(ref common.ReferenceCal
 					},
 					"credentialSecretRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Specifies the secret name containing an OCI API-key configuration file (in the same format as the default \"~/.oci/config\" file, including the referenced private key). Only consulted when AuthTypeAPIKey is true. secret data:\n - config=<value>",
+							Description: "Specifies the secret name containing an OCI API-key configuration file (in the same format as the default \"~/.oci/config\" file) and the private key it references. Required when AuthTypeAPIKey is true, and only consulted then. Every key of the secret is mounted in /etc/vault/storage/oci/.oci, so key_file in the config must point there by full path, e.g. key_file=/etc/vault/storage/oci/.oci/oci_api_key.pem. secret data:\n - config=<value>\n - <key file name>=<private key, PEM>",
 							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
 						},
 					},

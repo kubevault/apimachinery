@@ -16007,7 +16007,8 @@
       "type": "object",
       "required": [
         "endpoint",
-        "bucket"
+        "bucket",
+        "credentialSecretRef"
       ],
       "properties": {
         "bucket": {
@@ -16016,7 +16017,7 @@
           "default": ""
         },
         "credentialSecretRef": {
-          "description": "Specifies the secret name containing the Alicloud access key ID and secret to connect with. secret data:\n - access_key=\u003cvalue\u003e\n - secret_key=\u003cvalue\u003e",
+          "description": "Specifies the secret name containing the Alicloud access key ID and secret to connect with. Required: Vault does not start without them. secret data:\n - access_key=\u003cvalue\u003e\n - secret_key=\u003cvalue\u003e",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "endpoint": {
@@ -17037,7 +17038,7 @@
           "default": ""
         },
         "credentialSecretRef": {
-          "description": "Specifies the secret name containing an OCI API-key configuration file (in the same format as the default \"~/.oci/config\" file, including the referenced private key). Only consulted when AuthTypeAPIKey is true. secret data:\n - config=\u003cvalue\u003e",
+          "description": "Specifies the secret name containing an OCI API-key configuration file (in the same format as the default \"~/.oci/config\" file) and the private key it references. Required when AuthTypeAPIKey is true, and only consulted then. Every key of the secret is mounted in /etc/vault/storage/oci/.oci, so key_file in the config must point there by full path, e.g. key_file=/etc/vault/storage/oci/.oci/oci_api_key.pem. secret data:\n - config=\u003cvalue\u003e\n - \u003ckey file name\u003e=\u003cprivate key, PEM\u003e",
           "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
         },
         "haEnabled": {

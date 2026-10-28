@@ -44,10 +44,14 @@ type OCISpec struct {
 	AuthTypeAPIKey bool `json:"authTypeAPIKey,omitempty"`
 
 	// Specifies the secret name containing an OCI API-key configuration file (in the
-	// same format as the default "~/.oci/config" file, including the referenced
-	// private key). Only consulted when AuthTypeAPIKey is true.
+	// same format as the default "~/.oci/config" file) and the private key it
+	// references. Required when AuthTypeAPIKey is true, and only consulted then.
+	// Every key of the secret is mounted in /etc/vault/storage/oci/.oci, so key_file
+	// in the config must point there by full path, e.g.
+	// key_file=/etc/vault/storage/oci/.oci/oci_api_key.pem.
 	// secret data:
 	//  - config=<value>
+	//  - <key file name>=<private key, PEM>
 	// +optional
 	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
 

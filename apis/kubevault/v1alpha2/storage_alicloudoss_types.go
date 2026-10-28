@@ -32,12 +32,11 @@ type AlicloudOSSSpec struct {
 	Bucket string `json:"bucket"`
 
 	// Specifies the secret name containing the Alicloud access key ID and secret to
-	// connect with.
+	// connect with. Required: Vault does not start without them.
 	// secret data:
 	//  - access_key=<value>
 	//  - secret_key=<value>
-	// +optional
-	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef,omitempty"`
+	CredentialSecretRef *core.LocalObjectReference `json:"credentialSecretRef"`
 
 	// Specifies the maximum number of concurrent requests to OSS.
 	// +optional

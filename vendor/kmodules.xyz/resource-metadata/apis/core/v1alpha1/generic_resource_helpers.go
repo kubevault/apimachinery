@@ -36,6 +36,28 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+// TenantOrgID returns the org this usage is billed to, falling back to the
+// deprecated namespace org id until every producer sets Tenant.
+func (s GenericResourceSpec) TenantOrgID() string {
+	if s.Tenant != nil && s.Tenant.OrgID != "" {
+		return s.Tenant.OrgID
+	}
+	if s.Namespace != nil {
+		return s.Namespace.AceOrgID
+	}
+	return ""
+}
+
+func (s GenericResourceSpec) TenantOrgMetadata() map[string]string {
+	if s.Tenant != nil && s.Tenant.OrgID != "" {
+		return s.Tenant.Metadata
+	}
+	if s.Namespace != nil {
+		return s.Namespace.AceOrgMetadata
+	}
+	return nil
+}
+
 func GetGenericResourceName(item client.Object) string {
 	return fmt.Sprintf("%s~%s", item.GetName(), item.GetObjectKind().GroupVersionKind().GroupKind())
 }
@@ -81,7 +103,6 @@ func ToGenericResource(item client.Object, apiType *kmapi.ResourceID, cmeta *kma
 			Name:                       GetGenericResourceName(item),
 			GenerateName:               item.GetGenerateName(),
 			Namespace:                  item.GetNamespace(),
-			SelfLink:                   "",
 			UID:                        "gres-" + item.GetUID(),
 			ResourceVersion:            item.GetResourceVersion(),
 			Generation:                 item.GetGeneration(),

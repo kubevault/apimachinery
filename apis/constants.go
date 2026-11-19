@@ -128,6 +128,26 @@ const (
 	// the backend does not support namespaces; isolation is inert and SecretEngines
 	// resolve to the root namespace.
 	VaultServerTenantIsolationUnsupported = "TenantIsolationUnsupported"
+
+	// Cross data center DR constants.
+	// VaultServerLeaderInActiveDC is true when the active Vault node runs in the data
+	// center holding the primary-DC Lease.
+	VaultServerLeaderInActiveDC = "LeaderInActiveDC"
+	// VaultServerDRCoordinationReady is false when the primary-DC Lease cannot be read
+	// or has no holder, or when the guard token is missing, invalid or not delivered to
+	// every Member cluster.
+	VaultServerDRCoordinationReady = "DRCoordinationReady"
+	// VaultServerUnsealKeysDistributed (kubernetesSecret unseal mode only) is true when
+	// the unseal keys are applied in every Member cluster.
+	VaultServerUnsealKeysDistributed = "UnsealKeysDistributed"
+	// VaultServerKubernetesAuthConfigured is false when the operator cannot configure
+	// Vault's Kubernetes auth (for example, no usable hub API address).
+	VaultServerKubernetesAuthConfigured = "KubernetesAuthConfigured"
+	// VaultServerInitKeysConsistent (distributed, kubernetesSecret unseal mode) is
+	// false when Vault's initialization and the hub key Secret disagree: Vault is
+	// initialized but the Secret has no keys, or the Secret has keys but Vault is
+	// not initialized. The operator then never initializes Vault.
+	VaultServerInitKeysConsistent = "InitKeysConsistent"
 )
 
 const (
@@ -145,6 +165,18 @@ const (
 	// references are not allowed, so labels replace ownership.
 	LabelVaultServerName      = "kubevault.com/vaultserver-name"
 	LabelVaultServerNamespace = "kubevault.com/vaultserver-namespace"
+
+	// Labels stamped on the companion ManifestWorks of a distributed VaultServer.
+	// They use their own keys, not LabelVaultServerName/Namespace, so the spoke
+	// relay controller, which lists ManifestWorks by those, never matches them.
+	LabelDCDRVaultServerName      = "dcdr.kubevault.com/vaultserver-name"
+	LabelDCDRVaultServerNamespace = "dcdr.kubevault.com/vaultserver-namespace"
+	LabelDCDRPurpose              = "dcdr.kubevault.com/purpose"
+
+	// LabelDCDRPod is the per-pod label each Vault pod's unsealer puts on its own pod
+	// in a distributed VaultServer; its value is the per-pod name <pod>-<dc>, which
+	// the per-pod Service and ServiceExport select.
+	LabelDCDRPod = "vaultserver.kubevault.com/pod"
 )
 
 const (

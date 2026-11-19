@@ -19,6 +19,7 @@ package v1alpha2
 import (
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	kmapi "kmodules.xyz/client-go/api/v1"
 	mona "kmodules.xyz/monitoring-agent-api/api/v1"
 	ofst "kmodules.xyz/offshoot-api/api/v1"
@@ -176,7 +177,75 @@ type VaultServerSpec struct {
 	// are filled in by the operator.
 	// +optional
 	RelayTemplate *VaultRelayTemplate `json:"relayTemplate,omitempty"`
+
+	// Distributed, if set true, deploys Vault across the data centers (clusters) named by
+	// the PlacementPolicy referenced in spec.podTemplate.spec.podPlacementPolicy, using a
+	// CattleSet (apps.k8s.appscode.com/v1) instead of a StatefulSet. Every Member data
+	// center runs spec.replicas Vault pods, all unsealed (hot standby); the active Vault
+	// node follows the primary-DC Lease named by the PlacementPolicy's failoverPolicy.
+	// Requires the PostgreSQL storage backend with HA enabled, reachable from every
+	// Member data center.
+	// Immutable.
+	// +optional
+	Distributed bool `json:"distributed,omitempty"`
+
+	// DistributedConfig tunes the multi data center deployment.
+	// Must not be set unless Distributed is true.
+	// +optional
+	DistributedConfig *DistributedConfig `json:"distributedConfig,omitempty"`
 }
+
+// DistributedConfig holds the optional settings of a distributed (multi data center)
+// VaultServer. The workload kind, the ActivePassive topology, the standby replica count
+// (always spec.replicas), the exported Service and the Lease Vault follows are derived
+// by the operator and are intentionally not configurable here.
+type DistributedConfig struct {
+	// GSLB, when set, maintains a global DNS name that follows the active data center,
+	// and the AppBinding uses it. Optional: without it, clients on the KubeSlice use the
+	// exported Service name.
+	// +optional
+	GSLB *DistributedGSLB `json:"gslb,omitempty"`
+
+	// SitePatches are strategic merge patches applied to the rendered Deployment of a
+	// named cluster. They cannot change replicas or selector.
+	// +optional
+	SitePatches []SitePatch `json:"sitePatches,omitempty"`
+
+	// RolloutOrder sequences the data centers during a pod template change.
+	// Defaults to StandbyFirst.
+	// +optional
+	RolloutOrder RolloutOrder `json:"rolloutOrder,omitempty"`
+}
+
+// DistributedGSLB configures the global DNS record of a distributed VaultServer.
+type DistributedGSLB struct {
+	// Host is the DNS name clients use to reach Vault.
+	Host string `json:"host"`
+
+	// TTLSeconds is the TTL of the DNS record.
+	// +optional
+	TTLSeconds *int32 `json:"ttlSeconds,omitempty"`
+}
+
+// SitePatch is a patch applied to the objects rendered for one cluster.
+type SitePatch struct {
+	// ClusterName is the name of the cluster as it appears in the PlacementPolicy.
+	ClusterName string `json:"clusterName"`
+
+	// Patch is a strategic merge patch over the rendered Deployment.
+	// +kubebuilder:pruning:PreserveUnknownFields
+	Patch runtime.RawExtension `json:"patch"`
+}
+
+// RolloutOrder is the order in which data centers receive a pod template change.
+// +kubebuilder:validation:Enum=StandbyFirst;OneSiteAtATime;Parallel
+type RolloutOrder string
+
+const (
+	RolloutOrderStandbyFirst   RolloutOrder = "StandbyFirst"
+	RolloutOrderOneSiteAtATime RolloutOrder = "OneSiteAtATime"
+	RolloutOrderParallel       RolloutOrder = "Parallel"
+)
 
 // VaultRelayTemplate is the subset of VaultRelaySpec a hub admin may pre-set for
 // placement-driven spoke relay deployments.

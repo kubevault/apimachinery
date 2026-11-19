@@ -15468,6 +15468,70 @@ spec:
                       type: object
                   type: object
                 type: array
+              distributed:
+                description: |-
+                  Distributed, if set true, deploys Vault across the data centers (clusters) named by
+                  the PlacementPolicy referenced in spec.podTemplate.spec.podPlacementPolicy, using a
+                  CattleSet (apps.k8s.appscode.com/v1) instead of a StatefulSet. Every Member data
+                  center runs spec.replicas Vault pods, all unsealed (hot standby); the active Vault
+                  node follows the primary-DC Lease named by the PlacementPolicy's failoverPolicy.
+                  Requires the PostgreSQL storage backend with HA enabled, reachable from every
+                  Member data center.
+                  Immutable.
+                type: boolean
+              distributedConfig:
+                description: |-
+                  DistributedConfig tunes the multi data center deployment.
+                  Must not be set unless Distributed is true.
+                properties:
+                  gslb:
+                    description: |-
+                      GSLB, when set, maintains a global DNS name that follows the active data center,
+                      and the AppBinding uses it. Optional: without it, clients on the KubeSlice use the
+                      exported Service name.
+                    properties:
+                      host:
+                        description: Host is the DNS name clients use to reach Vault.
+                        type: string
+                      ttlSeconds:
+                        description: TTLSeconds is the TTL of the DNS record.
+                        format: int32
+                        type: integer
+                    required:
+                    - host
+                    type: object
+                  rolloutOrder:
+                    description: |-
+                      RolloutOrder sequences the data centers during a pod template change.
+                      Defaults to StandbyFirst.
+                    enum:
+                    - StandbyFirst
+                    - OneSiteAtATime
+                    - Parallel
+                    type: string
+                  sitePatches:
+                    description: |-
+                      SitePatches are strategic merge patches applied to the rendered Deployment of a
+                      named cluster. They cannot change replicas or selector.
+                    items:
+                      description: SitePatch is a patch applied to the objects rendered
+                        for one cluster.
+                      properties:
+                        clusterName:
+                          description: ClusterName is the name of the cluster as it
+                            appears in the PlacementPolicy.
+                          type: string
+                        patch:
+                          description: Patch is a strategic merge patch over the rendered
+                            Deployment.
+                          type: object
+                          x-kubernetes-preserve-unknown-fields: true
+                      required:
+                      - clusterName
+                      - patch
+                      type: object
+                    type: array
+                type: object
               exposePrimary:
                 description: |-
                   ExposePrimary, when true, makes the operator create an additional

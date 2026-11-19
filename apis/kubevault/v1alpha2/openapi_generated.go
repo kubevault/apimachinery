@@ -464,6 +464,8 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.CockroachDBSpec":               schema_apimachinery_apis_kubevault_v1alpha2_CockroachDBSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.ConsulSpec":                    schema_apimachinery_apis_kubevault_v1alpha2_ConsulSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.CouchDBSpec":                   schema_apimachinery_apis_kubevault_v1alpha2_CouchDBSpec(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.DistributedConfig":             schema_apimachinery_apis_kubevault_v1alpha2_DistributedConfig(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.DistributedGSLB":               schema_apimachinery_apis_kubevault_v1alpha2_DistributedGSLB(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.DynamoDBSpec":                  schema_apimachinery_apis_kubevault_v1alpha2_DynamoDBSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.EtcdSpec":                      schema_apimachinery_apis_kubevault_v1alpha2_EtcdSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.FileSpec":                      schema_apimachinery_apis_kubevault_v1alpha2_FileSpec(ref),
@@ -492,6 +494,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.RelayPlacementStatus":          schema_apimachinery_apis_kubevault_v1alpha2_RelayPlacementStatus(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.S3Spec":                        schema_apimachinery_apis_kubevault_v1alpha2_S3Spec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SecretEngineNamespaces":        schema_apimachinery_apis_kubevault_v1alpha2_SecretEngineNamespaces(ref),
+		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SitePatch":                     schema_apimachinery_apis_kubevault_v1alpha2_SitePatch(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SpannerSpec":                   schema_apimachinery_apis_kubevault_v1alpha2_SpannerSpec(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SpokeClusterStatus":            schema_apimachinery_apis_kubevault_v1alpha2_SpokeClusterStatus(ref),
 		"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SwiftSpec":                     schema_apimachinery_apis_kubevault_v1alpha2_SwiftSpec(ref),
@@ -24520,6 +24523,77 @@ func schema_apimachinery_apis_kubevault_v1alpha2_CouchDBSpec(ref common.Referenc
 	}
 }
 
+func schema_apimachinery_apis_kubevault_v1alpha2_DistributedConfig(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "DistributedConfig holds the optional settings of a distributed (multi data center) VaultServer. The workload kind, the ActivePassive topology, the standby replica count (always spec.replicas), the exported Service and the Lease Vault follows are derived by the operator and are intentionally not configurable here.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"gslb": {
+						SchemaProps: spec.SchemaProps{
+							Description: "GSLB, when set, maintains a global DNS name that follows the active data center, and the AppBinding uses it. Optional: without it, clients on the KubeSlice use the exported Service name.",
+							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.DistributedGSLB"),
+						},
+					},
+					"sitePatches": {
+						SchemaProps: spec.SchemaProps{
+							Description: "SitePatches are strategic merge patches applied to the rendered Deployment of a named cluster. They cannot change replicas or selector.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SitePatch"),
+									},
+								},
+							},
+						},
+					},
+					"rolloutOrder": {
+						SchemaProps: spec.SchemaProps{
+							Description: "RolloutOrder sequences the data centers during a pod template change. Defaults to StandbyFirst.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kubevault.dev/apimachinery/apis/kubevault/v1alpha2.DistributedGSLB", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.SitePatch"},
+	}
+}
+
+func schema_apimachinery_apis_kubevault_v1alpha2_DistributedGSLB(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "DistributedGSLB configures the global DNS record of a distributed VaultServer.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"host": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Host is the DNS name clients use to reach Vault.",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"ttlSeconds": {
+						SchemaProps: spec.SchemaProps{
+							Description: "TTLSeconds is the TTL of the DNS record.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+				},
+				Required: []string{"host"},
+			},
+		},
+	}
+}
+
 func schema_apimachinery_apis_kubevault_v1alpha2_DynamoDBSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -26096,6 +26170,36 @@ func schema_apimachinery_apis_kubevault_v1alpha2_SecretEngineNamespaces(ref comm
 	}
 }
 
+func schema_apimachinery_apis_kubevault_v1alpha2_SitePatch(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "SitePatch is a patch applied to the objects rendered for one cluster.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"clusterName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterName is the name of the cluster as it appears in the PlacementPolicy.",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"patch": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Patch is a strategic merge patch over the rendered Deployment.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+				},
+				Required: []string{"clusterName", "patch"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/runtime.RawExtension"},
+	}
+}
+
 func schema_apimachinery_apis_kubevault_v1alpha2_SpannerSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -26921,12 +27025,25 @@ func schema_apimachinery_apis_kubevault_v1alpha2_VaultServerSpec(ref common.Refe
 							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultRelayTemplate"),
 						},
 					},
+					"distributed": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Distributed, if set true, deploys Vault across the data centers (clusters) named by the PlacementPolicy referenced in spec.podTemplate.spec.podPlacementPolicy, using a CattleSet (apps.k8s.appscode.com/v1) instead of a StatefulSet. Every Member data center runs spec.replicas Vault pods, all unsealed (hot standby); the active Vault node follows the primary-DC Lease named by the PlacementPolicy's failoverPolicy. Requires the PostgreSQL storage backend with HA enabled, reachable from every Member data center. Immutable.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"distributedConfig": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DistributedConfig tunes the multi data center deployment. Must not be set unless Distributed is true.",
+							Ref:         ref("kubevault.dev/apimachinery/apis/kubevault/v1alpha2.DistributedConfig"),
+						},
+					},
 				},
 				Required: []string{"version", "backend"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference", "k8s.io/api/core/v1.VolumeSource", "kmodules.xyz/client-go/api/v1.HealthCheckSpec", "kmodules.xyz/client-go/api/v1.TLSConfig", "kmodules.xyz/monitoring-agent-api/api/v1.AgentSpec", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AllowedSecretEngines", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethod", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.BackendStorageSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.NamedServiceTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.UnsealerSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultRelayTemplate"},
+			"k8s.io/api/core/v1.LocalObjectReference", "k8s.io/api/core/v1.VolumeSource", "kmodules.xyz/client-go/api/v1.HealthCheckSpec", "kmodules.xyz/client-go/api/v1.TLSConfig", "kmodules.xyz/monitoring-agent-api/api/v1.AgentSpec", "kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AllowedSecretEngines", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.AuthMethod", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.BackendStorageSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.DistributedConfig", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.NamedServiceTemplateSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.UnsealerSpec", "kubevault.dev/apimachinery/apis/kubevault/v1alpha2.VaultRelayTemplate"},
 	}
 }
 

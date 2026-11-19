@@ -17,6 +17,8 @@ limitations under the License.
 package v1alpha2
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"path/filepath"
@@ -81,6 +83,54 @@ func (v VaultServer) PolicyNameForAuthMethod(typ AuthMethodType, path string) st
 
 func (v VaultServer) AppBindingName() string {
 	return v.Name
+}
+
+// IsDistributed reports whether the VaultServer runs across data centers (CattleSet).
+func (v VaultServer) IsDistributed() bool {
+	return v.Spec.Distributed
+}
+
+// DCDRSiteConfigMapName is the per-cluster ConfigMap shipped to every Member cluster of
+// a distributed VaultServer; key "dc" holds that cluster's name.
+func (v VaultServer) DCDRSiteConfigMapName() string {
+	return meta_util.NameWithSuffix(v.Name, "site")
+}
+
+// DCDRGuardTokenSecretName is the Secret holding the guard's step-down token.
+func (v VaultServer) DCDRGuardTokenSecretName() string {
+	return meta_util.NameWithSuffix(v.Name, "dc-dr-guard-token")
+}
+
+// DCDRInternalServiceName is the headless Service shipped only to data center dc.
+func (v VaultServer) DCDRInternalServiceName(dc string) string {
+	return meta_util.NameWithSuffix(v.ServiceName(VaultServerServiceInternal), dc)
+}
+
+// DCDRNameHash is a short hash of the VaultServer's namespace and name. Names
+// built from both live outside the VaultServer's namespace (OCM cluster
+// namespaces, the marker namespace), where joining the two with "-" is
+// ambiguous ("a"/"b-c" and "a-b"/"c"); the hash keeps them unique.
+func (v VaultServer) DCDRNameHash() string {
+	h := sha256.Sum256([]byte(v.Namespace + "/" + v.Name))
+	return hex.EncodeToString(h[:])[:8]
+}
+
+// DCDRManifestWorkName is the name of a companion ManifestWork, in the OCM cluster
+// namespace on the hub, for the given purpose.
+func (v VaultServer) DCDRManifestWorkName(purpose string) string {
+	return fmt.Sprintf("%s-%s-%s", v.Name, v.DCDRNameHash(), purpose)
+}
+
+// DCDRManifestWorkLabels are the labels of every companion ManifestWork.
+func (v VaultServer) DCDRManifestWorkLabels(purpose string) map[string]string {
+	l := map[string]string{
+		apis.LabelDCDRVaultServerName:      v.Name,
+		apis.LabelDCDRVaultServerNamespace: v.Namespace,
+	}
+	if purpose != "" {
+		l[apis.LabelDCDRPurpose] = purpose
+	}
+	return l
 }
 
 // SpokeRelayName is the shared name for per-cluster spoke relay resources on
